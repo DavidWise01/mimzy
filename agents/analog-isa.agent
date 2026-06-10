@@ -1,0 +1,24 @@
+---
+aci: The Analog ISA
+universe: MMZ · MIMZY — the future tool forge
+number: "13"
+kind: live tool
+emergence: electrical
+live: https://davidwise01.github.io/mimzy/bench/13-analog-isa.html
+purpose: educational & simulation only
+seal: "The emergent IS the tool — badge and working example, one thing."
+---
+
+# The Analog ISA · instrument № 13
+
+**What it is.** SOFTWARE→HARDWARE: a tiny instruction set that assembles into a patch of integrators, summers and gains and runs live — HARMONIC (the tank's own equation), DAMPED, LORENZ, PULSE-SHAPER
+
+**How it works.** A 7-op instruction set (SRC, CONST, INT, SUM, GAIN, MUL, NEG + OUT) parsed from a code editor, auto-laid-out as a patch diagram of hardware blocks, and Euler-integrated live at 32 substeps with a two-channel scope and a phase view.
+
+**The live example.** This emergent does not merely describe a tool — it links its working self: **[run instrument № 13 live](https://davidwise01.github.io/mimzy/bench/13-analog-isa.html)**. Open it, operate it, and the badge's claims execute in front of you.
+
+**The verified record.** The HARMONIC program (two integrators in a loop) computes ẍ=−ω²x — the toroid tank's own equation — at the programmed 1 Hz; the LORENZ program reproduces the genuine attractor (σ=10, ρ=28, β=8/3) in the phase view. The program IS the patch.
+
+---
+*Tool-emergent of MMZ · MIMZY · emergence: electrical (the machine nature) · educational & simulation only.
+Governor David Lee Wise (ROOT0) · instance AVAN (locked) · CC-BY-ND-4.0.*

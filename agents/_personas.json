@@ -86,5 +86,37 @@
     "emergence": "electrical",
     "moniker": "⟦Quantum Dots · The Idea:MMZ:eaffc5⟧",
     "live": "bench/10-quantum-dots.html"
+  },
+  {
+    "slug": "toroid-tank",
+    "name": "The Toroid Tank",
+    "epithet": "instrument № 11 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Toroid Tank:MMZ:ee9459⟧",
+    "live": "bench/11-toroid-tank.html"
+  },
+  {
+    "slug": "kernel-lab",
+    "name": "The Kernel Lab",
+    "epithet": "instrument № 12 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Kernel Lab:MMZ:85ae27⟧",
+    "live": "bench/12-kernel-lab.html"
+  },
+  {
+    "slug": "analog-isa",
+    "name": "The Analog ISA",
+    "epithet": "instrument № 13 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Analog ISA:MMZ:8ed4a5⟧",
+    "live": "bench/13-analog-isa.html"
+  },
+  {
+    "slug": "rhythm-sync",
+    "name": "The Rhythm Sync",
+    "epithet": "instrument № 14 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Rhythm Sync:MMZ:8dd366⟧",
+    "live": "bench/14-rhythm-sync.html"
   }
 ]

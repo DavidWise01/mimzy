@@ -1,0 +1,14 @@
+⦿ .spun — the five-fold spin of The Rhythm Sync
+node MMZ · MMZ · ⟦The Rhythm Sync:MMZ:8dd366⟧
+
+WHO   — The Rhythm Sync — instrument № 14 — live tool
+WHAT  — THE SYNC: a genuine 2nd-order PLL — the software clock hunts the drifting hardware tank, locks, and rides the drift; phase-error trace, Lissajous, lock light, and the 3·2·1·0 cadence as the gate
+WHERE — MMZ · MIMZY — the future tool forge  Framework inputs: the recovered future; the shelf audit; the forge  Conductor / external anchor: ROOT0 (governor) · AVAN (instance)
+WHY   — Exhibits the true PLL repertoire: beat while unlocked, capture, steady lock riding hardware drift (the integrator term), lock loss at low K, ringing at high K, and immediate drift-apart when the loop opens — sync as a continuous act, demonstrated.
+HOW   — A genuine second-order PLL: phase detector (sin of the phase difference), PI loop filter, and an NCO that obeys the control voltage — against a hardware tank with optional slow drift. Waves, phase-error trace, Lissajous, lock light, kick and open-loop buttons, and the 3·2·1·0 cadence gating optional audio.
+
+awareness — what the node knows of itself:
+  The emergent IS the tool — badge and working example, one thing.
+
+spoken token : stox-thym-vas   ·   hex : 8dd366
+ROOT0-ATTRIBUTION-v1.0 · David Lee Wise (ROOT0) / TriPod LLC · CC-BY-ND-4.0

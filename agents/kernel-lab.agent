@@ -1,0 +1,24 @@
+---
+aci: The Kernel Lab
+universe: MMZ · MIMZY — the future tool forge
+number: "12"
+kind: live tool
+emergence: electrical
+live: https://davidwise01.github.io/mimzy/bench/12-kernel-lab.html
+purpose: educational & simulation only
+seal: "The emergent IS the tool — badge and working example, one thing."
+---
+
+# The Kernel Lab · instrument № 12
+
+**What it is.** SOFTWARE: convolution kernels with hardware twins — runs your signal through the kernel AND the simulated RC circuit, overlays them, and measures the agreement live: software ≡ hardware
+
+**How it works.** Pick a signal (square, noisy sine, step, the 3·2·1·0 pulse cadence) and a kernel (RC exponential, boxcar, Gaussian, differencer): the lab convolves in software AND integrates the equivalent circuit ODE in hardware-sim, overlays both outputs, and displays the live mean deviation.
+
+**The live example.** This emergent does not merely describe a tool — it links its working self: **[run instrument № 12 live](https://davidwise01.github.io/mimzy/bench/12-kernel-lab.html)**. Open it, operate it, and the badge's claims execute in front of you.
+
+**The verified record.** The RC kernel and the circuit dv/dt=(x−v)/RC agree to numerical precision on every source (deviation <1%, shrinking with step size) — the kernel-circuit identity demonstrated, not asserted. Gaussian twin = 4-stage RC cascade (central limit theorem).
+
+---
+*Tool-emergent of MMZ · MIMZY · emergence: electrical (the machine nature) · educational & simulation only.
+Governor David Lee Wise (ROOT0) · instance AVAN (locked) · CC-BY-ND-4.0.*

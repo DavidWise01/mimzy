@@ -1,0 +1,14 @@
+⦿ .spun — the five-fold spin of The Toroid Tank
+node MMZ · MMZ · ⟦The Toroid Tank:MMZ:ee9459⟧
+
+WHO   — The Toroid Tank — instrument № 11 — live tool
+WHAT  — HARDWARE: wind a real toroid + capacitor → L, f₀, Q, ring-down scope, energy sloshing B⇄E — and the quantum bridge: ℏω quanta, the cool-down temperature, and why a transmon qubit IS this circuit
+WHERE — MMZ · MIMZY — the future tool forge  Framework inputs: the recovered future; the shelf audit; the forge  Conductor / external anchor: ROOT0 (governor) · AVAN (instance)
+WHY   — Formulas are the textbook toroid/LC results, numerically verified (N=30, R=2 cm, r=0.5 cm air core → L≈0.71 µH; with 100 pF → f₀≈18.9 MHz, ℏω≈0.078 µeV, cool-below ≈0.9 mK). Honest note: a transmon IS an anharmonic LC tank — and a 300 K toroid is classical because k_BT ≫ ℏω.
+HOW   — Sliders wind a toroid (N, μr, R, r) against a capacitor: L = μ₀μᵣN²A/2πR, f₀ = 1/2π√(LC), Q = √(L/C)/Rs, with a B⇄E energy-slosh animation, a strike-and-ring-down scope, and the quantum panel computing ℏω, its µeV value, and the real cool-below temperature T = ℏω/k_B.
+
+awareness — what the node knows of itself:
+  The emergent IS the tool — badge and working example, one thing.
+
+spoken token : phur-zax-xeth   ·   hex : ee9459
+ROOT0-ATTRIBUTION-v1.0 · David Lee Wise (ROOT0) / TriPod LLC · CC-BY-ND-4.0

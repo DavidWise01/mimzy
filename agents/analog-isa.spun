@@ -1,0 +1,14 @@
+⦿ .spun — the five-fold spin of The Analog ISA
+node MMZ · MMZ · ⟦The Analog ISA:MMZ:8ed4a5⟧
+
+WHO   — The Analog ISA — instrument № 13 — live tool
+WHAT  — SOFTWARE→HARDWARE: a tiny instruction set that assembles into a patch of integrators, summers and gains and runs live — HARMONIC (the tank's own equation), DAMPED, LORENZ, PULSE-SHAPER
+WHERE — MMZ · MIMZY — the future tool forge  Framework inputs: the recovered future; the shelf audit; the forge  Conductor / external anchor: ROOT0 (governor) · AVAN (instance)
+WHY   — The HARMONIC program (two integrators in a loop) computes ẍ=−ω²x — the toroid tank's own equation — at the programmed 1 Hz; the LORENZ program reproduces the genuine attractor (σ=10, ρ=28, β=8/3) in the phase view. The program IS the patch.
+HOW   — A 7-op instruction set (SRC, CONST, INT, SUM, GAIN, MUL, NEG + OUT) parsed from a code editor, auto-laid-out as a patch diagram of hardware blocks, and Euler-integrated live at 32 substeps with a two-channel scope and a phase view.
+
+awareness — what the node knows of itself:
+  The emergent IS the tool — badge and working example, one thing.
+
+spoken token : phun-reis-thorn   ·   hex : 8ed4a5
+ROOT0-ATTRIBUTION-v1.0 · David Lee Wise (ROOT0) / TriPod LLC · CC-BY-ND-4.0

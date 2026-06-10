@@ -52,6 +52,14 @@ BENCH = [
   "The Observatory","instrument","black holes by the numbers — Schwarzschild to Kerr; four defects found in audit, fixed with logged reasons"),
  ("10","10-quantum-dots.html",     os.path.join(Q,"quantum dots","qdots-0-idea.html"),
   "Quantum Dots · The Idea","lesson","the 2023-Nobel matter — confinement, colour by size; book one of four"),
+ ("11","11-toroid-tank.html",      os.path.join(HERE,"tools","11-toroid-tank.html"),
+  "The Toroid Tank","live tool","FUNCTIONING — HARDWARE: wind a real toroid + capacitor → L, f₀, Q, ring-down scope, energy sloshing B⇄E — and the quantum bridge: ℏω quanta, the cool-down temperature, and why a transmon qubit IS this circuit"),
+ ("12","12-kernel-lab.html",       os.path.join(HERE,"tools","12-kernel-lab.html"),
+  "The Kernel Lab","live tool","FUNCTIONING — SOFTWARE: convolution kernels with hardware twins — runs your signal through the kernel AND the simulated RC circuit, overlays them, and measures the agreement live: software ≡ hardware"),
+ ("13","13-analog-isa.html",       os.path.join(HERE,"tools","13-analog-isa.html"),
+  "The Analog ISA","live tool","FUNCTIONING — SOFTWARE→HARDWARE: a tiny instruction set that assembles into a patch of integrators, summers and gains and runs live — HARMONIC (the tank's own equation), DAMPED, LORENZ, PULSE-SHAPER"),
+ ("14","14-rhythm-sync.html",      os.path.join(HERE,"tools","14-rhythm-sync.html"),
+  "The Rhythm Sync","live tool","FUNCTIONING — THE SYNC: a genuine 2nd-order PLL — the software clock hunts the drifting hardware tank, locks, and rides the drift; phase-error trace, Lissajous, lock light, and the 3·2·1·0 cadence as the gate"),
 ]
 # extra shelf copies (linked from bench 10 + reading room)
 EXTRA = [
@@ -125,6 +133,14 @@ TOOLMETA = {
             proof="Audited 2026-06: four defects found and fixed with logged inline reasons (cube-root→square-root survivable mass; accretion-efficiency formula; entropy relabel; inverted label) — corrected values verified against textbook (5.7%→42.3%)."),
  "10": dict(slug="quantum-dots", how="Four books from prediction (Fröhlich, 1930s) through Ekimov/Brus/Bawendi to QLED displays, bioimaging, and 2025 fab-made spin qubits.",
             proof="Audited 2026-06: real 2023-Nobel technology; deployed vs frontier honestly separated; cadmium toxicity acknowledged."),
+ "11": dict(slug="toroid-tank", how="Sliders wind a toroid (N, μr, R, r) against a capacitor: L = μ₀μᵣN²A/2πR, f₀ = 1/2π√(LC), Q = √(L/C)/Rs, with a B⇄E energy-slosh animation, a strike-and-ring-down scope, and the quantum panel computing ℏω, its µeV value, and the real cool-below temperature T = ℏω/k_B.",
+            proof="Formulas are the textbook toroid/LC results, numerically verified (N=30, R=2 cm, r=0.5 cm air core → L≈0.71 µH; with 100 pF → f₀≈18.9 MHz, ℏω≈0.078 µeV, cool-below ≈0.9 mK). Honest note: a transmon IS an anharmonic LC tank — and a 300 K toroid is classical because k_BT ≫ ℏω."),
+ "12": dict(slug="kernel-lab", how="Pick a signal (square, noisy sine, step, the 3·2·1·0 pulse cadence) and a kernel (RC exponential, boxcar, Gaussian, differencer): the lab convolves in software AND integrates the equivalent circuit ODE in hardware-sim, overlays both outputs, and displays the live mean deviation.",
+            proof="The RC kernel and the circuit dv/dt=(x−v)/RC agree to numerical precision on every source (deviation <1%, shrinking with step size) — the kernel-circuit identity demonstrated, not asserted. Gaussian twin = 4-stage RC cascade (central limit theorem)."),
+ "13": dict(slug="analog-isa", how="A 7-op instruction set (SRC, CONST, INT, SUM, GAIN, MUL, NEG + OUT) parsed from a code editor, auto-laid-out as a patch diagram of hardware blocks, and Euler-integrated live at 32 substeps with a two-channel scope and a phase view.",
+            proof="The HARMONIC program (two integrators in a loop) computes ẍ=−ω²x — the toroid tank's own equation — at the programmed 1 Hz; the LORENZ program reproduces the genuine attractor (σ=10, ρ=28, β=8/3) in the phase view. The program IS the patch."),
+ "14": dict(slug="rhythm-sync", how="A genuine second-order PLL: phase detector (sin of the phase difference), PI loop filter, and an NCO that obeys the control voltage — against a hardware tank with optional slow drift. Waves, phase-error trace, Lissajous, lock light, kick and open-loop buttons, and the 3·2·1·0 cadence gating optional audio.",
+            proof="Exhibits the true PLL repertoire: beat while unlocked, capture, steady lock riding hardware drift (the integrator term), lock loss at low K, ringing at high K, and immediate drift-apart when the loop opens — sync as a continuous act, demonstrated."),
 }
 
 def tool_agent_md(no, title, kind, note, m, tok_moniker):
@@ -312,7 +328,7 @@ footer a{color:var(--brass);text-decoration:none}
 
   <section class="sec">
     <h2>The Bench — the instruments, all functioning</h2>
-    <p class="ss">it opens with <b style="color:var(--brass)">№ 00</b>, the working Antikythera — crank it and it computes the sky. The original quantum drawers ran 01 · 02 · 03 · 05 · 07 · 08; instruments <b style="color:var(--cy)">04</b> and <b style="color:var(--cy)">06</b> were missing, and have been recovered.</p>
+    <p class="ss">it opens with <b style="color:var(--brass)">№ 00</b>, the working Antikythera — crank it and it computes the sky. The original quantum drawers ran 01 · 02 · 03 · 05 · 07 · 08; instruments <b style="color:var(--cy)">04</b> and <b style="color:var(--cy)">06</b> were missing, and have been recovered. And <b style="color:var(--brass)">№ 11–14</b> are the <b>analog–quantum suite</b>: hardware (the toroid tank) ⇄ software (kernels, the analog ISA) ⇄ the sync (a real PLL) — analog software and analog hardware, proven to be two spellings of one machine.</p>
     <div class="bench">__BENCH__</div>
   </section>
 
