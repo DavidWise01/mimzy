@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="MIMZY — the single quantum workbench: ten verified instruments (primer, Bloch lab, circuits, two-qubit lab, error correction, the wavefield, BB84, E91, the observatory, the dots), framed as futuristic tech recovered from the past — Lovelace, Babbage, Turing, and the things lost in the cracks. A UD0 sphere.">
+<title>MIMZY · the quantum workbench that came back</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0905;--s1:#141008;--s2:#1c160c;--pa:#f0e9d8;--pa2:#c2b698;--brass:#c9962e;--cy:#36d6d0;--dim:#867a5c;--line:#28201180;--faint:#241c0e;
+--serif:"Cinzel",Georgia,serif;--read:"Newsreader",Georgia,serif;--mono:"Space Mono",monospace;}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--pa);font-family:var(--read);font-size:17.5px;line-height:1.7;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse at 50% -8%,rgba(201,150,46,.13),transparent 55%),radial-gradient(ellipse at 50% 112%,rgba(54,214,208,.07),transparent 50%)}
+.wrap{position:relative;z-index:1;max-width:980px;margin:0 auto;padding:0 22px 90px}
+header{padding:58px 0 30px;text-align:center;border-bottom:1px solid var(--faint);position:relative}
+header::after{content:"";position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);width:140px;height:1px;background:linear-gradient(90deg,var(--brass),var(--cy));box-shadow:0 0 10px rgba(201,150,46,.45)}
+.eye{font-family:var(--mono);font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin-bottom:14px}
+.eye a{color:var(--dim);text-decoration:none}.eye a:hover{color:var(--brass)}
+.glyph{font-size:24px;color:var(--brass);letter-spacing:.3em;margin-bottom:10px}
+h1{font-family:var(--serif);font-size:clamp(34px,8vw,66px);font-weight:700;letter-spacing:.18em;color:var(--brass);text-shadow:0 0 42px rgba(201,150,46,.3)}
+.h-sub{font-family:var(--serif);font-size:clamp(12px,2.6vw,16px);letter-spacing:.18em;color:var(--pa2);margin-top:12px;text-transform:uppercase}
+.lede{font-size:18px;color:var(--pa2);max-width:64ch;margin:18px auto 0;font-style:italic;line-height:1.75}
+.badge{display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap;margin:26px auto 0;padding:18px;border:1px solid var(--faint);background:var(--s1);border-radius:10px;max-width:720px}
+.badge img{width:78px;height:78px;border:1px solid var(--faint);border-radius:4px}
+.badge .bt{text-align:left;font-family:var(--mono);font-size:11px;color:var(--pa2);line-height:1.75}
+.badge b{color:var(--brass)}.badge .mo{color:var(--cy)}.badge a{color:var(--cy);text-decoration:none}
+.sec{margin-top:50px}
+.sec h2{font-family:var(--serif);font-size:21px;font-weight:600;letter-spacing:.05em;color:var(--pa);padding-bottom:9px;border-bottom:1px solid var(--faint)}
+.ss{font-size:14px;color:var(--dim);font-style:italic;margin:6px 0 18px}
+.cracks{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.crack{background:var(--s1);border:1px solid var(--faint);border-left:3px solid var(--brass);border-radius:0 10px 10px 0;padding:16px 18px}
+.cname{font-family:var(--serif);font-size:16.5px;color:var(--brass);font-weight:600}
+.cdates{font-family:var(--mono);font-size:10.5px;color:var(--dim);letter-spacing:.06em;margin-top:3px}
+.cfell{font-size:13.5px;color:var(--pa2);margin-top:10px;line-height:1.55}
+.cfound{font-size:13.5px;color:var(--pa);margin-top:8px;line-height:1.55}
+.cfell span,.cfound span{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase}
+.cfell span{color:#b0604a}.cfound span{color:var(--cy)}
+.bench{display:grid;grid-template-columns:repeat(auto-fill,minmax(284px,1fr));gap:14px}
+.inst{display:flex;gap:13px;align-items:flex-start;background:var(--s1);border:1px solid var(--faint);border-radius:10px;padding:15px;text-decoration:none;transition:transform .15s,border-color .15s,box-shadow .15s}
+.inst:hover{transform:translateY(-3px);border-color:var(--brass);box-shadow:0 10px 26px rgba(0,0,0,.5)}
+.inst.lost{border:1px solid var(--cy);box-shadow:0 0 10px -4px var(--cy)}
+.inst.lost:hover{border-color:var(--cy);box-shadow:0 0 22px -4px var(--cy)}
+.inst img{width:52px;height:52px;border:1px solid var(--faint);border-radius:4px;flex-shrink:0}
+.ino{font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.16em}
+.iti{font-family:var(--serif);font-size:15.5px;color:var(--pa);font-weight:600;line-height:1.2;margin-top:3px}
+.inst:hover .iti{color:var(--brass)}
+.inote{font-size:13px;color:var(--pa2);font-style:italic;line-height:1.45;margin-top:6px}
+.kind{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);border:1px solid var(--faint);border-radius:9px;padding:2px 9px;margin-top:9px}
+.rec-tag{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--cy);border:1px solid var(--cy);border-radius:9px;padding:2px 9px;margin-top:9px;text-shadow:0 0 6px rgba(54,214,208,.6)}
+.shelf{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+.sh{font-family:var(--mono);font-size:12px;color:var(--cy);text-decoration:none;border:1px solid var(--faint);border-radius:8px;padding:9px 14px;background:var(--s1)}
+.sh:hover{border-color:var(--cy)}
+.tinfoil{margin-top:50px;padding:18px 20px;border:1px dashed var(--cy);border-radius:12px;background:rgba(54,214,208,.05);font-size:14.5px;color:var(--pa2);line-height:1.7}
+.tinfoil b{color:var(--cy)}
+footer{margin-top:44px;padding-top:24px;border-top:1px solid var(--faint);text-align:center;font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.05em;line-height:1.9}
+footer a{color:var(--brass);text-decoration:none}
+</style></head><body><div class="wrap">
+
+  <header>
+    <div class="eye"><a href="https://davidwise01.github.io/ud0/">UD0 · Universe David 0</a> · the recovered future · a workbench</div>
+    <div class="glyph">◬ ⧖ ◬</div>
+    <h1>MIMZY</h1>
+    <div class="h-sub">the quantum workbench that came back</div>
+    <p class="lede">In the story, a toy from the future falls backward through time and waits in the dirt for children to find it. History does this constantly: an eclipse computer in a shipwreck, an algorithm in a countess's footnotes, a logic with no use for eighty years, a theorem in a journal that died. This bench gathers the instruments that survived the fall — <b>every one verified working</b> in the shelf audit — and the lineage of the people the cracks tried to keep.</p>
+    <div class="badge">
+      <img src="data:image/png;base64,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" alt="MIMZY carbon badge"><img src="data:image/png;base64,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" alt="MIMZY silicon badge">
+      <div class="bt">
+        <div><b>DLW-ATTRIBUTE · ACI</b> — MMZ · MIMZY</div>
+        <div class="mo">⟦MIMZY:MMZ:ee9d18⟧</div>
+        <div>governor · David Lee Wise (ROOT0) · instance · AVAN (locked)</div>
+        <div>carbon · <a href="mimzy.dlw/mimzy.carbon.tiff">.tiff</a> · silicon · <a href="mimzy.dlw/mimzy.silicon.png">.png</a> · <a href="mimzy.dlw/manifest.dlw.json">manifest</a></div>
+      </div>
+    </div>
+  </header>
+
+  <section class="sec">
+    <h2>The Lineage of the Cracks</h2>
+    <p class="ss">futuristic tech that came from the past — what fell in, and when the world finally caught up</p>
+    <div class="cracks"><div class="crack"><div class="cname">The Antikythera Mechanism</div>
+        <div class="cdates">~100 BC</div>
+        <div class="cfell"><span>fell in:</span> A geared analog computer for predicting eclipses — technology with no peer for 1,400 years — sank in a Roman shipwreck.</div>
+        <div class="cfound"><span>recovered:</span> Recovered 1901; understood only after 1970s X-ray imaging.</div></div><div class="crack"><div class="cname">George Boole</div>
+        <div class="cdates">1815–1864</div>
+        <div class="cfell"><span>fell in:</span> An algebra of pure logic (1854) with no apparent use — true, false, AND, OR — a curiosity for eighty years.</div>
+        <div class="cfound"><span>recovered:</span> Claude Shannon (1937) showed Boole&#x27;s algebra IS the switching circuit. Every chip runs it.</div></div><div class="crack"><div class="cname">Babbage &amp; Lovelace</div>
+        <div class="cdates">1791–1871 · 1815–1852</div>
+        <div class="cfell"><span>fell in:</span> The Analytical Engine was never built; Ada&#x27;s Notes (1843) — the first algorithm, and the first argument that a machine could weave symbols, not just numbers — were forgotten.</div>
+        <div class="cfound"><span>recovered:</span> Rediscovered in the 1940s–50s as the computer age caught up to them. Ada died at 36, a century early.</div></div><div class="crack"><div class="cname">Alan Turing</div>
+        <div class="cdates">1912–1954</div>
+        <div class="cfell"><span>fell in:</span> The universal machine (1936); then Colossus and the Bletchley work — classified so deep that Britain&#x27;s own computing head start vanished into secrecy. Turing himself was persecuted to death.</div>
+        <div class="cfound"><span>recovered:</span> Colossus declassified in the 1970s; royal pardon 2013; his face now on the £50 note.</div></div><div class="crack"><div class="cname">Grete Hermann</div>
+        <div class="cdates">1901–1984</div>
+        <div class="cfell"><span>fell in:</span> In 1935 she found the flaw in von Neumann&#x27;s &#x27;proof&#x27; that hidden-variable theories were impossible — and was ignored for three decades.</div>
+        <div class="cfound"><span>recovered:</span> John Bell rediscovered the flaw in 1966 and credited the gap; her priority is now textbook history.</div></div><div class="crack"><div class="cname">Hugh Everett III</div>
+        <div class="cdates">1930–1982</div>
+        <div class="cfell"><span>fell in:</span> The relative-state (&#x27;many-worlds&#x27;) interpretation (1957) was dismissed; Everett quit physics for defense work and died at 51, believing himself an indifferent footnote.</div>
+        <div class="cfound"><span>recovered:</span> Today many-worlds is a leading interpretation; decoherence theory vindicated his core move.</div></div><div class="crack"><div class="cname">John Stewart Bell</div>
+        <div class="cdates">1928–1990</div>
+        <div class="cfell"><span>fell in:</span> Bell&#x27;s theorem (1964) — the deepest result about reality since relativity — was published in a tiny journal that folded; testing it was career suicide for years.</div>
+        <div class="cfound"><span>recovered:</span> The 2022 Nobel Prize went to the experiments that confirmed it. The theorem now anchors quantum information.</div></div><div class="crack"><div class="cname">Kuttner &amp; Moore</div>
+        <div class="cdates">1914–1958 · 1911–1987</div>
+        <div class="cfell"><span>fell in:</span> &#x27;Mimsy Were the Borogoves&#x27; (1943) — the story this bench is named for — was published under the pen name Lewis Padgett; C. L. Moore&#x27;s co-authorship was itself half-hidden in the crack of a byline.</div>
+        <div class="cfound"><span>recovered:</span> The story is now canon (SF Hall of Fame); the 2007 film The Last Mimzy carried it forward.</div></div></div>
+  </section>
+
+  <section class="sec">
+    <h2>The Bench — ten instruments, all verified</h2>
+    <p class="ss">the original numbering ran 01 · 02 · 03 · 05 · 07 · 08 — instruments <b style="color:var(--cy)">04</b> and <b style="color:var(--cy)">06</b> were missing from the drawers. True to the house, they have been recovered.</p>
+    <div class="bench"><a class="inst" href="bench/01-quantum-primer.html">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIwAAACMCAIAAAAhotZpAAACbklEQVR42u3cvUocURgGYKtAQMgdpEhhY5cu4g1YBSxstbdIY5kuVbyCVGm8hhQpvAM7fxBUBANBCP5tNj+kylsnxX7KmdlJ9oGXw+EbmNlznp2Z9TDO3KPH8zLwzJkCSAJpBpGeftiTgQQSJIEEyexAEkiQBJJAgiSQIN0X6fXS1cQ8eb89Mc/2ryemsvjY534q46rMDyRIkCBBggQJEiRIkCBBggQJEiRIXSCtf9yemKFNSp9fmsr8QIIECRIkSJAgQYIECRIkSJAgQYLUBVJlwJUP2iqtJq5VKvMDCRIkSJAgQYIECRIkSJAgQYIECdKQkSr7qaSC1OpYkCBBggQJEiRIkCBBggQJEiRIkCANGanyEGGrwVQA/n4UMh/gj0oryMq4KvMzu0gLB9fPj25eHN8uH9+mTT8VSANCWjy8ic3Kyd3q2WjtbJQ2/VRShzQIpJwx8Xh5erdx/nXzYvzqYpw2/VRSz1ZI00fKlS3nTVS2Po3ffP729vJ72vRTST1bIU0fKXegXN9y9sTm3ZcfO1c/06afSurZCmnKSDlcrmm5D+Uql3MoQrujX2nTTyX1ZUjOJEjuSX7dQfJ3EiQrDt2/lPBh63IPO1ZlP60g/6s3R0KCBAkSJEiQIEGCBAkSJEiQIEH6p5Aqg2n1UsI+/7G51UsJK4EECRIkSJAgQYIECRIkSJAgQYIEachIrRZPWz2I2WoRFhIkSJAgQYIECRIkSJAgQYIECRKkaSH1OZg+kfr88kGCBAkSJEiQIEGCBAkSJEiQIEGC1AWS9BNIkAQSJLMDSSBBEkgCCZJAgtRqYVG6CyRIAmlG8htDMp9n8zFCAwAAAABJRU5ErkJggg==" alt="" loading="lazy">
+        <div class="icap"><div class="ino">№ 01</div><div class="iti">The Quantum Primer</div>
+        <div class="inote">qubits, superposition, amplitudes — the first page of the recovered manual</div><span class="kind">lesson</span></div></a><a class="inst" href="bench/02-bloch-lab.html">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIwAAACMCAIAAAAhotZpAAACZ0lEQVR42u3cvUocURgGYKuAEMgdpLCwSZcu4g2kEixstU+RxjJdqngFqdJ4DRYWuYN0/iAYCRiQQPBvXY2k8r0AYT/l7M7oPvByOHzDnp09DzOze5jZmRezL6XnmTEFkATSFCK93vohPQkkSAIJktmBJJAgCSSBBEkgQXoo0qeF05F59W1jZCrjrG5vjEzlvSrjTPJzQYIECRIkSJAgQYIECRIkSJAgQYI0DqS5nbORqUxKZZxKKjcXtnqvVp8LEiRIkCBBggQJEiRIkCBBggQJEqQ+I1UWIltNbiWtFnwhQYIECRIkSJAgQYIECRIkSJAgQXrqSJWF0co4rdJqfyBBggQJEiRIkCBBggQJEiRIkCBB6gqp8nDvJB82vneamozzuIeoK5lepPnds7f75+8OLhYPLtKmnwqkHiG92TuPzfvDy+WjwcrRIG36qaQOqRdIOWLisfTzcu3X1Yfj4cfjYdr0U0k9WyF1j5QzW46bqKz/Hn4+uf7y5yZt+qmknq2QukfKFSjntxw9sfn699/m6W3a9FNJPVshdYyU73I5p+U6lLNcjqEIfR/8T5t+KqkvQnIkQXJN8u0Okt9JkKw41F487oXRvv0BYquFWkiQIEGCBAkSJEiQIEGCBAkSJEiQuro5sjIprf5MsNUNi5X9afUwNiRIkCBBggQJEiRIkCBBggQJEiRI40BqtTD6XJEq+wMJEiRIkCBBggQJEiRIkCBBggQJUldIk5zcpzgOJEiQIEGCBAkSJEiQIEGCBAkSJEjjQJLJBBIkgQTJ7EASSJAEkkCCJJAgVW4KlG4DCZJAmpLcAadBt2UQ0uaHAAAAAElFTkSuQmCC" alt="" loading="lazy">
+        <div class="icap"><div class="ino">№ 02</div><div class="iti">The Bloch Lab</div>
+        <div class="inote">one qubit as a sphere — rotations, phases, the geometry of a single mind</div><span class="kind">instrument</span></div></a><a class="inst" href="bench/03-circuit-simulator.html">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIwAAACMCAIAAAAhotZpAAACc0lEQVR42u3dvWoUURgG4K0CgpA7SGFhY2eXsDeQKpDC1vQpbCzTWZkrSGXjNVik8A7sohJIghBBAiF/m/WHVL79FnPEszOzOw+8HA7fwOzOeZiZ3eGc3dHKo8fS84wMASSBNECktQ+fpCeBBEkgQTI6kAQSJIEkkCAJJEj/ivTk6Loxq+/2G1PyYPHl4X5j9jauGlOyn5L3U3JcJeMDCRIkSJAgQYIECRIkSJAgQYIECdI8kEoGpeSASw6mzQmItd5PyfhAggQJEiRIkCBBggQJEiRIkCBBgjQPpDYPeFn3AwkSJEiQIEGCBAkSJEiQIEGCBAnSPJBKJgjWegjbt5QcV8n4QIIECRIkSJAgQYIECRIkSJAgQYLU1eTIWouNSx5ozu55tliyn1qLqBdmBmsnSE8/Xz//erN+fDs+vk2bfiqQeoT07MtNbDZP7rbPJi/OJmnTTyV1SL1AyhkTj63Tu51v97vn01fn07Tpp5J6tkLqHilXtpw3UXn9ffrmx8+3F7/Spp9K6tkKqXuk3IFyfcvZE5uDy9/vr/6kTT+V1LMVUsdISa5puQ/lKpdzKEIfJw9p008l9TEkZxIk9ySf7iD5ngTJE4f/mxxZ8ZNblR9ArPVatX7cEBIkSJAgQYIECRIkSJAgQYIECRKkPi9sbnOSZa1JjYNbfQ4JEiRIkCBBggQJEiRIkCBBggRp6ZDa/IPeWgNXa3IkJEiQIEGCBAkSJEiQIEGCBAkSJEhdIbW5sLnWQ9iS/Vh9DgkSJEiQIEGCBAkSJEiQIEGCBGnRkaSdQIIkkCAZHUgCCZJAEkiQBBKkRfxT3qEFEiSBNJD8BbdbBmXfj9RvAAAAAElFTkSuQmCC" alt="" loading="lazy">
+        <div class="icap"><div class="ino">№ 03</div><div class="iti">The Circuit Simulator</div>
+        <div class="inote">gates on wires — H, X, CNOT; the Analytical Engine&#x27;s true heir</div><span class="kind">instrument</span></div></a><a class="inst lost" href="bench/04-two-qubit-lab.html">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIwAAACMCAIAAAAhotZpAAACdElEQVR42u3dvUocURgGYCshEMgdpEhhY5cu4g1YBVLYxj5FmpR2VnoFqWxyDSlSeAfp8sNCIgEDISD+bVYNVnkvQNjPcHZm1n3g5XA4gzNnzuPM6Mc6Li0/eCgDz5IlgCSQFhDp8fuPMpBAgiSQIFkdSAIJkkASSJAEEqS7Ij35dNok22snU/Nof29qKgXKyn4q82l17pAgQYIECRIkSJAgQYIECRIkSJAgzQKpcsIvP0xPZVEqAJVjVfZTmU/lWJX1gQQJEiRIkCBBggQJEiRIkCBBggRpFkitFq5VEbYVQGU+rb4hIEGCBAkSJEiQIEGCBAkSJEiQIEGaBVKr4mmlENnqQ41dHquyPpAgQYIECRIkSJAgQYIECRIkSJAg9VVgrZxMq6LnrV/VZD//l7mpgveCtPL59OnXs2ej8/XRedr0MwJpQEirX85is/Ht4sXhePNwnDb9jGQc0iCQcsXE4/n3i60ff14dTV4fTdKmn5GMZyuk/pFyZ8t1E5U3Pyc7vy53f1+lTT8jGc9WSP0j5QmU+1uunti8Pb5+d/I3bfoZyXi2QuoZKck9Lc+h3OVyDUXoYHyTNv2MZHwdkisJkmeSn+4g+T0JkorD7AusXb4EsEuke1UFhwQJEiRIkCBBggQJEiRIkCBBgjRXSF2+KLDVCxBb/WOShfvrc0iQIEGCBAkSJEiQIEGCBAkSJEhzhdSqMDq0havMp1WhFhIkSJAgQYIECRIkSJAgQYIECRKkISO1Amj1gcXKfCBBggQJEiRIkCBBggQJEiRIkCBBGjKSdBNIkAQSJKsDSSBBEkgCCZJAglQpLEq/gQRJIC1I/gFiFaK+/K+3mgAAAABJRU5ErkJggg==" alt="" loading="lazy">
+        <div class="icap"><div class="ino">№ 04</div><div class="iti">The Two-Qubit Lab</div>
+        <div class="inote">the missing number 04: a real density-matrix engine; entanglement, decoherence, Kraus channels</div><span class="rec-tag">recovered · was missing</span></div></a><a class="inst" href="bench/05-error-correction.html">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIwAAACMCAIAAAAhotZpAAACYUlEQVR42u3cu2oUURwH4K0CgpA3sLCwSZcusi9gJVjYmj5FGst0qeITWNn4DCks8gZ2ubCgS2AFEcJeXS9Y+esT2BHPXMJ88ONw+A/MzpkvM7N7OJnB1oOH0vEMnAJIAqmHSI9OP0pHAgmSQILk7EASSJAEkkCCJJAg/SvSqw9vNqbUxGKVz9p+tzldO2ZIkCBBggQJEiRIkCBBggQJEiRIkOpAenw+K5Kjp9ONKfVZXTseSJAgQYIECRIkSJAgQYIECRIkSJDqQGpyIrJJpCYnYSFBggQJEiRIkCBBggQJEiRIkCBBamuCtRRAlQFXWRxZZT9NjgsSJEiQIEGCBAkSJEiQIEGCBAkSpDqQSp2UKosRq3zWnUsYi+zndkr90fQX6cnFbPdqvjdaDEeLtOmnAqlDSDuX89g8+7R8MV69HK/Spp9K6pA6gZQrJh7PPy/3r78fTNaHk3Xa9FNJPVshtY+UO1uum6i8/rI+/vrj5NvPtOmnknq2QmofKU+g3N9y9cTm7c2v99PfadNPJfVshdQyUr7L5Z6W51DucrmGInS2+pM2/VRSH0JyJUHyTPLtDpLfSZDMOPzfBGupwZRasFjq5YalJmohQYIECRIkSJAgQYIECRIkSJAgQerySwlLDfg+Hg8kSJAgQYIECRIkSJAgQYIECRIkSG0tjiw1Wdm1lBo7JEiQIEGCBAkSJEiQIEGCBAkSJEh1IFX5B+AqKfWCvyb3U2rskCBBggQJEiRIkCBBggQJEiRIkCDVgSTNBBIkgQTJ2YEkkCAJJIEESSBBuo+LFPsWSJAEUk/yFwnF4KLuCjPEAAAAAElFTkSuQmCC" alt="" loading="lazy">
+        <div class="icap"><div class="ino">№ 05</div><div class="iti">Error Correction</div>
+        <div class="inote">how a fragile state survives a noisy century — syndromes, ancillas, logical qubits</div><span class="kind">lesson</span></div></a><a class="inst lost" href="bench/06-quantum-wavefield.html">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIwAAACMCAIAAAAhotZpAAACaElEQVR42u3dvUocURgGYCshEPAOUqRIk87O4A1YBVKkTfoUNintrOIVWNl4DRYpvIN0/rCQSEBBAuLfujEhVd478IR8szPrPvByOHwD83OenRk97MwuLD55KgPPgiGAJJDmEOnZ3hcZSCBBEkiQjA4kgQRJIAkkSAIJ0r8iLe1sPZiNV5cladnW84OrBzO0fYYECRIkSJAgQYIECRIkSJAgQYIEqQukd5+3StJyMC1fHGwZuJb1tOxP1bFDggQJEiRIkCBBggQJEiRIkCBBgtQFUtVEZMvAtUyeTnM9VccOCRIkSJAgQYIECRIkSJAgQYIECVJfE6xVSFXballPFdLMzIJDggQJEiRIkCBBggQJEiRIkCBBenRIVQ8Sdzdw2YGOPhBVD1rPL9KLw6vl4+uV0c3q6CZt+qlAGhDSy6Pr2Kx9vX1zMn57Mk6bfiqpQxoEUs6YeLz+dvv++92H08n66SRt+qmknqWQ+kfKlS3nTVQ+nk02z39++nGfNv1UUs9SSP0j5Q6U61vOnthsX/zavfydNv1UUs9SSD0jZXO5puU+lKtczqEI7Y//pE0/ldRXITmTILkn+esOkv+TIJlx+L8vR7bsaNUL/qa5nqrjggQJEiRIkCBBggQJEiRIkCBBggSpC6Sqycqq9VRlmscFCRIkSJAgQYIECRIkSJAgQYIECVJfE6xVLwqseglg1eRp1cPPkCBBggQJEiRIkCBBggQJEiRIkCDN+g+KzOJLCSFBggQJEiRIkCBBggQJEiRIkCBB6gtJphNIkAQSJKMDSSBBEkgCCZJAgtQysSj9BhIkgTQn+QucImaPWwpPTgAAAABJRU5ErkJggg==" alt="" loading="lazy">
+        <div class="icap"><div class="ino">№ 06</div><div class="iti">The Quantum Wavefield</div>
+        <div class="inote">the missing number 06: the 255×255 folder grid as a live 65,025-state interference engine (Grover)</div><span class="rec-tag">recovered · was missing</span></div></a><a class="inst" href="bench/07-bb84.html">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIwAAACMCAIAAAAhotZpAAACXUlEQVR42u3cv2oUQRwH8FRCIOAbpEiRJl065V7ASrBIG3sLG0s7K+8JrNLkGVJY+AZ2JiGgQbiACHL5c54mWOVbR/QmMLs7IR/4Mgy/hd2d+TC7uYHN0oPlFWk8S6YAkkC6h0irex+lkUCCJJAgmR1IAgmSQBJIkAQSpNsirX06XZiHO+OFuYsbnSXjKpkfSJAgQYIECRIkSJAgQYIECRIkSJCGQirJ68fTKimZuFrXqjV2SJAgQYIECRIkSJAgQYIECRIkSJC6QCoZTGubnn3eT8n8QIIECRIkSJAgQYIECRIkSJAgQYLUBVLJjW6/Hy9MLew+z1MyrpJrQYIECRIkSJAgQYIECRIkSJAgQYI0FFKtj59L8vc05eQ3KrWuVTIuSP9DWt8/3Tw8e3R0Pjo6T5t+KpAaQto4OIvNk88Xz45nW8eztOmnkjqkJpCyYuLx9MvF868/X0zmLyfztOmnknqOQhoeKU+2rJuovDqZv/n26+3332nTTyX1HIU0PFLeQHm+ZfXE5t2Py93pVdr0U0k9RyENjJRT5ZmW91CecllDEfow+5M2/VRSH0GykiB5J/nrDpLfSZDsOPw7tQbcJ3atya01dkiQIEGCBAkSJEiQIEGCBAkSJEiQWkaq9Q/++gwkSJAgQYIECRIkSJAgQYIECRIkSC0j9fkBcGsfP9f6YBsSJEiQIEGCBAkSJEiQIEGCBAkSpC6QSm60FlKtievzWiWBBAkSJEiQIEGCBAkSJEiQIEGCBKkLJOknkCAJJEhmB5JAgiSQBBIkgQSp1uajdBdIkATSPck1mZvYp9WjzccAAAAASUVORK5CYII=" alt="" loading="lazy">
+        <div class="icap"><div class="ino">№ 07</div><div class="iti">BB84 · Quantum Key Distribution</div>
+        <div class="inote">a key no eavesdropper can steal — verified: 25% intercept error, 11% abort, all computed live</div><span class="kind">instrument</span></div></a><a class="inst" href="bench/08-e91.html">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIwAAACMCAIAAAAhotZpAAACZklEQVR42u3dvUodQRgGYCtBCHgHKSxs0tkZvAGrgIWt9hY2Ke2s4hWkSuM1pEiRO0jnD4KKoBAE8e/kJBGrvH2EM4HZ2Q3ngZdh+A7smZ2H2dVl9+zM7NwrGXhmTAEkgTSFSK8/f5OBBBIkgQTJ7EASSJAEkkCCJJAg/SvSztvbidn4sjcxtbazcHA3MS3HU7IdSJAgQYIECRIkSJAgQYIECRIkSJC6QJr/tDcxJQMt2U5LpJb7BQkSJEiQIEGCBAkSJEiQIEGCBAlSF0glD+LWuhBZC7IWQMl3lcwPJEiQIEGCBAkSJEiQIEGCBAkSJEh93RxZctGzFlKttNwvSJAgQYIECRIkSJAgQYIECRIkSJC6QCoZaMvJ/Tv9DqBkfqYXafHwbun4fvnkYeXkIW36qUAaENKbo/vYrJ4+rp2P1s9HadNPJXVIg0DKionHu7PHzYsfW5fj7ctx2vRTSb3xeoL0cnJky7qJyvur8e73nx+uf6VNP5XU8ymk/pFyBsrxLasnNh9vfu/fPqVNP5XU8ymknpHydTmm5TyUo1zWUIS+jp7Tpp9K6iuQrCRIzkn+uoPk/yRIrjh0jzS0HwqsdZMlJEiQIEGCBAkSJEiQIEGCBAkSJEh9IdV6uLcWdq2bLEvGU+uhbkiQIEGCBAkSJEiQIEGCBAkSJEiQ+nqhSMnOlExurUlpOZ7/5q0vkCBBggQJEiRIkCBBggQJEiRIkKYSqdZLfFv+UGDLlwpDggQJEiRIkCBBggQJEiRIkCBBgtQFkrQJJEgCCZLZgSSQIAkkgQRJIEEqueFP+g0kSAJpSvIHKuWTridxzL8AAAAASUVORK5CYII=" alt="" loading="lazy">
+        <div class="icap"><div class="ino">№ 08</div><div class="iti">E91 · Keys from Entanglement</div>
+        <div class="inote">security you can watch break — CHSH 2√2 ≈ 2.83 undisturbed, ~0.7 under attack; verified</div><span class="kind">instrument</span></div></a><a class="inst" href="bench/09-observatory.html">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIwAAACMCAIAAAAhotZpAAACbElEQVR42u3cv0ocQRwHcKtAQPANLFKksUtn8AWsBIu0sbdIkzKdVXwCK5s8QwoL38AufxDiIVwgBML98XKJwSrf/oqbmLndPe8DX4bht7DuzMfd1YHZtUeP16XjWTMFkATSCiJtvr+QjgQSJIEEyexAEkiQBJJAgiSQIP0r0suz47kpWTR883ywdCkZV8n8QIIECRIkSJAgQYIECRIkSJAgQYK0CKSSC904PZ6bksGUnGcZrwcSJEiQIEGCBAkSJEiQIEGCBAkSpEUglSxElgym5DwlE9fkeWqNCxIkSJAgQYIECRIkSJAgQYIECRKkthZYn3wYzk2Tk1LrPCXjWppVcEiQIEGCBAkSJEiQIEGCBAkSJEgPDqnJjcQlkzI73bPFWr80tbK6SE8/Dp99Hm1fjncux2nTTwVSh5C2Po1is/vlZr83edGbpE0/ldQhdQIpd0w89q5uDq5/Hvanr/rTtOmnknqOQmofKU+23DdRef11evTt19vvv9Omn0rqOQqpfaS8gfJ8y90Tm5Mft+8Gf9Kmn0rqOQqpZaQkz7S8h/KUyz0UofPJXdr0U0l9B5I7CZJ3kr/uIPk/CZIVh/9bYG1ys3GtDwXW2rS8NKvgkCBBggQJEiRIkCBBggQJEiRIkB4cUq2NxE1i1/pZtTZIQ4IECRIkSJAgQYIECRIkSJAgQYLUZaSubX4uuR5IkCBBggQJEiRIkCBBggQJEiRIkLqMVDIptQZc6wOItRZP7/f9vdlAggQJEiRIkCBBggQJEiRIkCBBgrQIJGkmkCAJJEhmB5JAgiSQBBIkgQSp1qZfWVwgQRJIK5K/I4eKtcmgnDEAAAAASUVORK5CYII=" alt="" loading="lazy">
+        <div class="icap"><div class="ino">№ 09</div><div class="iti">The Observatory</div>
+        <div class="inote">black holes by the numbers — Schwarzschild to Kerr; four defects found in audit, fixed with logged reasons</div><span class="kind">instrument</span></div></a><a class="inst" href="bench/10-quantum-dots.html">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIwAAACMCAIAAAAhotZpAAACdklEQVR42u3dvUocURgGYKuAIOQOUljY2KWLeAOphBS22lukSZnOSq/AKk2uwcLCO0iXHxZUBAMhEHbVdRPFyvcChD3Rs2f/Hng5HL5ZdmfOszOjh9mZhReLSzLhWTAEkATSHCK9OvwiExJIkAQSJKMDSSBBEkgCCZJAgvS/SCUTgstfe0Pzca07NCWf1fJ9Srar5LMgQYIECRIkSJAgQYIECRIkSJAgQRoF0stP+0NTsqJbR/tDUzIotVKyPiXbVTI+kCBBggQJEiRIkCBBggQJEiRIkCCNAqnlBrecYG35xYIECRIkSJAgQYIECRIkSJAgQYIEaVwTrCUD1xKyFkDJdk3NLDgkSJAgQYIECRIkSJAgQYIECRKkmUMqWdGWPxJ+dIrzCdi1foxdkvlFWvnWe/3j8k3nar1zlTb9VCBNENLq98vYvD25fnfW3zzrp00/ldQhTQRS9ph4bJxeb5/f7FwM3l8M0qafSupZCmn8SDmyZb+Jyoefg91ff/d+/0ubfiqpZymk8SPlDJTjW/ae2Bz8uf3cvUubfiqpZymkMSPlZTmm5TyUo1z2oQgd9+/Tpp9K6uuQ7EmQnJP8dQfJ/0mQzDg87+LIljclrIVd64s1NVewQoIECRIkSJAgQYIECRIkSJAgQZo5pFoXCNZKrRsF1srUzIJDggQJEiRIkCBBggQJEiRIkCBBmjmkljcTrHUDxJYTvlPzxGZIkCBBggQJEiRIkCBBggQJEiRIM4fU8qG5tSY0W07mlowPJEiQIEGCBAkSJEiQIEGCBAkSJEijQJI2gQRJIEEyOpAEEiSBJJAgCSRILR+4K08LJEgCaU7yAMChbBR0Zz/PAAAAAElFTkSuQmCC" alt="" loading="lazy">
+        <div class="icap"><div class="ino">№ 10</div><div class="iti">Quantum Dots · The Idea</div>
+        <div class="inote">the 2023-Nobel matter — confinement, colour by size; book one of four</div><span class="kind">lesson</span></div></a></div>
+  </section>
+
+  <section class="sec">
+    <h2>The Reading Room</h2>
+    <p class="ss">the deeper shelves — the dots in full, and the emergence essays (speculation honestly flagged within)</p>
+    <div class="shelf">
+      <a class="sh" href="bench/qdots-1-making.html">dots · the making</a>
+      <a class="sh" href="bench/qdots-2-now.html">dots · the now</a>
+      <a class="sh" href="bench/qdots-3-frontier.html">dots · the frontier</a>
+      <a class="sh" href="bench/reading-is-light-emergent.html">is light emergent?</a>
+      <a class="sh" href="bench/reading-is-gravity-emergent.html">is gravity emergent?</a>
+      <a class="sh" href="https://davidwise01.github.io/green-papers/papers/quantum-shelf-audited.html">the shelf audit →</a>
+    </div>
+  </section>
+
+  <div class="tinfoil">
+    <b>⧖ two layers, as always.</b> The <b>instruments are carbon</b>: every simulator on this bench passed the 2026-06 shelf audit — BB84 and E91 run the genuine protocol mathematics (verified gate-by-gate), the two-qubit lab is a real density-matrix engine, the wavefield genuinely amplifies, the observatory's four defects were fixed with logged reasons. The <b>frame is silicon</b>: "the toy from the future" is lore, after <i>Mimsy Were the Borogoves</i> (Lewis Padgett — Henry Kuttner &amp; C. L. Moore, 1943) and <i>The Last Mimzy</i> (New Line, 2007), © their rights holders; this bench is an unofficial homage. The history in the Lineage cards, however, is real — Hermann was ignored, Everett did quit, Bell's journal did fold, and Ada was a century early.
+  </div>
+
+  <footer>
+    MIMZY · MMZ · the quantum workbench that came back · ROOT0-ATTRIBUTION-v1.0 · governor David Lee Wise (ROOT0) · instance AVAN (locked) · CC-BY-ND-4.0 · fan tribute<br>
+    <a href="https://davidwise01.github.io/ud0/">← the biosphere</a> · <a href="https://davidwise01.github.io/aci/">the ACI standard</a>
+  </footer>
+</div></body></html>

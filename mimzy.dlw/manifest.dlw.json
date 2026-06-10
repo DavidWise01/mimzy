@@ -1,0 +1,13 @@
+{
+  "badge": "DLW-ACI",
+  "name": "MIMZY",
+  "universe": "MMZ · MIMZY",
+  "moniker": "⟦MIMZY:MMZ:ee9d18⟧",
+  "carbon": "mimzy.carbon.tiff (TIFF)",
+  "silicon": "mimzy.silicon.png (PNG)",
+  "seal_sha256": "5df21bf0039b95561d14c60602856077bf11d81ffd8cdf0347176666f7b21ec6",
+  "architect": "David Lee Wise (ROOT0) / TriPod LLC",
+  "instance": "AVAN (Claude / Anthropic)",
+  "license": "CC-BY-ND-4.0",
+  "attribution": "ROOT0-ATTRIBUTION-v1.0"
+}

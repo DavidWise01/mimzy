@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quantum Dots — No. 0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#0a0a12; --cardsolid:#13131f; --ink:#ece8f5; --dim:#8a85a3;
+    --glow:#6de0d0; --violet:#9b6cff; --amber:#ffb347; --rose:#ff5d8f;
+    --line:rgba(155,108,255,0.18);
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;color:var(--ink);background-color:var(--paper);background-image:radial-gradient(circle at 50% -10%, #1a1430 0%, #08080f 65%);background-attachment:fixed;font-family:"Newsreader",Georgia,serif;line-height:1.6;}
+  .zine{max-width:1060px;margin:0 auto;padding:30px 22px 70px;}
+  ::selection{background:var(--glow);color:#0a0a12;}
+  .kick{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:0.28em;text-transform:uppercase;color:var(--violet);}
+  .mast{border-bottom:4px solid var(--glow);padding-bottom:20px;margin-bottom:6px;}
+  .masthead{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-top:10px;}
+  .mast h1{font-family:"Cinzel";font-weight:800;font-size:clamp(40px,8.5vw,84px);line-height:0.95;letter-spacing:0.01em;text-transform:uppercase;margin:0;max-width:9em;}
+  .mast h1 em{font-style:normal;color:var(--glow);text-shadow:0 0 18px rgba(109,224,208,0.6);}
+  .dek{font-size:clamp(15px,2vw,18px);max-width:640px;margin:18px 0 0;color:#cfc9e0;}
+  .dek b{font-weight:500;color:var(--glow);}
+  .serieslabel{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:0.1em;color:var(--violet);margin-top:14px;text-transform:uppercase;}
+  .art{flex:0 0 auto;}
+  @keyframes glowpulse{0%,100%{opacity:.55;r:8}50%{opacity:1;r:11}}
+  .d1{animation:glowpulse 2.4s ease-in-out infinite} .d2{animation:glowpulse 2.4s ease-in-out infinite .5s} .d3{animation:glowpulse 2.4s ease-in-out infinite 1s} .d4{animation:glowpulse 2.4s ease-in-out infinite 1.5s}
+  @media (prefers-reduced-motion:reduce){.d1,.d2,.d3,.d4{animation:none}}
+  .band{display:inline-block;font-family:"Cinzel";font-weight:700;font-size:13px;letter-spacing:0.14em;text-transform:uppercase;background:var(--glow);color:#0a0a12;padding:5px 13px;margin:34px 0 14px;}
+  .band.violet{background:var(--violet);color:#0a0a12;} .band.dim{background:#241f38;color:var(--ink);}
+  .types{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:11px;}
+  .type{border:1px solid var(--line);background:var(--cardsolid);padding:11px 13px;}
+  .type h4{font-family:"Cinzel";font-weight:700;font-size:15px;margin:0 0 4px;letter-spacing:0.02em;color:var(--glow);}
+  .type p{font-size:13px;margin:0;color:#b3acc7;line-height:1.45;}
+  .type .tg{display:inline-block;font-family:"Space Mono",monospace;font-size:10px;letter-spacing:0.05em;text-transform:uppercase;color:var(--violet);border:1px solid var(--violet);padding:1px 6px;margin-top:7px;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(238px,1fr));gap:14px;}
+  .card{position:relative;border:1px solid var(--line);background:var(--cardsolid);padding:15px 16px 16px;transition:transform .14s ease, box-shadow .14s ease;}
+  .card:hover{transform:translate(-3px,-3px);box-shadow:5px 5px 0 var(--glow);}
+  .card.v:hover{box-shadow:5px 5px 0 var(--violet);}
+  .card .num{position:absolute;top:11px;right:13px;font-family:"Space Mono",monospace;font-weight:700;font-size:12px;color:var(--violet);}
+  .card h3{font-family:"Cinzel";font-weight:700;font-size:17px;line-height:1.1;margin:0 5px 7px 0;max-width:12em;letter-spacing:0.01em;color:var(--ink);}
+  .card .what{font-size:14px;margin:0 0 10px;color:#c8c2da;}
+  .card .need,.card .do{font-family:"Space Mono",monospace;font-size:11px;line-height:1.5;margin:5px 0 0;color:var(--dim);}
+  .card .need b,.card .do b{color:var(--ink);font-weight:700;letter-spacing:0.04em;text-transform:uppercase;margin-right:5px;}
+  .card .plus{font-family:"Space Mono",monospace;font-size:11px;line-height:1.5;margin:8px 0 0;padding-top:8px;border-top:1px dashed var(--line);color:#9a93b0;}
+  .card .plus b{color:var(--glow);font-weight:700;letter-spacing:0.04em;text-transform:uppercase;margin-right:5px;}
+  .card.v .plus b{color:var(--violet);}
+  .block{border:1px solid var(--line);padding:18px 20px;margin-top:6px;background:var(--cardsolid);}
+  .rules{list-style:none;padding:0;margin:0;}
+  .rules li{position:relative;padding:8px 0 8px 26px;font-size:14.5px;border-bottom:1px solid var(--line);}
+  .rules li:last-child{border-bottom:none;}
+  .rules li::before{content:"◖";position:absolute;left:2px;top:9px;font-size:12px;color:var(--glow);}
+  .block.violet .rules li::before{content:"✦";color:var(--violet);font-size:13px;top:9px;}
+  .rules b{font-weight:500;color:var(--glow);} .block.violet .rules b{color:var(--violet);}
+  .spectrum{height:8px;border-radius:4px;margin:14px 0 0;background:linear-gradient(90deg,#9b6cff,#6d8cff,#6de0d0,#9be86a,#ffb347,#ff5d8f);}
+  .colophon{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:0.06em;color:var(--dim);text-align:center;margin-top:40px;padding-top:16px;border-top:1px solid var(--line);}
+  .reveal{opacity:0;transform:translateY(10px);animation:rise .5s cubic-bezier(.2,.7,.2,1) forwards;}
+  @keyframes rise{to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){.reveal{animation:none;opacity:1;transform:none}}
+  @media print{body{background:#fff;color:#000}.card,.block,.type{background:#fff}.card:hover{transform:none;box-shadow:none}.d1,.d2,.d3,.d4{animation:none}.reveal{animation:none;opacity:1;transform:none}.mast h1 em{text-shadow:none}}
+</style>
+</head>
+<body>
+<div class="zine">
+  <header class="mast">
+    <span class="kick">a concept series · book no. 0 · the idea</span>
+    <div class="masthead">
+      <div>
+        <h1>Quantum <em>Dots</em></h1>
+        <p class="serieslabel">the nanocrystal that glows to size · 1 of 4</p>
+      </div>
+      <svg class="art" width="190" height="150" viewBox="0 0 190 150" role="img" aria-label="four dots glowing different colors by size">
+        <circle class="d1" cx="35" cy="80" r="8" fill="#9b6cff"/>
+        <text x="35" y="108" text-anchor="middle" font-family="Space Mono,monospace" font-size="9" fill="#8a85a3">small</text>
+        <circle class="d2" cx="80" cy="78" r="10" fill="#6de0d0"/>
+        <circle class="d3" cx="128" cy="76" r="13" fill="#ffb347"/>
+        <circle class="d4" cx="166" cy="74" r="16" fill="#ff5d8f"/>
+        <text x="166" y="108" text-anchor="middle" font-family="Space Mono,monospace" font-size="9" fill="#8a85a3">large</text>
+        <text x="95" y="132" text-anchor="middle" font-family="Space Mono,monospace" font-size="10" fill="#8a85a3">same material · size sets the color</text>
+      </svg>
+    </div>
+    <p class="dek">Take one semiconductor — say, cadmium selenide. Make a speck of it a few nanometres wide and it glows red; make it smaller and it glows green, then blue. <b>Same material, different size, different color.</b> That impossibility-made-real is a quantum dot. This book is what it is, and where it came from.</p>
+  </header>
+
+  <span class="band">The strange fact</span>
+  <div class="types">
+    <div class="type reveal"><h4>A nanocrystal</h4><p>A semiconductor speck just 2–10 nm across — thousands fit in a cell.</p><span class="tg">the object</span></div>
+    <div class="type reveal"><h4>Confinement</h4><p>So small the electrons are squeezed — quantum rules take over.</p><span class="tg">the cause</span></div>
+    <div class="type reveal"><h4>Artificial atom</h4><p>Squeezing forces discrete energy levels, like a tunable atom.</p><span class="tg">the nature</span></div>
+    <div class="type reveal"><h4>Size = color</h4><p>The gap between levels — and the color emitted — depends on size.</p><span class="tg">the magic</span></div>
+  </div>
+
+  <span class="band glow">What a dot is</span>
+  <div class="grid">
+    <article class="card reveal"><span class="num">01</span><h3>A crystal, impossibly small</h3><p class="what">A quantum dot is a single crystal of semiconductor only a few nanometres wide — a few hundred to a few thousand atoms.</p><p class="need"><b>size</b> roughly 2–10 nm</p><p class="do"><b>so</b> it sits between a molecule and a bulk solid.</p><p class="plus"><b>+1</b> a 5 nm dot is to an apple what an apple is to the Earth — that's the scale where the strangeness begins.</p></article>
+    <article class="card reveal"><span class="num">02</span><h3>Quantum confinement</h3><p class="what">When a crystal shrinks below a critical size, its electrons get physically confined, and quantum effects dominate.</p><p class="need"><b>effect</b> the quantum size effect</p><p class="do"><b>so</b> the material's properties start to depend on its size.</p><p class="plus"><b>+1</b> in a normal solid, size doesn't change color — confinement is exactly what breaks that rule.</p></article>
+    <article class="card reveal"><span class="num">03</span><h3>An "artificial atom"</h3><p class="what">Confinement squeezes the allowed energies into discrete levels — like an atom you can design.</p><p class="need"><b>nickname</b> the artificial atom</p><p class="do"><b>so</b> you can tune its behavior by building it, not by picking an element.</p><p class="plus"><b>+1</b> a real atom's levels are fixed by nature; a dot's you set with a flask and a thermometer.</p></article>
+    <article class="card v reveal"><span class="num">04</span><h3>Size sets the color</h3><p class="what">Smaller dots have a wider energy gap and emit bluer light; larger dots emit redder.</p><p class="need"><b>rule</b> bandgap grows as size shrinks</p><p class="do"><b>so</b> one material can be tuned across the rainbow.</p><p class="plus"><b>+1</b> as the Nobel committee put it: change the size, and you change the color — the whole field in one sentence.</p></article>
+  </div>
+  <div class="spectrum"></div>
+
+  <span class="band glow">Where it came from</span>
+  <div class="grid">
+    <article class="card reveal"><span class="num">05</span><h3>A 1930s prediction</h3><p class="what">The idea that tiny particles should show quantum size effects was raised in theory decades before anyone made one.</p><p class="need"><b>early theory</b> Herbert Fröhlich, 1930s</p><p class="do"><b>so</b> the concept long predated the craft.</p><p class="plus"><b>+1</b> for a long time most scientists doubted such small, controlled particles could ever actually be made.</p></article>
+    <article class="card reveal"><span class="num">06</span><h3>Ekimov, in glass (1981)</h3><p class="what">Soviet physicist Alexei Ekimov found size-dependent color in semiconductor crystals grown inside colored glass.</p><p class="need"><b>where</b> Vavilov State Optical Institute, USSR</p><p class="do"><b>so</b> the first deliberate quantum dots were born — in glass.</p><p class="plus"><b>+1</b> he published in a Soviet journal in 1981 — hard to access across the Iron Curtain, so the West learned slowly.</p></article>
+    <article class="card reveal"><span class="num">07</span><h3>Brus, in liquid (1983)</h3><p class="what">Unaware of Ekimov, Louis Brus was the first to find size-dependent quantum effects in particles floating freely in solution.</p><p class="need"><b>where</b> Bell Labs, USA</p><p class="do"><b>so</b> dots could now live in a liquid — the route to chemistry and use.</p><p class="plus"><b>+1</b> two scientists, two sides of a closed border, finding the same truth independently within two years.</p></article>
+    <article class="card v reveal"><span class="num">08</span><h3>The name (1986)</h3><p class="what">Physicist Mark Reed gave these crystals the name that stuck: "quantum dots."</p><p class="need"><b>who</b> Mark Reed, 1986</p><p class="do"><b>so</b> the field finally had its word.</p><p class="plus"><b>+1</b> Ekimov, Brus, and Bawendi shared the 2023 Nobel Prize in Chemistry for the discovery and synthesis of dots.</p></article>
+  </div>
+
+  <span class="band violet">The core idea</span>
+  <div class="block violet">
+    <ul class="rules">
+      <li>A <b>quantum dot</b> is a <b>semiconductor nanocrystal</b>, only 2–10 nm across — a few hundred to few thousand atoms.</li>
+      <li>At that size, <b>quantum confinement</b> squeezes its electrons into <b>discrete energy levels</b>, making it an <b>"artificial atom."</b></li>
+      <li>The energy gap — and so the <b>color of light it emits — depends on its size</b>: smaller is bluer, larger is redder, for one and the same material.</li>
+      <li>The effect was predicted in the <b>1930s</b>, then realized by <b>Ekimov (1981, in glass)</b> and <b>Brus (1983, in solution)</b>, independently.</li>
+      <li><b>Mark Reed</b> named them in <b>1986</b>; <b>Ekimov, Brus, and Bawendi</b> won the <b>2023 Nobel Prize in Chemistry</b> for them.</li>
+    </ul>
+  </div>
+
+  <span class="band dim">How we know — and what's settled</span>
+  <div class="block">
+    <ul class="rules">
+      <li><b>Settled:</b> the size–color relationship and quantum confinement are <b>well-established physics</b>, taught and used industrially — not speculative.</li>
+      <li>The discovery credit is <b>documented and official</b> (the 2023 Nobel) — though, as ever in science, <b>many others contributed</b>, and the prize names three of a larger cast.</li>
+      <li>"Artificial atom" is a <b>useful analogy</b>, not a literal claim — a dot has discrete levels <em>like</em> an atom, but is made of thousands of atoms.</li>
+      <li>The Ekimov-behind-the-Iron-Curtain story is real and explains why <b>independent rediscovery</b> happened — credit was genuinely split by geopolitics, not just timing.</li>
+      <li>This is a <b>concept series</b> tracing one technology — Book 1 is how you actually make them, Book 2 where they're used, Book 3 the frontier.</li>
+    </ul>
+  </div>
+
+  <p class="colophon">quantum dots · book no. 0 · the artificial atom that glows to size · the idea &amp; its origin (1930s–1986)</p>
+</div>
+</body>
+</html>

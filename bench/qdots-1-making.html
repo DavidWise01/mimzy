@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Making Them Real — No. 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#0a0a12;--cardsolid:#13131f;--ink:#ece8f5;--dim:#8a85a3;--glow:#6de0d0;--violet:#9b6cff;--amber:#ffb347;--rose:#ff5d8f;--line:rgba(155,108,255,0.18);}
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;color:var(--ink);background-color:var(--paper);background-image:radial-gradient(circle at 50% -10%, #1a1430 0%, #08080f 65%);background-attachment:fixed;font-family:"Newsreader",Georgia,serif;line-height:1.6;}
+  .zine{max-width:1060px;margin:0 auto;padding:30px 22px 70px;}
+  ::selection{background:var(--glow);color:#0a0a12;}
+  .kick{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:0.28em;text-transform:uppercase;color:var(--violet);}
+  .mast{border-bottom:4px solid var(--glow);padding-bottom:20px;margin-bottom:6px;}
+  .masthead{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-top:10px;}
+  .mast h1{font-family:"Cinzel";font-weight:800;font-size:clamp(38px,8vw,76px);line-height:0.95;letter-spacing:0.01em;text-transform:uppercase;margin:0;max-width:10em;}
+  .mast h1 em{font-style:normal;color:var(--glow);text-shadow:0 0 18px rgba(109,224,208,0.6);}
+  .dek{font-size:clamp(15px,2vw,18px);max-width:640px;margin:18px 0 0;color:#cfc9e0;}
+  .dek b{font-weight:500;color:var(--glow);}
+  .serieslabel{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:0.1em;color:var(--violet);margin-top:14px;text-transform:uppercase;}
+  .art{flex:0 0 auto;}
+  @keyframes rise2{0%{transform:translateY(6px);opacity:.5}100%{transform:translateY(-4px);opacity:1}}
+  .bub{animation:rise2 1.8s ease-in-out infinite alternate}
+  @media (prefers-reduced-motion:reduce){.bub{animation:none}}
+  .band{display:inline-block;font-family:"Cinzel";font-weight:700;font-size:13px;letter-spacing:0.14em;text-transform:uppercase;background:var(--glow);color:#0a0a12;padding:5px 13px;margin:34px 0 14px;}
+  .band.violet{background:var(--violet);color:#0a0a12;} .band.dim{background:#241f38;color:var(--ink);}
+  .types{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:11px;}
+  .type{border:1px solid var(--line);background:var(--cardsolid);padding:11px 13px;}
+  .type h4{font-family:"Cinzel";font-weight:700;font-size:15px;margin:0 0 4px;letter-spacing:0.02em;color:var(--glow);}
+  .type p{font-size:13px;margin:0;color:#b3acc7;line-height:1.45;}
+  .type .tg{display:inline-block;font-family:"Space Mono",monospace;font-size:10px;letter-spacing:0.05em;text-transform:uppercase;color:var(--violet);border:1px solid var(--violet);padding:1px 6px;margin-top:7px;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(238px,1fr));gap:14px;}
+  .card{position:relative;border:1px solid var(--line);background:var(--cardsolid);padding:15px 16px 16px;transition:transform .14s ease, box-shadow .14s ease;}
+  .card:hover{transform:translate(-3px,-3px);box-shadow:5px 5px 0 var(--glow);}
+  .card.v:hover{box-shadow:5px 5px 0 var(--violet);}
+  .card .num{position:absolute;top:11px;right:13px;font-family:"Space Mono",monospace;font-weight:700;font-size:12px;color:var(--violet);}
+  .card h3{font-family:"Cinzel";font-weight:700;font-size:17px;line-height:1.1;margin:0 5px 7px 0;max-width:12em;letter-spacing:0.01em;color:var(--ink);}
+  .card .what{font-size:14px;margin:0 0 10px;color:#c8c2da;}
+  .card .need,.card .do{font-family:"Space Mono",monospace;font-size:11px;line-height:1.5;margin:5px 0 0;color:var(--dim);}
+  .card .need b,.card .do b{color:var(--ink);font-weight:700;letter-spacing:0.04em;text-transform:uppercase;margin-right:5px;}
+  .card .plus{font-family:"Space Mono",monospace;font-size:11px;line-height:1.5;margin:8px 0 0;padding-top:8px;border-top:1px dashed var(--line);color:#9a93b0;}
+  .card .plus b{color:var(--glow);font-weight:700;letter-spacing:0.04em;text-transform:uppercase;margin-right:5px;}
+  .card.v .plus b{color:var(--violet);}
+  .block{border:1px solid var(--line);padding:18px 20px;margin-top:6px;background:var(--cardsolid);}
+  .rules{list-style:none;padding:0;margin:0;}
+  .rules li{position:relative;padding:8px 0 8px 26px;font-size:14.5px;border-bottom:1px solid var(--line);}
+  .rules li:last-child{border-bottom:none;}
+  .rules li::before{content:"◖";position:absolute;left:2px;top:9px;font-size:12px;color:var(--glow);}
+  .block.violet .rules li::before{content:"✦";color:var(--violet);font-size:13px;top:9px;}
+  .rules b{font-weight:500;color:var(--glow);} .block.violet .rules b{color:var(--violet);}
+  .colophon{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:0.06em;color:var(--dim);text-align:center;margin-top:40px;padding-top:16px;border-top:1px solid var(--line);}
+  .reveal{opacity:0;transform:translateY(10px);animation:riseb .5s cubic-bezier(.2,.7,.2,1) forwards;}
+  @keyframes riseb{to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){.reveal{animation:none;opacity:1;transform:none}}
+  @media print{body{background:#fff;color:#000}.card,.block,.type{background:#fff}.card:hover{transform:none;box-shadow:none}.bub{animation:none}.reveal{animation:none;opacity:1;transform:none}.mast h1 em{text-shadow:none}}
+</style>
+</head>
+<body>
+<div class="zine">
+  <header class="mast">
+    <span class="kick">a concept series · book no. 1 · making them real</span>
+    <div class="masthead">
+      <div>
+        <h1>Making <em>Them Real</em></h1>
+        <p class="serieslabel">the nanocrystal that glows to size · 2 of 4</p>
+      </div>
+      <svg class="art" width="180" height="150" viewBox="0 0 180 150" role="img" aria-label="a hot flask growing glowing dots">
+        <path d="M70,30 h40 v22 l24,52 a30,30 0 0 1 -28,42 h-32 a30,30 0 0 1 -28,-42 l24,-52 z" fill="none" stroke="#8a85a3" stroke-width="2"/>
+        <path d="M52,108 a30,30 0 0 0 28,20 h20 a30,30 0 0 0 28,-20 z" fill="#6de0d0" opacity="0.28"/>
+        <circle class="bub" cx="74" cy="104" r="5" fill="#6de0d0"/>
+        <circle class="bub" cx="96" cy="112" r="6" fill="#ffb347"/>
+        <circle class="bub" cx="86" cy="96" r="4" fill="#9b6cff"/>
+        <text x="90" y="140" text-anchor="middle" font-family="Space Mono,monospace" font-size="10" fill="#8a85a3">hot injection · dots grow to size</text>
+      </svg>
+    </div>
+    <p class="dek">Ekimov and Brus proved dots could exist. But their early particles were uneven — a jumble of sizes, so a muddy mix of colors. To be useful, you needed crowds of dots <b>all the same size</b>. The breakthrough came in 1993, and it turned a curiosity into a material you can manufacture. This book is the chemistry.</p>
+  </header>
+
+  <span class="band">The making</span>
+  <div class="types">
+    <div class="type reveal"><h4>Colloidal synthesis</h4><p>Grow dots in a flask of hot liquid, like a controlled chemical crystal-garden.</p><span class="tg">the method</span></div>
+    <div class="type reveal"><h4>Hot injection</h4><p>Bawendi's 1993 trick for making them all nucleate at once.</p><span class="tg">the leap</span></div>
+    <div class="type reveal"><h4>Size control</h4><p>Time and temperature set the size — and therefore the color.</p><span class="tg">the dial</span></div>
+    <div class="type reveal"><h4>Core–shell</h4><p>Wrap the dot in a second material to make it bright and tough.</p><span class="tg">the polish</span></div>
+  </div>
+
+  <span class="band glow">The breakthrough</span>
+  <div class="grid">
+    <article class="card reveal"><span class="num">01</span><h3>The uniformity problem</h3><p class="what">Early dots came out in a spread of sizes — and since size is color, that meant smeared, impure light.</p><p class="need"><b>problem</b> uneven size = unpredictable quality</p><p class="do"><b>so</b> the dots couldn't yet be used in real devices.</p><p class="plus"><b>+1</b> Brus's own method gave irregular particles — brilliant proof of concept, but not manufacturable.</p></article>
+    <article class="card v reveal"><span class="num">02</span><h3>Bawendi's 1993 method</h3><p class="what">Moungi Bawendi developed a synthesis producing dots of strikingly uniform size and quality.</p><p class="need"><b>who</b> Bawendi (from Brus's lab), 1993</p><p class="do"><b>so</b> "almost perfect" dots could be made on demand.</p><p class="plus"><b>+1</b> this is the step the Nobel committee singled out as opening the door to every application that followed.</p></article>
+    <article class="card reveal"><span class="num">03</span><h3>Hot injection</h3><p class="what">Squirt precursor chemicals into a hot solvent so a burst of dots all start growing at the same instant.</p><p class="need"><b>trick</b> one sudden nucleation, then even growth</p><p class="do"><b>so</b> the whole batch ends up nearly the same size.</p><p class="plus"><b>+1</b> stop the reaction sooner for smaller (bluer) dots, later for larger (redder) ones — a clock for color.</p></article>
+    <article class="card reveal"><span class="num">04</span><h3>The size dial is the color dial</h3><p class="what">Because the bandgap depends on radius, controlling size precisely <em>is</em> controlling color precisely.</p><p class="need"><b>link</b> radius → bandgap → emitted wavelength</p><p class="do"><b>so</b> a single recipe spans the visible spectrum.</p><p class="plus"><b>+1</b> tune one synthesis and you walk a dot from deep blue to far red — no new material needed.</p></article>
+  </div>
+
+  <span class="band glow">Making them bright & tough</span>
+  <div class="grid">
+    <article class="card reveal"><span class="num">05</span><h3>Core–shell structure</h3><p class="what">Grow a shell of a wider-bandgap material (like ZnS) around the core (like CdSe).</p><p class="need"><b>structure</b> CdSe core + ZnS shell</p><p class="do"><b>so</b> the dot becomes far brighter and more stable.</p><p class="plus"><b>+1</b> the shell "passivates" surface defects that would otherwise quietly steal energy and dim the glow.</p></article>
+    <article class="card reveal"><span class="num">06</span><h3>Quantum yield climbs</h3><p class="what">Better shells pushed the fraction of absorbed light that's re-emitted from ~30–50% to ~80–90%+.</p><p class="need"><b>metric</b> photoluminescence quantum yield</p><p class="do"><b>so</b> dots became efficient enough for displays and imaging.</p><p class="plus"><b>+1</b> the best modern dots emit a strikingly pure color — a very narrow band, which is what TVs prize.</p></article>
+    <article class="card reveal"><span class="num">07</span><h3>The surface matters</h3><p class="what">Organic "ligand" molecules cling to the dot's surface, keeping it stable and suspended.</p><p class="need"><b>role</b> ligands tune stability and compatibility</p><p class="do"><b>so</b> dots can be made to live in oil — or in water, for biology.</p><p class="plus"><b>+1</b> swapping ligands is how a lab-grade dot gets re-dressed to survive inside a living cell.</p></article>
+    <article class="card v reveal"><span class="num">08</span><h3>Beyond cadmium</h3><p class="what">Because classic dots use toxic cadmium, safer materials like indium phosphide were developed.</p><p class="need"><b>alternatives</b> InP, and others</p><p class="do"><b>so</b> dots could enter consumer and medical products more safely.</p><p class="plus"><b>+1</b> "cadmium-free" is now a selling point on TVs — chemistry answering a real toxicity concern.</p></article>
+  </div>
+
+  <span class="band violet">The story so far</span>
+  <div class="block violet">
+    <ul class="rules">
+      <li>Early dots suffered a <b>uniformity problem</b>: a spread of sizes meant a smear of colors, too crude to use.</li>
+      <li><b>Bawendi's 1993 synthesis</b> — using <b>hot injection</b> for a single burst of even growth — produced <b>uniform, "almost perfect" dots</b>.</li>
+      <li>Because <b>radius sets the bandgap</b>, precisely controlling size <em>is</em> controlling color — one recipe spans the spectrum.</li>
+      <li><b>Core–shell structures</b> (e.g. CdSe/ZnS) and good <b>surface ligands</b> pushed efficiency from ~30–50% to <b>80–90%+</b>, with very pure color.</li>
+      <li>Toxic cadmium drove the development of <b>safer materials like InP</b> — opening consumer and medical use.</li>
+    </ul>
+  </div>
+
+  <span class="band dim">How we know — and the honest caveats</span>
+  <div class="block">
+    <ul class="rules">
+      <li><b>Settled:</b> hot-injection colloidal synthesis and core–shell engineering are <b>standard, industrial chemistry</b> — this is how dots are really made.</li>
+      <li>The numbers (sizes, quantum yields) are <b>representative ranges</b>; exact values depend on the material system and recipe — treat them as the shape, not a spec sheet.</li>
+      <li><b>Cadmium toxicity is a real concern</b>, not a footnote — it genuinely shaped both regulation and the push toward Cd-free dots. Cd-free isn't always as bright yet; it's an active trade-off.</li>
+      <li>"Almost perfect" is the <b>Nobel committee's phrase</b> for Bawendi's particles — uniform, not literally flawless.</li>
+      <li>Book 0 was the idea and origin; <b>Book 2</b> is where these dots ended up — displays, medicine, and more.</li>
+    </ul>
+  </div>
+
+  <p class="colophon">quantum dots · book no. 1 · a flask, a clock, a color · the chemistry that made them usable (1993–)</p>
+</div>
+</body>
+</html>

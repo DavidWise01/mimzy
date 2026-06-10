@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Is Light Emergent? — the 13-bit question</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Shippori+Mincho:wght@500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#060a0d; --paper:#e3eef0; --mute:#849aa0; --faint:#46585e;
+    --cyan:#5fd0e6; --cyan-lt:#bdf2fb; --violet:#a78bfa; --gold:#e8c46a; --green:#5fd0a0;
+    --line:rgba(227,238,240,0.10);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--void); color:var(--paper); font-family:"Cormorant Garamond",Georgia,serif; font-size:20px; line-height:1.72; overflow-x:hidden;}
+  .grain{position:fixed; inset:0; opacity:0.04; pointer-events:none; z-index:9; mix-blend-mode:screen;}
+  body::before{content:""; position:fixed; inset:0; z-index:8; pointer-events:none;
+    background:radial-gradient(130% 90% at 50% -5%, rgba(95,208,230,0.12), transparent 58%), radial-gradient(150% 130% at 50% 120%, rgba(3,5,7,0.94), transparent 55%);}
+  .thread{position:fixed; top:0; left:0; height:1px; width:0%; z-index:20; background:linear-gradient(90deg,var(--violet),var(--cyan),var(--cyan-lt)); opacity:.6;}
+  .mono{font-family:"JetBrains Mono",monospace;}
+
+  header.hero{min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:2rem 1.5rem;}
+  .emblem{width:min(420px,86vw); height:auto; margin-bottom:1.6rem;}
+  .hero .tag{font-family:"JetBrains Mono",monospace; letter-spacing:.28em; font-size:11px; color:var(--mute); text-transform:uppercase; margin-bottom:1.3rem;}
+  .hero .kanji{font-family:"Shippori Mincho",serif; font-size:clamp(44px,10vw,92px); font-weight:700; color:transparent; -webkit-text-stroke:1px rgba(95,208,230,0.55); letter-spacing:.14em; line-height:1; margin-bottom:.5rem;}
+  .hero .kanjisub{font-family:"JetBrains Mono",monospace; font-size:11px; letter-spacing:.2em; color:var(--faint); text-transform:uppercase; margin-bottom:1.3rem;}
+  .hero h1{font-family:"Cinzel",serif; font-weight:700; font-size:clamp(32px,7vw,68px); letter-spacing:.03em; line-height:1.04; margin-bottom:1.1rem;
+    background:linear-gradient(110deg,var(--violet),var(--cyan) 55%,var(--cyan-lt)); background-size:200% auto; -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; animation:shim 7s linear infinite;}
+  @keyframes shim{to{background-position:200% center}}
+  .hero p.sub{font-style:italic; font-size:clamp(18px,2.6vw,25px); color:var(--mute); max-width:30ch; line-height:1.5;}
+  .hero .scroll{margin-top:2.2rem; font-family:"JetBrains Mono",monospace; font-size:11px; letter-spacing:.28em; color:var(--faint); text-transform:uppercase;}
+
+  .wrap{max-width:780px; margin:0 auto; padding:0 1.6rem;}
+  section.band{padding:13vh 0; border-top:1px solid var(--line);}
+  .band .idx{font-family:"JetBrains Mono",monospace; font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--cyan); margin-bottom:1rem;}
+  .band h2{font-family:"Cormorant Garamond",serif; font-weight:500; font-size:clamp(26px,4.6vw,40px); color:var(--paper); margin-bottom:1.5rem; max-width:22ch;}
+  .band p{color:#c4d2d5; max-width:60ch; margin-bottom:1.2rem; font-size:19px;}
+  .band p b{color:var(--paper); font-weight:500;}
+  .band code{font-family:"JetBrains Mono",monospace; font-size:.82em; background:rgba(95,208,230,0.12); padding:1px 6px; border-radius:3px; color:var(--cyan-lt);}
+  .pull{font-style:italic; font-size:clamp(21px,3.4vw,30px); line-height:1.4; color:#d6e6e9; max-width:26ch; margin:0 0 1.9rem;}
+
+  .lab{max-width:680px; margin:0 auto; padding:13vh 1.4rem; border-top:1px solid var(--line); text-align:center;}
+  .lab .idx{font-family:"JetBrains Mono",monospace; font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--cyan); margin-bottom:1rem;}
+  .lab h2{font-family:"Cormorant Garamond",serif; font-weight:500; font-size:clamp(26px,4.6vw,40px); color:var(--paper); margin-bottom:1.2rem;}
+  .lab p{color:#c4d2d5; max-width:54ch; margin:0 auto 1.6rem; font-size:18px;}
+  .chartbox{border:1px solid var(--line); border-radius:6px; padding:1.2rem 1rem 1rem; background:linear-gradient(180deg,rgba(95,208,230,0.04),transparent);}
+  .toggle{margin-top:.6rem; display:inline-flex; border:1px solid var(--line); border-radius:30px; overflow:hidden; font-family:"JetBrains Mono",monospace; font-size:12px;}
+  .toggle button{background:transparent; border:none; color:var(--mute); padding:9px 18px; cursor:pointer; letter-spacing:.04em; transition:.25s;}
+  .toggle button.on{background:var(--cyan); color:var(--void); font-weight:600;}
+  .cap{font-family:"JetBrains Mono",monospace; font-size:11px; color:var(--faint); margin-top:.9rem; letter-spacing:.02em;}
+
+  .colophon{padding:13vh 0 18vh; border-top:1px solid var(--line);}
+  .colophon .kanji{font-family:"Shippori Mincho",serif; font-size:38px; color:var(--faint); margin-bottom:1.1rem;}
+  .colophon h3{font-family:"Cormorant Garamond",serif; font-style:italic; font-size:24px; margin-bottom:1rem; color:var(--paper);}
+  .colophon p{color:var(--mute); font-size:17px; margin:0 0 1rem; max-width:62ch;}
+  .colophon p b{color:#c4d2d5; font-weight:500;}
+  .endmark{font-family:"JetBrains Mono",monospace; letter-spacing:.24em; font-size:11px; color:var(--faint); text-transform:uppercase; margin-top:2.2rem;}
+
+  .reveal{opacity:0; transform:translateY(26px); transition:opacity 1.1s ease, transform 1.1s cubic-bezier(.2,.7,.2,1);}
+  .reveal.in{opacity:1; transform:none;}
+</style>
+</head>
+<body>
+<div class="thread" id="thread"></div>
+<svg class="grain"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>
+
+<header class="hero">
+  <svg class="emblem" id="emblem" viewBox="0 0 560 200" aria-label="A lattice of spins moving in step, forming a travelling light wave"></svg>
+  <div class="tag">the emergence trilogy · ii · the 13-bit question</div>
+  <div class="kanji">光</div>
+  <div class="kanjisub">hikari · light</div>
+  <h1>Is Light Emergent?</h1>
+  <p class="sub">is the photon a fundamental thing — or a wave in a lattice of qubits?</p>
+  <div class="scroll">▼ from bits, let there be light</div>
+</header>
+
+<div class="wrap">
+
+  <section class="band reveal">
+    <div class="idx">// the trilogy turns outward</div>
+    <h2>Same question, bigger target</h2>
+    <p>We asked it of machines: are a transformer's abilities <b>emergent</b>, or just smooth scaling under a cruel ruler? Now ask it of the universe. The boldest version isn't about software at all — it's about the most fundamental things we know. Start with <b>light</b>.</p>
+    <p>Keep the distinction from before: <b>strong</b> emergence (new, irreducible powers) versus <b>weak</b> (surprising, but in principle derivable from the rules underneath). The claim here is weak — and all the more startling for it.</p>
+  </section>
+
+  <section class="band reveal">
+    <div class="idx">// the humble precedent</div>
+    <h2>Sound is already a fake particle</h2>
+    <p>Tap a crystal and a sound wave travels through it. Quantum mechanics says that wave comes in particles — <b>phonons</b> — with energy and momentum, behaving for all the world like real particles. But nobody thinks phonons are fundamental. There is no "phonon" in the vacuum; a phonon is just <b>atoms vibrating in step.</b> Take away the lattice and the particle vanishes.</p>
+    <p class="pull">A phonon is not a thing. It's a lattice dancing in time.</p>
+    <p>So here is the dangerous question: <b>what if the photon is like the phonon?</b> What if light is the collective motion of some deeper lattice we mistake for empty space?</p>
+  </section>
+
+</div>
+
+<section class="lab reveal">
+  <div class="idx">// the mechanism · Levin &amp; Wen, 2005</div>
+  <h2>Light as the lattice in step</h2>
+  <p>Press the toggle. Each little spin barely tilts — but when they move <b>in step</b>, their collective ripple is a travelling wave. In string-net theory, <b>that wave behaves exactly like a photon.</b></p>
+  <div class="chartbox">
+    <svg id="chart" viewBox="0 0 560 240" aria-label="A lattice of spins; their coordinated tilt forms a light wave"></svg>
+    <div class="toggle" role="group" aria-label="view toggle">
+      <button id="bSpin" class="on">show: the spins</button>
+      <button id="bLight">show: the light</button>
+    </div>
+    <div class="cap" id="cap">a lattice of qubits — look at the individual arrows</div>
+  </div>
+  <p style="margin-top:1.8rem;">In <b>2005</b>, Michael Levin and Xiao-Gang Wen showed that a lattice of simple spins, in a phase called a <b>string-net liquid</b>, has low-energy excitations that <b>are</b> gauge bosons — photons — while the loose ends of its strings behave like <b>electrons</b>. Light and matter from one mechanism: <b>string-net condensation.</b> Their colloquium was titled, flatly, <i>"Photons and electrons as emergent phenomena."</i></p>
+</section>
+
+<div class="wrap">
+
+  <section class="band reveal">
+    <div class="idx">// where you might catch it</div>
+    <h2>Artificial light, inside a rock</h2>
+    <p>This isn't only chalkboard talk. Certain real materials — <b>quantum spin liquids</b> and <b>quantum spin ice</b> — are predicted to host their own <b>emergent photons</b>: an emergent electromagnetic field living entirely inside a crystal, complete with emergent electric charges and even magnetic <b>monopoles</b>. Experimentalists have been hunting the signatures for years (in kagome and pyrochlore magnets). The evidence is suggestive, not yet a verdict — but the prediction is concrete and <b>testable</b>, which is what keeps it science.</p>
+  </section>
+
+  <section class="band reveal">
+    <div class="idx">// the wild extrapolation</div>
+    <h2>…and maybe our vacuum, too</h2>
+    <p>Then the vertiginous step. Wen suggests <b>our own vacuum</b> might be a string-net liquid — that the light and electrons <b>we are made of</b> are emergent ripples, and that <code>without the spins there would be no space.</code> It from qubit, all the way down. He's the first to say the burden of proof is his; this is a <b>hypothesis</b>, gorgeous and unconfirmed. (And he names the next mountain himself: find the lattice whose ripples are <b>gravitational</b> waves. Hold that thought — panel three.)</p>
+  </section>
+
+  <section class="band reveal">
+    <div class="idx">// the verdict</div>
+    <h2>So — is light emergent?</h2>
+    <p><b>Inside certain materials:</b> very likely yes — a serious, testable prediction, weak emergence in the cleanest sense. Light as the lattice dancing.</p>
+    <p><b>For the light of our vacuum:</b> a beautiful, unproven maybe. We have a working mechanism and no proof it's the one nature chose. Either way the moral is the same as the machine's: the photon may be <b>the dance, not the dancer</b> — real, lawful, and still not fundamental.</p>
+  </section>
+
+  <section class="colophon reveal">
+    <div class="kanji">了</div>
+    <h3>A note, kept honest</h3>
+    <p><b>Phonons</b> as emergent particles is textbook, settled physics. <b>String-net condensation</b> producing emergent photons and electrons (Levin &amp; Wen, <i>Rev. Mod. Phys.</i> 2005) is real, respected theory — and emergent photons in <b>spin liquids / spin ice</b> are an active experimental hunt with encouraging hints, <b>not</b> a closed case. That <b>our</b> vacuum is a string-net is firmly in <b>hypothesis</b> territory; treat "the universe is a qubit lattice" as a thrilling conjecture, not a result.</p>
+    <p>The <b>"13-bit"</b> tag is a framing conceit — an information-theoretic label in the spirit of Wheeler's <i>it from bit</i> — not a measured threshold; nothing here pins light's emergence to that exact number. The animation is a schematic: real string-nets aren't a single row of tidy arrows.</p>
+    <p>Second of three. We asked machines, now light; gravity is the panel that follows — and the hardest of the three to call.</p>
+    <div class="endmark">光は格子の踊り · light, the lattice in step</div>
+  </section>
+
+</div>
+
+<script>
+const NS="http://www.w3.org/2000/svg";
+function E(t,a){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e;}
+
+// ---- hero emblem: spins forming a wave (decorative, autoplay) ----
+function buildLattice(svg, W, H, cols, rows, interactive){
+  const mx=30, my=24, gw=(W-2*mx)/(cols-1), gh=rows>1?(H-2*my)/(rows-1):0;
+  const spins=[]; 
+  for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){
+    const x=mx+c*gw, y=my+(rows>1?r*gh:0);
+    const ln=E('line',{x1:x-7,y1:y,x2:x+7,y2:y,stroke:'#5fd0e6','stroke-width':2.4,'stroke-linecap':'round'});
+    svg.appendChild(ln); spins.push({ln,x,y,c});
+  }
+  const wave=E('path',{fill:'none',stroke:'#bdf2fb','stroke-width':3,'stroke-linecap':'round',opacity:0,filter:'drop-shadow(0 0 6px #5fd0e6)'});
+  svg.appendChild(wave);
+  const yc=H/2; let t=0, s=interactive?0:0.55, tgt=s;
+  function frame(){
+    t+=0.045; s+=(tgt-s)*0.1;
+    const k=0.022, A=0.9;
+    spins.forEach(o=>{ const ph=k*o.x - t; const ang=A*Math.sin(ph);
+      const dx=8*Math.cos(ang), dy=8*Math.sin(ang);
+      o.ln.setAttribute('x1',o.x-dx); o.ln.setAttribute('y1',o.y-dy);
+      o.ln.setAttribute('x2',o.x+dx); o.ln.setAttribute('y2',o.y+dy);
+      o.ln.setAttribute('opacity',(0.35+0.65*(1-s)).toFixed(2));
+      o.ln.setAttribute('stroke', s>0.5? '#3a6e78':'#5fd0e6');
+    });
+    let d=''; for(let x=mx;x<=W-mx;x+=6){ const yy=yc-26*Math.sin(k*x - t); d+=(d?'L':'M')+x.toFixed(0)+' '+yy.toFixed(1)+' '; }
+    wave.setAttribute('d',d); wave.setAttribute('opacity',(0.15+0.85*s).toFixed(2));
+    requestAnimationFrame(frame);
+  }
+  frame();
+  return { set:(v)=>{tgt=v;} };
+}
+buildLattice(document.getElementById('emblem'),560,200,26,3,false);
+const ctrl=buildLattice(document.getElementById('chart'),560,240,22,4,true);
+const bSpin=document.getElementById('bSpin'), bLight=document.getElementById('bLight'), cap=document.getElementById('cap');
+bSpin.onclick=()=>{ctrl.set(0); bSpin.classList.add('on'); bLight.classList.remove('on'); cap.textContent='a lattice of qubits — look at the individual arrows';};
+bLight.onclick=()=>{ctrl.set(1); bLight.classList.add('on'); bSpin.classList.remove('on'); cap.textContent='same lattice, moving in step — the wave IS the photon';};
+
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in'); io.unobserve(e.target);}})},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+const th=document.getElementById('thread');
+addEventListener('scroll',()=>{const h=document.documentElement; th.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100).toFixed(1)+'%';},{passive:true});
+</script>
+</body>
+</html>

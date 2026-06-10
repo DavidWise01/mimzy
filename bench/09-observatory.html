@@ -1,0 +1,1583 @@
+<!DOCTYPE html>
+<!-- TRIPOD-IP-v1.0 | DLW | TriPod LLC | 2026-02-18 | SHA256:02880745b847317c4e2424524ec25d0f7a2b84368d184586f45b54af9fcab763 -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quantum & Black Hole Observatory | TOPH Science Suite</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+
+:root {
+  --space:    #000510;
+  --deep:     #03091f;
+  --indigo:   #0d1a4a;
+  --blue:     #1a5fcc;
+  --sky:      #2299ff;
+  --cyan:     #00ccff;
+  --violet:   #8833ff;
+  --magenta:  #cc33ff;
+  --gold:     #ffaa33;
+  --orange:   #ff6622;
+  --red:      #ff3344;
+  --white:    #e8f4ff;
+  --dim:      #3a5080;
+  --mid:      #6080b0;
+  --text:     #c4d8f0;
+  --serif:    'Cormorant Garamond', Georgia, serif;
+  --mono:     'Space Mono', 'Courier New', monospace;
+  --g-border: rgba(34,153,255,0.15);
+  --g-glow:   rgba(34,153,255,0.08);
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+html, body {
+  width:100%; height:100%;
+  background: var(--space);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 13px;
+  overflow: hidden;
+}
+
+/* STAR FIELD CANVAS */
+#starfield {
+  position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* MAIN LAYOUT */
+#observatory {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-rows: 56px 1fr 32px;
+  grid-template-columns: 1fr 340px;
+  height: 100vh;
+  width: 100vw;
+  gap: 0;
+}
+
+/* ═══ HEADER ═══ */
+header {
+  grid-column: 1/-1;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  border-bottom: 1px solid var(--g-border);
+  background: linear-gradient(180deg, rgba(3,9,31,0.95), rgba(0,5,16,0.8));
+  backdrop-filter: blur(8px);
+  gap: 24px;
+}
+.obs-title {
+  font-family: var(--serif);
+  font-size: 1.55rem;
+  font-weight: 300;
+  color: var(--white);
+  letter-spacing: 0.08em;
+  font-style: italic;
+}
+.obs-title strong {
+  font-weight: 600;
+  font-style: normal;
+  color: var(--sky);
+}
+.header-div { width: 1px; height: 24px; background: var(--g-border); }
+.header-meta {
+  font-size: 0.68rem;
+  color: var(--dim);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+.header-right { margin-left: auto; display: flex; gap: 20px; align-items: center; }
+.live-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 8px var(--cyan);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+.live-label { font-size: 0.65rem; color: var(--cyan); letter-spacing: 0.2em; }
+
+/* ═══ LEFT — MAIN VISUALIZER AREA ═══ */
+#viz-area {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--g-border);
+  overflow: hidden;
+}
+
+.viz-pane {
+  background: var(--space);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.pane-label {
+  position: absolute;
+  top: 8px; left: 12px;
+  font-family: var(--serif);
+  font-size: 0.72rem;
+  font-style: italic;
+  color: var(--mid);
+  letter-spacing: 0.1em;
+  z-index: 5;
+  pointer-events: none;
+}
+.pane-label strong {
+  font-weight: 600;
+  color: var(--sky);
+  font-style: normal;
+}
+canvas.viz {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ═══ RIGHT — INSTRUMENTS ═══ */
+#instruments {
+  background: rgba(3,9,31,0.9);
+  border-left: 1px solid var(--g-border);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+#instruments::-webkit-scrollbar { width: 3px; }
+#instruments::-webkit-scrollbar-thumb { background: var(--blue); }
+
+.instrument {
+  border-bottom: 1px solid var(--g-border);
+  padding: 12px 14px;
+}
+.instrument:last-child { border-bottom: none; }
+
+.inst-title {
+  font-family: var(--serif);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--white);
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.inst-title .inst-icon { font-size: 1rem; }
+.inst-formula {
+  font-family: var(--serif);
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+/* INPUT GROUPS */
+.field { margin-bottom: 7px; }
+.field label {
+  display: block;
+  font-size: 0.6rem;
+  color: var(--dim);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.field-row { display: flex; gap: 6px; align-items: center; }
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--blue), var(--violet));
+  outline: none;
+  cursor: pointer;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--sky);
+  box-shadow: 0 0 6px var(--sky);
+  cursor: pointer;
+}
+input[type="number"], input[type="text"], select {
+  background: rgba(10,20,50,0.8);
+  border: 1px solid var(--g-border);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  padding: 5px 8px;
+  outline: none;
+  width: 100%;
+  transition: border-color 0.2s;
+}
+input:focus, select:focus {
+  border-color: rgba(34,153,255,0.5);
+  box-shadow: 0 0 6px rgba(34,153,255,0.1);
+}
+select option { background: #03091f; }
+
+.btn {
+  background: rgba(26,95,204,0.15);
+  border: 1px solid rgba(34,153,255,0.35);
+  color: var(--sky);
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  padding: 5px 12px;
+  cursor: pointer;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.btn:hover {
+  background: rgba(26,95,204,0.3);
+  box-shadow: 0 0 10px rgba(34,153,255,0.2);
+}
+.btn-row { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 6px; }
+
+/* DATA READOUT */
+.readout {
+  background: rgba(0,0,0,0.4);
+  border: 1px solid var(--g-border);
+  padding: 8px;
+  margin-top: 8px;
+  font-size: 0.68rem;
+  line-height: 1.8;
+}
+.r-row { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid rgba(34,153,255,0.05); }
+.r-row:last-child { border-bottom: none; }
+.r-label { color: var(--dim); font-size: 0.6rem; letter-spacing: 0.08em; }
+.r-val   { color: var(--cyan); font-size: 0.72rem; font-weight: 700; text-align: right; }
+.r-val.gold  { color: var(--gold); }
+.r-val.violet{ color: var(--magenta); }
+.r-val.warn  { color: var(--orange); }
+.r-val.green { color: #44ffaa; }
+.r-unit { color: var(--mid); font-size: 0.58rem; margin-left: 3px; }
+
+/* SCALE BAR */
+.scale-bar {
+  height: 3px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--g-border);
+  overflow: hidden;
+  margin: 4px 0;
+}
+.scale-fill {
+  height: 100%;
+  transition: width 0.4s ease;
+  box-shadow: 0 0 6px currentColor;
+}
+
+/* BLOCH SPHERE MINI READOUT */
+.qubit-state-display {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  text-align: center;
+  color: var(--magenta);
+  padding: 6px;
+  letter-spacing: 0.05em;
+}
+
+/* ═══ STATUS BAR ═══ */
+#statusbar {
+  grid-column: 1/-1;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  border-top: 1px solid var(--g-border);
+  background: rgba(3,9,31,0.95);
+  gap: 24px;
+  font-size: 0.6rem;
+  color: var(--dim);
+  letter-spacing: 0.1em;
+}
+.sb-item { display: flex; gap: 6px; }
+.sb-val { color: var(--text); }
+.sb-sep { color: var(--g-border); }
+
+/* SCROLLBAR */
+#instruments::-webkit-scrollbar-track { background: transparent; }
+
+/* DIVIDER */
+.div { height: 1px; background: linear-gradient(90deg,transparent,var(--g-border),transparent); margin: 8px 0; opacity:0.6; }
+
+/* SECTION MARKER */
+.section-mark {
+  font-size: 0.58rem;
+  color: var(--dim);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+/* CONSTANTS PANEL ROWS */
+.const-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 2px 0;
+  font-size: 0.62rem;
+  border-bottom: 1px solid rgba(34,153,255,0.04);
+}
+.const-sym { color: var(--gold); font-style: italic; font-family: var(--serif); font-size: 0.75rem; }
+.const-val { color: var(--text); }
+.const-unit { color: var(--dim); font-size: 0.58rem; }
+
+/* TABS for instrument switching */
+.tab-bar {
+  display: flex;
+  border-bottom: 1px solid var(--g-border);
+  background: rgba(0,0,0,0.3);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.tab {
+  flex: 1;
+  padding: 7px 4px;
+  font-size: 0.55rem;
+  text-align: center;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  color: var(--dim);
+  border-right: 1px solid var(--g-border);
+  transition: all 0.2s;
+  text-transform: uppercase;
+}
+.tab:last-child { border-right: none; }
+.tab:hover { color: var(--sky); background: rgba(34,153,255,0.05); }
+.tab.active { color: var(--sky); background: rgba(26,95,204,0.1); border-bottom: 2px solid var(--sky); }
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+</style>
+</head>
+<body>
+
+<canvas id="starfield"></canvas>
+
+<div id="observatory">
+
+  <!-- ═══════════ HEADER ═══════════ -->
+  <header>
+    <div class="obs-title"><strong>Quantum</strong> &amp; Black Hole <em>Observatory</em></div>
+    <div class="header-div"></div>
+    <div class="header-meta">Science Suite v1.0 · Real Physics · SI Units</div>
+    <div class="header-right">
+      <div class="live-dot"></div>
+      <div class="live-label">LIVE SIMULATION</div>
+      <div class="header-div"></div>
+      <div class="header-meta" style="color:var(--mid)">TriPod LLC · DLW</div>
+    </div>
+  </header>
+
+  <!-- ═══════════ VISUALIZER QUADRANT ═══════════ -->
+  <div id="viz-area">
+
+    <!-- Q1: Black Hole -->
+    <div class="viz-pane">
+      <div class="pane-label"><strong>I.</strong> Black Hole — Schwarzschild Geometry</div>
+      <canvas class="viz" id="bh-canvas"></canvas>
+    </div>
+
+    <!-- Q2: Quantum Wave Function -->
+    <div class="viz-pane">
+      <div class="pane-label"><strong>II.</strong> Quantum Wave Function ψ(x,t)</div>
+      <canvas class="viz" id="wave-canvas"></canvas>
+    </div>
+
+    <!-- Q3: Bloch Sphere -->
+    <div class="viz-pane">
+      <div class="pane-label"><strong>III.</strong> Bloch Sphere — Qubit State</div>
+      <canvas class="viz" id="bloch-canvas"></canvas>
+    </div>
+
+    <!-- Q4: Penrose / Spacetime -->
+    <div class="viz-pane">
+      <div class="pane-label"><strong>IV.</strong> Spacetime Curvature (Flamm Paraboloid)</div>
+      <canvas class="viz" id="flamm-canvas"></canvas>
+    </div>
+
+  </div>
+
+  <!-- ═══════════ INSTRUMENTS ═══════════ -->
+  <div id="instruments">
+
+    <div class="tab-bar">
+      <div class="tab active" onclick="switchTab('bh')">Black<br>Hole</div>
+      <div class="tab" onclick="switchTab('quantum')">Quantum<br>States</div>
+      <div class="tab" onclick="switchTab('thermo')">Thermo&shy;dynamics</div>
+      <div class="tab" onclick="switchTab('const')">Constants</div>
+    </div>
+
+    <!-- ═══ BLACK HOLE TAB ═══ -->
+    <div class="tab-panel active" id="tab-bh">
+
+      <!-- Schwarzschild Radius -->
+      <div class="instrument">
+        <div class="inst-title"><span class="inst-icon">⬤</span> Schwarzschild Radius</div>
+        <div class="inst-formula">r<sub>s</sub> = 2GM/c²</div>
+        <div class="field">
+          <label>Mass (solar masses M☉)</label>
+          <input type="range" id="bh-mass" min="1" max="1000" value="10" step="1" oninput="calcBH()">
+        </div>
+        <div class="field">
+          <label>Mass input</label>
+          <div class="field-row">
+            <input type="number" id="bh-mass-num" value="10" min="0.001" step="1" oninput="syncBHSlider()" style="width:80px;flex-shrink:0;"/>
+            <select id="bh-mass-unit" onchange="calcBH()" style="flex:1;">
+              <option value="solar">Solar masses (M☉)</option>
+              <option value="kg">Kilograms (kg)</option>
+              <option value="earth">Earth masses (M⊕)</option>
+            </select>
+          </div>
+        </div>
+        <div class="readout" id="bh-readout">
+          <div class="r-row"><span class="r-label">Schwarzschild radius r_s</span><span class="r-val" id="bh-rs">—</span></div>
+          <div class="r-row"><span class="r-label">Photon sphere r_ph</span><span class="r-val gold" id="bh-rph">—</span></div>
+          <div class="r-row"><span class="r-label">ISCO (innermost stable orbit)</span><span class="r-val" id="bh-isco">—</span></div>
+          <div class="r-row"><span class="r-label">Event horizon area A</span><span class="r-val violet" id="bh-area">—</span></div>
+          <div class="r-row"><span class="r-label">Surface gravity κ</span><span class="r-val" id="bh-sg">—</span></div>
+          <div class="r-row"><span class="r-label">Mass (kg)</span><span class="r-val" id="bh-mass-kg">—</span></div>
+        </div>
+      </div>
+
+      <!-- Hawking Radiation -->
+      <div class="instrument">
+        <div class="inst-title"><span class="inst-icon">✦</span> Hawking Radiation</div>
+        <div class="inst-formula">T<sub>H</sub> = ℏc³ / (8πGMk<sub>B</sub>)</div>
+        <div class="readout" id="hawking-readout">
+          <div class="r-row"><span class="r-label">Hawking temperature T_H</span><span class="r-val gold" id="hw-temp">—</span></div>
+          <div class="r-row"><span class="r-label">Peak wavelength λ_max</span><span class="r-val" id="hw-lambda">—</span></div>
+          <div class="r-row"><span class="r-label">Luminosity (power)</span><span class="r-val" id="hw-lum">—</span></div>
+          <div class="r-row"><span class="r-label">Evaporation time t_evap</span><span class="r-val warn" id="hw-evap">—</span></div>
+          <div class="r-row"><span class="r-label">B-H entropy S</span><span class="r-val violet" id="hw-entropy">—</span></div>
+        </div>
+      </div>
+
+      <!-- Time Dilation -->
+      <div class="instrument">
+        <div class="inst-title"><span class="inst-icon">⏱</span> Gravitational Time Dilation</div>
+        <div class="inst-formula">dt_local / dt_∞ = √(1 − r_s/r)</div>
+        <div class="field">
+          <label>Observer distance from center (× r_s)</label>
+          <input type="range" id="td-r" min="1.01" max="100" value="10" step="0.1" oninput="calcTimeDilation()">
+          <div style="display:flex;justify-content:space-between;font-size:0.6rem;color:var(--dim);">
+            <span>1.01 r_s (horizon)</span><span id="td-r-label">10 r_s</span><span>100 r_s</span>
+          </div>
+        </div>
+        <div class="readout">
+          <div class="r-row"><span class="r-label">Time ratio t_local/t_∞</span><span class="r-val gold" id="td-ratio">—</span></div>
+          <div class="r-row"><span class="r-label">1 year at distance = ? years far</span><span class="r-val" id="td-year">—</span></div>
+          <div class="r-row"><span class="r-label">Redshift z</span><span class="r-val orange" id="td-z">—</span></div>
+          <div class="r-row"><span class="r-label">Escape velocity</span><span class="r-val" id="td-vesc">—</span></div>
+        </div>
+      </div>
+
+      <!-- Tidal Forces -->
+      <div class="instrument">
+        <div class="inst-title"><span class="inst-icon">↕</span> Tidal Force (Spaghettification)</div>
+        <div class="inst-formula">ΔF = 2GMmδr / r³</div>
+        <div class="field">
+          <label>Body size δr (meters)</label>
+          <input type="number" id="tf-dr" value="1.8" step="0.1" oninput="calcTidal()" style="width:100%;"/>
+        </div>
+        <div class="field">
+          <label>Body mass m (kg)</label>
+          <input type="number" id="tf-m" value="70" step="1" oninput="calcTidal()" style="width:100%;"/>
+        </div>
+        <div class="readout">
+          <div class="r-row"><span class="r-label">Tidal force at event horizon</span><span class="r-val warn" id="tf-force">—</span></div>
+          <div class="r-row"><span class="r-label">Tidal force at ISCO</span><span class="r-val" id="tf-isco">—</span></div>
+          <div class="r-row"><span class="r-label">Spaghettification distance</span><span class="r-val" id="tf-spag">—</span></div>
+          <div class="r-row"><span class="r-label">Survivable above M =</span><span class="r-val green" id="tf-survive">—</span></div>
+        </div>
+      </div>
+
+      <!-- Kerr Spin -->
+      <div class="instrument">
+        <div class="inst-title"><span class="inst-icon">🌀</span> Kerr Black Hole (Spin)</div>
+        <div class="inst-formula">a* = Jc / (GM²) ∈ [0,1]</div>
+        <div class="field">
+          <label>Spin parameter a* (0 = Schwarzschild, 1 = max Kerr)</label>
+          <input type="range" id="kerr-a" min="0" max="0.999" value="0.5" step="0.001" oninput="calcKerr()">
+          <div style="display:flex;justify-content:space-between;font-size:0.6rem;color:var(--dim);">
+            <span>0 (no spin)</span><span id="kerr-a-label">0.500</span><span>1 (max)</span>
+          </div>
+        </div>
+        <div class="readout">
+          <div class="r-row"><span class="r-label">Outer event horizon r+</span><span class="r-val" id="kerr-rplus">—</span></div>
+          <div class="r-row"><span class="r-label">Inner event horizon r−</span><span class="r-val" id="kerr-rminus">—</span></div>
+          <div class="r-row"><span class="r-label">Ergosphere radius (equator)</span><span class="r-val gold" id="kerr-ergo">—</span></div>
+          <div class="r-row"><span class="r-label">ISCO (prograde)</span><span class="r-val" id="kerr-isco">—</span></div>
+          <div class="r-row"><span class="r-label">Frame dragging Ω</span><span class="r-val violet" id="kerr-omega">—</span></div>
+          <div class="r-row"><span class="r-label">Accretion efficiency (max)</span><span class="r-val green" id="kerr-penrose">—</span></div>
+        </div>
+      </div>
+
+    </div><!-- /tab-bh -->
+
+    <!-- ═══ QUANTUM TAB ═══ -->
+    <div class="tab-panel" id="tab-quantum">
+
+      <!-- Bloch Sphere control -->
+      <div class="instrument">
+        <div class="inst-title"><span class="inst-icon">◎</span> Qubit State |ψ⟩ = α|0⟩ + β|1⟩</div>
+        <div class="inst-formula">|α|² + |β|² = 1</div>
+        <div class="field">
+          <label>Polar angle θ (0 = |0⟩, π = |1⟩)</label>
+          <input type="range" id="bloch-theta" min="0" max="3.14159" value="0.785" step="0.01" oninput="calcBloch()">
+          <div style="display:flex;justify-content:space-between;font-size:0.6rem;color:var(--dim);">
+            <span>0 = |0⟩</span><span id="bloch-theta-label">π/4</span><span>π = |1⟩</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Azimuthal angle φ (phase)</label>
+          <input type="range" id="bloch-phi" min="0" max="6.28318" value="0" step="0.01" oninput="calcBloch()">
+          <div style="display:flex;justify-content:space-between;font-size:0.6rem;color:var(--dim);">
+            <span>0</span><span id="bloch-phi-label">0</span><span>2π</span>
+          </div>
+        </div>
+        <div class="qubit-state-display" id="bloch-state-display">|ψ⟩ = —</div>
+        <div class="readout">
+          <div class="r-row"><span class="r-label">α (|0⟩ amplitude)</span><span class="r-val" id="bloch-alpha">—</span></div>
+          <div class="r-row"><span class="r-label">β (|1⟩ amplitude)</span><span class="r-val violet" id="bloch-beta">—</span></div>
+          <div class="r-row"><span class="r-label">P(|0⟩) measurement prob.</span><span class="r-val gold" id="bloch-p0">—</span></div>
+          <div class="r-row"><span class="r-label">P(|1⟩) measurement prob.</span><span class="r-val gold" id="bloch-p1">—</span></div>
+          <div class="r-row"><span class="r-label">Z-measurement entropy (pure ⇒ vN S=0)</span><span class="r-val" id="bloch-entropy">—</span></div>
+        </div>
+        <div class="btn-row">
+          <button class="btn" onclick="setBloch(0,0)">|0⟩</button>
+          <button class="btn" onclick="setBloch(Math.PI,0)">|1⟩</button>
+          <button class="btn" onclick="setBloch(Math.PI/2,0)">|+⟩</button>
+          <button class="btn" onclick="setBloch(Math.PI/2,Math.PI)">|−⟩</button>
+          <button class="btn" onclick="setBloch(Math.PI/2,Math.PI/2)">|i⟩</button>
+          <button class="btn" onclick="setBloch(Math.PI/2,3*Math.PI/2)">|−i⟩</button>
+        </div>
+      </div>
+
+      <!-- Heisenberg Uncertainty -->
+      <div class="instrument">
+        <div class="inst-title"><span class="inst-icon">△</span> Heisenberg Uncertainty</div>
+        <div class="inst-formula">Δx · Δp ≥ ℏ/2</div>
+        <div class="field">
+          <label>Position uncertainty Δx (meters)</label>
+          <input type="number" id="hup-dx" value="1e-10" step="any" oninput="calcUncertainty()" style="width:100%;"/>
+        </div>
+        <div class="readout">
+          <div class="r-row"><span class="r-label">Min. momentum uncertainty Δp</span><span class="r-val gold" id="hup-dp">—</span></div>
+          <div class="r-row"><span class="r-label">Min. velocity uncertainty Δv (electron)</span><span class="r-val" id="hup-dv-e">—</span></div>
+          <div class="r-row"><span class="r-label">Min. velocity uncertainty Δv (proton)</span><span class="r-val" id="hup-dv-p">—</span></div>
+          <div class="r-row"><span class="r-label">Δx · Δp product</span><span class="r-val green" id="hup-prod">—</span></div>
+        </div>
+        <div class="div"></div>
+        <div class="inst-formula" style="margin-top:0;">ΔE · Δt ≥ ℏ/2</div>
+        <div class="field">
+          <label>Time uncertainty Δt (seconds)</label>
+          <input type="number" id="hup-dt" value="1e-15" step="any" oninput="calcUncertainty()" style="width:100%;"/>
+        </div>
+        <div class="readout">
+          <div class="r-row"><span class="r-label">Min. energy uncertainty ΔE</span><span class="r-val violet" id="hup-dE">—</span></div>
+          <div class="r-row"><span class="r-label">ΔE in eV</span><span class="r-val" id="hup-dEev">—</span></div>
+        </div>
+      </div>
+
+      <!-- Hydrogen Atom Energy Levels -->
+      <div class="instrument">
+        <div class="inst-title"><span class="inst-icon">⦿</span> Hydrogen Atom</div>
+        <div class="inst-formula">E<sub>n</sub> = −13.6 eV / n²</div>
+        <div class="field">
+          <label>Principal quantum number n</label>
+          <div class="field-row">
+            <input type="range" id="hydrogen-n" min="1" max="20" value="1" step="1" oninput="calcHydrogen()">
+            <span id="hydrogen-n-label" style="font-size:0.75rem;color:var(--gold);min-width:20px;text-align:right;">1</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Transition to level n'</label>
+          <div class="field-row">
+            <input type="range" id="hydrogen-np" min="1" max="20" value="2" step="1" oninput="calcHydrogen()">
+            <span id="hydrogen-np-label" style="font-size:0.75rem;color:var(--violet);min-width:20px;text-align:right;">2</span>
+          </div>
+        </div>
+        <div class="readout">
+          <div class="r-row"><span class="r-label">Energy level E_n</span><span class="r-val gold" id="hy-en">—</span></div>
+          <div class="r-row"><span class="r-label">Bohr radius r_n</span><span class="r-val" id="hy-rn">—</span></div>
+          <div class="r-row"><span class="r-label">Orbital speed v_n</span><span class="r-val" id="hy-vn">—</span></div>
+          <div class="r-row"><span class="r-label">Transition energy ΔE</span><span class="r-val violet" id="hy-de">—</span></div>
+          <div class="r-row"><span class="r-label">Photon wavelength λ</span><span class="r-val" id="hy-lambda">—</span></div>
+          <div class="r-row"><span class="r-label">Spectral series</span><span class="r-val green" id="hy-series">—</span></div>
+        </div>
+      </div>
+
+      <!-- Quantum Tunneling -->
+      <div class="instrument">
+        <div class="inst-title"><span class="inst-icon">⇢</span> Quantum Tunneling (WKB)</div>
+        <div class="inst-formula">T ≈ exp(−2∫κ dx), κ = √(2m(V−E)/ℏ²)</div>
+        <div class="field">
+          <label>Barrier width L (nm)</label>
+          <input type="number" id="qtn-L" value="1" min="0.01" step="0.01" oninput="calcTunneling()" style="width:100%;"/>
+        </div>
+        <div class="field">
+          <label>Barrier height V (eV)</label>
+          <input type="number" id="qtn-V" value="5" min="0.001" step="0.1" oninput="calcTunneling()" style="width:100%;"/>
+        </div>
+        <div class="field">
+          <label>Particle energy E (eV)</label>
+          <input type="number" id="qtn-E" value="1" min="0.001" step="0.1" oninput="calcTunneling()" style="width:100%;"/>
+        </div>
+        <div class="readout">
+          <div class="r-row"><span class="r-label">Transmission probability T</span><span class="r-val gold" id="qt-T">—</span></div>
+          <div class="r-row"><span class="r-label">Reflection probability R</span><span class="r-val" id="qt-R">—</span></div>
+          <div class="r-row"><span class="r-label">κ (decay constant)</span><span class="r-val" id="qt-kappa">—</span></div>
+          <div class="r-row"><span class="r-label">de Broglie λ outside barrier</span><span class="r-val violet" id="qt-dB">—</span></div>
+        </div>
+      </div>
+
+    </div><!-- /tab-quantum -->
+
+    <!-- ═══ THERMO TAB ═══ -->
+    <div class="tab-panel" id="tab-thermo">
+
+      <!-- B-H Entropy detailed -->
+      <div class="instrument">
+        <div class="inst-title"><span class="inst-icon">◈</span> Bekenstein–Hawking Entropy</div>
+        <div class="inst-formula">S = k<sub>B</sub>A / (4ℓ<sub>p</sub>²) = 4πGM²k<sub>B</sub>/(ℏc)</div>
+        <div class="readout">
+          <div class="r-row"><span class="r-label">Entropy S (J/K)</span><span class="r-val gold" id="bhe-S">—</span></div>
+          <div class="r-row"><span class="r-label">Entropy in Planck units</span><span class="r-val" id="bhe-Sp">—</span></div>
+          <div class="r-row"><span class="r-label">Planck area quanta (bits)</span><span class="r-val violet" id="bhe-bits">—</span></div>
+          <div class="r-row"><span class="r-label">Holographic bound</span><span class="r-val" id="bhe-holo">—</span></div>
+        </div>
+        <div class="div"></div>
+        <div class="inst-formula">T dS = dM c² → First law of BH mechanics</div>
+        <div class="readout">
+          <div class="r-row"><span class="r-label">dS/dM (entropy change per kg)</span><span class="r-val" id="bhe-dSdM">—</span></div>
+          <div class="r-row"><span class="r-label">Information content (Planck bits)</span><span class="r-val green" id="bhe-info">—</span></div>
+        </div>
+      </div>
+
+      <!-- Tolman–Oppenheimer–Volkoff limit -->
+      <div class="instrument">
+        <div class="inst-title"><span class="inst-icon">★</span> Stellar Remnant Thresholds</div>
+        <div class="readout">
+          <div class="r-row"><span class="r-label">Chandrasekhar limit (WD)</span><span class="r-val gold">1.4 M☉</span></div>
+          <div class="r-row"><span class="r-label">TOV limit (neutron star)</span><span class="r-val">~2.2–2.9 M☉</span></div>
+          <div class="r-row"><span class="r-label">Minimum BH mass (theory)</span><span class="r-val violet">~5 M☉</span></div>
+          <div class="r-row"><span class="r-label">Stellar BH typical range</span><span class="r-val">5–100 M☉</span></div>
+          <div class="r-row"><span class="r-label">Intermediate mass BH</span><span class="r-val">10² – 10⁵ M☉</span></div>
+          <div class="r-row"><span class="r-label">Supermassive BH range</span><span class="r-val">10⁶ – 10¹⁰ M☉</span></div>
+          <div class="r-row"><span class="r-label">Sgr A* (Milky Way center)</span><span class="r-val gold">4.15 × 10⁶ M☉</span></div>
+          <div class="r-row"><span class="r-label">M87* (EHT observed)</span><span class="r-val">6.5 × 10⁹ M☉</span></div>
+        </div>
+      </div>
+
+      <!-- Planck Scale -->
+      <div class="instrument">
+        <div class="inst-title"><span class="inst-icon">∞</span> Planck Scale</div>
+        <div class="readout">
+          <div class="r-row"><span class="r-label">Planck length ℓ_p</span><span class="r-val">1.616 × 10⁻³⁵ m</span></div>
+          <div class="r-row"><span class="r-label">Planck time t_p</span><span class="r-val">5.391 × 10⁻⁴⁴ s</span></div>
+          <div class="r-row"><span class="r-label">Planck mass m_p</span><span class="r-val">2.176 × 10⁻⁸ kg</span></div>
+          <div class="r-row"><span class="r-label">Planck temperature T_p</span><span class="r-val gold">1.417 × 10³² K</span></div>
+          <div class="r-row"><span class="r-label">Planck energy E_p</span><span class="r-val">1.956 × 10⁹ J</span></div>
+          <div class="r-row"><span class="r-label">Planck charge q_p</span><span class="r-val violet">1.876 × 10⁻¹⁸ C</span></div>
+        </div>
+      </div>
+
+      <!-- Comparative BH mass visualizer -->
+      <div class="instrument">
+        <div class="inst-title"><span class="inst-icon">⚖</span> Mass → r_s Quick Reference</div>
+        <div class="readout">
+          <div class="r-row"><span class="r-label">Sun (1 M☉)</span><span class="r-val">r_s = 2.95 km</span></div>
+          <div class="r-row"><span class="r-label">Earth (1 M⊕)</span><span class="r-val">r_s = 8.87 mm</span></div>
+          <div class="r-row"><span class="r-label">10 M☉</span><span class="r-val gold">r_s = 29.5 km</span></div>
+          <div class="r-row"><span class="r-label">Sgr A* (4.15×10⁶ M☉)</span><span class="r-val">r_s ≈ 12.2 Gm</span></div>
+          <div class="r-row"><span class="r-label">M87* (6.5×10⁹ M☉)</span><span class="r-val">r_s ≈ 19.2 Tm</span></div>
+          <div class="r-row"><span class="r-label">Proton mass</span><span class="r-val dim">r_s = 2.48 × 10⁻⁵⁴ m</span></div>
+        </div>
+      </div>
+
+    </div><!-- /tab-thermo -->
+
+    <!-- ═══ CONSTANTS TAB ═══ -->
+    <div class="tab-panel" id="tab-const">
+      <div class="instrument">
+        <div class="inst-title"><span class="inst-icon">π</span> Fundamental Constants</div>
+        <div class="section-mark">GRAVITATIONAL / RELATIVISTIC</div>
+        <div class="const-row"><span class="const-sym">G</span><span><span class="const-val">6.674 × 10⁻¹¹</span> <span class="const-unit">N·m²·kg⁻²</span></span></div>
+        <div class="const-row"><span class="const-sym">c</span><span><span class="const-val">2.998 × 10⁸</span> <span class="const-unit">m·s⁻¹</span></span></div>
+        <div class="const-row"><span class="const-sym">M☉</span><span><span class="const-val">1.989 × 10³⁰</span> <span class="const-unit">kg</span></span></div>
+        <div class="const-row"><span class="const-sym">M⊕</span><span><span class="const-val">5.972 × 10²⁴</span> <span class="const-unit">kg</span></span></div>
+        <div class="div"></div>
+        <div class="section-mark">QUANTUM MECHANICS</div>
+        <div class="const-row"><span class="const-sym">ℏ</span><span><span class="const-val">1.055 × 10⁻³⁴</span> <span class="const-unit">J·s</span></span></div>
+        <div class="const-row"><span class="const-sym">h</span><span><span class="const-val">6.626 × 10⁻³⁴</span> <span class="const-unit">J·s</span></span></div>
+        <div class="const-row"><span class="const-sym">k_B</span><span><span class="const-val">1.381 × 10⁻²³</span> <span class="const-unit">J·K⁻¹</span></span></div>
+        <div class="const-row"><span class="const-sym">e</span><span><span class="const-val">1.602 × 10⁻¹⁹</span> <span class="const-unit">C</span></span></div>
+        <div class="const-row"><span class="const-sym">m_e</span><span><span class="const-val">9.109 × 10⁻³¹</span> <span class="const-unit">kg</span></span></div>
+        <div class="const-row"><span class="const-sym">m_p</span><span><span class="const-val">1.673 × 10⁻²⁷</span> <span class="const-unit">kg</span></span></div>
+        <div class="const-row"><span class="const-sym">a_0</span><span><span class="const-val">5.292 × 10⁻¹¹</span> <span class="const-unit">m (Bohr radius)</span></span></div>
+        <div class="const-row"><span class="const-sym">α</span><span><span class="const-val">1/137.036</span> <span class="const-unit">fine-structure</span></span></div>
+        <div class="div"></div>
+        <div class="section-mark">PLANCK UNITS</div>
+        <div class="const-row"><span class="const-sym">ℓ_p</span><span><span class="const-val">1.616 × 10⁻³⁵</span> <span class="const-unit">m</span></span></div>
+        <div class="const-row"><span class="const-sym">t_p</span><span><span class="const-val">5.391 × 10⁻⁴⁴</span> <span class="const-unit">s</span></span></div>
+        <div class="const-row"><span class="const-sym">m_p</span><span><span class="const-val">2.176 × 10⁻⁸</span> <span class="const-unit">kg</span></span></div>
+        <div class="const-row"><span class="const-sym">T_p</span><span><span class="const-val">1.417 × 10³²</span> <span class="const-unit">K</span></span></div>
+        <div class="div"></div>
+        <div class="section-mark">COSMOLOGICAL</div>
+        <div class="const-row"><span class="const-sym">H_0</span><span><span class="const-val">67.4</span> <span class="const-unit">km·s⁻¹·Mpc⁻¹</span></span></div>
+        <div class="const-row"><span class="const-sym">Λ</span><span><span class="const-val">1.089 × 10⁻⁵²</span> <span class="const-unit">m⁻²</span></span></div>
+        <div class="const-row"><span class="const-sym">ρ_c</span><span><span class="const-val">8.5 × 10⁻²⁷</span> <span class="const-unit">kg·m⁻³</span></span></div>
+        <div class="const-row"><span class="const-sym">t_U</span><span><span class="const-val">13.787 × 10⁹</span> <span class="const-unit">yr (universe age)</span></span></div>
+      </div>
+    </div>
+
+  </div><!-- /instruments -->
+
+  <!-- ═══════════ STATUS BAR ═══════════ -->
+  <div id="statusbar">
+    <div class="sb-item"><span class="sb-val" id="sb-mass">M = 10 M☉</span></div>
+    <span class="sb-sep">·</span>
+    <div class="sb-item"><span class="sb-val" id="sb-rs">r_s = —</span></div>
+    <span class="sb-sep">·</span>
+    <div class="sb-item"><span class="sb-val" id="sb-temp">T_H = —</span></div>
+    <span class="sb-sep">·</span>
+    <div class="sb-item"><span class="sb-val" id="sb-spin">a* = 0.500</span></div>
+    <span class="sb-sep">·</span>
+    <div class="sb-item" style="margin-left:auto;color:var(--dim);">TRIPOD-IP-v1.0 · DLW · TriPod LLC · 2026-02-18</div>
+  </div>
+
+</div><!-- /observatory -->
+
+<script>
+/* TRIPOD-IP-v1.0 | DLW | TriPod LLC | 2026-02-18
+   SHA256: 02880745b847317c4e2424524ec25d0f7a2b84368d184586f45b54af9fcab763 */
+
+// ═══════════════════════════════════════════
+// PHYSICAL CONSTANTS (SI)
+// ═══════════════════════════════════════════
+const G    = 6.674e-11;     // gravitational constant [N m² kg⁻²]
+const C    = 2.998e8;       // speed of light [m/s]
+const HBAR = 1.0546e-34;    // reduced Planck constant [J·s]
+const KB   = 1.381e-23;     // Boltzmann constant [J/K]
+const MSUN = 1.989e30;      // solar mass [kg]
+const MEARTH = 5.972e24;    // Earth mass [kg]
+const LP   = 1.6162e-35;    // Planck length [m]
+const MP   = 2.176e-8;      // Planck mass [kg]
+const ME   = 9.109e-31;     // electron mass [kg]
+const MPR  = 1.673e-27;     // proton mass [kg]
+const E_CHARGE = 1.602e-19; // elementary charge [C]
+const A0   = 5.292e-11;     // Bohr radius [m]
+
+// ═══════════════════════════════════════════
+// STAR FIELD
+// ═══════════════════════════════════════════
+const sfCanvas = document.getElementById('starfield');
+const sfCtx = sfCanvas.getContext('2d');
+let stars = [];
+function initStars() {
+  sfCanvas.width  = window.innerWidth;
+  sfCanvas.height = window.innerHeight;
+  stars = Array.from({length:320}, ()=>({
+    x: Math.random()*sfCanvas.width,
+    y: Math.random()*sfCanvas.height,
+    r: Math.random()*1.2+0.2,
+    b: Math.random()*0.6+0.2,
+    twinkle: Math.random()*Math.PI*2,
+    speed: Math.random()*0.02+0.005,
+  }));
+}
+function drawStars() {
+  sfCtx.clearRect(0,0,sfCanvas.width,sfCanvas.height);
+  const t = performance.now()*0.001;
+  stars.forEach(s=>{
+    const alpha = s.b * (0.7 + 0.3*Math.sin(t*s.speed*60+s.twinkle));
+    sfCtx.beginPath();
+    sfCtx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    sfCtx.fillStyle = `rgba(200,220,255,${alpha})`;
+    sfCtx.fill();
+  });
+  requestAnimationFrame(drawStars);
+}
+initStars();
+drawStars();
+window.addEventListener('resize', ()=>{ initStars(); resizeAll(); });
+
+// ═══════════════════════════════════════════
+// RESIZE ALL CANVASES
+// ═══════════════════════════════════════════
+function resizeAll() {
+  ['bh-canvas','wave-canvas','bloch-canvas','flamm-canvas'].forEach(id=>{
+    const c = document.getElementById(id);
+    const p = c.parentElement;
+    c.width  = p.clientWidth;
+    c.height = p.clientHeight;
+  });
+}
+window.addEventListener('resize', resizeAll);
+setTimeout(resizeAll, 50);
+
+// ═══════════════════════════════════════════
+// TAB SWITCHING
+// ═══════════════════════════════════════════
+function switchTab(id) {
+  document.querySelectorAll('.tab').forEach((t,i)=>{
+    const ids = ['bh','quantum','thermo','const'];
+    t.classList.toggle('active', ids[i]===id);
+  });
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+}
+
+// ═══════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════
+function fmtSI(v, unit='', decimals=3) {
+  if (v === 0) return '0 '+unit;
+  const abs = Math.abs(v);
+  if (abs >= 1e15)  return (v/1e15).toFixed(decimals)+' P'+unit;
+  if (abs >= 1e12)  return (v/1e12).toFixed(decimals)+' T'+unit;
+  if (abs >= 1e9)   return (v/1e9).toFixed(decimals)+' G'+unit;
+  if (abs >= 1e6)   return (v/1e6).toFixed(decimals)+' M'+unit;
+  if (abs >= 1e3)   return (v/1e3).toFixed(decimals)+' k'+unit;
+  if (abs >= 1)     return v.toFixed(decimals)+' '+unit;
+  if (abs >= 1e-3)  return (v*1e3).toFixed(decimals)+' m'+unit;
+  if (abs >= 1e-6)  return (v*1e6).toFixed(decimals)+' μ'+unit;
+  if (abs >= 1e-9)  return (v*1e9).toFixed(decimals)+' n'+unit;
+  if (abs >= 1e-12) return (v*1e12).toFixed(decimals)+' p'+unit;
+  if (abs >= 1e-15) return (v*1e15).toFixed(decimals)+' f'+unit;
+  return v.toExponential(2)+' '+unit;
+}
+function fmtSci(v, d=3) {
+  if (!isFinite(v) || v===0) return '0';
+  const exp = Math.floor(Math.log10(Math.abs(v)));
+  const man = v / Math.pow(10, exp);
+  return man.toFixed(d) + ' × 10' + superscript(exp);
+}
+function superscript(n) {
+  const sups = {'0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹','-':'⁻'};
+  return String(n).split('').map(c=>sups[c]||c).join('');
+}
+function set(id, val) { const el=document.getElementById(id); if(el) el.textContent=val; }
+
+// ═══════════════════════════════════════════
+// BLACK HOLE CALCULATIONS
+// ═══════════════════════════════════════════
+let BH_M_KG = 10 * MSUN; // current BH mass in kg
+
+function getMassKg() {
+  const num = parseFloat(document.getElementById('bh-mass-num').value)||1;
+  const unit = document.getElementById('bh-mass-unit').value;
+  if (unit==='solar')  return num * MSUN;
+  if (unit==='earth')  return num * MEARTH;
+  return num; // kg
+}
+
+function syncBHSlider() {
+  const num = parseFloat(document.getElementById('bh-mass-num').value)||1;
+  document.getElementById('bh-mass').value = Math.min(num, 1000);
+  calcBH();
+}
+
+function calcBH() {
+  const sliderVal = parseFloat(document.getElementById('bh-mass').value);
+  document.getElementById('bh-mass-num').value = sliderVal;
+  BH_M_KG = getMassKg();
+  const M = BH_M_KG;
+
+  // Schwarzschild radius: r_s = 2GM/c²
+  const rs   = 2*G*M/(C*C);
+  // Photon sphere: r_ph = 3GM/c² = 1.5 r_s
+  const rph  = 3*G*M/(C*C);
+  // ISCO (Schwarzschild): r_isco = 6GM/c² = 3 r_s
+  const isco = 6*G*M/(C*C);
+  // Area: A = 4π r_s²
+  const area = 4*Math.PI*rs*rs;
+  // Surface gravity: κ = c⁴/(4GM)
+  const kappa = C*C*C*C/(4*G*M);
+
+  set('bh-rs',   fmtSI(rs,'m'));
+  set('bh-rph',  fmtSI(rph,'m'));
+  set('bh-isco', fmtSI(isco,'m'));
+  set('bh-area', fmtSI(area,'m²'));
+  set('bh-sg',   fmtSI(kappa,'m/s²'));
+  set('bh-mass-kg', fmtSCI_nice(M,'kg'));
+
+  // Hawking temperature: T_H = ℏc³/(8πGMk_B)
+  const T_H  = HBAR*C*C*C / (8*Math.PI*G*M*KB);
+  // Peak wavelength via Wien's law: λ = 2.898e-3/T
+  const lambda = T_H > 0 ? 2.898e-3/T_H : Infinity;
+  // Luminosity (Stefan–Boltzmann + black body): L = ℏc⁶/(15360π G²M²)
+  const lum  = HBAR*Math.pow(C,6) / (15360*Math.PI*G*G*M*M);
+  // Evaporation time: t_evap = 5120π G²M³/(ℏc⁴)
+  const t_evap = 5120*Math.PI*G*G*M*M*M / (HBAR*Math.pow(C,4));
+  // Bekenstein-Hawking entropy: S = k_B A/(4 ℓ_p²) = 4πGM²k_B/(ℏc)
+  const entropy_BH = 4*Math.PI*G*M*M*KB/(HBAR*C);
+
+  set('hw-temp',    T_H < 1e-10 ? fmtSCI_nice(T_H,'K') : fmtSI(T_H,'K'));
+  set('hw-lambda',  isFinite(lambda)?fmtSI(lambda,'m'):'∞');
+  set('hw-lum',     fmtSI(lum,'W'));
+  set('hw-evap',    formatTime(t_evap));
+  set('hw-entropy', fmtSCI_nice(entropy_BH,'J/K'));
+
+  // Bekenstein-Hawking entropy panels
+  const S_planck = entropy_BH/KB;
+  const bits = S_planck / Math.LN2;
+  set('bhe-S',    fmtSCI_nice(entropy_BH,'J/K'));
+  set('bhe-Sp',   fmtSCI_nice(S_planck,'k_B'));
+  set('bhe-bits', fmtSCI_nice(bits,'bits'));
+  set('bhe-holo', 'A = '+fmtSI(area,'m²'));
+  const dSdM = 8*Math.PI*G*M*KB/(HBAR*C);
+  set('bhe-dSdM', fmtSI(dSdM,'J/(K·kg)'));
+  set('bhe-info',  fmtSCI_nice(bits,'bits'));
+
+  // Status bar
+  const Msun = M/MSUN;
+  set('sb-mass', 'M = '+Msun.toFixed(1)+' M☉');
+  set('sb-rs',   'r_s = '+fmtSI(rs,'m'));
+  set('sb-temp', 'T_H = '+fmtSCI_nice(T_H,'K'));
+
+  calcTimeDilation();
+  calcTidal();
+  calcKerr();
+}
+
+function fmtSCI_nice(v, unit) {
+  if (!isFinite(v)) return '∞ '+unit;
+  if (v===0) return '0 '+unit;
+  return fmtSci(v)+' '+unit;
+}
+
+function formatTime(sec) {
+  if (!isFinite(sec)) return '∞';
+  const yr = sec/3.156e7;
+  if (yr > 1e50) return '> 10⁵⁰ yr';
+  if (yr > 1e30) return fmtSCI_nice(yr,'yr');
+  if (yr > 1e9)  return fmtSCI_nice(yr,'yr');
+  if (yr > 1)    return yr.toExponential(2)+' yr';
+  if (sec > 1)   return sec.toExponential(2)+' s';
+  return fmtSI(sec,'s');
+}
+
+function calcTimeDilation() {
+  const M  = BH_M_KG;
+  const rs = 2*G*M/(C*C);
+  const r_mult = parseFloat(document.getElementById('td-r').value)||10;
+  document.getElementById('td-r-label').textContent = r_mult.toFixed(2)+' r_s';
+  const r = r_mult * rs;
+  if (r <= rs) { set('td-ratio','INSIDE HORIZON'); return; }
+  // dt_local/dt_inf = sqrt(1 - r_s/r)
+  const ratio = Math.sqrt(1 - rs/r);
+  // Redshift z = 1/ratio - 1
+  const z = 1/ratio - 1;
+  // Escape velocity
+  const v_esc = C * Math.sqrt(rs/r);
+  const year_far = ratio > 0 ? 1/ratio : Infinity;
+  set('td-ratio', ratio.toFixed(6));
+  set('td-year',  year_far.toFixed(4)+' yr');
+  set('td-z',     z.toFixed(4));
+  set('td-vesc',  fmtSI(v_esc,'m/s')+' = '+((v_esc/C)*100).toFixed(2)+'% c');
+}
+
+function calcTidal() {
+  const M  = BH_M_KG;
+  const rs = 2*G*M/(C*C);
+  const dr = parseFloat(document.getElementById('tf-dr').value)||1.8;
+  const m  = parseFloat(document.getElementById('tf-m').value)||70;
+  // Tidal force at event horizon (r = rs)
+  // ΔF ≈ 2GMmδr/r³ (Newtonian approx)
+  const F_hor  = 2*G*M*m*dr / (rs*rs*rs);
+  const isco   = 6*G*M/(C*C);
+  const F_isco = 2*G*M*m*dr / (isco*isco*isco);
+  // Distance where tidal = body weight (survivable threshold on Earth surface ~700N)
+  const F_limit = m * 9.8 * 10; // 10x body weight = spag threshold
+  const r_spag = Math.pow(2*G*M*m*dr/F_limit, 1/3);
+  // Max M for survivable horizon crossing (tidal < 10g at r=rs)
+  // FIX 2026-06 (AVAN audit): exponent was 1/3 — WRONG. Substituting rs = 2GM/c²,
+  // the tidal force at the horizon is F = m·dr·c⁶/(4G²M²) ∝ 1/M², so the safe-mass
+  // threshold is a SQUARE root, not a cube root. The bracket already equals M²; the
+  // cube root collapsed it to ~10⁻⁸ M☉ (displayed "0 M☉") instead of ~1.4×10⁴ M☉.
+  const M_safe = Math.pow((2*G*m*dr*C*C*C*C*C*C) / (F_limit*8*G*G*G), 0.5) / MSUN;
+  set('tf-force',   fmtSI(F_hor,'N'));
+  set('tf-isco',    fmtSI(F_isco,'N'));
+  set('tf-spag',    fmtSI(r_spag,'m'));
+  set('tf-survive', M_safe.toFixed(0)+' M☉ (min safe mass)');
+}
+
+function calcKerr() {
+  const M  = BH_M_KG;
+  const rs = 2*G*M/(C*C);
+  const a_star = parseFloat(document.getElementById('kerr-a').value)||0;
+  document.getElementById('kerr-a-label').textContent = a_star.toFixed(3);
+  set('sb-spin', 'a* = '+a_star.toFixed(3));
+  // Specific angular momentum a = a* GM/c
+  const a = a_star * G*M/(C*C);
+  // r+ = GM/c² (1 + sqrt(1 - a*²))
+  const rg = G*M/(C*C); // = rs/2
+  const r_plus  = rg * (1 + Math.sqrt(1 - a_star*a_star));
+  const r_minus = rg * (1 - Math.sqrt(1 - a_star*a_star));
+  // Ergosphere (equatorial): r_ergo = rg(1 + sqrt(1 - a*² cos²θ)) → θ=π/2: r_ergo = 2rg = rs
+  const r_ergo = 2*rg; // always rs at equator
+  // Prograde ISCO (Kerr)
+  const z1 = 1 + Math.pow(1-a_star*a_star, 1/3)*(Math.pow(1+a_star,1/3)+Math.pow(1-a_star,1/3));
+  const z2 = Math.sqrt(3*a_star*a_star + z1*z1);
+  const r_isco_kerr = rg * (3 + z2 - Math.sqrt((3-z1)*(3+z1+2*z2)));
+  // Frame dragging at r+
+  const Omega = (a_star<0.9999) ? a_star*C / (2*rg*(1+Math.sqrt(1-a_star*a_star))) : Infinity;
+  // FIX 2026-06 (AVAN audit): was labeled "Penrose process efficiency" with
+  // η = 1 − √(r_isco/6rg) — WRONG on both counts. (1) This is the radiative efficiency
+  // of ACCRETION, not the Penrose process (which extracts rotational energy and caps
+  // near 20.7%). (2) The old formula gave 0% at a*=0 and ~59% at a*→1; the real values
+  // are 5.7% → 42.3%. Correct: η = 1 − Ẽ_isco, the specific binding energy at the ISCO
+  // (Bardeen–Press–Teukolsky 1972).
+  const rd = r_isco_kerr / rg;                 // ISCO radius in units of rg
+  const sr = Math.sqrt(rd);
+  const Eden = rd * Math.sqrt(rd*rd - 3*rd + 2*a_star*sr);
+  const E_isco = (Math.abs(Eden) > 1e-6)
+      ? (rd*rd - 2*rd + a_star*sr) / Eden       // specific energy at the ISCO
+      : 1/Math.sqrt(3);                         // extremal-Kerr limit (0/0 guard → 0.577)
+  const eta = (1 - E_isco) * 100;
+
+  set('kerr-rplus',   fmtSI(r_plus,'m'));
+  set('kerr-rminus',  a_star>0?fmtSI(r_minus,'m'):'(no inner horizon)');
+  set('kerr-ergo',    fmtSI(r_ergo,'m'));
+  set('kerr-isco',    fmtSI(r_isco_kerr,'m'));
+  set('kerr-omega',   isFinite(Omega)?fmtSI(Omega,'rad/s'):'∞');
+  set('kerr-penrose', isFinite(eta)?eta.toFixed(1)+'%':'—');
+}
+
+// ═══════════════════════════════════════════
+// QUANTUM CALCULATIONS
+// ═══════════════════════════════════════════
+let BLOCH_THETA = Math.PI/4;
+let BLOCH_PHI   = 0;
+
+function setBloch(theta, phi) {
+  BLOCH_THETA = theta;
+  BLOCH_PHI   = phi;
+  document.getElementById('bloch-theta').value = theta;
+  document.getElementById('bloch-phi').value   = phi;
+  calcBloch();
+}
+
+function calcBloch() {
+  BLOCH_THETA = parseFloat(document.getElementById('bloch-theta').value);
+  BLOCH_PHI   = parseFloat(document.getElementById('bloch-phi').value);
+  document.getElementById('bloch-theta-label').textContent = (BLOCH_THETA/Math.PI).toFixed(3)+'π';
+  document.getElementById('bloch-phi-label').textContent   = (BLOCH_PHI/Math.PI).toFixed(3)+'π';
+  // α = cos(θ/2), β = e^(iφ) sin(θ/2)
+  const alpha = Math.cos(BLOCH_THETA/2);
+  const beta_r = Math.cos(BLOCH_PHI)*Math.sin(BLOCH_THETA/2);
+  const beta_i = Math.sin(BLOCH_PHI)*Math.sin(BLOCH_THETA/2);
+  const P0 = alpha*alpha;
+  const P1 = beta_r*beta_r + beta_i*beta_i;
+  // FIX 2026-06 (AVAN audit): this is the SHANNON entropy of the Z-basis measurement
+  // outcomes, NOT the von Neumann entropy. Every state this panel holds is pure |ψ⟩,
+  // whose von Neumann entropy is 0 exactly; only a mixed (decohered) state is nonzero.
+  // Kept the quantity but relabeled it honestly below.
+  const S = -(P0>0?P0*Math.log2(P0):0) - (P1>0?P1*Math.log2(P1):0);
+  // Display state
+  let stateStr;
+  if (BLOCH_THETA < 0.01) stateStr = '|ψ⟩ = |0⟩';
+  else if (Math.abs(BLOCH_THETA-Math.PI)<0.01) stateStr = '|ψ⟩ = |1⟩';
+  else if (Math.abs(BLOCH_THETA-Math.PI/2)<0.01 && BLOCH_PHI<0.01) stateStr = '|ψ⟩ = |+⟩';
+  else if (Math.abs(BLOCH_THETA-Math.PI/2)<0.01 && Math.abs(BLOCH_PHI-Math.PI)<0.01) stateStr = '|ψ⟩ = |−⟩';
+  else stateStr = `|ψ⟩ = ${alpha.toFixed(3)}|0⟩ + (${beta_r.toFixed(3)}+${beta_i.toFixed(3)}i)|1⟩`;
+  set('bloch-state-display', stateStr);
+  set('bloch-alpha',   alpha.toFixed(5));
+  set('bloch-beta',    `${beta_r.toFixed(4)} + ${beta_i.toFixed(4)}i`);
+  set('bloch-p0',      (P0*100).toFixed(2)+'%');
+  set('bloch-p1',      (P1*100).toFixed(2)+'%');
+  set('bloch-entropy', S.toFixed(4)+' bits');
+}
+
+function calcUncertainty() {
+  const dx = parseFloat(document.getElementById('hup-dx').value)||1e-10;
+  const dt = parseFloat(document.getElementById('hup-dt').value)||1e-15;
+  const dp_min = HBAR / (2*dx);
+  const dv_e = dp_min / ME;
+  const dv_p = dp_min / MPR;
+  const dE_min = HBAR / (2*dt);
+  set('hup-dp',    fmtSI(dp_min,'kg·m/s'));
+  set('hup-dv-e',  fmtSI(dv_e,'m/s')+' = '+((dv_e/C)*100).toFixed(2)+'% c');
+  set('hup-dv-p',  fmtSI(dv_p,'m/s'));
+  set('hup-prod',  fmtSCI_nice(dx*dp_min,'J·s')+ ' ≥ ℏ/2 = '+fmtSCI_nice(HBAR/2,'J·s'));
+  set('hup-dE',    fmtSI(dE_min,'J'));
+  set('hup-dEev',  (dE_min/E_CHARGE).toExponential(3)+' eV');
+}
+
+function calcHydrogen() {
+  const n  = parseInt(document.getElementById('hydrogen-n').value)||1;
+  const np = parseInt(document.getElementById('hydrogen-np').value)||2;
+  document.getElementById('hydrogen-n-label').textContent  = n;
+  document.getElementById('hydrogen-np-label').textContent = np;
+  const E_n  = -13.6 / (n*n);   // eV
+  const r_n  = A0 * n*n;         // Bohr radius for level n
+  const v_n  = 2.187e6 / n;      // orbital speed [m/s]
+  const dE   = 13.6 * (1/(n<np?n:np)**2 - 1/(n>np?n:np)**2); // always positive
+  const lambda_m = (dE > 0) ? 1.2398e-6/dE : Infinity; // hc/eV in meters
+  // Spectral series
+  const lower = Math.min(n,np);
+  const series = lower===1?'Lyman (UV)':lower===2?'Balmer (visible)':lower===3?'Paschen (IR)':lower===4?'Brackett (IR)':'Pfund+';
+  set('hy-en',     E_n.toFixed(4)+' eV');
+  set('hy-rn',     fmtSI(r_n,'m'));
+  set('hy-vn',     fmtSI(v_n,'m/s')+' = '+((v_n/C)*100).toFixed(2)+'% c');
+  set('hy-de',     n!==np?dE.toFixed(4)+' eV':'0 (same level)');
+  set('hy-lambda', n!==np?fmtSI(lambda_m,'m'):'—');
+  set('hy-series', n!==np?series:'—');
+}
+
+function calcTunneling() {
+  const L = parseFloat(document.getElementById('qtn-L').value)||1;   // nm
+  const V = parseFloat(document.getElementById('qtn-V').value)||5;   // eV
+  const E = parseFloat(document.getElementById('qtn-E').value)||1;   // eV
+  const L_m = L * 1e-9;  // to meters
+  const V_J = V * E_CHARGE;
+  const E_J = E * E_CHARGE;
+  if (E >= V) { set('qt-T','E > V — no tunneling (classical)'); return; }
+  // WKB: κ = sqrt(2m_e(V-E)/ℏ²), T = exp(-2κL)
+  const kappa = Math.sqrt(2*ME*(V_J-E_J)) / HBAR;
+  const T = Math.exp(-2*kappa*L_m);
+  const R = 1 - T;
+  // de Broglie λ outside (in free region, E>0)
+  const k_outside = Math.sqrt(2*ME*E_J)/HBAR;
+  const dB = 2*Math.PI/k_outside;
+  set('qt-T',    (T*100).toExponential(3)+'%');
+  set('qt-R',    (R*100).toFixed(4)+'%');
+  set('qt-kappa',fmtSI(kappa,'m⁻¹'));
+  set('qt-dB',   fmtSI(dB,'m'));
+}
+
+// ═══════════════════════════════════════════
+// BLACK HOLE CANVAS RENDERER
+// ═══════════════════════════════════════════
+let bhAngle = 0;
+function drawBlackHole() {
+  const c = document.getElementById('bh-canvas');
+  if (!c.width) return;
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  const cx = W/2, cy = H/2;
+  const maxR = Math.min(W,H)*0.42;
+  const ehR  = maxR*0.22;       // event horizon radius (visual)
+  const photR = ehR*1.5;        // photon sphere
+  const iscoR = ehR*3.0;        // ISCO
+  const diskR = ehR*4.5;        // outer accretion disk
+
+  ctx.clearRect(0,0,W,H);
+
+  // Deep space background gradient
+  const bg = ctx.createRadialGradient(cx,cy,0,cx,cy,maxR);
+  bg.addColorStop(0,'rgba(10,5,30,0.6)');
+  bg.addColorStop(1,'rgba(0,5,16,0)');
+  ctx.beginPath(); ctx.arc(cx,cy,maxR,0,Math.PI*2);
+  ctx.fillStyle=bg; ctx.fill();
+
+  // Gravitational lensing rings (background star light bending)
+  for(let r=ehR*1.05; r<ehR*2.5; r+=ehR*0.12) {
+    const alpha = 0.04/(r/ehR);
+    ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2);
+    ctx.strokeStyle = `rgba(180,210,255,${alpha})`;
+    ctx.lineWidth = 0.8;
+    ctx.stroke();
+  }
+
+  // Accretion disk (drawn as ellipse, rotating)
+  bhAngle += 0.004;
+  // Draw disk layers from outside in
+  for(let ri=diskR; ri>photR; ri-=0.5) {
+    const frac = (ri-photR)/(diskR-photR); // 1=outer, 0=inner
+    // Temperature color: outer=red, middle=orange, inner=blue-white
+    let dr, dg, db;
+    if (frac > 0.7) {
+      // outer: red to orange
+      const f=(frac-0.7)/0.3;
+      dr=180+50*f; dg=40+60*(1-f); db=0;
+    } else if (frac > 0.3) {
+      // middle: orange to yellow
+      const f=(frac-0.3)/0.4;
+      dr=220+35*f; dg=100+80*(1-f); db=0;
+    } else {
+      // inner: yellow to blue-white
+      const f=frac/0.3;
+      dr=255-55*(1-f); dg=200+55*(1-f); db=220*(1-f);
+    }
+    // Doppler: approaching side brighter (left)
+    // Disk compressed to ellipse
+    const scaleY = 0.22;
+    const orbit_speed = 0.015 + (1-frac)*0.03;
+    const alpha = 0.12 + (1-frac)*0.25;
+    ctx.beginPath();
+    ctx.ellipse(cx, cy, ri, ri*scaleY, bhAngle*orbit_speed, 0, Math.PI*2);
+    ctx.strokeStyle = `rgba(${Math.round(dr)},${Math.round(dg)},${Math.round(db)},${alpha})`;
+    ctx.lineWidth = 0.6;
+    ctx.stroke();
+  }
+
+  // Relativistic jets (polar axis)
+  const jetLen = ehR*4;
+  const jetGrad1 = ctx.createLinearGradient(cx, cy, cx, cy-jetLen);
+  jetGrad1.addColorStop(0,'rgba(80,150,255,0.5)');
+  jetGrad1.addColorStop(1,'rgba(80,150,255,0)');
+  const jetGrad2 = ctx.createLinearGradient(cx, cy, cx, cy+jetLen);
+  jetGrad2.addColorStop(0,'rgba(80,150,255,0.5)');
+  jetGrad2.addColorStop(1,'rgba(80,150,255,0)');
+  for(let j=-1;j<=1;j+=2) {
+    const jg = ctx.createLinearGradient(cx,cy,cx,cy+j*jetLen);
+    jg.addColorStop(0,'rgba(100,180,255,0.4)');
+    jg.addColorStop(0.3,'rgba(60,120,255,0.2)');
+    jg.addColorStop(1,'rgba(60,120,255,0)');
+    ctx.beginPath();
+    const jw = ehR*0.18;
+    ctx.moveTo(cx-jw,cy);
+    ctx.quadraticCurveTo(cx,cy+j*ehR*0.5,cx,cy+j*jetLen);
+    ctx.quadraticCurveTo(cx,cy+j*ehR*0.5,cx+jw,cy);
+    ctx.fillStyle=jg; ctx.fill();
+  }
+
+  // ISCO ring
+  ctx.beginPath();
+  ctx.ellipse(cx,cy,iscoR,iscoR*0.22,bhAngle*0.005,0,Math.PI*2);
+  ctx.strokeStyle='rgba(255,200,80,0.15)';
+  ctx.lineWidth=1; ctx.setLineDash([4,4]); ctx.stroke(); ctx.setLineDash([]);
+
+  // Photon sphere ring
+  ctx.beginPath();
+  ctx.arc(cx,cy,photR,0,Math.PI*2);
+  ctx.strokeStyle='rgba(200,100,255,0.2)';
+  ctx.lineWidth=1; ctx.stroke();
+
+  // Event horizon glow (Hawking radiation)
+  const M = BH_M_KG;
+  const T_H = HBAR*C*C*C/(8*Math.PI*G*M*KB);
+  const hawkingAlpha = Math.min(T_H/1e8*0.4, 0.4); // only visible for small BH
+  if (hawkingAlpha > 0.001) {
+    const hwGrad = ctx.createRadialGradient(cx,cy,ehR*0.9,cx,cy,ehR*1.8);
+    hwGrad.addColorStop(0,`rgba(255,200,100,${hawkingAlpha})`);
+    hwGrad.addColorStop(1,'rgba(255,200,100,0)');
+    ctx.beginPath(); ctx.arc(cx,cy,ehR*1.8,0,Math.PI*2);
+    ctx.fillStyle=hwGrad; ctx.fill();
+  }
+
+  // Event horizon — absolute black
+  const ehGrad = ctx.createRadialGradient(cx,cy,0,cx,cy,ehR);
+  ehGrad.addColorStop(0,'rgba(0,0,0,1)');
+  ehGrad.addColorStop(0.85,'rgba(0,0,0,1)');
+  ehGrad.addColorStop(1,'rgba(5,2,15,0.9)');
+  ctx.beginPath(); ctx.arc(cx,cy,ehR,0,Math.PI*2);
+  ctx.fillStyle=ehGrad; ctx.fill();
+
+  // Shadow / lensing dark edge
+  ctx.beginPath(); ctx.arc(cx,cy,ehR,0,Math.PI*2);
+  ctx.strokeStyle='rgba(0,0,0,1)'; ctx.lineWidth=2; ctx.stroke();
+
+  // Labels
+  ctx.fillStyle='rgba(200,210,255,0.5)'; ctx.font='italic 10px Cormorant Garamond, serif';
+  ctx.textAlign='left';
+  ctx.fillText('— ISCO', cx+iscoR+4, cy+3);
+  ctx.fillStyle='rgba(180,100,255,0.5)';
+  ctx.fillText('— photon sphere', cx+photR+4, cy-8);
+  ctx.fillStyle='rgba(200,210,255,0.7)';
+  ctx.font='10px Space Mono'; ctx.textAlign='center';
+  ctx.fillText('r_s = '+ fmtSI(2*G*M/(C*C),'m'), cx, cy+ehR+18);
+
+  requestAnimationFrame(drawBlackHole);
+}
+
+// ═══════════════════════════════════════════
+// WAVE FUNCTION CANVAS
+// ═══════════════════════════════════════════
+let waveT = 0;
+function drawWaveFunction() {
+  const c = document.getElementById('wave-canvas');
+  if (!c.width) return;
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  waveT += 0.035;
+  ctx.clearRect(0,0,W,H);
+
+  // Background
+  ctx.fillStyle='rgba(0,5,16,0.15)';
+  ctx.fillRect(0,0,W,H);
+
+  // Axes
+  const midY = H/2;
+  ctx.strokeStyle='rgba(34,153,255,0.12)';
+  ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(0,midY); ctx.lineTo(W,midY); ctx.stroke();
+  // x-axis ticks
+  for(let x=0;x<=W;x+=W/8) {
+    ctx.beginPath(); ctx.moveTo(x,midY-4); ctx.lineTo(x,midY+4); ctx.stroke();
+  }
+
+  const amp = H*0.32;
+  const k = 4*Math.PI/W;
+
+  // Probability density |ψ|² — fill
+  ctx.beginPath();
+  ctx.moveTo(0, midY);
+  for(let x=0;x<=W;x++) {
+    const arg = k*x - waveT;
+    // Gaussian envelope × plane wave
+    const envelope = Math.exp(-Math.pow((x-W/2)/(W*0.22),2));
+    const psi_r = envelope * Math.cos(arg);
+    const psi_i = envelope * Math.sin(arg);
+    const prob = (psi_r*psi_r + psi_i*psi_i);
+    const y = midY - prob * amp * 1.5;
+    x===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+  }
+  ctx.lineTo(W,midY); ctx.lineTo(0,midY); ctx.closePath();
+  const fillGrad = ctx.createLinearGradient(0,0,0,H);
+  fillGrad.addColorStop(0,'rgba(136,51,255,0.15)');
+  fillGrad.addColorStop(1,'rgba(136,51,255,0)');
+  ctx.fillStyle=fillGrad; ctx.fill();
+
+  // Real part Re[ψ]
+  ctx.beginPath();
+  for(let x=0;x<=W;x++) {
+    const arg = k*x - waveT;
+    const envelope = Math.exp(-Math.pow((x-W/2)/(W*0.22),2));
+    const y = midY - envelope * Math.cos(arg) * amp;
+    x===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+  }
+  ctx.strokeStyle='rgba(34,153,255,0.85)';
+  ctx.lineWidth = 1.5; ctx.stroke();
+
+  // Imaginary part Im[ψ]
+  ctx.beginPath();
+  for(let x=0;x<=W;x++) {
+    const arg = k*x - waveT;
+    const envelope = Math.exp(-Math.pow((x-W/2)/(W*0.22),2));
+    const y = midY - envelope * Math.sin(arg) * amp;
+    x===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+  }
+  ctx.strokeStyle='rgba(200,100,255,0.55)';
+  ctx.lineWidth=1; ctx.setLineDash([4,4]); ctx.stroke(); ctx.setLineDash([]);
+
+  // |ψ|² probability density
+  ctx.beginPath();
+  for(let x=0;x<=W;x++) {
+    const arg = k*x - waveT;
+    const envelope = Math.exp(-Math.pow((x-W/2)/(W*0.22),2));
+    const psi_r = envelope*Math.cos(arg), psi_i = envelope*Math.sin(arg);
+    const y = midY - (psi_r*psi_r+psi_i*psi_i)*amp*1.5;
+    x===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+  }
+  ctx.strokeStyle='rgba(255,170,50,0.6)';
+  ctx.lineWidth=1.5; ctx.stroke();
+
+  // Legend
+  ctx.font='10px Space Mono'; ctx.textAlign='left';
+  ctx.fillStyle='rgba(34,153,255,0.8)';  ctx.fillText('─ Re[ψ]',    8,14);
+  ctx.fillStyle='rgba(200,100,255,0.7)'; ctx.fillText('- Im[ψ]',    8,26);
+  ctx.fillStyle='rgba(255,170,50,0.8)';  ctx.fillText('─ |ψ|²',     8,38);
+  ctx.fillStyle='rgba(100,150,200,0.5)'; ctx.fillText('Wave packet (Gaussian × plane wave)', 8, H-8);
+
+  requestAnimationFrame(drawWaveFunction);
+}
+
+// ═══════════════════════════════════════════
+// BLOCH SPHERE CANVAS
+// ═══════════════════════════════════════════
+let blochAngle = 0;
+function drawBlochSphere() {
+  const c = document.getElementById('bloch-canvas');
+  if (!c.width) return;
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  const cx = W/2, cy = H/2;
+  const R = Math.min(W,H)*0.36;
+  blochAngle += 0.004;
+
+  ctx.clearRect(0,0,W,H);
+
+  // Sphere glow
+  const grd = ctx.createRadialGradient(cx-R*0.2,cy-R*0.2,0,cx,cy,R*1.3);
+  grd.addColorStop(0,'rgba(136,51,255,0.06)');
+  grd.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.beginPath(); ctx.arc(cx,cy,R*1.3,0,Math.PI*2);
+  ctx.fillStyle=grd; ctx.fill();
+
+  // Sphere wireframe
+  ctx.strokeStyle='rgba(34,153,255,0.12)'; ctx.lineWidth=0.8;
+  // Equator
+  ctx.beginPath(); ctx.ellipse(cx,cy,R,R*0.25,0,0,Math.PI*2); ctx.stroke();
+  // Meridians
+  for(let a=0;a<Math.PI;a+=Math.PI/6) {
+    ctx.beginPath(); ctx.ellipse(cx,cy,R*Math.abs(Math.cos(a)),R,0,0,Math.PI*2); ctx.stroke();
+  }
+  // Vertical circle
+  ctx.beginPath(); ctx.arc(cx,cy,R,0,Math.PI*2);
+  ctx.strokeStyle='rgba(34,153,255,0.2)'; ctx.stroke();
+
+  // Axes
+  const axisStyle = 'rgba(34,153,255,0.35)';
+  ctx.strokeStyle=axisStyle; ctx.lineWidth=1; ctx.setLineDash([4,4]);
+  ctx.beginPath(); ctx.moveTo(cx,cy-R*1.15); ctx.lineTo(cx,cy+R*1.15); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx-R*1.15,cy); ctx.lineTo(cx+R*1.15,cy); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Labels
+  ctx.font='bold 11px Space Mono'; ctx.textAlign='center';
+  ctx.fillStyle='rgba(200,220,255,0.7)';
+  ctx.fillText('|0⟩', cx, cy-R-14);
+  ctx.fillText('|1⟩', cx, cy+R+20);
+  ctx.fillStyle='rgba(34,153,255,0.6)';
+  ctx.fillText('+x', cx+R+14, cy+4);
+  ctx.fillText('+y', cx-14, cy-R*0.28);
+
+  // State vector
+  const theta = BLOCH_THETA, phi = BLOCH_PHI;
+  // 3D Bloch vector, projected (simple orthographic)
+  const bx3 = Math.sin(theta)*Math.cos(phi);
+  const by3 = Math.sin(theta)*Math.sin(phi);
+  const bz3 = Math.cos(theta);
+  // Project: x→screen_x, y→depth(scale), z→screen_y
+  const angle = blochAngle;
+  const bx_s = (bx3*Math.cos(angle) - by3*0.3*Math.sin(angle)) * R;
+  const by_s = -bz3 * R;
+
+  const tip_x = cx + bx_s;
+  const tip_y = cy + by_s;
+
+  // State vector line
+  const vecGrad = ctx.createLinearGradient(cx,cy,tip_x,tip_y);
+  vecGrad.addColorStop(0,'rgba(136,51,255,0)');
+  vecGrad.addColorStop(1,'rgba(200,80,255,1)');
+  ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(tip_x,tip_y);
+  ctx.strokeStyle=vecGrad; ctx.lineWidth=2; ctx.stroke();
+
+  // Tip sphere
+  const tipGrd = ctx.createRadialGradient(tip_x,tip_y,0,tip_x,tip_y,8);
+  tipGrd.addColorStop(0,'rgba(200,80,255,0.9)');
+  tipGrd.addColorStop(1,'rgba(200,80,255,0)');
+  ctx.beginPath(); ctx.arc(tip_x,tip_y,6,0,Math.PI*2);
+  ctx.fillStyle=tipGrd; ctx.fill();
+  ctx.beginPath(); ctx.arc(tip_x,tip_y,3,0,Math.PI*2);
+  ctx.fillStyle='#cc44ff'; ctx.fill();
+
+  // Center dot
+  ctx.beginPath(); ctx.arc(cx,cy,3,0,Math.PI*2);
+  ctx.fillStyle='rgba(34,153,255,0.7)'; ctx.fill();
+
+  // Projection lines (ghost)
+  ctx.strokeStyle='rgba(136,51,255,0.2)'; ctx.lineWidth=0.8; ctx.setLineDash([2,4]);
+  ctx.beginPath(); ctx.moveTo(tip_x,tip_y); ctx.lineTo(tip_x,cy); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(tip_x,tip_y); ctx.lineTo(cx,tip_y); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // State label
+  ctx.font='12px Cormorant Garamond, serif'; ctx.textAlign='left';
+  ctx.fillStyle='rgba(200,120,255,0.9)';
+  const P0 = Math.cos(theta/2)**2;
+  ctx.fillText(`θ=${(theta/Math.PI).toFixed(2)}π  φ=${(phi/Math.PI).toFixed(2)}π`, 8, H-22);
+  ctx.fillText(`P|0⟩=${(P0*100).toFixed(1)}%  P|1⟩=${((1-P0)*100).toFixed(1)}%`, 8, H-8);
+
+  requestAnimationFrame(drawBlochSphere);
+}
+
+// ═══════════════════════════════════════════
+// FLAMM PARABOLOID (Spatial embedding)
+// ═══════════════════════════════════════════
+let flammAngle = 0;
+function drawFlamm() {
+  const c = document.getElementById('flamm-canvas');
+  if (!c.width) return;
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  const cx = W/2, cy = H*0.55;
+  flammAngle += 0.003;
+
+  ctx.clearRect(0,0,W,H);
+
+  const M = BH_M_KG;
+  const rs_phys = 2*G*M/(C*C); // physical r_s
+  // Flamm paraboloid: z = 2√(rs(r-rs)) → embed in 2D as rotated surface
+  // We'll draw it as a funnel using polar lines
+  const scale = Math.min(W,H)*0.38;
+
+  // Draw funnel rings (r from rs to 5rs)
+  const numRings = 20;
+  for(let ri=0;ri<=numRings;ri++) {
+    const frac = ri/numRings;
+    const r = 1.0001 + frac*4; // in units of rs
+    // Flamm embedding z = 2*sqrt(rs*(r_phys - rs)) → 2*sqrt(rs)*(r_phys/rs - 1)^0.5
+    // In normalized units: z_norm = 2*sqrt(r/rs - 1) (r in units of rs)
+    const z_norm = 2*Math.sqrt(r - 1);
+    // Project to 2D with rotation angle
+    const scr = r/5 * scale;
+    // Ellipse parameters (perspective tilt)
+    const tilt = 0.28;
+    const yOff = z_norm * scale * 0.18 - scr*tilt;
+    const alpha = 0.1 + (1-frac)*0.25;
+    // Color: inner=hot, outer=cool
+    const heat = Math.max(0, 1-frac);
+    const r_c=Math.round(50+heat*200), g_c=Math.round(30+heat*80), b_c=Math.round(100+heat*60);
+    ctx.beginPath();
+    ctx.ellipse(cx, cy+yOff, scr, scr*tilt+1, 0, 0, Math.PI*2);
+    ctx.strokeStyle=`rgba(${r_c},${g_c},${b_c},${alpha})`;
+    ctx.lineWidth=0.8; ctx.stroke();
+  }
+
+  // Radial lines (meridians of funnel)
+  for(let a=0;a<Math.PI*2;a+=Math.PI/8) {
+    ctx.beginPath();
+    let started=false;
+    for(let ri=0;ri<=numRings;ri++) {
+      const frac=ri/numRings;
+      const r=1.0001+frac*4;
+      const z_norm=2*Math.sqrt(r-1);
+      const scr=r/5*scale;
+      const tilt=0.28;
+      const yOff=z_norm*scale*0.18-scr*tilt;
+      const px=cx+Math.cos(a+flammAngle*0.1)*scr;
+      const py=cy+yOff+Math.sin(a+flammAngle*0.1)*scr*tilt;
+      started?ctx.lineTo(px,py):ctx.moveTo(px,py);
+      started=true;
+    }
+    ctx.strokeStyle='rgba(34,153,255,0.06)'; ctx.lineWidth=0.6; ctx.stroke();
+  }
+
+  // Central throat
+  ctx.beginPath(); ctx.arc(cx, cy-scale*0.01, 6,0,Math.PI*2);
+  ctx.fillStyle='rgba(0,0,0,1)'; ctx.fill();
+  ctx.strokeStyle='rgba(34,153,255,0.5)'; ctx.lineWidth=1; ctx.stroke();
+
+  // Labels
+  ctx.font='11px Cormorant Garamond, serif'; ctx.textAlign='center';
+  ctx.fillStyle='rgba(170,180,220,0.6)';
+  ctx.fillText('Flamm paraboloid  z = 2√(r_s(r−r_s))', cx, H-8);
+  ctx.fillStyle='rgba(200,100,100,0.7)';
+  ctx.fillText('⬤ r = r_s (throat)', cx, cy+8);
+
+  requestAnimationFrame(drawFlamm);
+}
+
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
+setTimeout(()=>{
+  resizeAll();
+  calcBH();
+  calcBloch();
+  calcUncertainty();
+  calcHydrogen();
+  calcTunneling();
+  drawBlackHole();
+  drawWaveFunction();
+  drawBlochSphere();
+  drawFlamm();
+}, 100);
+</script>
+</body>
+</html>

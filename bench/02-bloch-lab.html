@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bloch Lab — Single-Qubit Sandbox</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#08080f;--bg2:#0c0c18;--panel:#10101e;--panel2:#13131f;--line:#1f1f33;
+    --ink:#e7e7f0;--dim:#9a9ab5;--faint:#5e5e7a;
+    --cyan:#5eead4;--cyan-d:#2dd4bf;--amber:#fbbf24;--amber-d:#f59e0b;--violet:#a78bfa;--rose:#fb7185;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:radial-gradient(1100px 700px at 85% -10%,rgba(94,234,212,.07),transparent 60%),
+               radial-gradient(900px 600px at 5% 110%,rgba(251,191,36,.05),transparent 55%),var(--bg);
+    color:var(--ink);font-family:'IBM Plex Sans',sans-serif;font-weight:300;
+    min-height:100vh;padding:30px 24px 60px;-webkit-font-smoothing:antialiased;
+  }
+  .shell{max-width:1080px;margin:0 auto}
+  .top{margin-bottom:26px}
+  .kicker{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.4em;text-transform:uppercase;color:var(--cyan);margin-bottom:12px}
+  h1{font-family:'Spectral',serif;font-weight:300;font-size:clamp(30px,5vw,46px);letter-spacing:-.02em;line-height:1.05}
+  h1 em{font-style:italic;color:var(--cyan)}
+  .sub{color:var(--dim);font-size:15px;margin-top:8px;max-width:620px}
+
+  .grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:22px;align-items:start}
+  @media(max-width:840px){.grid{grid-template-columns:1fr}}
+
+  .stage{
+    background:linear-gradient(165deg,var(--panel),#0a0a14);
+    border:1px solid var(--line);border-radius:18px;padding:18px;position:relative;overflow:hidden;
+  }
+  .stage::before{content:"";position:absolute;inset:0;background:
+    radial-gradient(420px 420px at 50% 42%,rgba(94,234,212,.06),transparent 70%);pointer-events:none}
+  canvas{width:100%;height:auto;display:block;touch-action:none;cursor:grab}
+  canvas:active{cursor:grabbing}
+  .hint{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--faint);text-align:center;margin-top:6px;letter-spacing:.08em}
+
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px 20px 22px}
+  .sec{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--faint);margin:0 0 12px}
+  .sec.mt{margin-top:22px}
+
+  /* state readout */
+  .ket{font-family:'Spectral',serif;font-size:23px;line-height:1.4;margin-bottom:14px;word-break:break-word}
+  .ket .a{color:var(--cyan)} .ket .b{color:var(--amber)} .ket .op{color:var(--faint)}
+  .stat{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .stat div{background:var(--panel2);padding:11px 13px}
+  .stat .k{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;color:var(--faint);text-transform:uppercase}
+  .stat .v{font-family:'IBM Plex Mono',monospace;font-size:15px;color:var(--ink);margin-top:3px}
+  .stat .v.c{color:var(--cyan)} .stat .v.am{color:var(--amber)}
+
+  /* probability bars */
+  .prob{margin-top:14px}
+  .bar{height:30px;border-radius:8px;background:var(--bg2);border:1px solid var(--line);position:relative;overflow:hidden;margin-bottom:8px}
+  .bar .fill{position:absolute;inset:0;width:0;transition:width .45s cubic-bezier(.2,.7,.3,1)}
+  .bar.z0 .fill{background:linear-gradient(90deg,rgba(94,234,212,.25),rgba(94,234,212,.5))}
+  .bar.z1 .fill{background:linear-gradient(90deg,rgba(251,191,36,.22),rgba(251,191,36,.48))}
+  .bar .lab{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink);z-index:2}
+  .bar .pct{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink);z-index:2}
+
+  /* gates */
+  .gates{display:grid;grid-template-columns:repeat(6,1fr);gap:7px}
+  @media(max-width:840px){.gates{grid-template-columns:repeat(6,1fr)}}
+  .gbtn{
+    aspect-ratio:1;border:1px solid var(--line);border-radius:11px;background:var(--panel2);
+    color:var(--ink);font-family:'Spectral',serif;font-size:19px;cursor:pointer;transition:.16s;
+    display:grid;place-items:center;position:relative;
+  }
+  .gbtn:hover{border-color:var(--cyan-d);color:var(--cyan);transform:translateY(-2px);background:rgba(94,234,212,.07)}
+  .gbtn:active{transform:translateY(0)}
+  .gbtn small{position:absolute;bottom:4px;font-family:'IBM Plex Mono',monospace;font-size:7.5px;letter-spacing:.05em;color:var(--faint)}
+
+  /* rotation control */
+  .rotbox{margin-top:6px}
+  .rotrow{display:flex;gap:7px;margin-bottom:11px}
+  .rbtn{flex:1;border:1px solid var(--line);border-radius:9px;background:var(--panel2);color:var(--dim);
+    font-family:'IBM Plex Mono',monospace;font-size:12px;padding:9px 0;cursor:pointer;transition:.16s}
+  .rbtn:hover{border-color:var(--violet);color:var(--violet)}
+  .rbtn.on{border-color:var(--violet);color:var(--violet);background:rgba(167,139,250,.1)}
+  input[type=range]{width:100%;-webkit-appearance:none;appearance:none;height:4px;border-radius:4px;background:var(--line);outline:none;margin:4px 0}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--violet);cursor:pointer;border:2px solid #0a0a14;box-shadow:0 0 8px rgba(167,139,250,.5)}
+  input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--violet);cursor:pointer;border:2px solid #0a0a14}
+  .angleline{display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--dim);margin-top:2px}
+  .applyrot{width:100%;margin-top:10px;border:1px solid var(--violet);border-radius:9px;background:rgba(167,139,250,.1);
+    color:var(--violet);font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.08em;padding:10px 0;cursor:pointer;transition:.16s}
+  .applyrot:hover{background:rgba(167,139,250,.18)}
+
+  /* presets + actions */
+  .row{display:flex;gap:8px;flex-wrap:wrap}
+  .chip{border:1px solid var(--line);border-radius:30px;background:var(--panel2);color:var(--dim);
+    font-family:'IBM Plex Mono',monospace;font-size:11px;padding:7px 13px;cursor:pointer;transition:.16s}
+  .chip:hover{border-color:var(--cyan-d);color:var(--cyan)}
+  .actions{display:flex;gap:8px;margin-top:16px}
+  .act{flex:1;border-radius:10px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.08em;
+    padding:12px 0;cursor:pointer;transition:.16s;border:1px solid var(--line);background:var(--panel2);color:var(--dim)}
+  .act.measure{border-color:var(--rose);color:var(--rose);background:rgba(251,113,133,.08)}
+  .act.measure:hover{background:rgba(251,113,133,.16)}
+  .act.reset:hover{border-color:var(--ink);color:var(--ink)}
+
+  /* history */
+  .hist{display:flex;gap:5px;flex-wrap:wrap;min-height:30px;margin-top:8px}
+  .hist .h{font-family:'IBM Plex Mono',monospace;font-size:11px;padding:5px 9px;border-radius:7px;
+    background:var(--bg2);border:1px solid var(--line);color:var(--dim)}
+  .hist .h.m{border-color:var(--rose);color:var(--rose)}
+  .empty{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--faint)}
+
+  .flash{position:fixed;top:24px;left:50%;transform:translateX(-50%) translateY(-20px);opacity:0;
+    background:var(--panel);border:1px solid var(--rose);border-radius:12px;padding:13px 22px;
+    font-family:'IBM Plex Mono',monospace;font-size:14px;color:var(--ink);z-index:50;transition:.35s;pointer-events:none}
+  .flash.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .flash b{color:var(--rose);font-size:20px}
+</style>
+</head>
+<body>
+<div class="flash" id="flash"></div>
+<div class="shell">
+  <div class="top">
+    <div class="kicker">Quantum Computing · Instrument 02 of 03 · Interactive</div>
+    <h1>Bloch Lab — drive <em>one qubit</em> by hand</h1>
+    <p class="sub">Apply gates and watch the state vector rotate on the sphere in real time. Drag the globe to look around. Everything updates from the exact amplitudes — measurement included.</p>
+  </div>
+
+  <div class="grid">
+    <!-- LEFT: sphere -->
+    <div class="stage">
+      <canvas id="cv" width="760" height="760"></canvas>
+      <div class="hint">drag to rotate view · the arrow is |ψ⟩ · north = |0⟩ · south = |1⟩</div>
+    </div>
+
+    <!-- RIGHT: controls -->
+    <div class="panel">
+      <div class="sec">State vector</div>
+      <div class="ket" id="ket"></div>
+      <div class="stat">
+        <div><div class="k">α (amp of |0⟩)</div><div class="v c" id="va">1.000</div></div>
+        <div><div class="k">β (amp of |1⟩)</div><div class="v am" id="vb">0.000</div></div>
+        <div><div class="k">θ — polar</div><div class="v" id="vth">0.0°</div></div>
+        <div><div class="k">φ — phase</div><div class="v" id="vph">0.0°</div></div>
+      </div>
+
+      <div class="prob">
+        <div class="bar z0"><div class="fill" id="f0"></div><span class="lab">P(0)</span><span class="pct" id="p0">100%</span></div>
+        <div class="bar z1"><div class="fill" id="f1"></div><span class="lab">P(1)</span><span class="pct" id="p1">0%</span></div>
+      </div>
+
+      <div class="sec mt">Gates — click to apply</div>
+      <div class="gates">
+        <button class="gbtn" data-g="X">X<small>NOT</small></button>
+        <button class="gbtn" data-g="Y">Y<small>bit+ph</small></button>
+        <button class="gbtn" data-g="Z">Z<small>phase</small></button>
+        <button class="gbtn" data-g="H">H<small>super</small></button>
+        <button class="gbtn" data-g="S">S<small>π/2</small></button>
+        <button class="gbtn" data-g="T">T<small>π/4</small></button>
+      </div>
+
+      <div class="sec mt">Continuous rotation</div>
+      <div class="rotbox">
+        <div class="rotrow">
+          <button class="rbtn on" data-ax="X">Rx</button>
+          <button class="rbtn" data-ax="Y">Ry</button>
+          <button class="rbtn" data-ax="Z">Rz</button>
+        </div>
+        <input type="range" id="ang" min="0" max="360" value="90" step="1">
+        <div class="angleline"><span>0°</span><span id="anglbl">θ = 90°</span><span>360°</span></div>
+        <button class="applyrot" id="applyrot">▸ apply R<span id="axlbl">x</span>(90°)</button>
+      </div>
+
+      <div class="sec mt">Jump to a state</div>
+      <div class="row">
+        <button class="chip" data-p="0">|0⟩</button>
+        <button class="chip" data-p="1">|1⟩</button>
+        <button class="chip" data-p="+">|+⟩</button>
+        <button class="chip" data-p="-">|−⟩</button>
+        <button class="chip" data-p="i">|i⟩</button>
+        <button class="chip" data-p="random">random</button>
+      </div>
+
+      <div class="actions">
+        <button class="act measure" id="measure">⊙ measure</button>
+        <button class="act reset" id="reset">↺ reset to |0⟩</button>
+      </div>
+
+      <div class="sec mt">Sequence</div>
+      <div class="hist" id="hist"><span class="empty">no gates applied yet</span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============ complex + quantum core (verified) ============ */
+const C=(re,im=0)=>({re,im});
+const cadd=(a,b)=>({re:a.re+b.re,im:a.im+b.im});
+const cmul=(a,b)=>({re:a.re*b.re-a.im*b.im,im:a.re*b.im+a.im*b.re});
+const cabs2=a=>a.re*a.re+a.im*a.im;
+const cabs=a=>Math.hypot(a.re,a.im);
+const cconj=a=>({re:a.re,im:-a.im});
+const SQ=Math.SQRT1_2;
+
+let alpha=C(1,0), beta=C(0,0);          // truth: the amplitudes
+let history=[];
+
+const GATES={
+  X:[[C(0),C(1)],[C(1),C(0)]],
+  Y:[[C(0),C(0,-1)],[C(0,1),C(0)]],
+  Z:[[C(1),C(0)],[C(0),C(-1)]],
+  H:[[C(SQ),C(SQ)],[C(SQ),C(-SQ)]],
+  S:[[C(1),C(0)],[C(0),C(0,1)]],
+  T:[[C(1),C(0)],[C(0),C(Math.cos(Math.PI/4),Math.sin(Math.PI/4))]],
+};
+// (axis, angle) each gate enacts on the Bloch sphere — for faithful animation
+const GAXIS={X:[[1,0,0],Math.PI],Y:[[0,1,0],Math.PI],Z:[[0,0,1],Math.PI],
+  H:[[SQ,0,SQ],Math.PI],S:[[0,0,1],Math.PI/2],T:[[0,0,1],Math.PI/4]};
+
+function applyMatrix(m){
+  const na=cadd(cmul(m[0][0],alpha),cmul(m[0][1],beta));
+  const nb=cadd(cmul(m[1][0],alpha),cmul(m[1][1],beta));
+  const n=Math.hypot(cabs(na),cabs(nb))||1;
+  alpha=C(na.re/n,na.im/n); beta=C(nb.re/n,nb.im/n);
+}
+function blochOf(a,b){const ab=cmul(cconj(a),b);return[2*ab.re,2*ab.im,cabs2(a)-cabs2(b)];}
+function rod(v,k,a){ // rotate v around unit axis k by angle a
+  const c=Math.cos(a),s=Math.sin(a);
+  const d=k[0]*v[0]+k[1]*v[1]+k[2]*v[2];
+  const cr=[k[1]*v[2]-k[2]*v[1],k[2]*v[0]-k[0]*v[2],k[0]*v[1]-k[1]*v[0]];
+  return[v[0]*c+cr[0]*s+k[0]*d*(1-c),v[1]*c+cr[1]*s+k[1]*d*(1-c),v[2]*c+cr[2]*s+k[2]*d*(1-c)];
+}
+
+/* ============ rendering ============ */
+const cv=document.getElementById('cv'),ctx=cv.getContext('2d');
+let az=-0.6, el=0.42;                    // camera
+let dispVec=[0,0,1];                     // currently-drawn bloch vector (animated)
+const DPR=Math.min(window.devicePixelRatio||1,2);
+function size(){const w=cv.clientWidth;cv.width=w*DPR;cv.height=w*DPR;}
+function project(p){
+  const ca=Math.cos(az),sa=Math.sin(az);
+  let X=p[0]*ca-p[1]*sa, Y=p[0]*sa+p[1]*ca, Z=p[2];
+  const ce=Math.cos(el),se=Math.sin(el);
+  const Yd=Y*ce-Z*se;                    // depth (into screen, + = toward viewer here)
+  const Zv=Y*se+Z*ce;                    // vertical
+  return {x:X, y:Zv, depth:Yd};
+}
+function draw(){
+  const w=cv.width, cx=w/2, cy=w/2, R=w*0.36;
+  ctx.clearRect(0,0,w,w);
+  const toS=p=>{const q=project(p);return{sx:cx+R*q.x, sy:cy-R*q.y, d:q.depth};};
+
+  // faint disk
+  const g=ctx.createRadialGradient(cx-R*0.3,cy-R*0.3,R*0.1,cx,cy,R);
+  g.addColorStop(0,'rgba(94,234,212,0.05)');g.addColorStop(1,'rgba(8,8,15,0)');
+  ctx.beginPath();ctx.arc(cx,cy,R,0,7);ctx.fillStyle=g;ctx.fill();
+  ctx.beginPath();ctx.arc(cx,cy,R,0,7);ctx.strokeStyle='rgba(42,42,69,0.9)';ctx.lineWidth=1*DPR;ctx.stroke();
+
+  // wireframe: equator + 2 latitudes + meridians
+  const ringSeg=(pts)=>{
+    for(let i=0;i<pts.length-1;i++){
+      const A=toS(pts[i]),B=toS(pts[i+1]);
+      const front=(A.d+B.d)/2>0;
+      ctx.beginPath();ctx.moveTo(A.sx,A.sy);ctx.lineTo(B.sx,B.sy);
+      ctx.strokeStyle=front?'rgba(45,212,191,0.34)':'rgba(45,212,191,0.10)';
+      ctx.lineWidth=(front?1.1:0.9)*DPR;ctx.stroke();
+    }
+  };
+  const N=72;
+  const lat=(h)=>{const r=Math.sqrt(Math.max(0,1-h*h));const a=[];for(let i=0;i<=N;i++){const t=i/N*2*Math.PI;a.push([r*Math.cos(t),r*Math.sin(t),h]);}return a;};
+  ringSeg(lat(0)); ringSeg(lat(0.5)); ringSeg(lat(-0.5));
+  for(let m=0;m<4;m++){const lng=m*Math.PI/4;const a=[];for(let i=0;i<=N;i++){const v=i/N*2*Math.PI;a.push([Math.sin(v)*Math.cos(lng),Math.sin(v)*Math.sin(lng),Math.cos(v)]);}ringSeg(a);}
+
+  // axes
+  const axis=(p1,p2,col)=>{const A=toS(p1),B=toS(p2);ctx.beginPath();ctx.moveTo(A.sx,A.sy);ctx.lineTo(B.sx,B.sy);ctx.strokeStyle=col;ctx.lineWidth=1*DPR;ctx.setLineDash([3*DPR,4*DPR]);ctx.stroke();ctx.setLineDash([]);};
+  axis([0,0,-1.18],[0,0,1.18],'rgba(120,120,150,0.5)');
+  axis([-1.18,0,0],[1.18,0,0],'rgba(120,120,150,0.28)');
+  axis([0,-1.18,0],[0,1.18,0],'rgba(120,120,150,0.28)');
+
+  // pole + axis labels
+  const lbl=(p,txt,col,dy=0)=>{const s=toS(p);ctx.fillStyle=col;ctx.font=`${13*DPR}px 'IBM Plex Mono', monospace`;ctx.textAlign='center';ctx.fillText(txt,s.sx,s.sy+dy);};
+  lbl([0,0,1.32],'|0⟩','#5eead4',0);
+  lbl([0,0,-1.32],'|1⟩','#fbbf24',4*DPR);
+  lbl([1.34,0,0],'x','rgba(150,150,180,0.7)',4*DPR);
+  lbl([0,1.34,0],'y','rgba(150,150,180,0.7)',4*DPR);
+
+  // state vector
+  const O=toS([0,0,0]), Tp=toS(dispVec);
+  const front=Tp.d>=-0.02;
+  ctx.beginPath();ctx.moveTo(O.sx,O.sy);ctx.lineTo(Tp.sx,Tp.sy);
+  const grad=ctx.createLinearGradient(O.sx,O.sy,Tp.sx,Tp.sy);
+  grad.addColorStop(0,'rgba(167,139,250,'+(front?0.9:0.3)+')');
+  grad.addColorStop(1,front?'#fbbf24':'rgba(251,191,36,0.4)');
+  ctx.strokeStyle=grad;ctx.lineWidth=2.6*DPR;ctx.lineCap='round';ctx.stroke();
+  // tip
+  ctx.beginPath();ctx.arc(Tp.sx,Tp.sy,5.5*DPR,0,7);
+  ctx.fillStyle=front?'#fbbf24':'rgba(251,191,36,0.45)';ctx.fill();
+  ctx.beginPath();ctx.arc(Tp.sx,Tp.sy,5.5*DPR,0,7);ctx.strokeStyle='rgba(255,255,255,0.6)';ctx.lineWidth=1*DPR;ctx.stroke();
+  // origin dot
+  ctx.beginPath();ctx.arc(O.sx,O.sy,2.5*DPR,0,7);ctx.fillStyle='rgba(200,200,220,0.6)';ctx.fill();
+}
+
+/* ============ animation ============ */
+let anim=null;
+function animateGate(axisAngle, after){
+  const [ax,ang]=axisAngle;
+  const v0=dispVec.slice();
+  const dur=Math.min(620, 260+Math.abs(ang)*150), t0=performance.now();
+  if(anim)cancelAnimationFrame(anim);
+  (function step(now){
+    let t=(now-t0)/dur; if(t>1)t=1;
+    const e=t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;     // ease in-out
+    dispVec=rod(v0,ax,ang*e);
+    draw();
+    if(t<1){anim=requestAnimationFrame(step);}else{dispVec=blochOf(alpha,beta);draw();if(after)after();}
+  })(t0);
+}
+
+/* ============ ui sync ============ */
+const fmt=x=>{const v=Math.abs(x)<1e-9?0:x;return (v>=0?' ':'-')+Math.abs(v).toFixed(3);};
+function cstr(c){
+  const re=Math.abs(c.re)<1e-9?0:c.re, im=Math.abs(c.im)<1e-9?0:c.im;
+  if(im===0)return re.toFixed(3);
+  if(re===0)return (im<0?'−':'')+Math.abs(im).toFixed(3)+'i';
+  return re.toFixed(3)+(im<0?' − ':' + ')+Math.abs(im).toFixed(3)+'i';
+}
+function refresh(){
+  const p0=cabs2(alpha), p1=cabs2(beta);
+  const [x,y,z]=blochOf(alpha,beta);
+  const th=Math.acos(Math.max(-1,Math.min(1,z)))*180/Math.PI;
+  let ph=Math.atan2(y,x)*180/Math.PI; if(ph<0)ph+=360;
+  document.getElementById('va').textContent=cstr(alpha);
+  document.getElementById('vb').textContent=cstr(beta);
+  document.getElementById('vth').textContent=th.toFixed(1)+'°';
+  document.getElementById('vph').textContent=(p0>0.9999||p1>0.9999?'—':ph.toFixed(1)+'°');
+  document.getElementById('p0').textContent=Math.round(p0*100)+'%';
+  document.getElementById('p1').textContent=Math.round(p1*100)+'%';
+  document.getElementById('f0').style.width=(p0*100)+'%';
+  document.getElementById('f1').style.width=(p1*100)+'%';
+  document.getElementById('ket').innerHTML=
+    `<span class="a">(${cstr(alpha)})</span><span class="op"> |0⟩ </span><span class="op">+</span> <span class="b">(${cstr(beta)})</span><span class="op"> |1⟩</span>`;
+  renderHist();
+}
+function renderHist(){
+  const h=document.getElementById('hist');
+  if(!history.length){h.innerHTML='<span class="empty">no gates applied yet</span>';return;}
+  h.innerHTML=history.map(g=>`<span class="h ${g.startsWith('M')?'m':''}">${g}</span>`).join('');
+}
+
+/* ============ actions ============ */
+function doGate(g){
+  applyMatrix(GATES[g]);
+  history.push(g); if(history.length>40)history.shift();
+  animateGate(GAXIS[g], refresh);
+}
+let rotAxis='X';
+function doRot(){
+  const deg=+document.getElementById('ang').value;
+  const th=deg*Math.PI/180, h=th/2, c=Math.cos(h), s=Math.sin(h);
+  let m, ax;
+  if(rotAxis==='X'){m=[[C(c),C(0,-s)],[C(0,-s),C(c)]];ax=[[1,0,0],th];}
+  else if(rotAxis==='Y'){m=[[C(c),C(-s)],[C(s),C(c)]];ax=[[0,1,0],th];}
+  else {m=[[C(Math.cos(h),-Math.sin(h)),C(0)],[C(0),C(Math.cos(h),Math.sin(h))]];ax=[[0,0,1],th];}
+  applyMatrix(m);
+  history.push('R'+rotAxis.toLowerCase()+'('+deg+'°)'); if(history.length>40)history.shift();
+  animateGate(ax, refresh);
+}
+function measure(){
+  const p0=cabs2(alpha);
+  const r=Math.random();
+  const out=r<p0?0:1;
+  alpha=out===0?C(1,0):C(0,0); beta=out===0?C(0,0):C(1,0);
+  history.push('M='+out); if(history.length>40)history.shift();
+  animateGate([[1,0,0],0.0001], ()=>{dispVec=blochOf(alpha,beta);draw();refresh();});
+  const f=document.getElementById('flash');
+  f.innerHTML=`collapsed to <b>|${out}⟩</b>`;
+  f.classList.add('show');setTimeout(()=>f.classList.remove('show'),1400);
+}
+function setState(a,b){const n=Math.hypot(cabs(a),cabs(b))||1;alpha=C(a.re/n,a.im/n);beta=C(b.re/n,b.im/n);dispVec=blochOf(alpha,beta);draw();refresh();}
+function preset(p){
+  history=[];
+  if(p==='0')setState(C(1),C(0));
+  else if(p==='1')setState(C(0),C(1));
+  else if(p==='+')setState(C(SQ),C(SQ));
+  else if(p==='-')setState(C(SQ),C(-SQ));
+  else if(p==='i')setState(C(SQ),C(0,SQ));
+  else if(p==='random'){
+    const th=Math.acos(2*Math.random()-1), ph=Math.random()*2*Math.PI;
+    setState(C(Math.cos(th/2)), C(Math.sin(th/2)*Math.cos(ph),Math.sin(th/2)*Math.sin(ph)));
+  }
+}
+
+/* ============ wiring ============ */
+document.querySelectorAll('.gbtn').forEach(b=>b.onclick=()=>doGate(b.dataset.g));
+document.querySelectorAll('.rbtn').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.rbtn').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on');rotAxis=b.dataset.ax;updateRotLabels();
+});
+document.querySelectorAll('.chip').forEach(b=>b.onclick=()=>preset(b.dataset.p));
+document.getElementById('applyrot').onclick=doRot;
+document.getElementById('measure').onclick=measure;
+document.getElementById('reset').onclick=()=>preset('0');
+function updateRotLabels(){
+  const deg=document.getElementById('ang').value;
+  document.getElementById('anglbl').textContent='θ = '+deg+'°';
+  document.getElementById('axlbl').textContent=rotAxis.toLowerCase();
+  document.getElementById('applyrot').innerHTML='▸ apply R'+rotAxis.toLowerCase()+'('+deg+'°)';
+}
+document.getElementById('ang').addEventListener('input',updateRotLabels);
+
+// drag to orbit
+let drag=false,lx=0,ly=0;
+const down=e=>{drag=true;const t=e.touches?e.touches[0]:e;lx=t.clientX;ly=t.clientY;};
+const move=e=>{if(!drag)return;const t=e.touches?e.touches[0]:e;
+  az+=(t.clientX-lx)*0.01; el+=(t.clientY-ly)*0.01;
+  el=Math.max(-1.4,Math.min(1.4,el)); lx=t.clientX;ly=t.clientY;draw();if(e.touches)e.preventDefault();};
+const up=()=>drag=false;
+cv.addEventListener('mousedown',down);window.addEventListener('mousemove',move);window.addEventListener('mouseup',up);
+cv.addEventListener('touchstart',down,{passive:true});cv.addEventListener('touchmove',move,{passive:false});cv.addEventListener('touchend',up);
+
+window.addEventListener('resize',()=>{size();draw();});
+size(); updateRotLabels(); refresh(); draw();
+</script>
+</body>
+</html>

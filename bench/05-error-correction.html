@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Error Correction — Protecting a Qubit You Can't Look At</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#08080f;--bg2:#0c0c18;--panel:#10101e;--panel2:#13131f;--line:#1f1f33;--line2:#2a2a42;
+    --ink:#e7e7f0;--dim:#9a9ab5;--faint:#5e5e7a;
+    --cyan:#5eead4;--cyan-d:#2dd4bf;--amber:#fbbf24;--amber-d:#f59e0b;--violet:#a78bfa;--rose:#fb7185;--green:#86efac;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:radial-gradient(1200px 700px at 86% -12%,rgba(94,234,212,.06),transparent 60%),
+               radial-gradient(900px 600px at 0% 112%,rgba(251,113,133,.05),transparent 55%),var(--bg);
+    color:var(--ink);font-family:'IBM Plex Sans',sans-serif;font-weight:300;
+    min-height:100vh;padding:28px 22px 64px;-webkit-font-smoothing:antialiased;
+  }
+  .shell{max-width:1160px;margin:0 auto}
+  .kicker{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.4em;text-transform:uppercase;color:var(--cyan);margin-bottom:12px}
+  h1{font-family:'Spectral',serif;font-weight:300;font-size:clamp(30px,5vw,48px);letter-spacing:-.02em;line-height:1.04}
+  h1 em{font-style:italic;color:var(--cyan)}
+  .sub{color:var(--dim);font-size:15px;margin-top:8px;max-width:720px}
+
+  /* config */
+  .config{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:24px 0 16px}
+  .grp{display:flex;gap:6px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:7px 10px}
+  .grp .gl{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-right:2px}
+  .opt{font-family:'IBM Plex Mono',monospace;font-size:12px;border:1px solid var(--line);border-radius:8px;
+    background:var(--panel2);color:var(--dim);padding:6px 11px;cursor:pointer;transition:.15s}
+  .opt.on{border-color:var(--cyan-d);color:var(--cyan);background:rgba(94,234,212,.08)}
+  .opt:hover{border-color:var(--line2);color:var(--ink)}
+  .opt.err.on{border-color:var(--rose);color:var(--rose);background:rgba(251,113,133,.1)}
+  .opt.q.on{border-color:var(--amber-d);color:var(--amber);background:rgba(251,191,36,.1)}
+  .info{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--dim);margin-left:auto;text-align:right;line-height:1.5}
+  .info b{color:var(--cyan)}
+
+  /* pipeline strip */
+  .pipe{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+  .node{font-family:'IBM Plex Mono',monospace;font-size:11.5px;border:1px solid var(--line);border-radius:9px;
+    background:var(--panel);color:var(--faint);padding:8px 12px;transition:.2s}
+  .node.on{border-color:var(--cyan-d);color:var(--cyan);background:rgba(94,234,212,.08)}
+  .node.done{color:var(--dim)}
+  .node.io{border-style:dashed;color:var(--dim)}
+  .arr{color:var(--faint);font-size:13px}
+
+  /* layout */
+  .stagewrap{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:18px;align-items:start}
+  @media(max-width:920px){.stagewrap{grid-template-columns:1fr}}
+  .stage{background:linear-gradient(160deg,var(--panel),#0a0a14);border:1px solid var(--line);border-radius:16px;padding:20px 22px 16px}
+  .sec{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);margin-bottom:14px}
+
+  /* logical readout */
+  .logical{font-family:'Spectral',serif;font-size:24px;color:var(--ink);margin-bottom:18px}
+  .logical .a{color:var(--cyan)} .logical .b{color:var(--amber)} .logical .op{color:var(--faint)}
+  .logical small{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--faint);display:block;margin-top:4px;letter-spacing:.05em}
+
+  /* qubit register chips */
+  .reg{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+  .chip{flex:1;min-width:78px;border:1px solid var(--line);border-radius:13px;background:var(--panel2);padding:14px 10px 12px;text-align:center;position:relative;transition:.25s}
+  .chip .nm{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink);margin-bottom:3px}
+  .chip .role{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+  .chip .glyph{font-family:'Spectral',serif;font-size:24px;margin:8px 0 2px;color:var(--dim);min-height:30px;display:flex;align-items:center;justify-content:center}
+  .chip.data{border-color:var(--line2)}
+  .chip.encoded .glyph{color:var(--cyan)}
+  .chip.anc{opacity:.85}
+  .chip.anc.hot{border-color:var(--violet);background:rgba(167,139,250,.08)}
+  .chip.anc.hot .glyph{color:var(--violet)}
+  .chip .badge{position:absolute;top:-9px;right:-9px;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;
+    font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;background:var(--rose);color:#0a0a14;box-shadow:0 0 12px rgba(251,113,133,.5);opacity:0;transform:scale(.4);transition:.25s}
+  .chip .badge.show{opacity:1;transform:scale(1)}
+  .chip.fixed{border-color:var(--green)}
+  .chip.fixed .glyph{color:var(--green)}
+  .reglabel{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--faint);margin:14px 0 6px}
+
+  /* step controls */
+  .stepbar{display:flex;align-items:center;gap:9px;margin-top:20px}
+  .sbtn{border:1px solid var(--line);border-radius:10px;background:var(--panel2);color:var(--dim);
+    font-family:'IBM Plex Mono',monospace;font-size:13px;padding:10px 14px;cursor:pointer;transition:.15s}
+  .sbtn:hover:not(:disabled){border-color:var(--cyan-d);color:var(--cyan)}
+  .sbtn:disabled{opacity:.3;cursor:not-allowed}
+  .sbtn.play{border-color:var(--cyan-d);color:var(--cyan);background:rgba(94,234,212,.08)}
+  .progress{flex:1;height:4px;background:var(--line);border-radius:4px;overflow:hidden;max-width:220px}
+  .progress .pf{height:100%;width:0;background:var(--cyan-d);transition:width .4s}
+
+  .stepdesc{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:14px;min-height:72px}
+  .stepdesc .sl{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--violet);margin-bottom:6px}
+  .stepdesc .sd{font-size:14px;color:var(--dim);line-height:1.6}
+
+  /* side */
+  .side{display:flex;flex-direction:column;gap:16px}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px}
+
+  /* syndrome */
+  .synrow{display:flex;gap:10px;margin-bottom:14px}
+  .syn{flex:1;border:1px solid var(--line);border-radius:11px;background:var(--panel2);padding:12px;text-align:center;transition:.25s}
+  .syn .sk{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--faint);letter-spacing:.06em}
+  .syn .sv{font-family:'Spectral',serif;font-size:28px;color:var(--faint);line-height:1.1;margin-top:4px}
+  .syn.lit{border-color:var(--violet);background:rgba(167,139,250,.1)}
+  .syn.lit .sv{color:var(--violet)}
+  .diag{font-family:'IBM Plex Mono',monospace;font-size:13px;text-align:center;color:var(--dim);padding:10px;border:1px dashed var(--line);border-radius:10px}
+  .diag b{color:var(--amber)} .diag.none b{color:var(--faint)} .diag.ok b{color:var(--cyan)}
+
+  /* fidelity gauges */
+  .fid{text-align:center}
+  .fid .val{font-family:'Spectral',serif;font-size:42px;line-height:1;color:var(--cyan)}
+  .fid .val.bad{color:var(--rose)}
+  .fid .vl{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;color:var(--faint);margin-top:4px}
+  .fbar{height:8px;background:var(--bg2);border:1px solid var(--line);border-radius:5px;overflow:hidden;margin:12px 0 4px}
+  .fbar .ff{height:100%;width:0;transition:width .5s cubic-bezier(.2,.7,.3,1)}
+  .ff.good{background:linear-gradient(90deg,var(--cyan-d),var(--cyan))}
+  .ff.bad{background:linear-gradient(90deg,var(--rose),#f43f5e)}
+  .compare{display:flex;justify-content:space-between;align-items:baseline;margin-top:14px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--dim)}
+  .compare .cv{font-size:15px;color:var(--rose)}
+  .verdict{font-size:13px;line-height:1.55;color:var(--dim);margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+  .verdict b{color:var(--ink);font-weight:500}
+  .verdict.win b{color:var(--cyan)} .verdict.lose b{color:var(--rose)}
+
+  .why{font-size:13px;color:var(--dim);line-height:1.65}
+  .why b{color:var(--ink);font-weight:500} .why .c{color:var(--cyan)} .why .v{color:var(--violet)}
+
+  footer{margin-top:30px;padding-top:22px;border-top:1px solid var(--line);color:var(--faint);font-family:'IBM Plex Mono',monospace;font-size:11.5px;line-height:1.9}
+  footer .seq{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+  footer .seq span{padding:5px 12px;border:1px solid var(--line);border-radius:30px}
+  footer .seq .here{border-color:var(--cyan-d);color:var(--cyan)}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div>
+    <div class="kicker">Quantum Computing · Instrument 05 · Error Correction</div>
+    <h1>Error Correction — protect a qubit you <em>can't even look at</em></h1>
+    <p class="sub">Measuring a qubit destroys its superposition — so how do you check it for errors? The trick: spread one logical qubit across three, then measure only the <em>relationships</em> between them. That reveals which one slipped without ever revealing the secret it holds. Step through the smallest code that does it.</p>
+  </div>
+
+  <div class="config" id="config"></div>
+  <div class="pipe" id="pipe"></div>
+
+  <div class="stagewrap">
+    <div class="stage">
+      <div class="sec">The protected qubit</div>
+      <div class="logical" id="logical"></div>
+
+      <div class="reglabel">PHYSICAL REGISTER — 3 data qubits hold the logical state, 2 ancillas read the syndrome</div>
+      <div class="reg" id="reg"></div>
+
+      <div class="stepbar">
+        <button class="sbtn" id="back">◀ back</button>
+        <button class="sbtn" id="fwd">step ▶</button>
+        <button class="sbtn play" id="play">▶ run</button>
+        <div class="progress"><div class="pf" id="pf"></div></div>
+      </div>
+      <div class="stepdesc">
+        <div class="sl" id="stepLabel"></div>
+        <div class="sd" id="stepDesc"></div>
+      </div>
+    </div>
+
+    <div class="side">
+      <div class="panel">
+        <div class="sec">Syndrome — the two parity checks</div>
+        <div class="synrow">
+          <div class="syn" id="syn0"><div class="sk" id="sk0">check A</div><div class="sv" id="sv0">·</div></div>
+          <div class="syn" id="syn1"><div class="sk" id="sk1">check B</div><div class="sv" id="sv1">·</div></div>
+        </div>
+        <div class="diag" id="diag">parity checks compare neighbours — they fire only if exactly one differs</div>
+      </div>
+
+      <div class="panel">
+        <div class="sec">Outcome</div>
+        <div class="fid">
+          <div class="val" id="fidVal">—</div>
+          <div class="vl">fidelity of the recovered qubit vs. the original</div>
+          <div class="fbar"><div class="ff good" id="fidFill"></div></div>
+        </div>
+        <div class="compare">
+          <span>same error on a <b style="color:var(--ink)">bare</b> qubit →</span>
+          <span class="cv" id="bareVal">—</span>
+        </div>
+        <div class="verdict" id="verdict"></div>
+      </div>
+
+      <div class="panel">
+        <div class="sec">The duality &amp; what's next</div>
+        <div class="why" id="why"></div>
+      </div>
+
+      <div class="panel" style="border-left:3px solid var(--green)">
+        <div class="sec" style="color:var(--green)">From this toy to a real machine</div>
+        <div class="why">The 3-qubit code here is the teaching ancestor of the <b>surface code</b> — the same trick (measure stabilizer parities, never the logical state) laid out on a 2D lattice, where a parameter called the <em>distance</em> sets how many errors it can survive. That's what runs on today's hardware.
+        <div style="margin-top:12px;padding:12px 14px;background:rgba(134,239,172,.06);border:1px solid var(--line);border-radius:10px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;line-height:1.6;color:var(--dim)">
+          <span style="color:var(--green)">PROOF OF WORK · 2024</span><br>
+          Google's <b style="color:var(--ink)">Willow</b> ran a <b style="color:var(--cyan)">distance-7</b> surface code on <b style="color:var(--cyan)">101 qubits</b> and crossed <b style="color:var(--ink)">below threshold</b>: each step up in distance cut the logical error rate by <b style="color:var(--cyan)">Λ ≈ 2.1×</b>, and the logical qubit outlived its best physical qubit by <b style="color:var(--cyan)">2.4×</b>. More qubits made it <em>better</em>, not worse.
+        </div>
+        <span style="font-size:12px;color:var(--faint)">The open problem is no longer <em>whether</em> this works — it's stacking ~100→millions of physical qubits per logical one. See instrument 01's updated frontier panel.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="seq">
+      <span>01 · informative</span>
+      <span>02 · interactive — Bloch lab</span>
+      <span>03 · complex — circuit simulator</span>
+      <span>04 · algorithms — algorithm theater</span>
+      <span class="here">05 · error correction — you are here</span>
+    </div>
+    ERROR CORRECTION · a true 5-qubit (32-amplitude) statevector simulation under the schematic · both codes verified to recover an arbitrary complex state at fidelity 1.000; recovered fidelity is computed from qubit 0's reduced density matrix.
+  </footer>
+</div>
+
+<script>
+/* ===================== verified complex engine (qubit 0 = MSB) ===================== */
+const SQ=Math.SQRT1_2;
+const C=(re,im=0)=>({re,im});
+function freshState(n){const d=1<<n;const re=new Float64Array(d),im=new Float64Array(d);re[0]=1;return{n,d,re,im};}
+function apply1(st,q,m){const{n,d,re,im}=st,mask=1<<(n-1-q);
+  for(let i=0;i<d;i++){if(i&mask)continue;const j=i|mask;
+    const ar=re[i],ai=im[i],br=re[j],bi=im[j];
+    re[i]=m[0].re*ar-m[0].im*ai+m[1].re*br-m[1].im*bi;
+    im[i]=m[0].re*ai+m[0].im*ar+m[1].re*bi+m[1].im*br;
+    re[j]=m[2].re*ar-m[2].im*ai+m[3].re*br-m[3].im*bi;
+    im[j]=m[2].re*ai+m[2].im*ar+m[3].re*bi+m[3].im*br;}}
+function cnot(st,c,t){const{n,d,re,im}=st,cm=1<<(n-1-c),tm=1<<(n-1-t);
+  for(let i=0;i<d;i++){if((i&cm)&&!(i&tm)){const j=i|tm;
+    let r=re[i];re[i]=re[j];re[j]=r;let m=im[i];im[i]=im[j];im[j]=m;}}}
+const GX=[C(0),C(1),C(1),C(0)], GZ=[C(1),C(0),C(0),C(-1)], GH=[C(SQ),C(SQ),C(SQ),C(-SQ)];
+const N=5; // data 0,1,2 ; ancilla 3,4
+
+function fidelityRDM(st,a,b){
+  const half=1<<(N-1); let r00=0,r11=0,r01re=0,r01im=0;
+  for(let rest=0;rest<half;rest++){
+    const i0=rest, i1=rest|(1<<(N-1));
+    const a0=C(st.re[i0],st.im[i0]), a1=C(st.re[i1],st.im[i1]);
+    r00+=a0.re*a0.re+a0.im*a0.im; r11+=a1.re*a1.re+a1.im*a1.im;
+    r01re+=a0.re*a1.re+a0.im*a1.im; r01im+=a0.im*a1.re-a0.re*a1.im;
+  }
+  const cA={re:a.re,im:-a.im}, r01={re:r01re,im:r01im};
+  const cAr={re:cA.re*r01.re-cA.im*r01.im, im:cA.re*r01.im+cA.im*r01.re};
+  const cArB={re:cAr.re*b.re-cAr.im*b.im, im:cAr.re*b.im+cAr.im*b.re};
+  const cB={re:b.re,im:-b.im}, r10={re:r01re,im:-r01im};
+  const cBr={re:cB.re*r10.re-cB.im*r10.im, im:cB.re*r10.im+cB.im*r10.re};
+  const cBrA={re:cBr.re*a.re-cBr.im*a.im, im:cBr.re*a.im+cBr.im*a.re};
+  const e=r00*(a.re*a.re+a.im*a.im)+cArB.re+cBrA.re+r11*(b.re*b.re+b.im*b.im);
+  return Math.sqrt(Math.max(0,e));
+}
+const bareX=(a,b)=>Math.abs(2*(a.re*b.re+a.im*b.im));
+const bareZ=(a,b)=>Math.abs((a.re*a.re+a.im*a.im)-(b.re*b.re+b.im*b.im));
+
+/* ===================== app state ===================== */
+let CODE='bit';                         // 'bit' protects X, 'phase' protects Z
+let psi={a:C(SQ),b:C(SQ)}, psiName='|+⟩';
+let errQ=1, errType='X';                // errType in 'X','Z','none'
+let cur=0, playTimer=null;
+const $=id=>document.getElementById(id);
+
+const STAGES=['Encode','Error','Syndrome','Correct','Decode'];
+
+/* build state up through stage k; return {st, syn, which, corrected} */
+function build(k){
+  const st=freshState(N);
+  st.re.fill(0);st.im.fill(0);
+  st.re[0]=psi.a.re; st.im[0]=psi.a.im;
+  const idx=1<<(N-1); st.re[idx]=psi.b.re; st.im[idx]=psi.b.im;
+  // 0 ENCODE
+  cnot(st,0,1); cnot(st,0,2);
+  if(CODE==='phase'){apply1(st,0,GH);apply1(st,1,GH);apply1(st,2,GH);}
+  let syn=null, which=-1, corrected=false;
+  if(k>=1 && errType!=='none'){ apply1(st,errQ, errType==='Z'?GZ:GX); }
+  if(k>=2){
+    if(CODE==='bit'){cnot(st,0,3);cnot(st,1,3);cnot(st,1,4);cnot(st,2,4);}
+    else{apply1(st,0,GH);apply1(st,1,GH);apply1(st,2,GH);
+         cnot(st,0,3);cnot(st,1,3);cnot(st,1,4);cnot(st,2,4);
+         apply1(st,0,GH);apply1(st,1,GH);apply1(st,2,GH);}
+    // read syndrome from any populated basis state
+    syn=[0,0];
+    for(let i=0;i<st.d;i++){if(st.re[i]*st.re[i]+st.im[i]*st.im[i]>1e-12){syn=[(i>>(N-1-3))&1,(i>>(N-1-4))&1];break;}}
+    if(syn[0]===1&&syn[1]===0)which=0; else if(syn[0]===1&&syn[1]===1)which=1; else if(syn[0]===0&&syn[1]===1)which=2;
+  }
+  if(k>=3 && which>=0){ apply1(st,which, CODE==='bit'?GX:GZ); corrected=true; }
+  if(k>=4){
+    if(CODE==='phase'){apply1(st,0,GH);apply1(st,1,GH);apply1(st,2,GH);}
+    cnot(st,0,2); cnot(st,0,1);
+  }
+  return {st,syn,which,corrected};
+}
+
+/* ===================== render ===================== */
+const descs={
+  'bit':[
+    'Two CNOTs copy the logical qubit across three: α|0⟩+β|1⟩ becomes α|000⟩+β|111⟩. Note this is NOT cloning the superposition — the three qubits are entangled into one shared state.',
+    null,
+    'Each ancilla measures the PARITY of a neighbouring pair (do they match?) — never the bit values themselves. A single flip breaks exactly one or two parities, fingerprinting which qubit moved, while α and β stay hidden and untouched.',
+    'The syndrome names the culprit, so we apply an X to exactly that qubit, undoing the flip. Because we only learned a parity, the logical superposition was never disturbed.',
+    'Reverse the two CNOTs to collapse the three qubits back into one. If the error matched what this code protects, the logical qubit emerges exactly as it went in.'
+  ],
+  'phase':[
+    'Encode into the ± basis: |0⟩→|+++⟩, |1⟩→|−−−⟩. Phase (Z) errors flip |+⟩↔|−⟩, so this basis turns an invisible phase slip into something the parity checks can catch.',
+    null,
+    'In the Hadamard basis the same two parity checks now compare the ± signs. A Z error flips one sign, breaking a parity and revealing which qubit — without exposing the logical state.',
+    'The syndrome points to the qubit; we apply a Z there to restore its sign.',
+    'Undo the basis change and the encoding. A single phase error has been completely repaired.'
+  ]
+};
+
+function render(){
+  const r=build(cur);
+  const st=r.st;
+  // logical readout
+  $('logical').innerHTML=`<span class="a">${cstr(psi.a)}</span><span class="op"> |0</span><sub>L</sub><span class="op">⟩ + </span><span class="b">${cstr(psi.b)}</span><span class="op"> |1</span><sub>L</sub><span class="op">⟩</span>
+    <small>${CODE==='bit'?'|0_L⟩ = |000⟩, |1_L⟩ = |111⟩ — the bit-flip code':'|0_L⟩ = |+++⟩, |1_L⟩ = |−−−⟩ — the phase-flip code'}</small>`;
+
+  // register chips
+  const reg=$('reg'); reg.innerHTML='';
+  const encoded = cur>=0;
+  const decoded = cur>=4;
+  for(let q=0;q<3;q++){
+    const c=document.createElement('div'); c.className='chip data';
+    let glyph='≋', cls='';
+    if(decoded){ glyph = q===0 ? 'ψ' : '0'; }
+    else { c.classList.add('encoded'); glyph='≋'; }
+    // error badge
+    let badge='';
+    const hasErr = (cur>=1 && cur<3 && errType!=='none' && errQ===q);
+    const fixedHere = (cur>=3 && r.corrected && r.which===q && errType!=='none' && errQ===q);
+    if(fixedHere){c.classList.add('fixed'); glyph='✓';}
+    c.innerHTML=`<div class="nm">q${q}</div><div class="role">data</div><div class="glyph">${glyph}</div>
+      <div class="badge ${hasErr?'show':''}">${errType==='Z'?'Z':'X'}</div>`;
+    reg.appendChild(c);
+  }
+  for(let q=3;q<5;q++){
+    const c=document.createElement('div'); c.className='chip anc';
+    let val='·';
+    if(cur>=2 && r.syn){ val = String(r.syn[q-3]); if(r.syn[q-3]===1)c.classList.add('hot'); }
+    c.innerHTML=`<div class="nm">a${q-3}</div><div class="role">syndrome</div><div class="glyph">${val}</div>`;
+    reg.appendChild(c);
+  }
+
+  // step text
+  let d = descs[CODE][cur];
+  if(cur===1){
+    d = errType==='none'
+      ? 'No error injected this run — a clean channel. The syndrome should read 0,0 and nothing needs fixing.'
+      : `A ${errType} error strikes qubit ${errQ}. ${errType==='Z'?'It flips the qubit\u2019s phase (sign), leaving measurement probabilities unchanged — the sneakiest kind of error.':'It flips the qubit\u2019s value, |0⟩↔|1⟩.'} The logical information is now corrupted somewhere in the register.`;
+  }
+  $('stepLabel').textContent='Stage '+(cur+1)+'/5 · '+STAGES[cur];
+  $('stepDesc').textContent=d;
+  $('back').disabled=(cur===0); $('fwd').disabled=(cur===4);
+  $('pf').style.width=(cur/4*100)+'%';
+
+  // pipeline
+  renderPipe();
+
+  // syndrome panel
+  const checkA = CODE==='bit'?'Z₀Z₁ parity':'X₀X₁ parity';
+  const checkB = CODE==='bit'?'Z₁Z₂ parity':'X₁X₂ parity';
+  $('sk0').textContent=checkA; $('sk1').textContent=checkB;
+  if(cur>=2 && r.syn){
+    $('sv0').textContent=r.syn[0]; $('sv1').textContent=r.syn[1];
+    $('syn0').classList.toggle('lit',r.syn[0]===1);
+    $('syn1').classList.toggle('lit',r.syn[1]===1);
+    const diag=$('diag');
+    if(r.which>=0){ diag.className='diag'; diag.innerHTML=`→ qubit <b>${r.which}</b> slipped`; }
+    else if(errType!=='none' && cur>=2){ diag.className='diag none'; diag.innerHTML=`syndrome <b>0,0</b> — this code is blind to ${errType} errors`; }
+    else { diag.className='diag ok'; diag.innerHTML=`syndrome <b>0,0</b> — all clear`; }
+  } else {
+    $('sv0').textContent='·'; $('sv1').textContent='·';
+    $('syn0').classList.remove('lit'); $('syn1').classList.remove('lit');
+    $('diag').className='diag'; $('diag').innerHTML='parity checks compare neighbours — they fire only if exactly one differs';
+  }
+
+  // outcome (only meaningful after decode)
+  const protects = (CODE==='bit'?'X':'Z');
+  if(cur>=4){
+    const F=fidelityRDM(st,psi.a,psi.b);
+    const bare = errType==='none'?1 : (errType==='X'?bareX(psi.a,psi.b):bareZ(psi.a,psi.b));
+    const good=F>0.999;
+    $('fidVal').textContent=F.toFixed(3); $('fidVal').className='val'+(good?'':' bad');
+    $('fidFill').className='ff '+(good?'good':'bad'); $('fidFill').style.width=(F*100)+'%';
+    $('bareVal').textContent=bare.toFixed(3);
+    const v=$('verdict');
+    if(errType==='none'){ v.className='verdict win'; v.innerHTML='<b>Clean run.</b> No error, nothing to correct — the qubit passes through intact.'; }
+    else if(good){ v.className='verdict win'; v.innerHTML=`<b>Recovered.</b> The ${errType} error was located and undone — fidelity 1.000. A bare qubit hit by the same error would have dropped to ${bare.toFixed(3)}.`; }
+    else { v.className='verdict lose'; v.innerHTML=`<b>Not caught.</b> The ${CODE}-flip code only sees ${protects} errors, so this ${errType} error sailed through uncorrected — the code did no better than a bare qubit.`; }
+  } else {
+    $('fidVal').textContent='—'; $('fidVal').className='val';
+    $('fidFill').style.width='0%'; $('bareVal').textContent='—';
+    $('verdict').className='verdict'; $('verdict').innerHTML='Step to the end to read the recovered fidelity.';
+  }
+
+  // why panel
+  $('why').innerHTML = CODE==='bit'
+    ? 'This code repairs any single <span class="c">bit-flip (X)</span> but is <b>defenceless against phase-flips (Z)</b> — try a Z error and watch the syndrome stay 0,0. Its mirror image, the <span class="v">phase-flip code</span>, is the exact opposite. <b>Shor\u2019s 9-qubit code</b> nests one inside the other, catching <b>any</b> single-qubit error — the foundation every fault-tolerant machine builds on.'
+    : 'This code repairs any single <span class="c">phase-flip (Z)</span> but is <b>blind to bit-flips (X)</b> — the exact mirror of the bit-flip code. Nest the two together and you get <b>Shor\u2019s 9-qubit code</b>, which corrects <b>any</b> single-qubit error (X, Z, or both at once) — the cornerstone of fault tolerance.';
+}
+
+function renderPipe(){
+  const p=$('pipe');
+  const nodes=['|ψ⟩','Encode','Error','Syndrome','Correct','Decode','|ψ⟩'];
+  let html='';
+  nodes.forEach((nm,i)=>{
+    if(i>0)html+='<span class="arr">→</span>';
+    if(i===0||i===6){html+=`<span class="node io">${nm}</span>`;}
+    else{const si=i-1; const cls= si===cur?'on': (si<cur?'done':''); html+=`<span class="node ${cls}">${nm}</span>`;}
+  });
+  p.innerHTML=html;
+}
+
+function cstr(c){
+  const re=Math.abs(c.re)<1e-9?0:c.re, im=Math.abs(c.im)<1e-9?0:c.im;
+  if(im===0)return re.toFixed(3);
+  if(re===0)return (im<0?'−':'')+Math.abs(im).toFixed(3)+'i';
+  return re.toFixed(3)+(im<0?' − ':' + ')+Math.abs(im).toFixed(3)+'i';
+}
+
+/* ===================== config ===================== */
+function renderConfig(){
+  const states=[['|+⟩',C(SQ),C(SQ)],['|i⟩',C(SQ),C(0,SQ)],['|0⟩',C(1),C(0)],['|1⟩',C(0),C(1)]];
+  $('config').innerHTML=`
+    <div class="grp"><span class="gl">Code</span>
+      <button class="opt ${CODE==='bit'?'on':''}" data-code="bit">Bit-flip · guards X</button>
+      <button class="opt ${CODE==='phase'?'on':''}" data-code="phase">Phase-flip · guards Z</button></div>
+    <div class="grp"><span class="gl">Protect</span>
+      ${states.map(s=>`<button class="opt ${psiName===s[0]?'on':''}" data-st="${s[0]}">${s[0]}</button>`).join('')}
+      <button class="opt ${psiName==='rand'?'on':''}" data-st="rand">rand</button></div>
+    <div class="grp"><span class="gl">Error on</span>
+      <button class="opt q ${errType!=='none'&&errQ===0?'on':''}" data-eq="0">q0</button>
+      <button class="opt q ${errType!=='none'&&errQ===1?'on':''}" data-eq="1">q1</button>
+      <button class="opt q ${errType!=='none'&&errQ===2?'on':''}" data-eq="2">q2</button></div>
+    <div class="grp"><span class="gl">Type</span>
+      <button class="opt err ${errType==='X'?'on':''}" data-et="X">X flip</button>
+      <button class="opt err ${errType==='Z'?'on':''}" data-et="Z">Z phase</button>
+      <button class="opt ${errType==='none'?'on':''}" data-et="none">none</button></div>
+    <div class="info">protecting against single <b>${CODE==='bit'?'X (bit)':'Z (phase)'}</b> errors</div>`;
+  // wire
+  document.querySelectorAll('[data-code]').forEach(b=>b.onclick=()=>{CODE=b.dataset.code;cur=0;reset();});
+  document.querySelectorAll('[data-st]').forEach(b=>b.onclick=()=>{
+    const v=b.dataset.st;
+    if(v==='rand'){const t=Math.acos(2*Math.random()-1)/1, ph=Math.random()*2*Math.PI;
+      psi={a:C(Math.cos(t/2)),b:C(Math.sin(t/2)*Math.cos(ph),Math.sin(t/2)*Math.sin(ph))};psiName='rand';}
+    else{const s=states.find(x=>x[0]===v);psi={a:s[1],b:s[2]};psiName=v;}
+    cur=0;reset();
+  });
+  document.querySelectorAll('[data-eq]').forEach(b=>b.onclick=()=>{errQ=+b.dataset.eq;if(errType==='none')errType='X';cur=0;reset();});
+  document.querySelectorAll('[data-et]').forEach(b=>b.onclick=()=>{errType=b.dataset.et;cur=0;reset();});
+}
+let states=[['|+⟩',C(SQ),C(SQ)],['|i⟩',C(SQ),C(0,SQ)],['|0⟩',C(1),C(0)],['|1⟩',C(0),C(1)]];
+
+/* ===================== controls ===================== */
+function reset(){stop();renderConfig();render();}
+function step(d){stop();cur=Math.max(0,Math.min(4,cur+d));render();}
+function stop(){if(playTimer){clearInterval(playTimer);playTimer=null;$('play').innerHTML='▶ run';}}
+function play(){
+  if(playTimer){stop();return;}
+  if(cur>=4)cur=0; render(); $('play').innerHTML='❚❚ pause';
+  playTimer=setInterval(()=>{if(cur>=4){stop();return;}cur++;render();},1000);
+}
+$('back').onclick=()=>step(-1);
+$('fwd').onclick=()=>step(1);
+$('play').onclick=play;
+
+reset();
+</script>
+</body>
+</html>

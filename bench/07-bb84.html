@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BB84 — Sharing a Secret Key No Eavesdropper Can Steal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#08080f;--bg2:#0c0c18;--panel:#10101e;--panel2:#13131f;--line:#1f1f33;--line2:#2a2a42;
+    --ink:#e7e7f0;--dim:#9a9ab5;--faint:#5e5e7a;
+    --cyan:#5eead4;--cyan-d:#2dd4bf;--amber:#fbbf24;--amber-d:#f59e0b;--violet:#a78bfa;--rose:#fb7185;--green:#86efac;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:radial-gradient(1200px 700px at 86% -12%,rgba(94,234,212,.06),transparent 60%),
+               radial-gradient(900px 600px at 0% 112%,rgba(251,113,133,.05),transparent 55%),var(--bg);
+    color:var(--ink);font-family:'IBM Plex Sans',sans-serif;font-weight:300;
+    min-height:100vh;padding:28px 22px 64px;-webkit-font-smoothing:antialiased;
+  }
+  .shell{max-width:1180px;margin:0 auto}
+  .kicker{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.4em;text-transform:uppercase;color:var(--cyan);margin-bottom:12px}
+  h1{font-family:'Spectral',serif;font-weight:300;font-size:clamp(28px,5vw,46px);letter-spacing:-.02em;line-height:1.04}
+  h1 em{font-style:italic;color:var(--cyan)}
+  .sub{color:var(--dim);font-size:15px;margin-top:8px;max-width:740px}
+
+  .config{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:24px 0 14px}
+  .grp{display:flex;gap:8px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:7px 11px}
+  .grp .gl{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+  input[type=range]{-webkit-appearance:none;appearance:none;width:120px;height:4px;border-radius:4px;background:var(--line);outline:none}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;height:15px;border-radius:50%;background:var(--cyan);cursor:pointer;border:2px solid #0a0a14}
+  input[type=range]::-moz-range-thumb{width:15px;height:15px;border-radius:50%;background:var(--cyan);cursor:pointer;border:2px solid #0a0a14}
+  .nval{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--cyan);min-width:22px;text-align:center}
+  .opt{font-family:'IBM Plex Mono',monospace;font-size:12px;border:1px solid var(--line);border-radius:8px;background:var(--panel2);color:var(--dim);padding:7px 12px;cursor:pointer;transition:.15s}
+  .opt:hover{border-color:var(--line2);color:var(--ink)}
+  /* eve switch */
+  .eve{display:flex;align-items:center;gap:9px;cursor:pointer;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:7px 12px;transition:.2s}
+  .eve.on{border-color:var(--rose);background:rgba(251,113,133,.08)}
+  .eve .lbl{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--dim)}
+  .eve.on .lbl{color:var(--rose)}
+  .toggle{width:38px;height:20px;border-radius:20px;background:var(--line2);position:relative;transition:.2s}
+  .eve.on .toggle{background:var(--rose)}
+  .toggle::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#0a0a14;transition:.2s}
+  .eve.on .toggle::after{transform:translateX(18px)}
+
+  .stagewrap{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:18px;align-items:start}
+  @media(max-width:940px){.stagewrap{grid-template-columns:1fr}}
+  .stage{background:linear-gradient(160deg,var(--panel),#0a0a14);border:1px solid var(--line);border-radius:16px;padding:18px 20px}
+  .sec{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);margin-bottom:12px}
+
+  /* legend */
+  .legend{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:14px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--dim)}
+  .legend .b{display:flex;align-items:center;gap:6px}
+  .legend .ph{font-size:15px;color:var(--cyan)}
+  .legend .sym{color:var(--amber);font-weight:600}
+
+  /* table */
+  .tablewrap{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-family:'IBM Plex Mono',monospace;font-size:12.5px;min-width:520px}
+  th{font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);font-weight:500;padding:0 6px 9px;text-align:center;white-space:nowrap}
+  th.eve{color:var(--rose)}
+  td{padding:5px 6px;text-align:center;border-top:1px solid var(--line);white-space:nowrap}
+  tr.kept td{background:rgba(94,234,212,.05)}
+  tr.errrow td{background:rgba(251,113,133,.09)}
+  tr.disc td{opacity:.42}
+  .ph{font-size:16px}
+  .ph.rect{color:var(--cyan)} .ph.diag{color:var(--violet)}
+  .basis{color:var(--amber);font-weight:600}
+  .bit{color:var(--ink)}
+  .eveCell{color:var(--rose)}
+  .keep{color:var(--cyan)} .nokeep{color:var(--faint)}
+  .keybit{color:var(--green);font-weight:600} .keybit.bad{color:var(--rose)}
+  .xmark{color:var(--rose);font-weight:600}
+  .idx{color:var(--faint)}
+
+  /* side */
+  .side{display:flex;flex-direction:column;gap:16px}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px}
+
+  .stat2{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:14px}
+  .stat2 div{background:var(--panel2);padding:11px 12px;text-align:center}
+  .stat2 .k{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+  .stat2 .v{font-family:'Spectral',serif;font-size:26px;color:var(--ink);margin-top:3px;line-height:1}
+
+  .qber{text-align:center}
+  .qber .big{font-family:'Spectral',serif;font-size:46px;line-height:1}
+  .qber .big.safe{color:var(--green)} .qber .big.danger{color:var(--rose)}
+  .qber .lab{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;color:var(--faint);margin-top:4px}
+  .qtrack{height:12px;background:var(--bg2);border:1px solid var(--line);border-radius:6px;overflow:hidden;margin:14px 0 6px;position:relative}
+  .qtrack .qf{height:100%;width:0;transition:width .5s cubic-bezier(.2,.7,.3,1)}
+  .qf.safe{background:linear-gradient(90deg,var(--cyan-d),var(--green))}
+  .qf.danger{background:linear-gradient(90deg,var(--amber-d),var(--rose))}
+  .qthresh{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--amber);left:22%}
+  .qthresh::after{content:"abort ~11%";position:absolute;top:-15px;left:-20px;font-family:'IBM Plex Mono',monospace;font-size:8.5px;color:var(--amber);white-space:nowrap}
+  .verdict{font-size:13px;line-height:1.55;margin-top:14px;padding-top:14px;border-top:1px solid var(--line);color:var(--dim)}
+  .verdict b{font-weight:500}
+  .verdict.safe b{color:var(--green)} .verdict.danger b{color:var(--rose)}
+
+  .keys{font-family:'IBM Plex Mono',monospace;font-size:13px;line-height:1.5;word-break:break-all}
+  .keys .row{margin-bottom:8px}
+  .keys .who{font-size:10px;color:var(--faint);letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:3px}
+  .keys .g{color:var(--green)} .keys .r{color:var(--rose)}
+  .keys .secret{color:var(--cyan)}
+
+  .why{font-size:13px;color:var(--dim);line-height:1.65}
+  .why b{color:var(--ink);font-weight:500} .why .c{color:var(--cyan)} .why .r{color:var(--rose)}
+
+  footer{margin-top:30px;padding-top:22px;border-top:1px solid var(--line);color:var(--faint);font-family:'IBM Plex Mono',monospace;font-size:11.5px;line-height:1.9}
+  footer .seq{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+  footer .seq span{padding:5px 12px;border:1px solid var(--line);border-radius:30px}
+  footer .seq .here{border-color:var(--cyan-d);color:var(--cyan)}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div>
+    <div class="kicker">Quantum Computing · Instrument 07 · Quantum Key Distribution</div>
+    <h1>BB84 — a shared secret an eavesdropper <em>can't steal unseen</em></h1>
+    <p class="sub">Classical key exchange bets on math being hard to reverse. BB84 bets on physics instead: a qubit can't be copied, and measuring it in the wrong basis disturbs it. So any eavesdropper who intercepts the key leaves fingerprints — a spike in the error rate Alice and Bob can simply measure. Flip Eve on and watch a clean channel turn guilty.</p>
+  </div>
+
+  <div class="config" id="config"></div>
+
+  <div class="stagewrap">
+    <div class="stage">
+      <div class="sec">Transmission — Alice's photons to Bob</div>
+      <div class="legend">
+        <div class="b"><span class="sym">+</span> rectilinear basis</div>
+        <div class="b"><span class="ph rect">↑</span>=0 <span class="ph rect">→</span>=1</div>
+        <div class="b"><span class="sym">×</span> diagonal basis</div>
+        <div class="b"><span class="ph diag">↗</span>=0 <span class="ph diag">↘</span>=1</div>
+        <div class="b" style="color:var(--cyan)">tinted rows = bases matched → kept</div>
+      </div>
+      <div class="tablewrap"><table id="tbl"></table></div>
+    </div>
+
+    <div class="side">
+      <div class="panel">
+        <div class="sec">Key sifting &amp; error check</div>
+        <div class="stat2">
+          <div><div class="k">qubits sent</div><div class="v" id="vN">—</div></div>
+          <div><div class="k">key bits kept</div><div class="v" id="vKept">—</div></div>
+        </div>
+        <div class="qber">
+          <div class="big" id="qberBig">—</div>
+          <div class="lab">QBER — error rate on the sifted key</div>
+          <div class="qtrack"><div class="qthresh"></div><div class="qf" id="qberFill"></div></div>
+        </div>
+        <div class="verdict" id="verdict"></div>
+      </div>
+
+      <div class="panel">
+        <div class="sec">The sifted key</div>
+        <div class="keys" id="keys"></div>
+      </div>
+
+      <div class="panel">
+        <div class="sec">Why an eavesdropper can't hide</div>
+        <div class="why" id="why"></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="seq">
+      <span>01 · informative</span>
+      <span>02 · Bloch lab</span>
+      <span>03 · circuit simulator</span>
+      <span>04 · algorithm theater</span>
+      <span>05 · error correction</span>
+      <span>06 · teleportation</span>
+      <span class="here">07 · BB84 — you are here</span>
+    </div>
+    BB84 (Bennett &amp; Brassard, 1984) · each qubit is a real single-qubit prepare-and-measure · verified: ~50% of qubits survive sifting, an undisturbed channel gives 0% error, and intercept-resend eavesdropping injects ~25% — the signature shown here.
+  </footer>
+</div>
+
+<script>
+/* ===================== verified prepare/measure (single qubit) ===================== */
+const SQ=Math.SQRT1_2;
+// state = [a0r,a0i,a1r,a1i]
+function prep(bit,basis){           // basis 'Z' (rectilinear) or 'X' (diagonal)
+  let a0=[1,0],a1=[0,0];
+  if(bit===1){a0=[0,0];a1=[1,0];}                                   // X gate
+  if(basis==='X'){const n0=[(a0[0]+a1[0])*SQ,(a0[1]+a1[1])*SQ];const n1=[(a0[0]-a1[0])*SQ,(a0[1]-a1[1])*SQ];a0=n0;a1=n1;} // H
+  return [a0[0],a0[1],a1[0],a1[1]];
+}
+function measure(s,basis,r){        // r in [0,1) resolves the outcome deterministically
+  if(basis==='Z'){const p1=s[2]*s[2]+s[3]*s[3];return r<p1?1:0;}
+  const mr=(s[0]-s[2])*SQ,mi=(s[1]-s[3])*SQ;const pMinus=mr*mr+mi*mi;return r<pMinus?1:0; // |-> = bit 1
+}
+
+/* ===================== app state ===================== */
+let N=16, eveOn=false;
+let aBit=[],aBasis=[],bBasis=[],eBasis=[],rEve=[],rBob=[];
+const $=id=>document.getElementById(id);
+
+function newRun(){
+  aBit=[];aBasis=[];bBasis=[];eBasis=[];rEve=[];rBob=[];
+  for(let i=0;i<N;i++){
+    aBit.push(Math.random()<0.5?1:0);
+    aBasis.push(Math.random()<0.5?'Z':'X');
+    bBasis.push(Math.random()<0.5?'Z':'X');
+    eBasis.push(Math.random()<0.5?'Z':'X');
+    rEve.push(Math.random());
+    rBob.push(Math.random());
+  }
+}
+
+function simulate(){
+  const rows=[]; let kept=0, errors=0; const aliceKey=[], bobKey=[];
+  for(let i=0;i<N;i++){
+    let state=prep(aBit[i],aBasis[i]);
+    let eBit=null;
+    if(eveOn){ eBit=measure(state,eBasis[i],rEve[i]); state=prep(eBit,eBasis[i]); }
+    const bBit=measure(state,bBasis[i],rBob[i]);
+    const match=(aBasis[i]===bBasis[i]);
+    let err=false;
+    if(match){ kept++; aliceKey.push(aBit[i]); bobKey.push(bBit); if(aBit[i]!==bBit){errors++;err=true;} }
+    rows.push({i,aBit:aBit[i],aBasis:aBasis[i],eBasis:eBasis[i],eBit,bBasis:bBasis[i],bBit,match,err});
+  }
+  const qber = kept? errors/kept : 0;
+  return {rows,kept,errors,qber,aliceKey,bobKey};
+}
+
+/* ===================== glyphs ===================== */
+const PH={Z:['↑','→'],X:['↗','↘']};
+function phGlyph(bit,basis){return PH[basis][bit];}
+function basisSym(b){return b==='Z'?'+':'×';}
+
+/* ===================== render ===================== */
+function render(){
+  const sim=simulate();
+  // table
+  const tbl=$('tbl');
+  let head='<thead><tr><th>#</th><th>Alice bit</th><th>basis</th><th>photon →</th>';
+  if(eveOn) head+='<th class="eve">Eve basis</th><th class="eve">Eve reads</th>';
+  head+='<th>Bob basis</th><th>Bob reads</th><th>bases</th><th>key</th></tr></thead>';
+  let body='<tbody>';
+  for(const r of sim.rows){
+    const cls = r.match ? (r.err?'errrow':'kept') : 'disc';
+    body+=`<tr class="${cls}">`;
+    body+=`<td class="idx">${r.i+1}</td>`;
+    body+=`<td class="bit">${r.aBit}</td>`;
+    body+=`<td class="basis">${basisSym(r.aBasis)}</td>`;
+    body+=`<td class="ph ${r.aBasis==='Z'?'rect':'diag'}">${phGlyph(r.aBit,r.aBasis)}</td>`;
+    if(eveOn){
+      body+=`<td class="eveCell">${basisSym(r.eBasis)}</td>`;
+      body+=`<td class="eveCell">${r.eBit}</td>`;
+    }
+    body+=`<td class="basis">${basisSym(r.bBasis)}</td>`;
+    body+=`<td class="bit">${r.bBit}</td>`;
+    body+=`<td class="${r.match?'keep':'nokeep'}">${r.match?'✓':'·'}</td>`;
+    body+= r.match ? `<td><span class="keybit ${r.err?'bad':''}">${r.bBit}</span>${r.err?' <span class="xmark">✗</span>':''}</td>` : `<td class="nokeep">–</td>`;
+    body+='</tr>';
+  }
+  body+='</tbody>';
+  tbl.innerHTML=head+body;
+
+  // stats
+  $('vN').textContent=N;
+  $('vKept').textContent=sim.kept;
+  const pct=(sim.qber*100);
+  const danger = sim.qber>0.11;
+  $('qberBig').textContent=pct.toFixed(0)+'%';
+  $('qberBig').className='big '+(danger?'danger':'safe');
+  $('qberFill').className='qf '+(danger?'danger':'safe');
+  $('qberFill').style.width=Math.min(100,sim.qber*200)+'%'; // scale: 50% QBER fills bar
+
+  // verdict
+  const v=$('verdict');
+  if(!eveOn){
+    v.className='verdict safe';
+    v.innerHTML='<b>Channel clean.</b> Matching-basis bits agree perfectly (QBER 0%). Alice and Bob keep the sifted bits as a shared secret key.';
+  } else if(danger){
+    v.className='verdict danger';
+    v.innerHTML=`<b>Eavesdropper detected.</b> Eve\u2019s measurements forced ~25% of the sifted bits to disagree — far above the ~11% abort line. Alice and Bob throw this key away and try again. Eve learns nothing usable.`;
+  } else {
+    v.className='verdict safe';
+    v.innerHTML='<b>Below threshold this run.</b> Small samples fluctuate — run again or raise the qubit count and the eavesdropper\u2019s ~25% error rate becomes unmistakable.';
+  }
+
+  // keys
+  const k=$('keys');
+  if(sim.kept===0){ k.innerHTML='<span class="who">no bases matched — increase qubits</span>'; }
+  else {
+    const aStr=sim.aliceKey.map((b,j)=>`<span class="${b===sim.bobKey[j]?'g':'r'}">${b}</span>`).join(' ');
+    const bStr=sim.bobKey.map((b,j)=>`<span class="${b===sim.aliceKey[j]?'g':'r'}">${b}</span>`).join(' ');
+    let secret='';
+    if(!eveOn) secret=`<div class="row"><span class="who">shared secret key (${sim.kept} bits)</span><span class="secret">${sim.aliceKey.join('')}</span></div>`;
+    else secret=`<div class="row" style="color:var(--rose);font-size:11.5px">mismatched bits (✗) reveal Eve — the key is burned, not used.</div>`;
+    k.innerHTML=`<div class="row"><span class="who">Alice</span>${aStr}</div><div class="row"><span class="who">Bob</span>${bStr}</div>${secret}`;
+  }
+
+  // why panel
+  $('why').innerHTML = `Eve doesn\u2019t know each photon\u2019s basis, so half the time she measures in the <span class="r">wrong</span> one — collapsing the state and destroying the original (<b>no-cloning</b> means she can\u2019t keep a copy to check later). She re-sends her best guess, but on the bits that survive sifting that guess is wrong <b>25%</b> of the time. Security rests on <b>physics, not computational hardness</b> — so BB84 stays secure even against a quantum computer running <span class="c">Shor\u2019s algorithm</span>. Real deployments (metro fibre links, China\u2019s Micius satellite over ~1,200 km) add error correction and privacy amplification, and abort above a small QBER.`;
+}
+
+/* ===================== config ===================== */
+function renderConfig(){
+  $('config').innerHTML=`
+    <div class="grp"><span class="gl">Qubits</span>
+      <input type="range" id="nrange" min="8" max="32" step="1" value="${N}">
+      <span class="nval" id="nval">${N}</span></div>
+    <div class="eve ${eveOn?'on':''}" id="eveToggle">
+      <div class="toggle"></div><span class="lbl">Eve — eavesdropper ${eveOn?'ON':'off'}</span></div>
+    <button class="opt" id="newrun">↻ new transmission</button>`;
+  $('nrange').oninput=e=>{N=+e.target.value;$('nval').textContent=N;newRun();render();};
+  $('eveToggle').onclick=()=>{eveOn=!eveOn;renderConfig();render();};  // toggle reuses the SAME draws
+  $('newrun').onclick=()=>{newRun();render();};
+}
+
+newRun(); renderConfig(); render();
+</script>
+</body>
+</html>

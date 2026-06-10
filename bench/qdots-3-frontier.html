@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Frontier — No. 3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#0a0a12;--cardsolid:#13131f;--ink:#ece8f5;--dim:#8a85a3;--glow:#6de0d0;--violet:#9b6cff;--amber:#ffb347;--rose:#ff5d8f;--line:rgba(155,108,255,0.18);}
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;color:var(--ink);background-color:var(--paper);background-image:radial-gradient(circle at 50% -10%, #1a1430 0%, #08080f 65%);background-attachment:fixed;font-family:"Newsreader",Georgia,serif;line-height:1.6;}
+  .zine{max-width:1060px;margin:0 auto;padding:30px 22px 70px;}
+  ::selection{background:var(--glow);color:#0a0a12;}
+  .kick{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:0.28em;text-transform:uppercase;color:var(--violet);}
+  .mast{border-bottom:4px solid var(--glow);padding-bottom:20px;margin-bottom:6px;}
+  .masthead{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-top:10px;}
+  .mast h1{font-family:"Cinzel";font-weight:800;font-size:clamp(40px,8.5vw,80px);line-height:0.95;letter-spacing:0.01em;text-transform:uppercase;margin:0;max-width:10em;}
+  .mast h1 em{font-style:normal;color:var(--glow);text-shadow:0 0 18px rgba(109,224,208,0.6);}
+  .dek{font-size:clamp(15px,2vw,18px);max-width:640px;margin:18px 0 0;color:#cfc9e0;}
+  .dek b{font-weight:500;color:var(--glow);}
+  .serieslabel{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:0.1em;color:var(--violet);margin-top:14px;text-transform:uppercase;}
+  .art{flex:0 0 auto;}
+  @keyframes spinarrow{0%,100%{opacity:.4;transform:rotate(0deg)}50%{opacity:1;transform:rotate(180deg)}}
+  .arrow{transform-origin:center;animation:spinarrow 2.6s ease-in-out infinite}
+  @media (prefers-reduced-motion:reduce){.arrow{animation:none}}
+  .band{display:inline-block;font-family:"Cinzel";font-weight:700;font-size:13px;letter-spacing:0.14em;text-transform:uppercase;background:var(--glow);color:#0a0a12;padding:5px 13px;margin:34px 0 14px;}
+  .band.violet{background:var(--violet);color:#0a0a12;} .band.dim{background:#241f38;color:var(--ink);}
+  .types{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:11px;}
+  .type{border:1px solid var(--line);background:var(--cardsolid);padding:11px 13px;}
+  .type h4{font-family:"Cinzel";font-weight:700;font-size:15px;margin:0 0 4px;letter-spacing:0.02em;color:var(--glow);}
+  .type p{font-size:13px;margin:0;color:#b3acc7;line-height:1.45;}
+  .type .tg{display:inline-block;font-family:"Space Mono",monospace;font-size:10px;letter-spacing:0.05em;text-transform:uppercase;color:var(--violet);border:1px solid var(--violet);padding:1px 6px;margin-top:7px;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(238px,1fr));gap:14px;}
+  .card{position:relative;border:1px solid var(--line);background:var(--cardsolid);padding:15px 16px 16px;transition:transform .14s ease, box-shadow .14s ease;}
+  .card:hover{transform:translate(-3px,-3px);box-shadow:5px 5px 0 var(--glow);}
+  .card.v:hover{box-shadow:5px 5px 0 var(--violet);}
+  .card .num{position:absolute;top:11px;right:13px;font-family:"Space Mono",monospace;font-weight:700;font-size:12px;color:var(--violet);}
+  .card h3{font-family:"Cinzel";font-weight:700;font-size:17px;line-height:1.1;margin:0 5px 7px 0;max-width:12em;letter-spacing:0.01em;color:var(--ink);}
+  .card .what{font-size:14px;margin:0 0 10px;color:#c8c2da;}
+  .card .need,.card .do{font-family:"Space Mono",monospace;font-size:11px;line-height:1.5;margin:5px 0 0;color:var(--dim);}
+  .card .need b,.card .do b{color:var(--ink);font-weight:700;letter-spacing:0.04em;text-transform:uppercase;margin-right:5px;}
+  .card .plus{font-family:"Space Mono",monospace;font-size:11px;line-height:1.5;margin:8px 0 0;padding-top:8px;border-top:1px dashed var(--line);color:#9a93b0;}
+  .card .plus b{color:var(--glow);font-weight:700;letter-spacing:0.04em;text-transform:uppercase;margin-right:5px;}
+  .card.v .plus b{color:var(--violet);}
+  .block{border:1px solid var(--line);padding:18px 20px;margin-top:6px;background:var(--cardsolid);}
+  .rules{list-style:none;padding:0;margin:0;}
+  .rules li{position:relative;padding:8px 0 8px 26px;font-size:14.5px;border-bottom:1px solid var(--line);}
+  .rules li:last-child{border-bottom:none;}
+  .rules li::before{content:"◖";position:absolute;left:2px;top:9px;font-size:12px;color:var(--glow);}
+  .block.violet .rules li::before{content:"✦";color:var(--violet);font-size:13px;top:9px;}
+  .rules b{font-weight:500;color:var(--glow);} .block.violet .rules b{color:var(--violet);}
+  .colophon{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:0.06em;color:var(--dim);text-align:center;margin-top:40px;padding-top:16px;border-top:1px solid var(--line);}
+  .reveal{opacity:0;transform:translateY(10px);animation:rised .5s cubic-bezier(.2,.7,.2,1) forwards;}
+  @keyframes rised{to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){.reveal{animation:none;opacity:1;transform:none}}
+  @media print{body{background:#fff;color:#000}.card,.block,.type{background:#fff}.card:hover{transform:none;box-shadow:none}.arrow{animation:none}.reveal{animation:none;opacity:1;transform:none}.mast h1 em{text-shadow:none}}
+</style>
+</head>
+<body>
+<div class="zine">
+  <header class="mast">
+    <span class="kick">a concept series · book no. 3 · the frontier</span>
+    <div class="masthead">
+      <div>
+        <h1>The <em>Frontier</em></h1>
+        <p class="serieslabel">the nanocrystal that glows to size · 4 of 4</p>
+      </div>
+      <svg class="art" width="180" height="150" viewBox="0 0 180 150" role="img" aria-label="an electron spin inside a dot as a qubit">
+        <rect x="50" y="42" width="80" height="64" rx="10" fill="none" stroke="#8a85a3" stroke-width="1.5"/>
+        <circle cx="90" cy="74" r="20" fill="#9b6cff" opacity="0.25"/>
+        <g class="arrow"><line x1="90" y1="62" x2="90" y2="86" stroke="#6de0d0" stroke-width="3"/><polygon points="90,58 85,68 95,68" fill="#6de0d0"/></g>
+        <text x="90" y="120" text-anchor="middle" font-family="Space Mono,monospace" font-size="9" fill="#8a85a3">one electron's spin = a qubit</text>
+        <text x="90" y="138" text-anchor="middle" font-family="Space Mono,monospace" font-size="10" fill="#8a85a3">the dot becomes the computer</text>
+      </svg>
+    </div>
+    <p class="dek">The dot's last act turns it from a <b>light source</b> into a <b>computer</b>. Trap a single electron inside a silicon dot and its spin becomes a qubit — and because dots are built with chip-factory tools, this may be the most <b>manufacturable</b> path to a quantum computer. Your hunch was right: quantum dots really are a frontier.</p>
+  </header>
+
+  <span class="band">The new act</span>
+  <div class="types">
+    <div class="type reveal"><h4>Spin qubit</h4><p>One electron's spin, trapped in a dot, stores a quantum bit.</p><span class="tg">the unit</span></div>
+    <div class="type reveal"><h4>Made in a fab</h4><p>Built with the same silicon tools as ordinary chips.</p><span class="tg">scalable</span></div>
+    <div class="type reveal"><h4>Single photons</h4><p>Dots can emit exactly one photon at a time — for quantum networks.</p><span class="tg">light, counted</span></div>
+    <div class="type reveal"><h4>More levels</h4><p>A dot's many states make it a natural higher-dimensional unit.</p><span class="tg">qudit</span></div>
+  </div>
+
+  <span class="band glow">The dot as a qubit</span>
+  <div class="grid">
+    <article class="card v reveal"><span class="num">01</span><h3>Spin in a silicon dot</h3><p class="what">Confine a single electron in a gate-defined silicon quantum dot, and the direction of its spin is a qubit.</p><p class="need"><b>unit</b> electron spin: up / down / superposed</p><p class="do"><b>so</b> the same confinement that makes color now stores quantum information.</p><p class="plus"><b>+1</b> these are <em>far</em> smaller than superconducting or ion-trap qubits — a huge advantage for packing many in.</p></article>
+    <article class="card reveal"><span class="num">02</span><h3>Built like a computer chip</h3><p class="what">Silicon spin qubits use the very same CMOS manufacturing that makes ordinary processors.</p><p class="need"><b>edge</b> standard semiconductor fabrication</p><p class="do"><b>so</b> they could, in principle, scale to millions on one chip.</p><p class="plus"><b>+1</b> Intel and others bet on this precisely because the world already knows how to mass-produce silicon.</p></article>
+    <article class="card reveal"><span class="num">03</span><h3>The 2025 milestone</h3><p class="what">Imec and Diraq reported industrially-made silicon dot qubits hitting the fidelities error correction needs.</p><p class="need"><b>result</b> &gt;99% one- and two-qubit, &gt;99.9% readout</p><p class="do"><b>so</b> fab-made dots cleared a key bar for real quantum computing.</p><p class="plus"><b>+1</b> crucially, the data came from <em>randomly selected</em> devices, not cherry-picked "hero" chips — a uniformity sign.</p></article>
+    <article class="card reveal"><span class="num">04</span><h3>Electrically controlled</h3><p class="what">Spin qubits can often be controlled with electrical signals rather than bulky microwave gear.</p><p class="need"><b>benefit</b> simpler, denser control, less heat</p><p class="do"><b>so</b> large arrays become more practical to wire up.</p><p class="plus"><b>+1</b> heat and wiring are quiet killers of scale — electrical control eases both at once.</p></article>
+  </div>
+
+  <span class="band glow">The other frontiers</span>
+  <div class="grid">
+    <article class="card reveal"><span class="num">05</span><h3>Single-photon sources</h3><p class="what">A dot can be coaxed to emit exactly one photon at a time, on demand.</p><p class="need"><b>use</b> quantum cryptography &amp; networks</p><p class="do"><b>so</b> dots become building blocks for secure quantum communication.</p><p class="plus"><b>+1</b> "one photon, exactly when you want it" is a deceptively hard feat — and dots are among the best at it.</p></article>
+    <article class="card v reveal"><span class="num">06</span><h3>A natural qudit</h3><p class="what">A dot has many discrete energy levels — so it can hold more than two states, like a qutrit or beyond.</p><p class="need"><b>link</b> back to the unit ladder (bit → qubit → qutrit)</p><p class="do"><b>so</b> dots connect the platform question to the dimension question.</p><p class="plus"><b>+1</b> this is the real bridge between "what's the unit made of" and "how many states does it hold."</p></article>
+    <article class="card reveal"><span class="num">07</span><h3>New materials</h3><p class="what">Perovskite and other novel dots push brightness, efficiency, and new device ideas.</p><p class="need"><b>frontier</b> perovskite QDs, beyond cadmium</p><p class="do"><b>so</b> the material palette keeps widening.</p><p class="plus"><b>+1</b> perovskite dots are dazzlingly efficient emitters — though long-term stability is still being solved.</p></article>
+    <article class="card reveal"><span class="num">08</span><h3>You were right about the frontier</h3><p class="what">Quantum dots really are a leading edge — on the <em>platform</em> axis, distinct from the qutrit's <em>dimension</em> axis.</p><p class="need"><b>the honest point</b> two different axes, both real</p><p class="do"><b>so</b> "why qutrit — it's dots" was a fair instinct, just a different question.</p><p class="plus"><b>+1</b> the dot answers "what is the qubit made of?"; the qutrit answers "how many states?" — and they meet here.</p></article>
+  </div>
+
+  <span class="band violet">Why it matters</span>
+  <div class="block violet">
+    <ul class="rules">
+      <li>Confine one electron in a <b>silicon quantum dot</b> and its <b>spin is a qubit</b> — the same confinement that sets color now stores quantum information.</li>
+      <li>Because they're built with <b>standard CMOS chip-making</b>, silicon spin qubits are <b>tiny and potentially scalable to millions</b> per chip — Intel and Diraq's whole bet.</li>
+      <li>In 2025, <b>imec and Diraq</b> reported fab-made dot qubits with <b>&gt;99% gate and &gt;99.9% readout fidelities</b>, from <b>randomly selected</b> devices — clearing a key error-correction bar.</li>
+      <li>Dots also make excellent <b>single-photon sources</b> for quantum networks, and their <b>many levels</b> make them a natural <b>qudit</b> — linking platform to dimension.</li>
+      <li>So the hunch holds: <b>quantum dots are a real frontier</b> — on the <b>platform</b> axis (what the qubit is made of), distinct from the qutrit's <b>dimension</b> axis.</li>
+    </ul>
+  </div>
+
+  <span class="band dim">Settled vs. frontier</span>
+  <div class="block">
+    <ul class="rules">
+      <li><b>Settled:</b> the displays and imaging of Book 2 are <b>deployed</b>. The <b>2025 fidelity results</b> are real, published (Nature), and a genuine milestone.</li>
+      <li><b>Frontier:</b> a <b>useful, large-scale</b> quantum computer from silicon dots <b>does not yet exist</b> — high-fidelity qubits are necessary, not sufficient. Targets like "utility scale" are <b>roadmaps</b>, not results.</li>
+      <li>Hitting error-correction <b>thresholds</b> in small devices is not the same as running <b>full fault-tolerant</b> machines — the hard scaling work is ahead, as with every platform.</li>
+      <li><b>The honest correction holds:</b> a dot being a great <em>platform</em> doesn't make any particular encoding scheme (or "photon-shadow" doubling) physics — the real frontier is manufacturability and fidelity, not a borrowed metaphor.</li>
+      <li>This closes the quantum-dot series: idea → chemistry → uses → frontier. From a glowing speck to, maybe, a computer.</li>
+    </ul>
+  </div>
+
+  <p class="colophon">quantum dots · book no. 3 · from light source to logic · the frontier — the dot becomes the computer</p>
+</div>
+</body>
+</html>

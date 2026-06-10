@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quantum Primer — The Qubit and What It Can Do</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#08080f;
+    --bg2:#0c0c18;
+    --panel:#10101e;
+    --line:#1f1f33;
+    --ink:#e7e7f0;
+    --dim:#9a9ab5;
+    --faint:#5e5e7a;
+    --cyan:#5eead4;
+    --cyan-d:#2dd4bf;
+    --amber:#fbbf24;
+    --amber-d:#f59e0b;
+    --violet:#a78bfa;
+    --rose:#fb7185;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:
+      radial-gradient(1200px 700px at 80% -10%, rgba(94,234,212,.07), transparent 60%),
+      radial-gradient(1000px 600px at 0% 110%, rgba(251,191,36,.06), transparent 55%),
+      var(--bg);
+    color:var(--ink);
+    font-family:'IBM Plex Sans',sans-serif;
+    font-weight:300;
+    line-height:1.65;
+    letter-spacing:.01em;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.035;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .wrap{max-width:920px;margin:0 auto;padding:0 28px;position:relative;z-index:2}
+
+  /* ---- header ---- */
+  header{padding:90px 0 54px;border-bottom:1px solid var(--line)}
+  .kicker{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.42em;
+    text-transform:uppercase;color:var(--cyan);margin-bottom:26px;
+    opacity:0;animation:rise .8s .05s forwards;
+  }
+  h1{
+    font-family:'Spectral',serif;font-weight:300;font-size:clamp(40px,7vw,76px);
+    line-height:1.02;letter-spacing:-.02em;margin-bottom:24px;
+    opacity:0;animation:rise .9s .12s forwards;
+  }
+  h1 em{font-style:italic;color:var(--cyan)}
+  .lede{
+    font-size:clamp(17px,2.3vw,21px);color:var(--dim);max-width:640px;font-weight:300;
+    opacity:0;animation:rise .9s .22s forwards;
+  }
+  .toc{
+    display:flex;flex-wrap:wrap;gap:8px 8px;margin-top:40px;
+    opacity:0;animation:rise .9s .34s forwards;
+  }
+  .toc a{
+    font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.06em;
+    color:var(--dim);text-decoration:none;border:1px solid var(--line);
+    padding:7px 13px;border-radius:40px;transition:.25s;
+  }
+  .toc a:hover{color:var(--cyan);border-color:var(--cyan-d);background:rgba(94,234,212,.06)}
+
+  /* ---- sections ---- */
+  section{padding:66px 0;border-bottom:1px solid var(--line)}
+  .num{
+    font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--faint);
+    letter-spacing:.3em;margin-bottom:18px;display:block;
+  }
+  h2{
+    font-family:'Spectral',serif;font-weight:400;font-size:clamp(28px,4.4vw,42px);
+    line-height:1.1;letter-spacing:-.015em;margin-bottom:22px;
+  }
+  h2 .q{color:var(--cyan)}
+  p{margin-bottom:18px;color:#cdcdde;max-width:680px}
+  p strong{color:var(--ink);font-weight:500}
+  .mono{font-family:'IBM Plex Mono',monospace}
+  .c0{color:var(--cyan)} .c1{color:var(--amber)}
+
+  /* ---- two-up compare ---- */
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:30px 0}
+  @media(max-width:620px){.compare{grid-template-columns:1fr}}
+  .card{
+    background:linear-gradient(160deg,var(--panel),var(--bg2));
+    border:1px solid var(--line);border-radius:14px;padding:26px;position:relative;overflow:hidden;
+  }
+  .card .tag{
+    font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--faint);margin-bottom:14px;
+  }
+  .card h3{font-family:'Spectral',serif;font-weight:400;font-size:23px;margin-bottom:10px}
+  .card p{font-size:14.5px;color:var(--dim);margin-bottom:0}
+  .bitviz{display:flex;gap:10px;margin:18px 0 6px}
+  .bitviz .b{
+    width:46px;height:46px;border-radius:9px;display:grid;place-items:center;
+    font-family:'IBM Plex Mono',monospace;font-size:18px;border:1px solid var(--line);
+  }
+  .bitviz .b.on{background:rgba(94,234,212,.12);border-color:var(--cyan-d);color:var(--cyan)}
+  .bitviz .b.off{color:var(--faint)}
+  .bitviz .either{
+    background:conic-gradient(from 0deg,rgba(94,234,212,.18),rgba(251,191,36,.18),rgba(94,234,212,.18));
+    border-color:var(--violet);color:var(--ink);
+  }
+
+  /* ---- bloch svg ---- */
+  .bloch-wrap{display:grid;grid-template-columns:300px 1fr;gap:34px;align-items:center;margin-top:14px}
+  @media(max-width:620px){.bloch-wrap{grid-template-columns:1fr}}
+  .bloch-svg{width:100%;max-width:300px;margin:0 auto;display:block}
+  .legend{list-style:none}
+  .legend li{
+    font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--dim);
+    padding:9px 0;border-bottom:1px dashed var(--line);display:flex;gap:12px;align-items:baseline;
+  }
+  .legend li:last-child{border:0}
+  .legend b{color:var(--ink);font-weight:500;min-width:58px;display:inline-block}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .spinslow{transform-origin:150px 150px;animation:spin 22s linear infinite}
+
+  /* ---- gate zoo ---- */
+  .gates{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:12px;margin-top:14px}
+  .gate{
+    background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:16px 16px 14px;transition:.25s;cursor:default;
+  }
+  .gate:hover{border-color:var(--cyan-d);transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,.4)}
+  .gate .sym{
+    font-family:'Spectral',serif;font-size:26px;color:var(--cyan);margin-bottom:2px;display:flex;
+    justify-content:space-between;align-items:baseline;
+  }
+  .gate .sym small{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--faint);letter-spacing:.1em}
+  .gate .nm{font-size:13px;color:var(--ink);margin-bottom:8px;font-weight:400}
+  .gate .dsc{font-size:12px;color:var(--dim);line-height:1.5}
+  .mat{
+    font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--dim);
+    display:inline-grid;grid-template-columns:auto auto;gap:2px 12px;
+    border-left:1.5px solid var(--faint);border-right:1.5px solid var(--faint);
+    padding:4px 9px;margin:8px 0;border-radius:2px;
+  }
+
+  /* ---- entangle ---- */
+  .pair{display:flex;gap:28px;align-items:center;justify-content:center;margin:26px 0;flex-wrap:wrap}
+  .orb{
+    width:92px;height:92px;border-radius:50%;position:relative;
+    background:radial-gradient(circle at 35% 30%,rgba(94,234,212,.5),rgba(94,234,212,.05) 60%,transparent);
+    border:1px solid var(--cyan-d);display:grid;place-items:center;
+    font-family:'IBM Plex Mono',monospace;color:var(--cyan);font-size:13px;
+    animation:pulse 3s ease-in-out infinite;
+  }
+  .orb.b{background:radial-gradient(circle at 35% 30%,rgba(251,191,36,.5),rgba(251,191,36,.05) 60%,transparent);border-color:var(--amber-d);color:var(--amber);animation-delay:.4s}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(94,234,212,.18)}50%{box-shadow:0 0 30px 4px rgba(94,234,212,.12)}}
+  .link{flex:1;min-width:60px;height:2px;max-width:160px;background:linear-gradient(90deg,var(--cyan-d),var(--amber-d));position:relative}
+  .link::after{content:"⟷ entangled";position:absolute;top:-26px;left:50%;transform:translateX(-50%);font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--violet);white-space:nowrap}
+
+  /* ---- settled / frontier ---- */
+  .status{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
+  @media(max-width:620px){.status{grid-template-columns:1fr}}
+  .status .col{border:1px solid var(--line);border-radius:14px;padding:24px}
+  .status .col.set{border-top:2px solid var(--cyan-d)}
+  .status .col.front{border-top:2px solid var(--amber-d)}
+  .status h4{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:16px}
+  .status .set h4{color:var(--cyan)} .status .front h4{color:var(--amber)}
+  .status ul{list-style:none}
+  .status li{font-size:14px;color:var(--dim);padding:8px 0 8px 22px;position:relative;border-bottom:1px dashed var(--line)}
+  .status li:last-child{border:0}
+  .status .set li::before{content:"✓";position:absolute;left:0;color:var(--cyan)}
+  .status .front li::before{content:"?";position:absolute;left:0;color:var(--amber);font-family:'IBM Plex Mono',monospace}
+
+  /* ---- callout ---- */
+  .note{
+    border-left:2px solid var(--violet);background:rgba(167,139,250,.05);
+    padding:16px 20px;border-radius:0 10px 10px 0;margin:24px 0;
+  }
+  .note p{margin:0;font-size:14.5px;color:var(--dim)}
+  .note .lbl{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--violet);display:block;margin-bottom:6px}
+
+  footer{padding:54px 0 80px;color:var(--faint);font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.9}
+  footer .seq{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+  footer .seq span{padding:5px 12px;border:1px solid var(--line);border-radius:30px}
+  footer .seq .here{border-color:var(--cyan-d);color:var(--cyan)}
+
+  @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity .7s,transform .7s}
+  .reveal.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="kicker">Quantum Computing · Instrument 01 of 03 · Informative</div>
+    <h1>A qubit is a coin that<br>spins while it's <em>airborne</em>.</h1>
+    <p class="lede">Classical computing asks every wire to be a clean yes or no. Quantum computing lets a wire be a weighted blend of both until you look — and that single change reshapes what computation can be. Here is the working vocabulary.</p>
+    <nav class="toc">
+      <a href="#bit">01 / bit vs qubit</a>
+      <a href="#super">02 / superposition</a>
+      <a href="#bloch">03 / the Bloch sphere</a>
+      <a href="#gates">04 / the gate zoo</a>
+      <a href="#ent">05 / entanglement</a>
+      <a href="#measure">06 / measurement</a>
+      <a href="#status">07 / settled vs frontier</a>
+    </nav>
+  </header>
+
+  <section id="bit" class="reveal">
+    <span class="num">01 / THE UNIT</span>
+    <h2>The classical bit, and the <span class="q">qubit</span> that replaces it</h2>
+    <p>A classical <strong>bit</strong> is the smallest decision a machine can hold: it is either 0 or 1, and at any instant it is exactly one of them. Every photo, model, and spreadsheet is built from billions of these committed choices.</p>
+    <p>A <strong>qubit</strong> refuses to commit early. Its state is written <span class="mono c0">|ψ⟩ = α|0⟩ + β|1⟩</span>, where α and β are complex numbers carrying both a size and a phase. The qubit genuinely <em>is</em> that combination — not secretly one value we haven't checked, but a real superposed state with structure of its own.</p>
+    <div class="compare">
+      <div class="card">
+        <div class="tag">Classical bit</div>
+        <h3>Committed</h3>
+        <div class="bitviz"><div class="b on">1</div><div class="b off">0</div></div>
+        <p>One definite value at all times. Reading it changes nothing.</p>
+      </div>
+      <div class="card">
+        <div class="tag">Qubit</div>
+        <h3>Suspended</h3>
+        <div class="bitviz"><div class="b either">α|0⟩</div><div class="b either">β|1⟩</div></div>
+        <p>A weighted blend of 0 and 1 with phase. Reading it forces a choice.</p>
+      </div>
+    </div>
+    <div class="note">
+      <span class="lbl">The one constraint</span>
+      <p>The weights must satisfy <span class="mono">|α|² + |β|² = 1</span>. Those squared magnitudes are the probabilities of measuring 0 or 1, and probabilities have to total 1 — so a qubit's state always lives on the surface of a sphere, never inside it.</p>
+    </div>
+  </section>
+
+  <section id="super" class="reveal">
+    <span class="num">02 / SUPERPOSITION</span>
+    <h2>Holding <span class="q">every answer</span> at once — with a catch</h2>
+    <p>Put <span class="mono">n</span> qubits together and the system can occupy all <span class="mono">2ⁿ</span> classical patterns simultaneously, each with its own complex amplitude. Three hundred qubits would carry more amplitudes than there are atoms in the observable universe.</p>
+    <p>The catch — and it is the whole game — is that you cannot <em>read out</em> all of those amplitudes. Measurement collapses everything to a single n-bit string. So a quantum algorithm is never "try every answer and print them." It is the art of arranging <strong>interference</strong> so the wrong answers cancel and the right ones reinforce, <em>before</em> you look.</p>
+    <div class="note">
+      <span class="lbl">Why interference matters</span>
+      <p>Amplitudes can be negative or complex, so two paths to the same outcome can add (louder) or subtract (silence). Classical probabilities only ever add. That subtraction is the resource quantum computers actually spend.</p>
+    </div>
+  </section>
+
+  <section id="bloch" class="reveal">
+    <span class="num">03 / GEOMETRY</span>
+    <h2>The <span class="q">Bloch sphere</span>: one qubit as a point on a globe</h2>
+    <p>A single qubit's state, ignoring an irrelevant overall phase, is fully described by two angles. That makes it a point on the surface of a sphere — the <strong>Bloch sphere</strong>. The north pole is <span class="mono c0">|0⟩</span>, the south pole is <span class="mono c1">|1⟩</span>, and the equator holds the even superpositions, separated only by their phase.</p>
+    <div class="bloch-wrap">
+      <svg class="bloch-svg" viewBox="0 0 300 300" aria-label="Bloch sphere diagram">
+        <defs>
+          <radialGradient id="g" cx="38%" cy="34%" r="75%">
+            <stop offset="0%" stop-color="#1a1a30"/>
+            <stop offset="70%" stop-color="#0d0d1c"/>
+            <stop offset="100%" stop-color="#08080f"/>
+          </radialGradient>
+        </defs>
+        <circle cx="150" cy="150" r="110" fill="url(#g)" stroke="#2a2a45" stroke-width="1"/>
+        <g class="spinslow" stroke="#2dd4bf" stroke-opacity=".32" fill="none">
+          <ellipse cx="150" cy="150" rx="110" ry="34"/>
+          <ellipse cx="150" cy="150" rx="40" ry="110"/>
+        </g>
+        <ellipse cx="150" cy="150" rx="110" ry="34" fill="none" stroke="#3a3a58" stroke-dasharray="3 4"/>
+        <line x1="150" y1="40" x2="150" y2="260" stroke="#3a3a58" stroke-width="1"/>
+        <!-- state vector -->
+        <line x1="150" y1="150" x2="220" y2="92" stroke="#fbbf24" stroke-width="2.2"/>
+        <circle cx="220" cy="92" r="4.5" fill="#fbbf24"/>
+        <text x="228" y="90" fill="#fbbf24" font-family="IBM Plex Mono" font-size="13">|ψ⟩</text>
+        <!-- poles -->
+        <circle cx="150" cy="40" r="4" fill="#5eead4"/>
+        <text x="150" y="30" fill="#5eead4" font-family="IBM Plex Mono" font-size="13" text-anchor="middle">|0⟩</text>
+        <circle cx="150" cy="260" r="4" fill="#fbbf24"/>
+        <text x="150" y="282" fill="#fbbf24" font-family="IBM Plex Mono" font-size="13" text-anchor="middle">|1⟩</text>
+        <text x="262" y="156" fill="#5e5e7a" font-family="IBM Plex Mono" font-size="11">+x</text>
+      </svg>
+      <ul class="legend">
+        <li><b>North</b> the pure state |0⟩ — measures 0 every time</li>
+        <li><b>South</b> the pure state |1⟩ — measures 1 every time</li>
+        <li><b>Equator</b> 50/50 superpositions; longitude = phase</li>
+        <li><b>θ</b> tilt from the north pole sets the 0-vs-1 odds</li>
+        <li><b>φ</b> rotation around the axis sets the phase</li>
+      </ul>
+    </div>
+    <p>Every single-qubit operation is just a <strong>rotation of this sphere</strong>. That is the quiet payoff of the picture: abstract complex algebra becomes "turn the globe," and the next instrument lets you do exactly that by hand.</p>
+  </section>
+
+  <section id="gates" class="reveal">
+    <span class="num">04 / OPERATIONS</span>
+    <h2>The <span class="q">gate zoo</span></h2>
+    <p>Gates are the verbs of quantum computing. Each is a reversible operation — mathematically a unitary matrix — that rotates the state without ever destroying information. Here are the workhorses you will meet everywhere.</p>
+    <div class="gates">
+      <div class="gate"><div class="sym">X <small>NOT</small></div><div class="nm">Pauli-X</div><div class="dsc">Flips |0⟩↔|1⟩. A half-turn about the x-axis — the quantum NOT gate.</div></div>
+      <div class="gate"><div class="sym">Y <small>i·flip</small></div><div class="nm">Pauli-Y</div><div class="dsc">Bit-flip and phase-flip together. Half-turn about the y-axis.</div></div>
+      <div class="gate"><div class="sym">Z <small>phase</small></div><div class="nm">Pauli-Z</div><div class="dsc">Leaves |0⟩, sends |1⟩→−|1⟩. Flips phase, not bit value.</div></div>
+      <div class="gate"><div class="sym">H <small>√NOT-ish</small></div><div class="nm">Hadamard</div><div class="dsc">Turns a pole into the equator — the gate that <em>creates</em> superposition.</div></div>
+      <div class="gate"><div class="sym">S <small>¼ phase</small></div><div class="nm">S / phase</div><div class="dsc">Quarter-turn of phase (90°). Two S gates make a Z.</div></div>
+      <div class="gate"><div class="sym">T <small>⅛ phase</small></div><div class="nm">T / π/8</div><div class="dsc">Eighth-turn of phase (45°). Key to universal, fault-tolerant sets.</div></div>
+      <div class="gate"><div class="sym">⊕ <small>2-qubit</small></div><div class="nm">CNOT</div><div class="dsc">Flips the target only if the control is 1. The standard entangler.</div></div>
+      <div class="gate"><div class="sym">⇄ <small>2-qubit</small></div><div class="nm">SWAP</div><div class="dsc">Exchanges the states of two qubits. Useful for routing on real hardware.</div></div>
+    </div>
+    <div class="note">
+      <span class="lbl">Universality</span>
+      <p>A small kit — say <span class="mono">{H, T, CNOT}</span> — can approximate <em>any</em> quantum operation to arbitrary precision. You don't need infinitely many gate types, just the right handful, exactly as classical logic reduces to NAND.</p>
+    </div>
+  </section>
+
+  <section id="ent" class="reveal">
+    <span class="num">05 / CORRELATION</span>
+    <h2><span class="q">Entanglement</span>: two qubits, one shared fate</h2>
+    <p>Apply a Hadamard then a CNOT to two fresh qubits and you reach the <strong>Bell state</strong> <span class="mono">(|00⟩ + |11⟩)/√2</span>. Now neither qubit has a state of its own — only the pair does. Measure one and find 0, and the other is instantly 0 too; find 1, and its partner is 1, no matter how far apart they sit.</p>
+    <div class="pair">
+      <div class="orb">qubit A</div>
+      <div class="link"></div>
+      <div class="orb b">qubit B</div>
+    </div>
+    <p>This is not a hidden message being sent — you can't use it to signal faster than light, because each qubit alone looks like random noise. What entanglement buys computation is <strong>correlation structure</strong>: a way to wire qubits together so operations on one ripple through the whole register at once.</p>
+  </section>
+
+  <section id="measure" class="reveal">
+    <span class="num">06 / READOUT</span>
+    <h2><span class="q">Measurement</span>: the irreversible step</h2>
+    <p>Every gate so far is reversible. Measurement is the one door that only swings one way. The instant you read a qubit, its superposition collapses to a single definite value — <span class="mono c0">0</span> or <span class="mono c1">1</span> — with probability equal to that outcome's squared amplitude. The rest of the state is gone.</p>
+    <p>So the rhythm of a quantum program is always the same: <strong>prepare</strong> a superposition, <strong>interfere</strong> with gates so the answer dominates, <strong>measure</strong> once. Often you repeat the whole run many times and read the answer from the <em>distribution</em> of outcomes, the way you'd learn a coin's bias by flipping it repeatedly.</p>
+  </section>
+
+  <section id="status" class="reveal">
+    <span class="num">07 / HONEST LABELING</span>
+    <h2>What's <span class="q">settled</span> — and what's still frontier</h2>
+    <p>Quantum computing carries a lot of hype. Worth separating the textbook physics, which is not in dispute, from the engineering and the open claims, which very much are.</p>
+    <div class="status">
+      <div class="col set">
+        <h4>Settled — not controversial</h4>
+        <ul>
+          <li>Qubits, superposition, and entanglement are real, lab-confirmed phenomena.</li>
+          <li>The gate model and unitary evolution are rigorous, standard mathematics.</li>
+          <li>Specific algorithms (Shor's factoring, Grover's search) have proven speedups <em>on an ideal machine</em>.</li>
+          <li>Small quantum processors exist today and run real circuits.</li>
+        </ul>
+      </div>
+      <div class="col front">
+        <h4>Frontier — open or contested</h4>
+        <ul>
+          <li>Scaling to millions of error-corrected qubits is unsolved engineering.</li>
+          <li>Decoherence and noise still wreck most long circuits on real hardware.</li>
+          <li>"Quantum advantage" for genuinely useful problems is claimed more often than demonstrated.</li>
+          <li>Which industries see real payoff, and when, is forecast — not fact.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="seq">
+      <span class="here">01 · informative — you are here</span>
+      <span>02 · interactive — single-qubit Bloch lab</span>
+      <span>03 · complex — multi-qubit circuit simulator</span>
+    </div>
+    QUANTUM PRIMER · built as a reference instrument · the math here is standard; explore it live in instruments 02 and 03.
+  </footer>
+
+</div>
+<script>
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

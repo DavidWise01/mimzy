@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Where They Are Now — No. 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#0a0a12;--cardsolid:#13131f;--ink:#ece8f5;--dim:#8a85a3;--glow:#6de0d0;--violet:#9b6cff;--amber:#ffb347;--rose:#ff5d8f;--line:rgba(155,108,255,0.18);}
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;color:var(--ink);background-color:var(--paper);background-image:radial-gradient(circle at 50% -10%, #1a1430 0%, #08080f 65%);background-attachment:fixed;font-family:"Newsreader",Georgia,serif;line-height:1.6;}
+  .zine{max-width:1060px;margin:0 auto;padding:30px 22px 70px;}
+  ::selection{background:var(--glow);color:#0a0a12;}
+  .kick{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:0.28em;text-transform:uppercase;color:var(--violet);}
+  .mast{border-bottom:4px solid var(--glow);padding-bottom:20px;margin-bottom:6px;}
+  .masthead{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-top:10px;}
+  .mast h1{font-family:"Cinzel";font-weight:800;font-size:clamp(34px,7vw,68px);line-height:0.96;letter-spacing:0.01em;text-transform:uppercase;margin:0;max-width:11em;}
+  .mast h1 em{font-style:normal;color:var(--glow);text-shadow:0 0 18px rgba(109,224,208,0.6);}
+  .dek{font-size:clamp(15px,2vw,18px);max-width:640px;margin:18px 0 0;color:#cfc9e0;}
+  .dek b{font-weight:500;color:var(--glow);}
+  .serieslabel{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:0.1em;color:var(--violet);margin-top:14px;text-transform:uppercase;}
+  .art{flex:0 0 auto;}
+  @keyframes flick{0%,100%{opacity:1}50%{opacity:.6}}
+  .px{animation:flick 1.8s ease-in-out infinite}
+  @media (prefers-reduced-motion:reduce){.px{animation:none}}
+  .band{display:inline-block;font-family:"Cinzel";font-weight:700;font-size:13px;letter-spacing:0.14em;text-transform:uppercase;background:var(--glow);color:#0a0a12;padding:5px 13px;margin:34px 0 14px;}
+  .band.violet{background:var(--violet);color:#0a0a12;} .band.dim{background:#241f38;color:var(--ink);}
+  .types{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:11px;}
+  .type{border:1px solid var(--line);background:var(--cardsolid);padding:11px 13px;}
+  .type h4{font-family:"Cinzel";font-weight:700;font-size:15px;margin:0 0 4px;letter-spacing:0.02em;color:var(--glow);}
+  .type p{font-size:13px;margin:0;color:#b3acc7;line-height:1.45;}
+  .type .tg{display:inline-block;font-family:"Space Mono",monospace;font-size:10px;letter-spacing:0.05em;text-transform:uppercase;color:var(--violet);border:1px solid var(--violet);padding:1px 6px;margin-top:7px;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(238px,1fr));gap:14px;}
+  .card{position:relative;border:1px solid var(--line);background:var(--cardsolid);padding:15px 16px 16px;transition:transform .14s ease, box-shadow .14s ease;}
+  .card:hover{transform:translate(-3px,-3px);box-shadow:5px 5px 0 var(--glow);}
+  .card.v:hover{box-shadow:5px 5px 0 var(--violet);}
+  .card .num{position:absolute;top:11px;right:13px;font-family:"Space Mono",monospace;font-weight:700;font-size:12px;color:var(--violet);}
+  .card h3{font-family:"Cinzel";font-weight:700;font-size:17px;line-height:1.1;margin:0 5px 7px 0;max-width:12em;letter-spacing:0.01em;color:var(--ink);}
+  .card .what{font-size:14px;margin:0 0 10px;color:#c8c2da;}
+  .card .need,.card .do{font-family:"Space Mono",monospace;font-size:11px;line-height:1.5;margin:5px 0 0;color:var(--dim);}
+  .card .need b,.card .do b{color:var(--ink);font-weight:700;letter-spacing:0.04em;text-transform:uppercase;margin-right:5px;}
+  .card .plus{font-family:"Space Mono",monospace;font-size:11px;line-height:1.5;margin:8px 0 0;padding-top:8px;border-top:1px dashed var(--line);color:#9a93b0;}
+  .card .plus b{color:var(--glow);font-weight:700;letter-spacing:0.04em;text-transform:uppercase;margin-right:5px;}
+  .card.v .plus b{color:var(--violet);}
+  .block{border:1px solid var(--line);padding:18px 20px;margin-top:6px;background:var(--cardsolid);}
+  .rules{list-style:none;padding:0;margin:0;}
+  .rules li{position:relative;padding:8px 0 8px 26px;font-size:14.5px;border-bottom:1px solid var(--line);}
+  .rules li:last-child{border-bottom:none;}
+  .rules li::before{content:"◖";position:absolute;left:2px;top:9px;font-size:12px;color:var(--glow);}
+  .block.violet .rules li::before{content:"✦";color:var(--violet);font-size:13px;top:9px;}
+  .rules b{font-weight:500;color:var(--glow);} .block.violet .rules b{color:var(--violet);}
+  .colophon{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:0.06em;color:var(--dim);text-align:center;margin-top:40px;padding-top:16px;border-top:1px solid var(--line);}
+  .reveal{opacity:0;transform:translateY(10px);animation:risec .5s cubic-bezier(.2,.7,.2,1) forwards;}
+  @keyframes risec{to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){.reveal{animation:none;opacity:1;transform:none}}
+  @media print{body{background:#fff;color:#000}.card,.block,.type{background:#fff}.card:hover{transform:none;box-shadow:none}.px{animation:none}.reveal{animation:none;opacity:1;transform:none}.mast h1 em{text-shadow:none}}
+</style>
+</head>
+<body>
+<div class="zine">
+  <header class="mast">
+    <span class="kick">a concept series · book no. 2 · where they are now</span>
+    <div class="masthead">
+      <div>
+        <h1>Where They <em>Are Now</em></h1>
+        <p class="serieslabel">the nanocrystal that glows to size · 3 of 4</p>
+      </div>
+      <svg class="art" width="180" height="150" viewBox="0 0 180 150" role="img" aria-label="a screen of glowing pixels and a cell being imaged">
+        <rect x="24" y="34" width="60" height="44" rx="3" fill="none" stroke="#8a85a3" stroke-width="1.5"/>
+        <g><rect class="px" x="30" y="40" width="9" height="9" fill="#ff5d8f"/><rect class="px" x="42" y="40" width="9" height="9" fill="#9be86a"/><rect class="px" x="54" y="40" width="9" height="9" fill="#6d8cff"/><rect class="px" x="66" y="40" width="9" height="9" fill="#ffb347"/></g>
+        <text x="54" y="92" text-anchor="middle" font-family="Space Mono,monospace" font-size="9" fill="#8a85a3">display</text>
+        <circle cx="134" cy="56" r="22" fill="none" stroke="#8a85a3" stroke-width="1.5"/>
+        <circle class="px" cx="128" cy="50" r="4" fill="#6de0d0"/><circle class="px" cx="140" cy="60" r="4" fill="#6de0d0"/><circle class="px" cx="132" cy="64" r="3" fill="#6de0d0"/>
+        <text x="134" y="92" text-anchor="middle" font-family="Space Mono,monospace" font-size="9" fill="#8a85a3">bioimaging</text>
+        <text x="90" y="138" text-anchor="middle" font-family="Space Mono,monospace" font-size="10" fill="#8a85a3">from lab curiosity to living room &amp; clinic</text>
+      </svg>
+    </div>
+    <p class="dek">Here is the rare arc the Nobel committee loved: a piece of pure physics that became <b>a product you can buy and a tool that saves lives</b>. Quantum dots glow in millions of televisions and light up tumors for surgeons. This book is where the dots actually ended up.</p>
+  </header>
+
+  <span class="band">Where they glow</span>
+  <div class="types">
+    <div class="type reveal"><h4>Displays</h4><p>The big commercial win — purer, brighter color in QLED TVs.</p><span class="tg">screens</span></div>
+    <div class="type reveal"><h4>Medicine</h4><p>Bright, durable fluorescent tags for imaging and surgery.</p><span class="tg">the clinic</span></div>
+    <div class="type reveal"><h4>Energy</h4><p>Light-harvesting layers in solar cells and efficient LEDs.</p><span class="tg">power</span></div>
+    <div class="type reveal"><h4>Sensing</h4><p>Photodetectors and single-photon sources.</p><span class="tg">detection</span></div>
+  </div>
+
+  <span class="band glow">In your living room</span>
+  <div class="grid">
+    <article class="card v reveal"><span class="num">01</span><h3>QLED displays</h3><p class="what">Quantum dots are the headline use — purifying the color in many premium TVs and monitors.</p><p class="need"><b>why dots win</b> very pure, tunable color</p><p class="do"><b>so</b> screens show a wider, richer range of colors.</p><p class="plus"><b>+1</b> the dots emit an unusually narrow band of color, so reds look truly red instead of washed-out orange.</p></article>
+    <article class="card reveal"><span class="num">02</span><h3>How the screen uses them</h3><p class="what">In today's common design, blue LEDs excite red- and green-emitting dots to build pure white and full color.</p><p class="need"><b>setup</b> blue backlight + dot color converters</p><p class="do"><b>so</b> the panel gets bright, accurate color efficiently.</p><p class="plus"><b>+1</b> next-gen "electroluminescent" QLEDs aim to drive each dot directly — no backlight — for even better screens.</p></article>
+    <article class="card reveal"><span class="num">03</span><h3>Efficient lighting</h3><p class="what">The same tunable, pure emission makes dots attractive for high-quality LED lighting.</p><p class="need"><b>benefit</b> tailor the exact shade of white</p><p class="do"><b>so</b> light can be made warmer or cooler by design.</p><p class="plus"><b>+1</b> the Nobel announcement specifically noted dots now light <em>LED lamps</em>, not just screens.</p></article>
+    <article class="card reveal"><span class="num">04</span><h3>From theory to product, fast</h3><p class="what">Dots went from lab phenomenon to mass-market hardware in a remarkably short scientific span.</p><p class="need"><b>arc</b> 1980s physics → 2010s living rooms</p><p class="do"><b>so</b> they're a textbook case of basic science paying off.</p><p class="plus"><b>+1</b> chemists call it striking how fast a fundamental discovery turned into something on a store shelf.</p></article>
+  </div>
+
+  <span class="band glow">In the clinic & beyond</span>
+  <div class="grid">
+    <article class="card reveal"><span class="num">05</span><h3>Bioimaging tags</h3><p class="what">Dots are bright, color-tunable fluorescent labels that outlast traditional organic dyes.</p><p class="need"><b>edge</b> brighter, far more photostable</p><p class="do"><b>so</b> cells and molecules can be watched for longer.</p><p class="plus"><b>+1</b> ordinary dyes "photobleach" — fade fast under the microscope; dots keep glowing, enabling long studies.</p></article>
+    <article class="card reveal"><span class="num">06</span><h3>Lighting up tumors</h3><p class="what">Targeted dots can mark tumor tissue, helping surgeons see the edges of what to remove.</p><p class="need"><b>use</b> image-guided surgery</p><p class="do"><b>so</b> the boundary between cancer and healthy tissue gets clearer.</p><p class="plus"><b>+1</b> near-infrared dots are favored here — that light penetrates tissue better and cuts background glow.</p></article>
+    <article class="card reveal"><span class="num">07</span><h3>Many colors at once</h3><p class="what">Because each size is a distinct color, many dot types can be tracked simultaneously.</p><p class="need"><b>strength</b> multiplexed imaging</p><p class="do"><b>so</b> several targets can be watched in one experiment.</p><p class="plus"><b>+1</b> one laser can excite them all at once, yet each size answers back in its own color — a built-in barcode.</p></article>
+    <article class="card v reveal"><span class="num">08</span><h3>Solar & sensing</h3><p class="what">Dots harvest light in experimental solar cells and detect it in photodetectors.</p><p class="need"><b>uses</b> photovoltaics, photodetection</p><p class="do"><b>so</b> they work as both light-emitters and light-catchers.</p><p class="plus"><b>+1</b> "inverting" the dot — using it to absorb rather than emit — is exactly the photodetector idea.</p></article>
+  </div>
+
+  <span class="band violet">The story so far</span>
+  <div class="block violet">
+    <ul class="rules">
+      <li>The flagship use is <b>displays</b>: dots' <b>pure, tunable color</b> drives many premium <b>QLED</b> TVs and monitors, plus high-quality <b>LED lighting</b>.</li>
+      <li>In today's common screens, a <b>blue backlight excites red/green dots</b>; next-gen designs aim to drive each dot <b>directly</b>.</li>
+      <li>In medicine, dots are <b>bright, photostable fluorescent tags</b> for <b>bioimaging</b>, <b>multiplexed</b> detection, and <b>image-guided tumor surgery</b> (often near-infrared).</li>
+      <li>They also serve in <b>solar cells</b> and <b>photodetectors</b> — working as light-catchers, not just light-emitters.</li>
+      <li>The whole arc — <b>1980s physics to mass-market product in decades</b> — is why the 2023 Nobel celebrated it as basic science paying off.</li>
+    </ul>
+  </div>
+
+  <span class="band dim">How we know — and the honest caveats</span>
+  <div class="block">
+    <ul class="rules">
+      <li><b>Settled &amp; deployed:</b> QLED displays are a <b>real, shipping product</b>; dot bioimaging is <b>established lab practice</b>. These aren't promises.</li>
+      <li><b>Maturity varies:</b> displays are mainstream; some medical and solar uses are <b>still research or niche</b>. "Used in medicine" spans both routine lab tags and experimental surgery — don't flatten the difference.</li>
+      <li><b>Toxicity is a live issue in the body:</b> cadmium dots raise real safety questions for <em>in vivo</em> human use, which is why <b>Cd-free dots and careful coatings</b> matter — and why clinical adoption is cautious.</li>
+      <li>Marketing blurs lines: a "QLED" TV still uses an LCD panel with a dot layer; truly <b>direct-emission</b> QLED screens are mostly still emerging.</li>
+      <li>Book 1 was the chemistry; <b>Book 3</b> is the frontier — dots as qubits, single-photon sources, and what's next.</li>
+    </ul>
+  </div>
+
+  <p class="colophon">quantum dots · book no. 2 · on your wall and in the operating room · where they are now</p>
+</div>
+</body>
+</html>
