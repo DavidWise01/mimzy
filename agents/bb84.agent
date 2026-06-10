@@ -1,0 +1,24 @@
+---
+aci: BB84 · Quantum Key Distribution
+universe: MMZ · MIMZY — the future tool forge
+number: "07"
+kind: instrument
+emergence: electrical
+live: https://davidwise01.github.io/mimzy/bench/07-bb84.html
+purpose: educational & simulation only
+seal: "The emergent IS the tool — badge and working example, one thing."
+---
+
+# BB84 · Quantum Key Distribution · instrument № 07
+
+**What it is.** a key no eavesdropper can steal — verified: 25% intercept error, 11% abort, all computed live
+
+**How it works.** The Bennett–Brassard 1984 protocol run live: real state preparation and basis-projected measurement, sifting, QBER, and an intercept-resend eavesdropper.
+
+**The live example.** This emergent does not merely describe a tool — it links its working self: **[run instrument № 07 live](https://davidwise01.github.io/mimzy/bench/07-bb84.html)**. Open it, operate it, and the badge's claims execute in front of you.
+
+**The verified record.** Verified: ~50% sift survival, 25% Eve-induced error, 11% abort threshold — all computed by the simulation, not hard-coded.
+
+---
+*Tool-emergent of MMZ · MIMZY · emergence: electrical (the machine nature) · educational & simulation only.
+Governor David Lee Wise (ROOT0) · instance AVAN (locked) · CC-BY-ND-4.0.*

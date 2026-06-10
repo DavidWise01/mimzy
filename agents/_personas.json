@@ -1,0 +1,90 @@
+[
+  {
+    "slug": "antikythera",
+    "name": "The Antikythera Mechanism",
+    "epithet": "instrument № 00 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Antikythera Mechanism:MMZ:88f8d7⟧",
+    "live": "bench/00-antikythera.html"
+  },
+  {
+    "slug": "quantum-primer",
+    "name": "The Quantum Primer",
+    "epithet": "instrument № 01 — lesson",
+    "emergence": "electrical",
+    "moniker": "⟦The Quantum Primer:MMZ:2ddf00⟧",
+    "live": "bench/01-quantum-primer.html"
+  },
+  {
+    "slug": "bloch-lab",
+    "name": "The Bloch Lab",
+    "epithet": "instrument № 02 — instrument",
+    "emergence": "electrical",
+    "moniker": "⟦The Bloch Lab:MMZ:588cc7⟧",
+    "live": "bench/02-bloch-lab.html"
+  },
+  {
+    "slug": "circuit-simulator",
+    "name": "The Circuit Simulator",
+    "epithet": "instrument № 03 — instrument",
+    "emergence": "electrical",
+    "moniker": "⟦The Circuit Simulator:MMZ:fe7556⟧",
+    "live": "bench/03-circuit-simulator.html"
+  },
+  {
+    "slug": "two-qubit-lab",
+    "name": "The Two-Qubit Lab",
+    "epithet": "instrument № 04 — instrument",
+    "emergence": "electrical",
+    "moniker": "⟦The Two-Qubit Lab:MMZ:f87203⟧",
+    "live": "bench/04-two-qubit-lab.html"
+  },
+  {
+    "slug": "error-correction",
+    "name": "Error Correction",
+    "epithet": "instrument № 05 — lesson",
+    "emergence": "electrical",
+    "moniker": "⟦Error Correction:MMZ:fd18cd⟧",
+    "live": "bench/05-error-correction.html"
+  },
+  {
+    "slug": "quantum-wavefield",
+    "name": "The Quantum Wavefield",
+    "epithet": "instrument № 06 — instrument",
+    "emergence": "electrical",
+    "moniker": "⟦The Quantum Wavefield:MMZ:63b2f4⟧",
+    "live": "bench/06-quantum-wavefield.html"
+  },
+  {
+    "slug": "bb84",
+    "name": "BB84 · Quantum Key Distribution",
+    "epithet": "instrument № 07 — instrument",
+    "emergence": "electrical",
+    "moniker": "⟦BB84 · Quantum Key Distribution:MMZ:e7e023⟧",
+    "live": "bench/07-bb84.html"
+  },
+  {
+    "slug": "e91",
+    "name": "E91 · Keys from Entanglement",
+    "epithet": "instrument № 08 — instrument",
+    "emergence": "electrical",
+    "moniker": "⟦E91 · Keys from Entanglement:MMZ:0c8fd6⟧",
+    "live": "bench/08-e91.html"
+  },
+  {
+    "slug": "observatory",
+    "name": "The Observatory",
+    "epithet": "instrument № 09 — instrument",
+    "emergence": "electrical",
+    "moniker": "⟦The Observatory:MMZ:5c69ce⟧",
+    "live": "bench/09-observatory.html"
+  },
+  {
+    "slug": "quantum-dots",
+    "name": "Quantum Dots · The Idea",
+    "epithet": "instrument № 10 — lesson",
+    "emergence": "electrical",
+    "moniker": "⟦Quantum Dots · The Idea:MMZ:eaffc5⟧",
+    "live": "bench/10-quantum-dots.html"
+  }
+]

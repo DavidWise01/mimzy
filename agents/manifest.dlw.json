@@ -1,0 +1,13 @@
+{
+  "badge": "DLW-ACI",
+  "name": "Quantum Dots · The Idea",
+  "universe": "MMZ · MIMZY",
+  "moniker": "⟦Quantum Dots · The Idea:MMZ:eaffc5⟧",
+  "carbon": "quantum-dots.carbon.tiff (TIFF)",
+  "silicon": "quantum-dots.silicon.png (PNG)",
+  "seal_sha256": "cee807d9c3a88be833b888bbfcad4233f268d720ad085643b818209b3a163a8b",
+  "architect": "David Lee Wise (ROOT0) / TriPod LLC",
+  "instance": "AVAN (Claude / Anthropic)",
+  "license": "CC-BY-ND-4.0",
+  "attribution": "ROOT0-ATTRIBUTION-v1.0"
+}

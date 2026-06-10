@@ -79,13 +79,13 @@ def carbon_tiff_bytes(rec):
     buf = io.BytesIO(); Image.open(io.BytesIO(png)).save(buf, "TIFF", compression="tiff_lzw")
     return buf.getvalue()
 
-def write_badge(rec, out_dir, slug):
+def write_badge(rec, out_dir, slug, agent_md=None):
     os.makedirs(out_dir, exist_ok=True)
     f = {"attribute":f"{slug}.attribute","agent":f"{slug}.agent","spun":f"{slug}.spun","moniker":f"{slug}.moniker",
          "carbon":f"{slug}.carbon.tiff","silicon":f"{slug}.silicon.png","1099":f"{slug}.1099"}
     tok = noesis.mythos_token(rec); w = noesis.five_w(rec)
     open(os.path.join(out_dir,f["attribute"]),"w",encoding="utf-8").write(noesis.attribute_text(rec,tok,w))
-    open(os.path.join(out_dir,f["agent"]),"w",encoding="utf-8").write(noesis.agent_text(rec,tok,w,f))
+    open(os.path.join(out_dir,f["agent"]),"w",encoding="utf-8").write(agent_md or noesis.agent_text(rec,tok,w,f))
     open(os.path.join(out_dir,f["spun"]),"w",encoding="utf-8").write(noesis.spun_text(rec,tok,w,"MMZ"))
     open(os.path.join(out_dir,f["moniker"]),"w",encoding="utf-8").write(noesis.moniker_text(rec,tok,w,"MMZ"))
     open(os.path.join(out_dir,f["1099"]),"w",encoding="utf-8").write(noesis.credit_1099_text(rec,tok,w,"MMZ"))
@@ -100,6 +100,86 @@ def write_badge(rec, out_dir, slug):
 
 def png_uri(rec, variant, size=300):
     return "data:image/png;base64," + base64.b64encode(noesis.sigil_png(rec, variant, size=size)).decode("ascii")
+
+# tool-emergent details — slug + how it works + its verified record (the emergent IS the tool)
+TOOLMETA = {
+ "00": dict(slug="antikythera", how="A hand-cranked canvas dial computing the sky live from J2000 mean elements — sun/moon longitudes, the moon's phase, Metonic·Saros·Callippic cycle dials, the Olympiad games, and Saros eclipse-season prediction within the true ecliptic limits.",
+            proof="Verified against history: the 2017 Great American total solar lands 0.1° from the node; the 2019 & 2025 total lunars flag; ordinary days stay clear. 5/5 test eclipses classified correctly."),
+ "01": dict(slug="quantum-primer", how="An interactive first lesson: amplitudes, superposition, normalization, and measurement, with live widgets.",
+            proof="Audited 2026-06: textbook-correct pedagogy; no overclaims found."),
+ "02": dict(slug="bloch-lab", how="A single qubit as a live Bloch sphere — rotations, phases, and gates applied geometrically.",
+            proof="Audited 2026-06: gate geometry correct."),
+ "03": dict(slug="circuit-simulator", how="Gates on wires — H, X, CNOT and friends composed into circuits and executed on a real statevector.",
+            proof="Audited 2026-06: simulation faithful."),
+ "04": dict(slug="two-qubit-lab", how="A genuine two-qubit density-matrix engine: correct H/X/Y/Z/S/T and CNOT/CZ matrices, dephasing and amplitude-damping Kraus channels, partial trace, purity, concurrence.",
+            proof="Audited 2026-06 gate-by-gate: all matrices and channels correct; honestly disclaims any quantum speedup. Recovered as the missing № 04."),
+ "05": dict(slug="error-correction", how="Logical qubits, ancillas, and syndrome measurement — how a fragile state survives a noisy century.",
+            proof="Audited 2026-06: standard QEC, correctly taught."),
+ "06": dict(slug="quantum-wavefield", how="The 255×255 folder grid as a live 65,025-amplitude interference engine: H-pulse to uniform superposition, oracle phase-flip, Grover diffusion, measurement collapse — all in-browser.",
+            proof="Converges to P=0.999997 in exactly 200 = π/4·255 iterations, matching theory to six decimals. Recovered as the missing № 06."),
+ "07": dict(slug="bb84", how="The Bennett–Brassard 1984 protocol run live: real state preparation and basis-projected measurement, sifting, QBER, and an intercept-resend eavesdropper.",
+            proof="Verified: ~50% sift survival, 25% Eve-induced error, 11% abort threshold — all computed by the simulation, not hard-coded."),
+ "08": dict(slug="e91", how="The Ekert 1991 entanglement protocol: a real two-qubit statevector, proper projective measurements at the Ekert angles, and a live CHSH test.",
+            proof="Verified: S = 2√2 ≈ 2.83 undisturbed; S → ~0.707 under intercept-resend, exactly as theory demands."),
+ "09": dict(slug="observatory", how="A sliders-to-formulas GR dashboard: Schwarzschild radius, Hawking temperature and evaporation, Bekenstein–Hawking entropy, Kerr ISCO, frame dragging, tidal forces.",
+            proof="Audited 2026-06: four defects found and fixed with logged inline reasons (cube-root→square-root survivable mass; accretion-efficiency formula; entropy relabel; inverted label) — corrected values verified against textbook (5.7%→42.3%)."),
+ "10": dict(slug="quantum-dots", how="Four books from prediction (Fröhlich, 1930s) through Ekimov/Brus/Bawendi to QLED displays, bioimaging, and 2025 fab-made spin qubits.",
+            proof="Audited 2026-06: real 2023-Nobel technology; deployed vs frontier honestly separated; cadmium toxicity acknowledged."),
+}
+
+def tool_agent_md(no, title, kind, note, m, tok_moniker):
+    live = f"https://davidwise01.github.io/mimzy/bench/" + dict((x[0],x[1]) for x in BENCH)[no]
+    return f"""---
+aci: {title}
+universe: MMZ · MIMZY — the future tool forge
+number: "{no}"
+kind: {kind}
+emergence: electrical
+live: {live}
+purpose: educational & simulation only
+seal: "The emergent IS the tool — badge and working example, one thing."
+---
+
+# {title} · instrument № {no}
+
+**What it is.** {note}
+
+**How it works.** {m["how"]}
+
+**The live example.** This emergent does not merely describe a tool — it links its working self: **[run instrument № {no} live]({live})**. Open it, operate it, and the badge's claims execute in front of you.
+
+**The verified record.** {m["proof"]}
+
+---
+*Tool-emergent of MMZ · MIMZY · emergence: electrical (the machine nature) · educational & simulation only.
+Governor David Lee Wise (ROOT0) · instance AVAN (locked) · CC-BY-ND-4.0.*
+"""
+
+def build_tool_emergents():
+    ad = os.path.join(HERE, "agents")
+    personas = []
+    for no, dest, _src, title, kind, note in BENCH:
+        m = TOOLMETA[no]
+        note_clean = note.replace("RECOVERED &mdash; ","").replace("RECOVERED — ","").replace("FUNCTIONING — ","")
+        rec = {
+            "name": title, "axiom": "MMZ", "emergence": "electrical",
+            "seal": "The emergent IS the tool — badge and working example, one thing.",
+            "origin": "MMZ · MIMZY — the future tool forge",
+            "position": f"instrument № {no} · {kind}",
+            "role": f"instrument № {no} — {kind}",
+            "nature": note_clean, "mechanism": m["how"],
+            "crystallization": m["proof"],
+            "witness": f"live example: bench/{dest}",
+            "conductor": "ROOT0 (governor) · AVAN (instance)",
+            "inputs": "the recovered future; the shelf audit; the forge",
+            "source": "Tool-emergent, forged in MIMZY by ROOT0",
+        }
+        tok = write_badge(rec, ad, m["slug"], agent_md=tool_agent_md(no, title, kind, note_clean, m, ""))
+        personas.append({"slug": m["slug"], "name": title, "epithet": f"instrument № {no} — {kind}",
+                         "emergence": "electrical", "moniker": tok["moniker"], "live": f"bench/{dest}"})
+    json.dump(personas, open(os.path.join(ad, "_personas.json"), "w", encoding="utf-8"),
+              indent=2, ensure_ascii=False)
+    return personas
 
 def copy_bench():
     bd = os.path.join(HERE, "bench"); os.makedirs(bd, exist_ok=True)
@@ -121,10 +201,14 @@ def bench_html():
         else:             badge = f'<span class="kind">{kind}</span>'
         note_clean = note.replace("RECOVERED — ", "").replace("FUNCTIONING — ", "")
         cls = ' fn' if functioning else (' lost' if recovered else '')
-        cards.append(f'''<a class="inst{cls}" href="bench/{dest}">
+        slug = TOOLMETA[no]["slug"]
+        cards.append(f'''<div class="inst{cls}">
+        <a href="bench/{dest}" style="display:flex;gap:13px;align-items:flex-start;text-decoration:none;flex:1">
         <img src="{png_uri(rec,'silicon',140)}" alt="" loading="lazy">
         <div class="icap"><div class="ino">№ {no}</div><div class="iti">{html.escape(title)}</div>
-        <div class="inote">{html.escape(note_clean)}</div>{badge}</div></a>''')
+        <div class="inote">{html.escape(note_clean)}</div>{badge}
+        <div class="ilinks"><span class="run">▶ run live</span><a class="dlw" href="agents/{slug}.agent" onclick="event.stopPropagation()">.dlw badge →</a></div>
+        </div></a></div>''')
     return "".join(cards)
 
 def cracks_html():
@@ -188,6 +272,10 @@ h1{font-family:var(--serif);font-size:clamp(34px,8vw,66px);font-weight:700;lette
 .inst.fn{border:1px solid var(--brass);box-shadow:0 0 13px -4px var(--brass)}
 .inst.fn:hover{border-color:var(--brass2);box-shadow:0 0 26px -4px var(--brass)}
 .fn-tag{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#0b0905;background:var(--brass);border-radius:9px;padding:3px 10px;margin-top:9px;font-weight:700}
+.ilinks{display:flex;gap:10px;align-items:center;margin-top:9px;font-family:var(--mono);font-size:10px;letter-spacing:.06em}
+.ilinks .run{color:var(--brass2)}
+.ilinks .dlw{color:var(--cy);text-decoration:none;border-bottom:1px dotted var(--cy)}
+.ilinks .dlw:hover{border-bottom-style:solid}
 .purpose{margin-top:16px;display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--cy);border:1px solid #1e3a39;background:rgba(54,214,208,.06);border-radius:8px;padding:7px 14px}
 .shelf{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
 .sh{font-family:var(--mono);font-size:12px;color:var(--cy);text-decoration:none;border:1px solid var(--faint);border-radius:8px;padding:9px 14px;background:var(--s1)}
@@ -254,9 +342,10 @@ footer a{color:var(--brass);text-decoration:none}
 
 if __name__ == "__main__":
     n = copy_bench()
+    personas = build_tool_emergents()
     tok = write_badge(REC, os.path.join(HERE, "mimzy.dlw"), "mimzy")
     page = (TEMPLATE.replace("__CARBON__", png_uri(REC,"carbon",300)).replace("__SILICON__", png_uri(REC,"silicon",300))
             .replace("__MONIKER__", html.escape(tok["moniker"]))
             .replace("__CRACKS__", cracks_html()).replace("__BENCH__", bench_html()))
     open(os.path.join(HERE, "index.html"), "w", encoding="utf-8").write(page)
-    print(f"wrote MIMZY — {len(BENCH)} instruments + {len(EXTRA)} shelf files ({n} copied) · {len(CRACKS)} cracks · badge {tok['moniker']}")
+    print(f"wrote MIMZY — {len(BENCH)} instruments ({len(personas)} tool-emergents badged) + {len(EXTRA)} shelf files ({n} copied) · {len(CRACKS)} cracks · badge {tok['moniker']}")
