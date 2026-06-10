@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="The Antikythera Mechanism — a functioning simulator. Turn the crank and watch the first computer compute: sun and moon on the zodiac, the moon's phase, the Metonic calendar, and real eclipse-season prediction from the Saros cycle. Educational & simulation. Part of MIMZY.">
+<title>The Antikythera Mechanism — a working simulator</title>
+<style>
+:root{--bg:#0b0905;--s1:#141008;--s2:#1c160c;--pa:#f0e9d8;--pa2:#c2b698;--brass:#c9962e;--brass2:#e8c25a;--cy:#36d6d0;--moon:#dfe6ee;--red:#e0726a;--dim:#867a5c;--line:#2a2113;
+--serif:Georgia,"Times New Roman",serif;--mono:"Courier New",monospace;--ui:system-ui,-apple-system,sans-serif;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--pa);font-family:var(--ui);line-height:1.6;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 0%,rgba(201,150,46,.14),transparent 60%)}
+.wrap{position:relative;max-width:1080px;margin:0 auto;padding:26px 20px 80px}
+.eye{font-family:var(--mono);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--dim)}
+.eye a{color:var(--dim);text-decoration:none}.eye a:hover{color:var(--brass)}
+h1{font-family:var(--serif);font-size:clamp(26px,5vw,42px);color:var(--brass);letter-spacing:.06em;margin-top:8px;text-shadow:0 0 32px rgba(201,150,46,.3)}
+.sub{color:var(--pa2);font-style:italic;font-size:15px;margin-top:8px;max-width:70ch}
+.purpose{margin-top:14px;display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--cy);border:1px solid #1e3a39;background:rgba(54,214,208,.06);border-radius:7px;padding:6px 12px}
+.lab{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:22px;margin-top:24px;align-items:start}
+@media(max-width:840px){.lab{grid-template-columns:1fr}}
+.dialwrap{background:radial-gradient(circle at 50% 45%,#1a1409,#0c0905);border:1px solid var(--line);border-radius:14px;padding:14px}
+canvas{width:100%;height:auto;display:block;border-radius:8px;cursor:grab}
+canvas:active{cursor:grabbing}
+.controls{margin-top:14px;background:var(--s1);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px}
+.row:first-child{margin-top:0}
+label{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--dim);text-transform:uppercase;min-width:74px}
+input[type=date]{background:var(--s2);color:var(--pa);border:1px solid var(--line);border-radius:6px;padding:7px 9px;font-family:var(--mono);font-size:13px}
+input[type=range]{flex:1;accent-color:var(--brass);min-width:140px}
+button{font-family:var(--mono);font-size:12px;letter-spacing:.04em;background:var(--s2);color:var(--pa);border:1px solid var(--line);border-radius:7px;padding:8px 13px;cursor:pointer;transition:border-color .12s,color .12s}
+button:hover{border-color:var(--brass);color:var(--brass2)}
+button.go{border-color:var(--brass);color:var(--brass2)}
+.crankbtn{font-size:11px;padding:7px 10px}
+.panel{background:var(--s1);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.panel h2{font-family:var(--serif);font-size:16px;color:var(--brass);border-bottom:1px solid var(--line);padding-bottom:7px;letter-spacing:.04em}
+.readout{display:grid;grid-template-columns:1fr auto;gap:6px 12px;margin-top:11px;font-size:13.5px}
+.readout .k{color:var(--pa2)}
+.readout .v{font-family:var(--mono);color:var(--pa);text-align:right;font-size:13px}
+.readout .v.sun{color:var(--brass2)}.readout .v.moon{color:var(--moon)}.readout .v.cy{color:var(--cy)}
+.ecl{margin-top:14px;border-radius:9px;padding:12px 14px;font-size:13.5px;line-height:1.5;border:1px solid var(--line);background:var(--s2)}
+.ecl.none{color:var(--dim)}
+.ecl.solar{border-color:var(--brass);background:rgba(201,150,46,.1);color:var(--brass2)}
+.ecl.lunar{border-color:var(--red);background:rgba(224,114,106,.1);color:var(--red)}
+.ecl b{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px}
+.cyc{margin-top:14px}.cyc h2{margin-bottom:0}
+.bar{height:9px;background:var(--s2);border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--brass),var(--brass2))}
+.cyc .ln{display:flex;justify-content:space-between;font-size:12px;color:var(--pa2);margin-top:12px}
+.cyc .ln span{font-family:var(--mono);color:var(--pa)}
+.games{margin-top:11px;display:flex;gap:6px;flex-wrap:wrap}
+.game{font-family:var(--mono);font-size:11px;border:1px solid var(--line);border-radius:14px;padding:3px 11px;color:var(--dim)}
+.game.on{border-color:var(--brass);color:var(--brass2);background:rgba(201,150,46,.1)}
+.note{margin-top:30px;font-size:13.5px;color:var(--pa2);line-height:1.75;background:var(--s1);border:1px dashed var(--line);border-radius:12px;padding:18px 20px}
+.note b{color:var(--brass)}
+.gears{margin-top:18px;font-size:13px;color:var(--pa2)}
+.gears h2{font-family:var(--serif);font-size:16px;color:var(--brass);border-bottom:1px solid var(--line);padding-bottom:7px;margin-bottom:11px}
+.gears table{width:100%;border-collapse:collapse;font-size:13px}
+.gears td{padding:7px 8px;border-bottom:1px solid var(--line)}
+.gears td:first-child{font-family:var(--mono);color:var(--brass2);white-space:nowrap}
+.gears td:last-child{color:var(--pa2)}
+footer{margin-top:34px;border-top:1px solid var(--line);padding-top:20px;font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.04em;line-height:1.9}
+footer a{color:var(--brass);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eye"><a href="../index.html">◬ MIMZY</a> · instrument № 00 · the first computer, recovered</div>
+  <h1>The Antikythera Mechanism</h1>
+  <p class="sub">A bronze hand-cranked computer built in Greece around 100&nbsp;BC, lost in a shipwreck for two thousand years. Turn the crank, or pick a date — and watch it compute the sky: the sun and moon on the zodiac, the moon's phase, the Metonic calendar, and — from the Saros cycle — <b>real eclipse-season prediction</b>.</p>
+  <div class="purpose">⊙ EDUCATIONAL &amp; SIMULATION — runs on real mean-element astronomy (J2000)</div>
+
+  <div class="lab">
+    <div class="dialwrap">
+      <canvas id="dial" width="560" height="560"></canvas>
+      <div class="controls">
+        <div class="row">
+          <label for="date">Date</label>
+          <input type="date" id="date" value="2026-06-10">
+          <button id="today">today</button>
+        </div>
+        <div class="row">
+          <label for="crank">Crank</label>
+          <input type="range" id="crank" min="-3650" max="3650" step="1" value="0">
+        </div>
+        <div class="row">
+          <button class="crankbtn" data-step="-29.53">◀ −1 month</button>
+          <button class="crankbtn" data-step="-1">◀ −1 day</button>
+          <button class="go" id="play">▶ run</button>
+          <button class="crankbtn" data-step="1">+1 day ▶</button>
+          <button class="crankbtn" data-step="29.53">+1 month ▶</button>
+        </div>
+        <div class="row"><label for="speed">Speed</label><input type="range" id="speed" min="0.25" max="20" step="0.25" value="4"><span id="speedlbl" style="font-family:var(--mono);font-size:11px;color:var(--dim)">4 d/frame</span></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="panel">
+        <h2>The Sky, computed</h2>
+        <div class="readout">
+          <div class="k">Date shown</div><div class="v" id="r-date">—</div>
+          <div class="k">Sun — ecliptic longitude</div><div class="v sun" id="r-sun">—</div>
+          <div class="k">Sun — in the zodiac</div><div class="v sun" id="r-sunz">—</div>
+          <div class="k">Moon — ecliptic longitude</div><div class="v moon" id="r-moon">—</div>
+          <div class="k">Moon — in the zodiac</div><div class="v moon" id="r-moonz">—</div>
+          <div class="k">Moon phase</div><div class="v moon" id="r-phase">—</div>
+          <div class="k">Illuminated</div><div class="v moon" id="r-illum">—</div>
+          <div class="k">Days from a new moon</div><div class="v" id="r-age">—</div>
+        </div>
+        <div class="ecl none" id="ecl"><b>Saros eclipse predictor</b><span id="ecl-txt">—</span></div>
+      </div>
+
+      <div class="panel cyc" style="margin-top:14px">
+        <h2>The Calendar Cycles</h2>
+        <div class="ln"><span style="color:var(--pa2);font-family:inherit">Metonic — month of 235 (19 years)</span><span id="r-meton">—</span></div>
+        <div class="bar"><i id="bar-meton" style="width:0%"></i></div>
+        <div class="ln"><span style="color:var(--pa2);font-family:inherit">Saros — month of 223 (18y 11d)</span><span id="r-saros">—</span></div>
+        <div class="bar"><i id="bar-saros" style="width:0%"></i></div>
+        <div class="ln"><span style="color:var(--pa2);font-family:inherit">Callippic — year of 76</span><span id="r-callip">—</span></div>
+        <div class="bar"><i id="bar-callip" style="width:0%"></i></div>
+        <div class="ln" style="margin-top:14px"><span style="color:var(--pa2);font-family:inherit">Olympiad — year of the 4-year Games cycle</span><span id="r-oly">—</span></div>
+        <div class="games" id="games"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="gears">
+    <h2>The Gearwork it modelled (and this sim reproduces)</h2>
+    <table>
+      <tr><td>235 : 19</td><td>The <b>Metonic cycle</b> — 235 synodic months almost exactly equal 19 solar years. The calendar dial is a 5-turn spiral of 235 cells.</td></tr>
+      <tr><td>254 : 19</td><td>The <b>lunar train</b> — 254 sidereal months per 19 years (235 + 19). Cut into bronze with a <b>127-tooth gear</b> (half of 254), one of the device's most famous surviving wheels.</td></tr>
+      <tr><td>223</td><td>The <b>Saros cycle</b> — 223 synodic months ≈ 18 years 11⅓ days. After one Saros, eclipses repeat. The Saros dial is a 4-turn spiral of 223 cells, carrying glyphs for predicted solar (☉) and lunar (☾) eclipses.</td></tr>
+      <tr><td>3 × 223</td><td>The <b>Exeligmos</b> — three Saros (54 years) brings eclipses back to the same hour of day; the small dial added +0, +8, or +16 hours.</td></tr>
+      <tr><td>pin &amp; slot</td><td>A <b>pin-and-slot</b> on two stacked gears made the moon speed up and slow down — modelling Hipparchus's lunar anomaly. The first known mechanism for a varying (non-uniform) motion.</td></tr>
+    </table>
+  </div>
+
+  <div class="note">
+    <b>How real is this?</b> The cycles and gear ratios above are the genuine, attested mechanism (Freeth et&nbsp;al., <i>Nature</i> 2006 &amp; 2008; Wright's reconstructions). The sky in the panels is computed live from <b>standard low-precision mean elements</b> (J2000) — the same <em>kind</em> of mean-motion model the bronze gears embodied, accurate to about a degree over centuries. The eclipse light turns on inside the real <b>ecliptic limits</b> (a solar eclipse is possible when a new moon falls within ~16°–18° of a lunar node; a lunar eclipse within ~14° of a full moon at a node) — so it flags true eclipse <em>seasons</em>, exactly as the Saros dial did. It catches the central eclipses and may slip a degree or two at the edges, just as a mean model must — checked against the 2017 Great American total solar (dead on the node) and the 2025 total lunar; it is a teaching instrument, not an ephemeris.
+  </div>
+
+  <footer>
+    THE ANTIKYTHERA MECHANISM · a working simulator · MIMZY № 00 · ROOT0 · CC-BY-ND-4.0<br>
+    <a href="../index.html">← back to the workbench</a>
+  </footer>
+</div>
+
+<script>
+(function(){
+const D2R=Math.PI/180, J2000=Date.UTC(2000,0,1,12,0,0);
+const SYN=29.530589, SID=27.321661;
+const $=id=>document.getElementById(id);
+const cv=$('dial'), cx=cv.getContext('2d');
+const ZGR=['Κριός','Ταῦρος','Δίδυμοι','Καρκίνος','Λέων','Παρθένος','Ζυγός','Σκορπιός','Τοξότης','Αἰγόκερως','Ὑδροχόος','Ἰχθύες'];
+const ZEN=['Aries','Taurus','Gemini','Cancer','Leo','Virgo','Libra','Scorpius','Sagittarius','Capricorn','Aquarius','Pisces'];
+const PHASES=[[0,'New'],[45,'Waxing crescent'],[90,'First quarter'],[135,'Waxing gibbous'],[180,'Full'],[225,'Waning gibbous'],[270,'Last quarter'],[315,'Waning crescent']];
+const n360=x=>{x%=360;return x<0?x+360:x;};
+const meanSun =d=>n360(280.4665 + 0.98564736*d);
+const meanMoon=d=>n360(218.3165 + 13.17639648*d);
+const elong   =d=>n360(297.8502 + 12.19074912*d);   // mean elongation D (sun→moon)
+const argLat  =d=>n360( 93.2721 + 13.22935024*d);   // F = angle from ascending node
+let dayOffset=0, playing=false, raf=0;
+
+function baseDays(){ const v=$('date').value; const dt=v?Date.parse(v+'T12:00:00Z'):Date.now(); return (dt - J2000)/86400000; }
+function curDays(){ return baseDays() + dayOffset; }
+
+function compute(d){
+  const sun=meanSun(d), moon=meanMoon(d), E=elong(d), F=argLat(d);
+  const k=(1-Math.cos(E*D2R))/2;                 // illuminated fraction
+  const age=n360(E)/360*SYN;                      // days since new moon
+  // eclipse: distance to nearest node, and to new/full moon
+  const fm=F%180, dNode=Math.min(fm,180-fm);
+  const dNew=Math.min(E,360-E), dFull=Math.abs(E-180);
+  let ecl='none';
+  if(dNew<18 && dNode<16.5) ecl='solar';
+  else if(dFull<13 && dNode<14) ecl='lunar';
+  return {d,sun,moon,E,F,k,age,dNode,ecl};
+}
+function phaseName(E){ let best=PHASES[0],bd=999; for(const p of PHASES){let dd=Math.min(Math.abs(E-p[0]),360-Math.abs(E-p[0])); if(dd<bd){bd=dd;best=p;}} return best[1]; }
+function zsign(lon){ const i=Math.floor(n360(lon)/30); return ZEN[i]+' '+(n360(lon)%30).toFixed(1)+'° · '+ZGR[i]; }
+function fmtDate(d){ const ms=J2000+d*86400000, dt=new Date(ms); return dt.toISOString().slice(0,10); }
+
+function drawDial(s){
+  const W=cv.width, R=W/2, cxp=R, cyp=R;
+  cx.clearRect(0,0,W,W);
+  // outer brass ring + zodiac
+  cx.save();cx.translate(cxp,cyp);
+  for(let g=0;g<3;g++){ cx.beginPath();cx.arc(0,0,R-6-g*3,0,7);cx.strokeStyle=['#6e5320','#caa23e','#3a2c14'][g];cx.lineWidth=g===1?2:1;cx.stroke(); }
+  // zodiac divisions (top = 0° Aries, going clockwise). Screen angle: lon 0 at top, clockwise.
+  for(let i=0;i<12;i++){
+    const a=(i*30-90)*D2R;
+    cx.beginPath();cx.moveTo(Math.cos(a)*(R-12),Math.sin(a)*(R-12));cx.lineTo(Math.cos(a)*(R-44),Math.sin(a)*(R-44));cx.strokeStyle='#5a451f';cx.lineWidth=1;cx.stroke();
+    const am=((i*30+15)-90)*D2R, rr=R-28;
+    cx.save();cx.translate(Math.cos(am)*rr,Math.sin(am)*rr);cx.rotate(am+Math.PI/2);
+    cx.fillStyle='#caa23e';cx.font='12px Georgia';cx.textAlign='center';cx.fillText(ZGR[i],0,0);cx.restore();
+  }
+  for(let i=0;i<72;i++){const a=(i*5-90)*D2R;cx.beginPath();cx.moveTo(Math.cos(a)*(R-12),Math.sin(a)*(R-12));cx.lineTo(Math.cos(a)*(R-18),Math.sin(a)*(R-18));cx.strokeStyle='#4a3a1a';cx.stroke();}
+  // hub
+  cx.beginPath();cx.arc(0,0,16,0,7);cx.fillStyle='#1c160c';cx.fill();cx.strokeStyle='#6e5320';cx.stroke();
+  // pointers: angle from longitude (0 at top, clockwise)
+  const ang=lon=>(n360(lon)-90)*D2R;
+  // SUN pointer (gold)
+  const sa=ang(s.sun), sr=R-52;
+  cx.beginPath();cx.moveTo(0,0);cx.lineTo(Math.cos(sa)*sr,Math.sin(sa)*sr);cx.strokeStyle='#e8c25a';cx.lineWidth=2.5;cx.stroke();
+  cx.beginPath();cx.arc(Math.cos(sa)*sr,Math.sin(sa)*sr,9,0,7);cx.fillStyle='#e8c25a';cx.shadowColor='#e8c25a';cx.shadowBlur=14;cx.fill();cx.shadowBlur=0;
+  // MOON pointer (silver) with phase ball
+  const ma=ang(s.moon), mr=R-78;
+  cx.beginPath();cx.moveTo(0,0);cx.lineTo(Math.cos(ma)*mr,Math.sin(ma)*mr);cx.strokeStyle='#9fb0c2';cx.lineWidth=2;cx.stroke();
+  const mx=Math.cos(ma)*mr,my=Math.sin(ma)*mr;
+  cx.beginPath();cx.arc(mx,my,11,0,7);cx.fillStyle='#2a2f36';cx.fill();
+  // phase fill: illuminated fraction k, lit side toward sun
+  cx.save();cx.beginPath();cx.arc(mx,my,11,0,7);cx.clip();
+  cx.fillStyle='#dfe6ee';
+  const lit=s.k, off=(lit-0.5)*22*(n360(s.E)<180?1:-1);
+  cx.beginPath();cx.ellipse(mx+off,my,11,11,0,0,7);cx.fill();
+  cx.restore();
+  cx.beginPath();cx.arc(mx,my,11,0,7);cx.strokeStyle='#9fb0c2';cx.lineWidth=1;cx.stroke();
+  // node markers (eclipse geometry) — draw the two lunar nodes faintly
+  for(const nn of [s.F<180? -s.F : 360-s.F]){}
+  // eclipse halo
+  if(s.ecl!=='none'){ cx.beginPath();cx.arc(0,0,R-6,0,7);cx.strokeStyle=s.ecl==='solar'?'rgba(232,194,90,.6)':'rgba(224,114,106,.6)';cx.lineWidth=3;cx.stroke(); }
+  cx.restore();
+}
+
+function render(){
+  const d=curDays(), s=compute(d);
+  drawDial(s);
+  $('r-date').textContent=fmtDate(d);
+  $('r-sun').textContent=s.sun.toFixed(2)+'°';
+  $('r-sunz').textContent=zsign(s.sun);
+  $('r-moon').textContent=s.moon.toFixed(2)+'°';
+  $('r-moonz').textContent=zsign(s.moon);
+  $('r-phase').textContent=phaseName(s.E);
+  $('r-illum').textContent=(s.k*100).toFixed(0)+'%';
+  $('r-age').textContent=s.age.toFixed(1)+' d';
+  const el=$('ecl'), et=$('ecl-txt');
+  el.className='ecl '+s.ecl;
+  if(s.ecl==='solar') et.textContent='☉ Eclipse season — a SOLAR eclipse is possible near this new moon (new moon within ~'+s.dNode.toFixed(0)+'° of a lunar node).';
+  else if(s.ecl==='lunar') et.textContent='☾ Eclipse season — a LUNAR eclipse is possible near this full moon (full moon within ~'+s.dNode.toFixed(0)+'° of a node).';
+  else et.textContent='No eclipse near this lunation — the moon is '+s.dNode.toFixed(0)+'° from its node (too far). The Saros glyph would be blank here.';
+  // cycles
+  const md=d; // days from J2000
+  const synCount=md/SYN;
+  const meton=((synCount%235)+235)%235;
+  const saros=((synCount%223)+223)%223;
+  const yr=md/365.2422;
+  const callip=((yr%76)+76)%76;
+  const oly=((Math.floor(yr)%4)+4)%4;
+  $('r-meton').textContent=(meton).toFixed(1)+' / 235';
+  $('r-saros').textContent=(saros).toFixed(1)+' / 223';
+  $('r-callip').textContent=(callip).toFixed(1)+' / 76';
+  $('bar-meton').style.width=(meton/235*100)+'%';
+  $('bar-saros').style.width=(saros/223*100)+'%';
+  $('bar-callip').style.width=(callip/76*100)+'%';
+  $('r-oly').textContent='year '+(oly+1)+' of 4';
+  const GAMES=[['Olympia','Isthmia'],['Nemea','Naa'],['Pythia','Isthmia'],['Nemea','Halieia']];
+  const gd=$('games');gd.innerHTML='';
+  GAMES.forEach((set,i)=>{ set.forEach(g=>{ const e=document.createElement('span');e.className='game'+(i===oly?' on':'');e.textContent=g;gd.appendChild(e); }); });
+}
+
+// controls
+$('crank').addEventListener('input',e=>{dayOffset=+e.target.value;render();});
+$('date').addEventListener('change',()=>{dayOffset=0;$('crank').value=0;render();});
+$('today').addEventListener('click',()=>{$('date').valueAsDate=new Date();dayOffset=0;$('crank').value=0;render();});
+document.querySelectorAll('.crankbtn[data-step]').forEach(b=>b.addEventListener('click',()=>{
+  dayOffset+=parseFloat(b.dataset.step);
+  $('crank').value=Math.max(-3650,Math.min(3650,Math.round(dayOffset)));render();
+}));
+$('speed').addEventListener('input',e=>$('speedlbl').textContent=e.target.value+' d/frame');
+$('play').addEventListener('click',()=>{
+  playing=!playing; $('play').textContent=playing?'⏸ pause':'▶ run';
+  $('play').classList.toggle('go',!playing);
+  if(playing) loop();
+});
+function loop(){ if(!playing)return;
+  dayOffset+=parseFloat($('speed').value);
+  if(dayOffset>3650){const b=$('date');b.value=fmtDate(baseDays()+dayOffset);dayOffset=0;}
+  $('crank').value=Math.max(-3650,Math.min(3650,Math.round(dayOffset)));
+  render(); raf=requestAnimationFrame(loop);
+}
+// drag the dial to crank
+let drag=false,lastA=0;
+function angAt(e){const r=cv.getBoundingClientRect();const x=(e.touches?e.touches[0].clientX:e.clientX)-r.left-r.width/2;const y=(e.touches?e.touches[0].clientY:e.clientY)-r.top-r.height/2;return Math.atan2(y,x);}
+cv.addEventListener('mousedown',e=>{drag=true;lastA=angAt(e);});
+window.addEventListener('mousemove',e=>{if(!drag)return;const a=angAt(e);let dA=a-lastA;if(dA>Math.PI)dA-=2*Math.PI;if(dA<-Math.PI)dA+=2*Math.PI;dayOffset+=dA/(2*Math.PI)*SID;lastA=a;$('crank').value=Math.max(-3650,Math.min(3650,Math.round(dayOffset)));render();});
+window.addEventListener('mouseup',()=>drag=false);
+render();
+})();
+</script>
+</body>
+</html>

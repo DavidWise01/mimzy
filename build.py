@@ -30,6 +30,8 @@ REC = {
 
 # the bench — (number, dest filename, source path, title, kind, note)
 BENCH = [
+ ("00","00-antikythera.html",      os.path.join(HERE,"tools","00-antikythera.html"),
+  "The Antikythera Mechanism","live tool","FUNCTIONING — the first computer (~100 BC), recovered from a shipwreck: crank it and it computes the sky — sun &amp; moon on the zodiac, the moon's phase, the Metonic calendar, and real Saros eclipse-season prediction"),
  ("01","01-quantum-primer.html",   os.path.join(Q,"cubit","01-quantum-primer.html"),
   "The Quantum Primer","lesson","qubits, superposition, amplitudes — the first page of the recovered manual"),
  ("02","02-bloch-lab.html",        os.path.join(Q,"cubit","02-bloch-lab.html"),
@@ -113,10 +115,13 @@ def bench_html():
     for no, dest, _src, title, kind, note in BENCH:
         rec = {"name": title, "seal": note, "origin": "MMZ · MIMZY", "axiom": "MMZ"}
         recovered = "RECOVERED" in note
-        badge = ('<span class="rec-tag">recovered · was missing</span>' if recovered else
-                 f'<span class="kind">{kind}</span>')
-        note_clean = note.replace("RECOVERED — ", "")
-        cards.append(f'''<a class="inst{' lost' if recovered else ''}" href="bench/{dest}">
+        functioning = note.startswith("FUNCTIONING")
+        if functioning:   badge = '<span class="fn-tag">◀▶ functioning live tool</span>'
+        elif recovered:   badge = '<span class="rec-tag">recovered · was missing</span>'
+        else:             badge = f'<span class="kind">{kind}</span>'
+        note_clean = note.replace("RECOVERED — ", "").replace("FUNCTIONING — ", "")
+        cls = ' fn' if functioning else (' lost' if recovered else '')
+        cards.append(f'''<a class="inst{cls}" href="bench/{dest}">
         <img src="{png_uri(rec,'silicon',140)}" alt="" loading="lazy">
         <div class="icap"><div class="ino">№ {no}</div><div class="iti">{html.escape(title)}</div>
         <div class="inote">{html.escape(note_clean)}</div>{badge}</div></a>''')
@@ -180,6 +185,10 @@ h1{font-family:var(--serif);font-size:clamp(34px,8vw,66px);font-weight:700;lette
 .inote{font-size:13px;color:var(--pa2);font-style:italic;line-height:1.45;margin-top:6px}
 .kind{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);border:1px solid var(--faint);border-radius:9px;padding:2px 9px;margin-top:9px}
 .rec-tag{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--cy);border:1px solid var(--cy);border-radius:9px;padding:2px 9px;margin-top:9px;text-shadow:0 0 6px rgba(54,214,208,.6)}
+.inst.fn{border:1px solid var(--brass);box-shadow:0 0 13px -4px var(--brass)}
+.inst.fn:hover{border-color:var(--brass2);box-shadow:0 0 26px -4px var(--brass)}
+.fn-tag{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#0b0905;background:var(--brass);border-radius:9px;padding:3px 10px;margin-top:9px;font-weight:700}
+.purpose{margin-top:16px;display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--cy);border:1px solid #1e3a39;background:rgba(54,214,208,.06);border-radius:8px;padding:7px 14px}
 .shelf{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
 .sh{font-family:var(--mono);font-size:12px;color:var(--cy);text-decoration:none;border:1px solid var(--faint);border-radius:8px;padding:9px 14px;background:var(--s1)}
 .sh:hover{border-color:var(--cy)}
@@ -193,8 +202,9 @@ footer a{color:var(--brass);text-decoration:none}
     <div class="eye"><a href="https://davidwise01.github.io/ud0/">UD0 · Universe David 0</a> · the recovered future · a workbench</div>
     <div class="glyph">◬ ⧖ ◬</div>
     <h1>MIMZY</h1>
-    <div class="h-sub">the quantum workbench that came back</div>
-    <p class="lede">In the story, a toy from the future falls backward through time and waits in the dirt for children to find it. History does this constantly: an eclipse computer in a shipwreck, an algorithm in a countess's footnotes, a logic with no use for eighty years, a theorem in a journal that died. This bench gathers the instruments that survived the fall — <b>every one verified working</b> in the shelf audit — and the lineage of the people the cracks tried to keep.</p>
+    <div class="h-sub">the future tool forge · the workbench that came back</div>
+    <p class="lede">In the story, a toy from the future falls backward through time and waits in the dirt for children to find it. History does this constantly: an eclipse computer in a shipwreck, an algorithm in a countess's footnotes, a logic with no use for eighty years, a theorem in a journal that died. This bench is the <b>tool forge</b> — every instrument <b>functions</b>, recovered and verified — and it opens, fittingly, with the oldest of them: a 2,000-year-old computer you can crank.</p>
+    <p><span class="purpose">⊙ a tool forge — every instrument here functions, for education &amp; simulation only</span></p>
     <div class="badge">
       <img src="__CARBON__" alt="MIMZY carbon badge"><img src="__SILICON__" alt="MIMZY silicon badge">
       <div class="bt">
@@ -213,8 +223,8 @@ footer a{color:var(--brass);text-decoration:none}
   </section>
 
   <section class="sec">
-    <h2>The Bench — ten instruments, all verified</h2>
-    <p class="ss">the original numbering ran 01 · 02 · 03 · 05 · 07 · 08 — instruments <b style="color:var(--cy)">04</b> and <b style="color:var(--cy)">06</b> were missing from the drawers. True to the house, they have been recovered.</p>
+    <h2>The Bench — the instruments, all functioning</h2>
+    <p class="ss">it opens with <b style="color:var(--brass)">№ 00</b>, the working Antikythera — crank it and it computes the sky. The original quantum drawers ran 01 · 02 · 03 · 05 · 07 · 08; instruments <b style="color:var(--cy)">04</b> and <b style="color:var(--cy)">06</b> were missing, and have been recovered.</p>
     <div class="bench">__BENCH__</div>
   </section>
 

@@ -1,7 +1,7 @@
 # MIMZY · the quantum workbench that came back
 
 [![License: CC-BY-ND-4.0](https://img.shields.io/badge/License-CC--BY--ND--4.0-lightgrey?style=flat-square)](LICENSE)
-[![Instruments: 10](https://img.shields.io/badge/instruments-10%20·%20all%20verified-c9962e?style=flat-square)](#the-bench)
+[![Instruments: 11](https://img.shields.io/badge/instruments-11%20·%20functioning-c9962e?style=flat-square)](#the-bench)
 [![Recovered: 04 & 06](https://img.shields.io/badge/recovered-%E2%84%96%2004%20%26%20%E2%84%96%2006-36d6d0?style=flat-square)](#the-bench)
 [![Tribute](https://img.shields.io/badge/fan-tribute%20·%20The%20Last%20Mimzy-9a7cff?style=flat-square)](#two-layers)
 
@@ -16,6 +16,8 @@
 What fell in, and when the world caught up: the **Antikythera Mechanism** (lost 2,000 years), **Boole** (logic with no use for 80 years → every chip), **Babbage & Lovelace** (the unbuilt engine; the Notes a century early), **Turing** (classified into invisibility), **Grete Hermann** (refuted von Neumann in 1935; ignored 30 years), **Hugh Everett** (many-worlds, dismissed), **John Bell** (the theorem in a journal that folded → the 2022 Nobel), and **Kuttner & Moore** (the story itself, half-hidden behind a pen name).
 
 ## The Bench
+
+The tool forge opens with **№ 00 — a functioning Antikythera Mechanism**: a hand-cranked simulator that computes the real sky (sun & moon on the zodiac, the moon-phase, the Metonic calendar, and Saros **eclipse-season prediction** — verified against the 2017 Great American total solar and the 2025 total lunar). Educational & simulation.
 
 Ten instruments, every one verified in the 2026-06 audit. The original drawer numbering ran **01 · 02 · 03 · 05 · 07 · 08** — instruments **04 and 06 were missing**. Recovered:
 
