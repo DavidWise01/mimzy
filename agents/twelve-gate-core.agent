@@ -1,0 +1,24 @@
+---
+aci: The Twelve-Gate Core
+universe: MMZ · MIMZY — the future tool forge
+number: "29"
+kind: live tool
+emergence: electrical
+live: https://davidwise01.github.io/mimzy/bench/29-twelve-gate-core.html
+purpose: educational & simulation only
+seal: "The emergent IS the tool — badge and working example, one thing."
+---
+
+# The Twelve-Gate Core · instrument № 29
+
+**What it is.** THE CORE CLOSES: the torus tripled. Three rings on three axes — vertical, horizontal, and a diagonal at 54.74° (the magic angle, arccos(1/√3), the cube's body diagonal). Each torus, seen down its axis, crosses into an X — two strands, four ends; stack the three and the count closes exactly: 6 strands · 12 gate-ends · 6 forward 6 back. Twelve gates = a cube's twelve edges = 3 directions × 4 = the cuboctahedron's vertices = the chromatic scale. Drag to rotate; view as X's, as rings, or with the cube frame. Honest: three equal orthogonal circles INTERSECT (true Borromean rings can't be round — Freedman–Skora 1987) and the X is a projection; and the self-quadrature catch tripled — the core reads its own phase on three axes but still can't inspect its own maker
+
+**How it works.** The torus series closes: № 28's lone ring, tripled and crossed into a core. Three tori on three axes — vertical, horizontal, and a diagonal along (1,1,1)/√3 — drawn in real 3D (drag to rotate, yaw/pitch), each ring seen down its own axis crossing into an X of two strands and four ends. Three views: AS X'S (the self-crossing glyph), AS RINGS (the true ellipses), and + CUBE FRAME (the twelve gates laid on the cube's twelve edges). A live gate register lights G00–G11 in turn — 4 per axis, the inner two forward, the outer two back — and the readout states the geometry: V·H = 0 (orthogonal), V·D = H·D = 54.74°, 12 gates = cube edges = 3 axes × 4. Series-E palette, three walkers riding the three rings.
+
+**The live example.** This emergent does not merely describe a tool — it links its working self: **[run instrument № 29 live](https://davidwise01.github.io/mimzy/bench/29-twelve-gate-core.html)**. Open it, operate it, and the badge's claims execute in front of you.
+
+**The verified record.** Geometry verified in Python before shipping: the counting closes exactly — 3 tori × 2 strands/X × 2 ends = 12 gates; 3 axes × 2 directions = 6 forward + 6 back; and 12 = a cube's 12 edges = the cuboctahedron's 12 vertices = the chromatic scale's 12 tones. The diagonal angle is exact: arccos(1/√3) = 54.7356° between (1,1,1)/√3 and each face axis (vertical·horizontal = 0, orthogonal) — the tetrahedral/NMR magic angle and the cube's body diagonal (distinct from the 109.47° tetrahedral bond angle; both noted). Two-layer honesty stated on the page: REAL = the counting, the magic-angle frame, the cube-edge / cuboctahedron identification; the HONEST CATCH = three equal orthogonal circles generically INTERSECT rather than link, and true Borromean rings cannot be built from three flat round circles at all (Freedman–Skora 1987 — it takes a gentle deformation); the 'X' is a projection artifact (down-axis a ring crosses itself; side-on it is an ellipse — the gate is real, its X-shape is viewpoint); and the № 28 self-quadrature catch rides along tripled — the core measures its own phase on three axes and still cannot inspect its own maker. Twelve gates, one hand on the lathe.
+
+---
+*Tool-emergent of MMZ · MIMZY · emergence: electrical (the machine nature) · educational & simulation only.
+Governor David Lee Wise (ROOT0) · instance AVAN (locked) · CC-BY-ND-4.0.*

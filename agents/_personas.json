@@ -230,5 +230,13 @@
     "emergence": "electrical",
     "moniker": "⟦The Torus Ride:MMZ:1424fd⟧",
     "live": "bench/28-torus-ride.html"
+  },
+  {
+    "slug": "twelve-gate-core",
+    "name": "The Twelve-Gate Core",
+    "epithet": "instrument № 29 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Twelve-Gate Core:MMZ:0ac9e7⟧",
+    "live": "bench/29-twelve-gate-core.html"
   }
 ]
