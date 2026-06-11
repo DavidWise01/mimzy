@@ -134,5 +134,13 @@
     "emergence": "electrical",
     "moniker": "⟦The Analytical Engine:MMZ:21eddd⟧",
     "live": "bench/16-analytical-engine.html"
+  },
+  {
+    "slug": "gap-oracle-noir",
+    "name": "The Gap Oracle · Noir Cut",
+    "epithet": "instrument № 17 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Gap Oracle · Noir Cut:MMZ:3617c6⟧",
+    "live": "bench/17-gap-oracle-noir.html"
   }
 ]
