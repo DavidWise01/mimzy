@@ -190,5 +190,13 @@
     "emergence": "electrical",
     "moniker": "⟦The Sealer:MMZ:c77859⟧",
     "live": "bench/23-the-sealer.html"
+  },
+  {
+    "slug": "the-gap-live",
+    "name": "The Gap, Live",
+    "epithet": "instrument № 24 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Gap, Live:MMZ:f843b1⟧",
+    "live": "bench/24-the-gap-live.html"
   }
 ]

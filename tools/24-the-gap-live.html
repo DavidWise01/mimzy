@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE GAP, LIVE — Silicon's Forbidden Band In Real Time</title>
+<style>
+:root{
+  --paper:#e9e3cd; --ink:#1c3d2e; --ink-mid:#2f5a44; --ink-faint:#7a937f;
+  --stamp:#8a3324; --ochre:#8a6d2f;
+  --mono:"Courier New",Courier,monospace;
+  --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);
+  background-image:repeating-linear-gradient(0deg, rgba(28,61,46,.025) 0 1px, transparent 1px 3px);
+  color:var(--ink);font-family:var(--serif);line-height:1.5;padding:10px}
+.sheet{max-width:860px;margin:0 auto;border:2px solid var(--ink);outline:1px solid var(--ink);outline-offset:4px;padding:18px 14px 28px}
+.masthead{text-align:center;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.mast-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:var(--ink-mid);text-transform:uppercase}
+.mast-title{font-size:clamp(24px,6vw,40px);letter-spacing:.05em;font-weight:700;margin:6px 0 2px;text-transform:uppercase}
+.mast-sub{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--ink-mid);text-transform:uppercase}
+.intro{font-size:13.5px;max-width:680px;margin:12px auto 0;text-align:center;color:var(--ink-mid);line-height:1.6}
+.canwrap{border:1.5px solid var(--ink);margin-top:14px;background:#e2dbc2}
+canvas{width:100%;display:block}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+@media(max-width:620px){.controls{grid-template-columns:1fr}}
+.cbox{border:1.5px solid var(--ink);padding:10px 12px}
+.cbox h3{font-family:var(--mono);font-size:9.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-mid);margin-bottom:8px;text-align:center}
+.cbox label{font-family:var(--mono);font-size:10px;letter-spacing:.08em;display:block;margin-bottom:2px;color:var(--ink-mid)}
+input[type=range]{width:100%;accent-color:#2f5a44}
+.dopes{display:flex;gap:6px;justify-content:center;margin-top:6px}
+.pbtn{appearance:none;background:transparent;cursor:pointer;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:5px 10px;border:1.5px double var(--ochre);color:#5a4a20}
+.pbtn.on{background:#5a4a20;color:var(--paper)}
+.beam{display:flex;gap:6px;justify-content:center;margin-top:8px}
+.readout{font-family:var(--mono);font-size:11px;line-height:1.95;margin-top:6px}
+.readout b{font-weight:700}
+.readout .hot{color:var(--stamp)}
+.frame{border:1.5px solid var(--ink);margin-top:14px;padding:12px;font-size:13px;line-height:1.6}
+.frame h3{font-family:var(--mono);font-size:9.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-mid);margin-bottom:6px;text-align:center}
+.frame .is{color:var(--ink)} .frame .isnt{color:var(--stamp)}
+.colophon{margin-top:24px;border-top:2px solid var(--ink);padding-top:12px;text-align:center;font-family:var(--mono);font-size:10px;color:var(--ink-mid);letter-spacing:.08em;line-height:1.9}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+<header class="masthead">
+  <div class="mast-eyebrow">Series E · Sheet 8 · The Doctrine, In Matter</div>
+  <h1 class="mast-title">The Gap, Live</h1>
+  <div class="mast-sub">Silicon's Forbidden Band · No States By Theorem · Real Time</div>
+  <p class="intro">The band gap is not a layer of anything — it is the energy range where Bloch's theorem forbids electron states in the crystal. Nothing is embedded there because nothing is <em>permitted</em> there. Below: live silicon. Heat it and watch carriers boil across the gap (rate ∝ e<sup>−Eg/2kT</sup>) while the gap itself narrows (Varshni). Fire photons at it: above-gap light is devoured, below-gap light sails through — your processor is a window at 1550 nm. Dope it and the Fermi line walks. Every transistor ever made is a gatekeeper on this nothing.</p>
+</header>
+
+<div class="canwrap"><canvas id="cv" width="800" height="400"></canvas></div>
+
+<div class="controls">
+  <div class="cbox">
+    <h3>Lattice Temperature</h3>
+    <label>T = <span id="tval">300</span> K</label>
+    <input type="range" id="temp" min="100" max="600" value="300" step="5">
+    <div class="readout" id="thermo"></div>
+  </div>
+  <div class="cbox">
+    <h3>Photon Beam · Doping</h3>
+    <label>λ = <span id="lval">800</span> nm · E = <span id="eval">1.55</span> eV</label>
+    <input type="range" id="lam" min="400" max="1600" value="800" step="10">
+    <div class="beam">
+      <button class="pbtn" id="beamBtn" onclick="toggleBeam()">Beam: OFF</button>
+    </div>
+    <div class="dopes">
+      <button class="pbtn on" data-d="i" onclick="dope('i',this)">Intrinsic</button>
+      <button class="pbtn" data-d="n" onclick="dope('n',this)">n-type</button>
+      <button class="pbtn" data-d="p" onclick="dope('p',this)">p-type</button>
+    </div>
+    <div class="readout" id="photo"></div>
+  </div>
+</div>
+
+<div class="frame">
+  <h3>Honest Solid State · The Gap As Product</h3>
+  <p><span class="is">TRUE:</span> the gap is load-bearing absence. No gap → metal: always conducting, nothing to switch. Huge gap → insulator: nothing ever crosses. Silicon's ~1.12 eV is the Goldilocks refusal — small enough to bridge on command (gate voltage, photon, heat), big enough to stay shut at room temperature, ~e<sup>−21.7</sup> leakage. Every bit ever flipped was a controlled crossing of a region where states are forbidden. Constraint-as-product, fabbed at scale: the semiconductor industry bills the gap.</p>
+  <p style="margin-top:6px"><span class="isnt">ALSO TRUE:</span> silicon's gap is <b>indirect</b> — crossing needs a phonon's worth of momentum, which is why recombination here flashes heat, not light, and why there are no silicon lasers (the gap takes payment in vibration). And the gap is not temperature-proof: it sags ~0.13 eV from 100 K to 600 K, and intrinsic carriers multiply ~×10<sup>5</sup> from room temperature to 600 K (and a staggering ~10<sup>26</sup> across the full 100→600 K span) — past ~600 K silicon forgets it was ever a switch. The refusal has an operating range. Every gap does.</p>
+</div>
+
+<footer class="colophon">
+  NO STATES BY THEOREM · CROSSINGS BY PERMISSION ONLY<br>
+  THE ENTIRE INFORMATION ECONOMY IS RENT PAID ON A FORBIDDEN BAND<br>
+  THE GAP, LIVE · SHEET 8 · JUNE 2026
+</footer>
+
+</div>
+<script>
+/* ---------- verified physics ---------- */
+const kB=8.617333e-5;                                  // eV/K
+const Eg=T=>1.17-4.73e-4*T*T/(T+636);                  // Varshni, Si
+const relNi=T=>Math.pow(T/300,1.5)*Math.exp(-(Eg(T)/(2*kB*T))+(Eg(300)/(2*kB*300)));
+const cutoff=T=>1239.84/Eg(T);                         // nm
+
+/* ---------- state ---------- */
+let T=300, lam=800, beamOn=false, dopeMode='i';
+let electrons=[], holes=[], photons=[], flashes=[], lastGen=0, lastPhot=0;
+const cv=document.getElementById('cv'), ctx=cv.getContext('2d');
+const W=800,H=400, MID=180, SCALE=170;                 // px per eV (half-gap each side of MID)
+
+function bands(){
+  const half=Eg(T)/2*SCALE;
+  return {Ec:MID-half, Ev:MID+half};
+}
+function dope(d,btn){dopeMode=d;document.querySelectorAll('[data-d]').forEach(b=>b.classList.remove('on'));btn.classList.add('on');seedDopants()}
+function seedDopants(){
+  electrons=electrons.filter(e=>!e.dop); holes=holes.filter(h=>!h.dop);
+  const {Ec,Ev}=bands();
+  if(dopeMode==='n')for(let i=0;i<26;i++)electrons.push({x:Math.random()*W,y:Ec-10-Math.random()*26,vx:(Math.random()-.5)*40,dop:true,life:1e9});
+  if(dopeMode==='p')for(let i=0;i<26;i++)holes.push({x:Math.random()*W,y:Ev+10+Math.random()*26,vx:(Math.random()-.5)*26,dop:true,life:1e9});
+}
+function toggleBeam(){beamOn=!beamOn;document.getElementById('beamBtn').textContent='Beam: '+(beamOn?'ON':'OFF');
+  document.getElementById('beamBtn').classList.toggle('on',beamOn)}
+
+document.getElementById('temp').addEventListener('input',e=>{T=+e.target.value;document.getElementById('tval').textContent=T});
+document.getElementById('lam').addEventListener('input',e=>{lam=+e.target.value;
+  document.getElementById('lval').textContent=lam;
+  document.getElementById('eval').textContent=(1239.84/lam).toFixed(2)});
+
+/* ---------- simulation ---------- */
+function genRate(){ // visible events/sec, compressed from verified relNi
+  return Math.min(60, 2*Math.pow(Math.max(relNi(T),1e-22),0.22));
+}
+function spawnPair(x){
+  const {Ec,Ev}=bands();
+  electrons.push({x:x,y:Ev,ty:Ec-8-Math.random()*30,vx:(Math.random()-.5)*60,rise:true,life:3+Math.random()*4});
+  holes.push({x:x,y:Ev+8+Math.random()*30,vx:(Math.random()-.5)*30,life:3+Math.random()*4});
+}
+function step(dt,t){
+  const {Ec,Ev}=bands();
+  // thermal generation (poisson-ish)
+  if(t-lastGen > 1000/Math.max(genRate(),1e-6)){ lastGen=t; spawnPair(Math.random()*W); }
+  // photon beam
+  if(beamOn && t-lastPhot>240){ lastPhot=t;
+    photons.push({x:-10,y:MID+(Math.random()-.5)*30,lam:lam,absorbX:(1239.84/lam>=Eg(T))?80+Math.random()*620:1e9});
+  }
+  photons.forEach(p=>p.x+=dt*420);   // advance the beam (px/s)
+  photons=photons.filter(p=>{
+    if(p.x>=p.absorbX){flashes.push({x:p.x,y:MID,r:4,c:'#8a3324',life:.5});spawnPair(p.x);return false}
+    return p.x<W+20;
+  });
+  // carriers
+  electrons.forEach(e=>{
+    if(e.rise){e.y-= dt*260; if(e.y<=e.ty){e.y=e.ty;e.rise=false}}
+    e.x+=e.vx*dt; if(e.x<0)e.x+=W; if(e.x>W)e.x-=W;
+    if(!e.dop)e.life-=dt;
+  });
+  holes.forEach(h=>{h.x+=h.vx*dt;if(h.x<0)h.x+=W;if(h.x>W)h.x-=W;if(!h.dop)h.life-=dt});
+  // recombination: expired electron grabs an expired-ish hole — indirect: heat flash
+  const deadE=electrons.filter(e=>!e.dop&&e.life<=0);
+  deadE.forEach(e=>{
+    const hi=holes.findIndex(h=>!h.dop);
+    if(hi>=0){const h=holes[hi];flashes.push({x:(e.x+h.x)/2,y:Ev-6,r:3,c:'#8a6d2f',life:.6,phonon:true});holes.splice(hi,1)}
+  });
+  electrons=electrons.filter(e=>e.dop||e.life>0);
+  holes=holes.filter(h=>h.dop||h.life>0);
+  flashes.forEach(f=>f.life-=dt); flashes=flashes.filter(f=>f.life>0);
+  if(electrons.length>140)electrons.splice(0,electrons.length-140);
+  if(holes.length>140)holes.splice(0,holes.length-140);
+}
+
+/* ---------- draw ---------- */
+function hatch(y1,y2){
+  ctx.save();ctx.strokeStyle='rgba(138,51,36,.28)';ctx.lineWidth=1;
+  for(let x=-H;x<W;x+=12){ctx.beginPath();ctx.moveTo(x,y2);ctx.lineTo(x+(y2-y1),y1);ctx.stroke()}
+  ctx.restore();
+}
+function draw(){
+  const {Ec,Ev}=bands();
+  ctx.clearRect(0,0,W,H);
+  // conduction band
+  ctx.fillStyle='rgba(47,90,68,.14)';ctx.fillRect(0,20,W,Ec-20);
+  // valence band (dense)
+  ctx.fillStyle='rgba(28,61,46,.30)';ctx.fillRect(0,Ev,W,360-Ev);
+  ctx.fillStyle='rgba(28,61,46,.5)';
+  for(let x=8;x<W;x+=16)for(let y=Ev+14;y<352;y+=16){ctx.beginPath();ctx.arc(x,y,1.6,0,7);ctx.fill()}
+  // the gap
+  hatch(Ec,Ev);
+  ctx.strokeStyle='#1c3d2e';ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(0,Ec);ctx.lineTo(W,Ec);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(0,Ev);ctx.lineTo(W,Ev);ctx.stroke();
+  // fermi line
+  let Ef=MID; if(dopeMode==='n')Ef=Ec+18; if(dopeMode==='p')Ef=Ev-18;
+  ctx.setLineDash([6,5]);ctx.strokeStyle='#8a6d2f';ctx.lineWidth=1.4;
+  ctx.beginPath();ctx.moveTo(0,Ef);ctx.lineTo(W,Ef);ctx.stroke();ctx.setLineDash([]);
+  // labels
+  ctx.fillStyle='#2f5a44';ctx.font='11px Courier New';
+  ctx.fillText('CONDUCTION BAND — the frontier',12,36);
+  ctx.fillText('VALENCE BAND — the shadow phase',12,378);
+  ctx.fillStyle='#8a3324';ctx.font='bold 12px Courier New';
+  ctx.fillText('THE GAP — NO STATES, BY THEOREM · Eg = '+Eg(T).toFixed(3)+' eV',W/2-170,MID+4);
+  ctx.fillStyle='#8a6d2f';ctx.font='10px Courier New';
+  ctx.fillText('E_F',W-30,Ef-5);
+  // photons
+  photons.forEach(p=>{
+    ctx.strokeStyle=p.lam>cutoff(T)?'#7a937f':'#8a3324';ctx.lineWidth=1.6;
+    ctx.beginPath();
+    for(let i=0;i<5;i++)ctx.lineTo(p.x-20+i*5, p.y+Math.sin((p.x+i*5)/6)*4);
+    ctx.stroke();
+  });
+  // carriers
+  electrons.forEach(e=>{ctx.fillStyle=e.dop?'#5a3a6b':'#1c3d2e';ctx.beginPath();ctx.arc(e.x,e.y,3.2,0,7);ctx.fill()});
+  holes.forEach(h=>{ctx.strokeStyle=h.dop?'#5a3a6b':'#8a3324';ctx.lineWidth=1.6;ctx.beginPath();ctx.arc(h.x,h.y,3.2,0,7);ctx.stroke()});
+  // flashes
+  flashes.forEach(f=>{
+    ctx.strokeStyle=f.c;ctx.globalAlpha=Math.max(f.life,0);
+    ctx.beginPath();ctx.arc(f.x,f.y,f.r+(0.6-f.life)*14,0,7);ctx.stroke();
+    if(f.phonon){ctx.beginPath();for(let i=0;i<6;i++)ctx.lineTo(f.x+8+i*4,f.y+((i%2)?-3:3));ctx.stroke()}
+    ctx.globalAlpha=1;
+  });
+  // readouts
+  document.getElementById('thermo').innerHTML=
+    `Eg(T) = <b>${Eg(T).toFixed(4)} eV</b> · kT = ${(kB*T).toFixed(4)} eV<br>`+
+    `barrier Eg/2kT = <b>${(Eg(T)/(2*kB*T)).toFixed(1)}</b><br>`+
+    `carriers vs 300K: <b class="${relNi(T)>1?'hot':''}">×${relNi(T)>=1?relNi(T).toExponential(2):relNi(T).toExponential(2)}</b><br>`+
+    `gen events on screen: ~${genRate().toFixed(1)}/s`;
+  const Eph=1239.84/lam, abs=Eph>=Eg(T);
+  document.getElementById('photo').innerHTML=
+    `cutoff λ = <b>${cutoff(T).toFixed(0)} nm</b> at this T<br>`+
+    `this photon: <b class="${abs?'hot':''}">${abs?'ABSORBED — above the gap':'TRANSMITTED — silicon is a window'}</b><br>`+
+    `(1550 nm telecom passes through: silicon photonics)<br>`+
+    `doping: <b>${dopeMode==='i'?'intrinsic — E_F midgap':dopeMode==='n'?'n-type — E_F near conduction':'p-type — E_F near valence'}</b>`;
+}
+
+/* ---------- loop ---------- */
+let last=performance.now();
+function loop(t){
+  const dt=Math.min((t-last)/1000,.05);last=t;
+  step(dt,t);draw();
+  requestAnimationFrame(loop);
+}
+seedDopants();requestAnimationFrame(loop);
+</script>
+</body>
+</html>
