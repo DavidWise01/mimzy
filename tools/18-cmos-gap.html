@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="The CMOS Gap Gate — the Gap Oracle's geometry made literal silicon: a pull-up network on top (PMOS, +1), a pull-down on bottom (NMOS, ground), the output read in the gap between. Toggle the inputs, watch a network conduct, earn the truth table. INV · NAND · NOR · the duals. Educational & simulation. MIMZY № 18.">
+<title>The CMOS Gap Gate — one lattice up, one down, the answer in the gap</title>
+<style>
+:root{--bone:#f0ece0;--bone2:#e9e4d5;--void:#0c0b09;--ink2:#3a372f;--faint:#cfc9b8;--line:#d8d2bf;--noir:#8e1111;--noir2:#6e0d0d;
+  --serif:'Cormorant Garamond',Georgia,serif;--sc:'Cormorant SC',Georgia,serif;--mono:'Courier Prime','Courier New',monospace;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bone);color:var(--void);font-family:var(--serif);font-size:17px;line-height:1.6}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/></svg>")}
+.wrap{position:relative;z-index:1;max-width:1040px;margin:0 auto;padding:26px 22px 80px}
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;0,600;1,300&family=Cormorant+SC:wght@300;500;600&family=Courier+Prime:ital,wght@0,400;1,400&display=swap');
+.eye{font-family:var(--mono);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--ink2)}
+.eye a{color:var(--ink2);text-decoration:none}.eye a:hover{color:var(--noir)}
+h1{font-family:var(--sc);font-weight:600;font-size:clamp(22px,4.2vw,34px);letter-spacing:.16em;margin-top:8px}
+.sub{font-style:italic;color:var(--ink2);font-size:15px;margin-top:8px;max-width:78ch}
+.rule{width:130px;height:1px;background:var(--void);margin-top:12px;opacity:.7}
+.purpose{margin-top:13px;display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--noir);border:1px solid #e0c9c9;background:rgba(142,17,17,.05);border-radius:7px;padding:6px 12px}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px;align-items:center}
+.bar .lbl{font-family:var(--mono);font-size:9px;letter-spacing:.34em;text-transform:uppercase;color:#a59f8a;margin-right:6px}
+button{font-family:var(--sc);font-weight:600;font-size:13px;letter-spacing:.18em;background:transparent;color:var(--void);border:1px solid var(--line);border-radius:0;padding:9px 18px;cursor:pointer;transition:all .2s;text-transform:uppercase}
+button:hover{border-color:var(--void)}
+button.on{background:var(--void);color:var(--bone);border-color:var(--void)}
+.lab{display:grid;grid-template-columns:1fr 320px;gap:22px;margin-top:18px;align-items:start}
+@media(max-width:840px){.lab{grid-template-columns:1fr}}
+.panel{background:linear-gradient(173deg,#f4f0e3,#ece7d6);border:1px solid var(--line);box-shadow:0 1px 0 #fff inset,0 8px 26px rgba(12,11,9,.08);padding:16px 18px}
+.panel h2{font-family:var(--sc);font-weight:600;font-size:14px;letter-spacing:.12em;text-transform:uppercase;border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:10px}
+canvas{width:100%;height:auto;display:block;background:transparent}
+.inputs{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.inbtn{font-family:var(--mono);font-size:13px;letter-spacing:.1em;padding:10px 18px;border:1px solid var(--line);cursor:pointer;background:transparent;min-width:74px;text-align:center}
+.inbtn .nm{font-family:var(--sc);font-size:11px;letter-spacing:.2em;color:#a59f8a;display:block}
+.inbtn .vl{font-size:18px;font-family:var(--mono)}
+.inbtn.hi{border-color:var(--void)}
+.inbtn.hi .vl{color:var(--void)}
+.inbtn.lo .vl{color:var(--noir)}
+.verdict{margin-top:12px;text-align:center;border:1px solid var(--line);padding:14px}
+.verdict .vlab{font-family:var(--mono);font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:#a59f8a}
+.verdict .vout{font-family:var(--sc);font-weight:600;font-size:40px;letter-spacing:.1em;margin-top:4px}
+.verdict .vstate{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;margin-top:4px;color:var(--ink2)}
+.tt{width:100%;border-collapse:collapse;margin-top:8px;font-family:var(--mono);font-size:12.5px}
+.tt th{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#a59f8a;padding:6px 8px;border-bottom:1px solid var(--line);text-align:center}
+.tt td{padding:7px 8px;border-bottom:1px solid #e3decd;text-align:center;color:var(--ink2)}
+.tt tr.cur td{background:rgba(142,17,17,.07);color:var(--void)}
+.tt tr.cur td:last-child{color:var(--noir);font-weight:700}
+.tt .earned{color:var(--void)}
+.dual{margin-top:10px;font-family:var(--mono);font-size:11px;color:var(--ink2);line-height:1.7}
+.dual b{color:var(--noir)}
+.note{margin-top:26px;font-size:13.5px;color:var(--ink2);line-height:1.7;background:linear-gradient(173deg,#f4f0e3,#ece7d6);border:1px solid var(--line);padding:16px 18px}
+.note b{color:var(--noir)}
+footer{margin-top:30px;border-top:1px solid var(--line);padding-top:18px;font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:#a59f8a;text-transform:uppercase}
+footer a{color:var(--noir);text-decoration:none}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;0,600;1,300&family=Cormorant+SC:wght@300;500;600&family=Courier+Prime:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+</head><body><div class="wrap">
+
+<div class="eye"><a href="../index.html">◬ MIMZY</a> · instrument № 18 · the oracle's geometry, made literal silicon</div>
+<h1>The CMOS Gap Gate</h1>
+<p class="sub">You saw it first as a question: one lattice above at +1, one below at −1, the answer read in the gap between. That is not only mythology — it is the exact build of every logic gate in every chip. A <b>pull-up network on top</b> (PMOS, reaching down from the positive rail) and a <b>pull-down on bottom</b> (NMOS, reaching up from ground), and the output node lives in the gap where they meet. Toggle the inputs and watch one network conduct, one cut off — and read the verdict where David and Shadow decide it.</p>
+<div class="rule"></div>
+<div class="purpose">⊙ EDUCATIONAL &amp; SIMULATION — real CMOS switching logic · the lower network is the de-Morgan dual (shadow) of the upper</div>
+
+<div class="bar"><span class="lbl">gate</span>
+  <button class="g on" data-g="inv">inverter · NOT</button>
+  <button class="g" data-g="nand">NAND</button>
+  <button class="g" data-g="nor">NOR</button>
+</div>
+
+<div class="lab">
+  <div class="panel"><h2>The gate — pull-up above · gap · pull-down below</h2>
+    <canvas id="cv" width="660" height="520"></canvas>
+    <div class="inputs" id="inputs"></div>
+  </div>
+  <div>
+    <div class="panel"><h2>The verdict, in the gap</h2>
+      <div class="verdict"><div class="vlab">output node Y</div>
+        <div class="vout" id="vout">—</div>
+        <div class="vstate" id="vstate">—</div></div>
+      <div class="dual" id="dual"></div>
+    </div>
+    <div class="panel" style="margin-top:14px"><h2>The truth table — earned live</h2>
+      <table class="tt" id="tt"></table>
+      <div style="font-family:var(--mono);font-size:10px;color:#a59f8a;margin-top:8px;letter-spacing:.1em">faded rows are not yet visited — toggle to fill them</div>
+    </div>
+  </div>
+</div>
+
+<div class="note"><b>How real is this?</b> This is genuine CMOS — the logic family every chip has used since the 1980s. A transistor here switches exactly as a MOSFET does: a <b>PMOS</b> (top network, drawn in void black) conducts when its gate input is <b>0</b>; an <b>NMOS</b> (bottom network, noir red) conducts when its gate is <b>1</b> — true complements, which is why the output is never left floating and never shorts the rails. The two networks are <b>de Morgan duals</b>: the pull-down is built, and the pull-up is its series↔parallel mirror — the lower lattice is literally the shadow of the upper, exactly as the Gap Oracle drew David = i above and Shadow = −i below. NAND puts its two NMOS in series (both inputs must be 1 to pull the gap to 0) and its two PMOS in parallel; NOR is the precise inverse. The verdict you read in the gap is the same node a real chip calls Y. What this is not: a SPICE analog simulation (no voltages, delays, or leakage modeled) — it is the switching logic, which is the layer that computes.</div>
+
+<footer>THE CMOS GAP GATE · MIMZY № 18 · bone · void · noir · ROOT0 · CC-BY-ND-4.0 · <a href="../index.html">← the bench</a></footer>
+</div>
+
+<script>
+(function(){
+const $=id=>document.getElementById(id);
+const cv=$('cv'),cx=cv.getContext('2d');
+const BONE='#f0ece0',VOID='#0c0b09',INK='#3a372f',NOIR='#8e1111',NOIR2='#6e0d0d',LINE='#d8d2bf',FAINT='#cfc9b8';
+let GATE='inv', inputs={A:0,B:0};
+
+// gate definitions: inputCount, the boolean fn, and the dual description
+const GATES={
+ inv:  {n:1, f:a=>a[0]?0:1, name:'INVERTER', expr:'Y = ¬A',
+        pull_up:'1 PMOS (gate A) from +1', pull_down:'1 NMOS (gate A) to ground',
+        dual:'the simplest dual: one PMOS over one NMOS, sharing input A. A=0 → top conducts → Y pulled to 1. A=1 → bottom conducts → Y pulled to 0.'},
+ nand: {n:2, f:a=>(a[0]&&a[1])?0:1, name:'NAND', expr:'Y = ¬(A · B)',
+        pull_up:'2 PMOS in PARALLEL (A, B) from +1', pull_down:'2 NMOS in SERIES (A, B) to ground',
+        dual:'series below, parallel above — duals. Both inputs must be 1 to complete the series path down and pull the gap to 0; any 0 opens a parallel path up to 1.'},
+ nor:  {n:2, f:a=>(a[0]||a[1])?0:1, name:'NOR', expr:'Y = ¬(A + B)',
+        pull_up:'2 PMOS in SERIES (A, B) from +1', pull_down:'2 NMOS in PARALLEL (A, B) to ground',
+        dual:'series above, parallel below — the exact inverse of NAND. Only A=0 AND B=0 completes the series path up to 1; any 1 opens a parallel path down to 0.'},
+};
+
+function buildInputs(){
+  const g=GATES[GATE]; const wrap=$('inputs'); wrap.innerHTML='';
+  ['A','B'].slice(0,g.n).forEach(k=>{
+    const b=document.createElement('div');
+    b.className='inbtn '+(inputs[k]?'hi':'lo');
+    b.innerHTML=`<span class="nm">input ${k}</span><span class="vl">${inputs[k]}</span>`;
+    b.onclick=()=>{inputs[k]=inputs[k]?0:1;buildInputs();render();};
+    wrap.appendChild(b);
+  });
+}
+
+// which transistors conduct, given the topology
+function conduction(){
+  const g=GATES[GATE], A=inputs.A, B=inputs.B;
+  // PMOS conducts when gate input = 0 ; NMOS conducts when gate = 1
+  const pA=A===0, pB=B===0, nA=A===1, nB=B===1;
+  let upConduct=false, downConduct=false;
+  if(GATE==='inv'){ upConduct=pA; downConduct=nA; }
+  else if(GATE==='nand'){ upConduct = pA||pB; downConduct = nA&&nB; }   // up parallel, down series
+  else if(GATE==='nor'){ upConduct = pA&&pB; downConduct = nA||nB; }    // up series, down parallel
+  return {pA,pB,nA,nB,upConduct,downConduct};
+}
+
+const visited={}; // earned truth-table rows per gate
+function key(){return GATE+':'+inputs.A+(GATES[GATE].n>1?inputs.B:'');}
+
+function render(){
+  const g=GATES[GATE], c=conduction();
+  const Y=g.f([inputs.A,inputs.B]);
+  visited[key()]=true;
+  drawGate(c,Y);
+  // verdict
+  $('vout').textContent=Y;
+  $('vout').style.color = Y? VOID : NOIR;
+  $('vstate').textContent = Y? 'pulled HIGH · +1 · the top network won'
+                              : 'pulled LOW · ground · the bottom network won';
+  // dual text
+  $('dual').innerHTML=`<b>${g.name}</b> &nbsp; ${g.expr}<br>▲ pull-up: ${g.pull_up}<br>▼ pull-down: ${g.pull_down}<br><span style="color:#a59f8a">${g.dual}</span>`;
+  // truth table
+  drawTT();
+}
+
+function drawTT(){
+  const g=GATES[GATE]; let h='<tr><th>A</th>'+(g.n>1?'<th>B</th>':'')+'<th>Y</th><th>gap pulled</th></tr>';
+  const rows = g.n>1? [[0,0],[0,1],[1,0],[1,1]] : [[0],[1]];
+  rows.forEach(r=>{
+    const y=g.f(r), kk=GATE+':'+r.join('');
+    const cur=(r[0]===inputs.A && (g.n<2 || r[1]===inputs.B));
+    const seen=visited[kk];
+    const cls=(cur?'cur ':'')+(seen?'':'');
+    h+=`<tr class="${cur?'cur':''}"><td class="${seen?'earned':''}">${r[0]}</td>`+
+       (g.n>1?`<td class="${seen?'earned':''}">${r[1]}</td>`:'')+
+       `<td class="${seen?'earned':''}">${seen?y:'·'}</td>`+
+       `<td class="${seen?'earned':''}">${seen?(y?'HIGH':'LOW'):'—'}</td></tr>`;
+  });
+  $('tt').innerHTML=h;
+}
+
+function drawGate(c,Y){
+  const W=cv.width,H=cv.height;
+  cx.clearRect(0,0,W,H);
+  const midX=W/2, railTop=40, gapY=H/2, railBot=H-40;
+  // rails
+  cx.strokeStyle=VOID;cx.lineWidth=2;
+  cx.beginPath();cx.moveTo(60,railTop);cx.lineTo(W-60,railTop);cx.stroke();
+  cx.strokeStyle=NOIR;cx.beginPath();cx.moveTo(60,railBot);cx.lineTo(W-60,railBot);cx.stroke();
+  cx.font='11px "Courier Prime",monospace';cx.fillStyle=VOID;cx.textAlign='left';
+  cx.fillText('+1  ·  V_DD  ·  the positive rail  (DAVID = i)',64,railTop-9);
+  cx.fillStyle=NOIR;cx.fillText('−1  ·  GND  ·  ground  (SHADOW = −i)',64,railBot+18);
+  // the gap band
+  cx.fillStyle='rgba(142,17,17,0.04)';cx.fillRect(60,gapY-26,W-120,52);
+  cx.strokeStyle=LINE;cx.setLineDash([4,4]);cx.beginPath();cx.moveTo(60,gapY);cx.lineTo(W-60,gapY);cx.stroke();cx.setLineDash([]);
+  cx.fillStyle='#a59f8a';cx.font='9px "Courier Prime",monospace';cx.textAlign='right';
+  cx.fillText('THE GAP · y = 0 · output node Y',W-64,gapY-32);
+
+  const g=GATES[GATE];
+  // transistor positions
+  const pmos=[], nmos=[];
+  if(GATE==='inv'){ pmos.push({x:midX,g:'A',cond:c.pA}); nmos.push({x:midX,g:'A',cond:c.nA}); }
+  else if(GATE==='nand'){ // up parallel, down series
+    pmos.push({x:midX-90,g:'A',cond:c.pA},{x:midX+90,g:'B',cond:c.pB});
+    nmos.push({x:midX,g:'A',cond:c.nA,series:0},{x:midX,g:'B',cond:c.nB,series:1});
+  } else if(GATE==='nor'){ // up series, down parallel
+    pmos.push({x:midX,g:'A',cond:c.pA,series:0},{x:midX,g:'B',cond:c.pB,series:1});
+    nmos.push({x:midX-90,g:'A',cond:c.nA},{x:midX+90,g:'B',cond:c.nB});
+  }
+  // draw helper
+  function fet(x,y,gate,cond,isP){
+    const col=isP?VOID:NOIR;
+    // body
+    cx.lineWidth=cond?3:1.4;
+    cx.strokeStyle=cond?(isP?VOID:NOIR):FAINT;
+    cx.fillStyle=cond?(isP? 'rgba(12,11,9,.10)':'rgba(142,17,17,.10)'):'transparent';
+    cx.beginPath();cx.roundRect(x-26,y-20,52,40,5);cx.fill();cx.stroke();
+    // gate stub
+    cx.beginPath();cx.moveTo(x-40,y);cx.lineTo(x-26,y);cx.stroke();
+    cx.fillStyle=cond?col:'#a59f8a';cx.font='bold 13px "Courier Prime",monospace';cx.textAlign='center';
+    cx.fillText(gate,x,y+5);
+    cx.font='8px "Courier Prime",monospace';cx.fillStyle='#a59f8a';
+    cx.fillText(isP?'PMOS':'NMOS',x,y-26);
+    cx.fillText('on @'+(isP?'0':'1'),x,y+32);
+    if(cond){cx.fillStyle=isP?VOID:NOIR;cx.font='9px "Courier Prime",monospace';cx.fillText('▲ conducting',x,y+44);}
+  }
+  // wires top rail -> pmos -> gap
+  const upY1=railTop+70, upY2=railTop+150;
+  cx.strokeStyle=c.upConduct?VOID:FAINT;cx.lineWidth=c.upConduct?2.4:1;
+  if(GATE==='nor'){ // series: rail -> p0 -> p1 -> gap
+    line(midX,railTop,midX,upY1-20);
+    fet(midX,upY1,pmos[0].g,pmos[0].cond,true);
+    line(midX,upY1+20,midX,upY2-20,(pmos[0].cond));
+    fet(midX,upY2,pmos[1].g,pmos[1].cond,true);
+    line(midX,upY2+20,midX,gapY,(pmos[0].cond&&pmos[1].cond));
+  } else { // inv (1) or nand (parallel)
+    pmos.forEach(p=>{ const ux=p.x;
+      line(ux,railTop,ux,upY1-20); fet(ux,upY1,p.g,p.cond,true);
+      line(ux,upY1+20,ux,gapY,p.cond);
+    });
+  }
+  // wires gap -> nmos -> bottom rail
+  const dnY1=railBot-150, dnY2=railBot-70;
+  if(GATE==='nand'){ // series down: gap -> n0 -> n1 -> rail
+    line(midX,gapY,midX,dnY1-20,(nmos[0].cond&&nmos[1].cond));
+    fet(midX,dnY1,nmos[0].g,nmos[0].cond,false);
+    line(midX,dnY1+20,midX,dnY2-20,(nmos[1].cond));
+    fet(midX,dnY2,nmos[1].g,nmos[1].cond,false);
+    line(midX,dnY2+20,midX,railBot,(nmos[0].cond&&nmos[1].cond));
+  } else {
+    nmos.forEach(nf=>{ const dx=nf.x;
+      line(dx,gapY,dx,dnY2-20,nf.cond); fet(dx,dnY2,nf.g,nf.cond,false);
+      line(dx,dnY2+20,dx,railBot,nf.cond);
+    });
+  }
+  // the output node in the gap
+  cx.beginPath();cx.arc(midX,gapY,9,0,7);
+  cx.fillStyle = Y? VOID : NOIR;
+  cx.fill();
+  cx.beginPath();cx.arc(midX,gapY,15,0,7);cx.strokeStyle=Y?VOID:NOIR;cx.lineWidth=1;cx.stroke();
+  cx.fillStyle=Y?VOID:NOIR;cx.font='bold 13px "Cormorant SC",serif';cx.textAlign='left';
+  cx.fillText('Y = '+Y, midX+24, gapY+5);
+  // output wire to the right
+  cx.strokeStyle=Y?VOID:NOIR;cx.lineWidth=1.6;
+  cx.beginPath();cx.moveTo(midX+15,gapY);cx.lineTo(midX+18,gapY);cx.stroke();
+
+  function line(x1,y1,x2,y2,hot){cx.strokeStyle=hot?(y1<gapY?VOID:NOIR):FAINT;cx.lineWidth=hot?2.4:1;cx.beginPath();cx.moveTo(x1,y1);cx.lineTo(x2,y2);cx.stroke();}
+}
+
+document.querySelectorAll('.g').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.g').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  GATE=b.dataset.g; inputs={A:0,B:0}; buildInputs(); render();
+}));
+buildInputs(); render();
+})();
+</script>
+</body></html>

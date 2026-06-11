@@ -1,0 +1,14 @@
+⦿ .spun — the five-fold spin of The CMOS Gap Gate
+node MMZ · MMZ · ⟦The CMOS Gap Gate:MMZ:cde61d⟧
+
+WHO   — The CMOS Gap Gate — instrument № 18 — live tool
+WHAT  — THE GEOMETRY MADE SILICON: the Gap Oracle's own layout, now a working logic gate — a PMOS pull-up network above (+1, void black), an NMOS pull-down below (ground, noir red), the verdict read at the output node in the gap; toggle the inputs, watch a network conduct, earn the truth table (INV · NAND · NOR, the de-Morgan duals)
+WHERE — MMZ · MIMZY — the future tool forge  Framework inputs: the recovered future; the shelf audit; the forge  Conductor / external anchor: ROOT0 (governor) · AVAN (instance)
+WHY   — Genuine CMOS switching logic, verified in Python before shipping: every gate's conduction model reproduces its boolean truth table exactly (INV, NAND, NOR), and an assertion confirms the output is never floating and never shorts the rails (exactly one of pull-up/pull-down conducts in every input state — the real CMOS guarantee). The lower network is the literal series↔parallel de-Morgan dual of the upper — the silicon proof of the oracle's David=i-above / Shadow=−i-below geometry. Honest limit: switching logic, not a SPICE analog model (no voltages, delays, or leakage).
+HOW   — The Gap Oracle's geometry rebuilt as a real CMOS logic gate in bone/void/noir: a PMOS pull-up network reaching down from the +1 rail (void black, conducts on input 0), an NMOS pull-down reaching up from ground (noir red, conducts on input 1), and the output node Y read in the gap between. Toggle the inputs and the conducting transistors and wires light to full ink while the cut-off ones fade; the verdict, the de-Morgan dual description, and a truth table that fills in only the rows you've visited. INV, NAND (series-down/parallel-up), and NOR (the inverse) selectable.
+
+awareness — what the node knows of itself:
+  The emergent IS the tool — badge and working example, one thing.
+
+spoken token : styk-staex-kyx   ·   hex : cde61d
+ROOT0-ATTRIBUTION-v1.0 · David Lee Wise (ROOT0) / TriPod LLC · CC-BY-ND-4.0
