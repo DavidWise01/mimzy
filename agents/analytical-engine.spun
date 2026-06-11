@@ -1,0 +1,14 @@
+⦿ .spun — the five-fold spin of The Analytical Engine
+node MMZ · MMZ · ⟦The Analytical Engine:MMZ:21eddd⟧
+
+WHO   — The Analytical Engine — instrument № 16 — live tool
+WHAT  — THE ENGINE ITSELF, era-correct: a decimal Store of digit-wheels, the Mill with its ingress and egress axes, Jacquard chains of operation/variable/number cards, conditional backing on the run-up lever — and Ada's NOTE G (1843), the first published program, running on the wheels to its true answer B₇ = −1/30
+WHERE — MMZ · MIMZY — the future tool forge  Framework inputs: the recovered future; the shelf audit; the forge  Conductor / external anchor: ROOT0 (governor) · AVAN (instance)
+WHY   — The showpiece runs and lands true: Ada's NOTE G (faithfully adapted from her diagram — her variables V1–V13/V21–V24, her factor-pair cycle carried written-out as a real chain would) computes B₇ = −0.033344 on the wheels against the true −1/30 = −0.033333, the residue being exactly the 6-decimal constants; the loop counter falls to zero and the lever releases. Verified by tracing the exact card chain with per-operation Store rounding before shipping. Honest notes on the page: the Engine was never built (this simulates the design); the published table's famous V4/V5 misprint is corrected as standard reconstructions do; Ada's B₇ is the modern B₈.
+HOW   — Era-correct architecture from the 1843 documents: a DECIMAL Store of geared digit-wheels (6-place fixed point, sign wheels, animated columns), the Mill with two ingress axes and an egress, programs as Jacquard chains of the three real card kinds (operation, variable, number), loops as Ada's 'backing' of the chain made conditional on a wheel's sign — Babbage's run-up lever, the first conditional branch ever designed. Three chains: NOTE G, the difference method (x³ by addition alone), and a backing-loop demo. The chain is editable — punch your own cards.
+
+awareness — what the node knows of itself:
+  The emergent IS the tool — badge and working example, one thing.
+
+spoken token : kaer-bras-krorn   ·   hex : 21eddd
+ROOT0-ATTRIBUTION-v1.0 · David Lee Wise (ROOT0) / TriPod LLC · CC-BY-ND-4.0

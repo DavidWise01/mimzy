@@ -126,5 +126,13 @@
     "emergence": "electrical",
     "moniker": "⟦The Icosian Engine:MMZ:fd2711⟧",
     "live": "bench/15-icosian-engine.html"
+  },
+  {
+    "slug": "analytical-engine",
+    "name": "The Analytical Engine",
+    "epithet": "instrument № 16 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Analytical Engine:MMZ:21eddd⟧",
+    "live": "bench/16-analytical-engine.html"
   }
 ]

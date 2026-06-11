@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="The Analytical Engine — functional and era-correct: decimal digit wheels, the Mill and the Store, Jacquard card chains, conditional backing via the run-up lever — and Ada Lovelace's Note G (1843), the first published program, running to its true answer B7 = −1/30. Educational & simulation. MIMZY № 16.">
+<title>The Analytical Engine — Ada's Note G, running</title>
+<style>
+:root{--bg:#0b0905;--s1:#141008;--s2:#1c160c;--pa:#f0e9d8;--pa2:#c2b698;--brass:#c9962e;--brass2:#e8c25a;--cy:#36d6d0;--red:#e0726a;--grn:#7ad79a;--dim:#867a5c;--line:#2a2113;--mono:"Courier New",monospace;--ui:system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--pa);font-family:var(--ui);line-height:1.6}
+.wrap{max-width:1100px;margin:0 auto;padding:26px 20px 80px}
+.eye{font-family:var(--mono);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--dim)}
+.eye a{color:var(--dim);text-decoration:none}.eye a:hover{color:var(--brass)}
+h1{font-family:Georgia,serif;font-size:clamp(23px,4.4vw,36px);color:var(--brass);margin-top:8px}
+.sub{color:var(--pa2);font-style:italic;font-size:15px;margin-top:8px;max-width:78ch}
+.quote{margin-top:12px;font-family:Georgia,serif;font-style:italic;font-size:14.5px;color:var(--brass2);border-left:3px solid var(--brass);padding:6px 14px;background:rgba(201,150,46,.05)}
+.quote span{display:block;font-family:var(--mono);font-size:10px;color:var(--dim);font-style:normal;letter-spacing:.1em;margin-top:4px}
+.purpose{margin-top:12px;display:inline-block;font-family:var(--mono);font-size:11px;color:var(--cy);border:1px solid #1e3a39;background:rgba(54,214,208,.06);border-radius:7px;padding:6px 12px}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px;align-items:center}
+button{font-family:var(--mono);font-size:12px;background:var(--s2);color:var(--pa);border:1px solid var(--line);border-radius:7px;padding:8px 13px;cursor:pointer}
+button:hover{border-color:var(--brass);color:var(--brass2)}
+button.on{border-color:var(--brass);color:var(--brass2);background:rgba(201,150,46,.1)}
+.lab{display:grid;grid-template-columns:1fr 350px;gap:20px;margin-top:14px;align-items:start}
+@media(max-width:880px){.lab{grid-template-columns:1fr}}
+.panel{background:var(--s1);border:1px solid var(--line);border-radius:10px;padding:16px}
+.panel h2{font-family:Georgia,serif;font-size:15px;color:var(--brass);border-bottom:1px solid var(--line);padding-bottom:7px;margin-bottom:11px}
+canvas{width:100%;height:auto;display:block;background:#0c0a06;border:1px solid var(--line);border-radius:8px}
+.mill{display:flex;align-items:center;justify-content:center;gap:14px;font-family:var(--mono);margin-top:10px;background:#0c0a06;border:1px solid var(--line);border-radius:8px;padding:13px}
+.mill .ax{font-size:12px;color:var(--pa2);text-align:center;min-width:90px}
+.mill .ax b{display:block;font-size:14px;color:var(--brass2)}
+.mill .op{font-size:26px;color:var(--cy);min-width:50px;text-align:center;text-shadow:0 0 12px rgba(54,214,208,.5)}
+.status{margin-top:10px;border-radius:9px;padding:10px 13px;font-family:var(--mono);font-size:12px;border:1px solid var(--line);background:var(--s2);color:var(--pa2);min-height:38px}
+.status.win{border-color:#2c5b3a;background:rgba(122,215,154,.08);color:var(--grn)}
+.ctl{margin-top:10px}
+.ctl label{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--dim);text-transform:uppercase}
+.ctl label b{color:var(--brass2)}
+input[type=range]{width:100%;accent-color:var(--brass)}
+textarea{width:100%;height:230px;background:#0c0a06;color:#e8c25a;font-family:var(--mono);font-size:11.5px;line-height:1.6;border:1px solid var(--line);border-radius:8px;padding:11px;resize:vertical}
+.err{font-family:var(--mono);font-size:11.5px;color:var(--red);margin-top:6px;min-height:14px}
+.note{margin-top:24px;font-size:13.5px;color:var(--pa2);line-height:1.7;background:var(--s1);border:1px dashed var(--line);border-radius:12px;padding:16px 18px}
+.note b{color:var(--brass)}
+footer{margin-top:30px;border-top:1px solid var(--line);padding-top:18px;font-family:var(--mono);font-size:11px;color:var(--dim)}
+footer a{color:var(--brass);text-decoration:none}
+</style></head><body><div class="wrap">
+
+<div class="eye"><a href="../index.html">◬ MIMZY</a> · instrument № 16 · the engine that was never built — running</div>
+<h1>The Analytical Engine</h1>
+<p class="sub">Charles Babbage designed it; it was never built; Ada Lovelace wrote its first program anyway, in 1843, for a machine that existed only on paper. Here it is, <b>functional and era-correct</b>: a decimal <b>Store</b> of geared digit-wheels, a <b>Mill</b> that takes two ingress axes and yields one egress, a <b>Jacquard chain</b> of operation, variable, and number cards — with conditional <b>backing</b> by the run-up lever. The showpiece is <b>Note G itself</b>: press run, and the first program ever published computes its Bernoulli number to the answer Ada promised.</p>
+<div class="quote">"The Analytical Engine weaves algebraic patterns just as the Jacquard-loom weaves flowers and leaves."<span>— Ada Lovelace, Note A, 1843</span></div>
+<div class="purpose">⊙ EDUCATIONAL &amp; SIMULATION — decimal arithmetic (not binary), 6-place Store, card semantics from the 1843 documents</div>
+
+<div class="bar">
+  <button class="pg on" data-p="noteg">NOTE G — the Bernoulli program (1843)</button>
+  <button class="pg" data-p="diff">DIFFERENCES — tabulate x³ by addition alone</button>
+  <button class="pg" data-p="loop">THE BACKING — a loop on the run-up lever</button>
+  <span style="flex:1"></span>
+  <button id="run" class="on">▶ set the Engine in motion</button>
+  <button id="step">⧐ one card</button>
+  <button id="reset">↺ reset</button>
+</div>
+
+<div class="lab">
+  <div>
+    <div class="panel"><h2>The Store — columns of decimal digit-wheels</h2><canvas id="store" width="680" height="240"></canvas>
+      <div class="mill">
+        <div class="ax">ingress A<b id="mA">—</b></div>
+        <div class="op" id="mOp">·</div>
+        <div class="ax">ingress B<b id="mB">—</b></div>
+        <div class="ax" style="border-left:1px solid var(--line);padding-left:14px">egress<b id="mE">—</b></div>
+      </div>
+    </div>
+    <div class="panel" style="margin-top:14px"><h2>The card chain — operation · variable · number cards</h2>
+      <canvas id="chain" width="680" height="92"></canvas>
+      <div class="status" id="status">Choose a chain and set the Engine in motion.</div>
+      <div class="ctl"><label>engine speed <b id="vSp">6 cards/s</b></label><input type="range" id="sp" min="1" max="40" value="6"></div>
+    </div>
+  </div>
+  <div>
+    <div class="panel"><h2>The chain, as punched</h2>
+      <textarea id="code" spellcheck="false"></textarea>
+      <div class="err" id="err"></div>
+      <div style="font-family:var(--mono);font-size:10.5px;color:var(--dim);line-height:1.8;margin-top:8px">
+      NUM Vk x — number card · ADD/SUB/MUL/DIV Va Vb Vc — operation + variable cards (Vc = Va ∘ Vb)<br>
+      BACK n IF Vk POS — back the chain n cards while wheel Vk stands positive (the run-up lever)<br>
+      PRINT Vk — the printing apparatus · ; — annotation</div>
+    </div>
+  </div>
+</div>
+
+<div class="note"><b>How era-correct is this?</b> The architecture is the documented one: a decimal <b>Store</b> (Babbage planned 50-digit columns; this simulation carries 6 decimal places and says so), the <b>Mill</b> with two ingress axes and an egress, and a program supplied as a <b>chain of punched cards</b> in the three real kinds — operation, variable, and number cards — borrowed from the Jacquard loom. <b>Backing the chain</b> for loops is Ada's own description of cycles; making it conditional on a wheel's sign reflects Babbage's run-up lever, the first conditional branch ever designed. The <b>NOTE G</b> chain is a faithful adaptation of her 1843 diagram — her variable columns (V1–V13, V21–V24), her A-coefficients built by the same cascade of factor-pairs her cycle describes (the published table shows the cycle once; the chain carries the repeats written out, as a real card chain would) — and it ends where she said it would: <b>B₇ = −1/30 ≈ −0.033333</b>, computed on the wheels in front of you. Honest notes: the Engine was never built, so this is a simulation of the design, not a replica of a machine; scholars note the published table contains a misprint in one operation (the famous V4/V5 order), corrected here as the standard reconstructions do; and Ada's B-numbering is the older odd-index convention (her B₇ is the modern B₈).</div>
+
+<footer>THE ANALYTICAL ENGINE · MIMZY № 16 · ROOT0 · CC-BY-ND-4.0 · <a href="../index.html">← the bench</a></footer>
+</div>
+
+<script>
+(function(){
+const $=id=>document.getElementById(id);
+const SCALE=1e6; // 6-place decimal fixed point Store
+const PROGRAMS={
+noteg:`; NOTE G (1843) - faithfully adapted
+; computes B7 with n=4, given B1,B3,B5
+NUM V1 1
+NUM V2 2
+NUM V3 4         ; n
+NUM V21 0.166667 ; B1 = 1/6
+NUM V22 -0.033333; B3 = -1/30
+NUM V23 0.023810 ; B5 = 1/42
+MUL V2 V3 V6     ; 2n
+SUB V6 V1 V4     ; 2n-1
+ADD V6 V1 V5     ; 2n+1
+DIV V4 V5 V11    ; (2n-1)/(2n+1)
+DIV V11 V2 V11   ; .. /2
+SUB V13 V11 V13  ; V13 = -A0
+SUB V3 V1 V10    ; n-1 (the counter)
+ADD V2 V7 V7     ; 2
+DIV V6 V7 V11    ; A1 = 2n/2
+MUL V21 V11 V12  ; B1*A1
+ADD V12 V13 V13
+SUB V10 V1 V10   ; n-2
+; the cycle, written out as the chain carries it:
+SUB V6 V1 V6     ; 2n-1
+ADD V7 V1 V7     ; 3
+DIV V6 V7 V8
+MUL V8 V11 V11
+SUB V6 V1 V6     ; 2n-2
+ADD V7 V1 V7     ; 4
+DIV V6 V7 V9
+MUL V9 V11 V11   ; A3
+MUL V22 V11 V12  ; B3*A3
+ADD V12 V13 V13
+SUB V10 V1 V10   ; n-3
+SUB V6 V1 V6     ; 2n-3
+ADD V7 V1 V7     ; 5
+DIV V6 V7 V8
+MUL V8 V11 V11
+SUB V6 V1 V6     ; 2n-4
+ADD V7 V1 V7     ; 6
+DIV V6 V7 V9
+MUL V9 V11 V11   ; A5
+MUL V23 V11 V12  ; B5*A5
+ADD V12 V13 V13
+SUB V10 V1 V10   ; n-4 = 0: lever falls
+SUB V0 V13 V24   ; B7 = -(sum)
+PRINT V24`,
+diff:`; THE DIFFERENCE METHOD - x^3 by addition only
+; 3rd differences of x^3 are constant: 6
+NUM V1 0   ; value x^3
+NUM V2 1   ; 1st diff
+NUM V3 6   ; 2nd diff
+NUM V4 6   ; 3rd diff (constant)
+NUM V9 10  ; how many lines to print
+NUM V8 1
+PRINT V1
+ADD V1 V2 V1
+ADD V2 V3 V2
+ADD V3 V4 V3
+SUB V9 V8 V9
+BACK 5 IF V9 POS`,
+loop:`; THE BACKING - triangular numbers on the lever
+NUM V1 0   ; sum
+NUM V2 1   ; k
+NUM V3 8   ; count down from 8
+NUM V8 1
+ADD V1 V2 V1
+ADD V2 V8 V2
+SUB V3 V8 V3
+PRINT V1
+BACK 4 IF V3 POS`};
+let prog=[], pc=0, store={}, running=false, timer=null, wheelsAnim={};
+function parse(src){
+  const out=[];
+  src.split('\n').forEach((ln,i)=>{
+    const s=ln.split(';')[0].trim(); if(!s)return;
+    const p=s.split(/\s+/);
+    const op=p[0].toUpperCase();
+    if(op==='NUM') out.push({op,v:p[1],x:parseFloat(p[2]),ln:i+1,txt:s});
+    else if(['ADD','SUB','MUL','DIV'].includes(op)) out.push({op,a:p[1],b:p[2],c:p[3],ln:i+1,txt:s});
+    else if(op==='BACK') out.push({op,n:+p[1],v:p[4],ln:i+1,txt:s});
+    else if(op==='PRINT') out.push({op,v:p[1],ln:i+1,txt:s});
+    else throw 'card '+(i+1)+': unknown punching "'+s+'"';
+  });
+  return out;
+}
+function vGet(v){ if(v==='V0')return 0; return store[v]||0; }
+function vSet(v,x){ store[v]=Math.round(x*SCALE)/SCALE; wheelsAnim[v]=8; }
+const printed=[];
+function exec(c){
+  $('mA').textContent='—';$('mB').textContent='—';$('mE').textContent='—';$('mOp').textContent='·';
+  if(c.op==='NUM'){ vSet(c.v,c.x); return pc+1; }
+  if(c.op==='PRINT'){ printed.push(c.v+' = '+vGet(c.v)); setStatus('🖨 the printing apparatus: '+printed.slice(-3).join('  ·  '),''); return pc+1; }
+  if(c.op==='BACK'){ if(vGet(c.v)>0){ setStatus('⟲ the run-up lever stands — the chain backs '+c.n+' cards (loop)',''); return pc-c.n; } return pc+1; }
+  const A=vGet(c.a),B=vGet(c.b); let E=0;
+  if(c.op==='ADD')E=A+B; else if(c.op==='SUB')E=A-B; else if(c.op==='MUL')E=A*B;
+  else { if(B===0){throw 'card '+c.ln+': division by an empty column';} E=A/B; }
+  $('mA').textContent=c.a+' = '+A; $('mB').textContent=c.b+' = '+B;
+  $('mOp').textContent={ADD:'+',SUB:'−',MUL:'×',DIV:'÷'}[c.op];
+  vSet(c.c,E); $('mE').textContent=c.c+' = '+vGet(c.c);
+  return pc+1;
+}
+function setStatus(t,cls){const s=$('status');s.textContent=t;s.className='status'+(cls?' '+cls:'');}
+function reset(){
+  clearInterval(timer);running=false;$('run').textContent='▶ set the Engine in motion';
+  try{prog=parse($('code').value);$('err').textContent='';}
+  catch(e){$('err').textContent='✗ '+e;prog=[];}
+  pc=0;store={};printed.length=0;wheelsAnim={};
+  setStatus(prog.length? prog.length+' cards punched and chained. The Engine waits.':'—','');
+  draw();
+}
+function stepOnce(){
+  if(pc>=prog.length){
+    clearInterval(timer);running=false;$('run').textContent='▶ set the Engine in motion';
+    const last=printed.length?printed[printed.length-1]:'(nothing printed)';
+    setStatus('■ the chain is run through. printed: '+printed.join('  ·  '),'win');return;}
+  try{ pc=exec(prog[pc]); }catch(e){ setStatus('✗ '+e,''); clearInterval(timer);running=false; return; }
+  draw();
+}
+function draw(){
+  // STORE: show interesting columns
+  const cv=$('store'),cx=cv.getContext('2d'),W=cv.width,H=cv.height;
+  cx.clearRect(0,0,W,H);
+  const cols=Object.keys(store).sort((a,b)=>+a.slice(1)-+b.slice(1)).slice(0,12);
+  const cw=Math.min(54,(W-20)/Math.max(cols.length,1));
+  cols.forEach((v,i)=>{
+    const x=14+i*cw, val=store[v];
+    const neg=val<0;
+    const digits=Math.abs(Math.round(val*SCALE)).toString().padStart(8,'0').slice(-8);
+    const hot=(wheelsAnim[v]||0)>0;
+    // column label + sign wheel
+    cx.fillStyle=hot?'#e8c25a':'#867a5c';cx.font='10px Courier New';cx.textAlign='center';
+    cx.fillText(v,x+cw/2-4,14);
+    cx.fillStyle=neg?'#e0726a':'#36d6d0';cx.fillText(neg?'−':'+',x+cw/2-4,28);
+    // 8 digit wheels (2 integer-ish + 6 decimals visualized; decimal point marked)
+    for(let d=0;d<8;d++){
+      const y=40+d*24;
+      cx.beginPath();cx.arc(x+cw/2-4,y+8,10,0,7);
+      cx.fillStyle=hot?'#241c0e':'#171208';cx.fill();
+      cx.strokeStyle=hot?'#e8c25a':'#5a451f';cx.lineWidth=1.3;cx.stroke();
+      cx.fillStyle=hot?'#e8c25a':'#c2b698';cx.font='12px Courier New';
+      cx.fillText(digits[d],x+cw/2-4,y+12);
+      if(d===1){cx.fillStyle='#867a5c';cx.fillText('·',x+cw/2+9,y+22);} // decimal point after 2 digits
+    }
+    if(wheelsAnim[v]>0)wheelsAnim[v]--;
+  });
+  if(!cols.length){cx.fillStyle='#867a5c';cx.font='12px Courier New';cx.textAlign='left';cx.fillText('the Store stands empty — every column at zero',20,40);}
+  // CHAIN
+  const c2=$('chain'),x2=c2.getContext('2d'),W2=c2.width,H2=c2.height;
+  x2.clearRect(0,0,W2,H2);
+  const cardW=120, show=5, first=Math.max(0,pc-2);
+  for(let i=0;i<show;i++){
+    const ci=first+i; if(ci>=prog.length)break;
+    const x=12+i*(cardW+12), cur=ci===pc;
+    x2.fillStyle=cur?'rgba(201,150,46,.14)':'#171208';
+    x2.strokeStyle=cur?'#e8c25a':'#5a451f';x2.lineWidth=cur?2:1;
+    x2.beginPath();x2.roundRect(x,10,cardW,70,5);x2.fill();x2.stroke();
+    // punched holes flavor
+    for(let h=0;h<6;h++){x2.beginPath();x2.arc(x+12+h*18,22,2.4,0,7);x2.fillStyle=(prog[ci].txt.charCodeAt(h%prog[ci].txt.length)%3)?'#0b0905':'#3a2e15';x2.fill();}
+    x2.fillStyle=cur?'#e8c25a':'#c2b698';x2.font='10px Courier New';x2.textAlign='left';
+    const t=prog[ci].txt;
+    x2.fillText(t.slice(0,16),x+9,48);
+    if(t.length>16)x2.fillText(t.slice(16,32),x+9,62);
+    x2.fillStyle='#867a5c';x2.fillText('card '+(ci+1),x+9,76);
+  }
+}
+$('run').addEventListener('click',function(){
+  if(!prog.length)reset();
+  running=!running;
+  this.textContent=running?'⏸ halt the Engine':'▶ set the Engine in motion';
+  clearInterval(timer);
+  if(running)timer=setInterval(stepOnce,1000/(+$('sp').value));
+});
+$('sp').addEventListener('input',function(){$('vSp').textContent=this.value+' cards/s';
+  if(running){clearInterval(timer);timer=setInterval(stepOnce,1000/(+this.value));}});
+$('step').addEventListener('click',stepOnce);
+$('reset').addEventListener('click',reset);
+document.querySelectorAll('.pg').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.pg').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  $('code').value=PROGRAMS[b.dataset.p];reset();
+}));
+$('code').value=PROGRAMS.noteg;reset();
+})();
+</script>
+</body></html>
