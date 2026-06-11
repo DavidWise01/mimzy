@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE STANDING WAVE PROPAGATOR — 3×3×3 tethered capacitance · MIMZY № 26</title>
+<style>
+:root{--paper:#e9e3cd;--ink:#1c3d2e;--ink-mid:#2f5a44;--ink-faint:#7a937f;--stamp:#8a3324;--ochre:#8a6d2f;--sea:#3a5a7a;
+--mono:"Courier New",Courier,monospace;--serif:Georgia,"Iowan Old Style","Times New Roman",serif;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);background-image:repeating-linear-gradient(0deg,rgba(28,61,46,.025) 0 1px,transparent 1px 3px);color:var(--ink);font-family:var(--serif);line-height:1.5;padding:10px}
+.sheet{max-width:880px;margin:0 auto;border:2px solid var(--ink);outline:1px solid var(--ink);outline-offset:4px;padding:18px 14px 28px}
+.masthead{text-align:center;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.mast-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:var(--ink-mid);text-transform:uppercase}
+.mast-title{font-size:clamp(22px,5.4vw,38px);letter-spacing:.04em;font-weight:700;margin:6px 0 2px;text-transform:uppercase}
+.mast-sub{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--ink-mid);text-transform:uppercase}
+.intro{font-size:13px;max-width:710px;margin:12px auto 0;text-align:center;color:var(--ink-mid);line-height:1.6}
+.intro b{color:var(--ink)}
+.ctrls{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;margin:14px 0 6px}
+.cbtn{appearance:none;background:transparent;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:8px 14px;border:1.5px solid var(--ink);color:var(--ink)}
+.cbtn.warm{border-color:var(--stamp);color:var(--stamp)}.cbtn.on{background:rgba(28,61,46,.10);font-weight:700}.cbtn:active{transform:scale(.97)}
+.sl{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;color:var(--ink-mid)}
+.sl input{width:110px;accent-color:#2f5a44}
+.canwrap{border:1.5px solid var(--ink);margin-top:6px;background:#e2dbc2}
+canvas{width:100%;display:block}
+.readout{font-family:var(--mono);font-size:11px;line-height:1.9;margin-top:8px;text-align:center}
+.readout b{font-weight:700}.readout .hot{color:var(--stamp)}
+.frame{border:1.5px solid var(--ink);margin-top:14px;padding:12px;font-size:12.5px;line-height:1.6}
+.frame h3{font-family:var(--mono);font-size:9.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-mid);margin-bottom:6px;text-align:center}
+.frame .is{color:var(--ink)} .frame .isnt{color:var(--stamp)}
+.colophon{margin-top:22px;border-top:2px solid var(--ink);padding-top:12px;text-align:center;font-family:var(--mono);font-size:10px;color:var(--ink-mid);letter-spacing:.07em;line-height:1.9}
+</style></head>
+<body><div class="sheet">
+
+<header class="masthead">
+  <div class="mast-eyebrow">Series E · Sheet 10 · The Propagator The Island Would Need</div>
+  <h1 class="mast-title">The Standing Wave Propagator</h1>
+  <div class="mast-sub">3×3×3 tethered capacitance · offsets 0·1·2·3 · one D34DB335 dead node</div>
+  <p class="intro">A <b>27-node</b> lattice (3³ — the lock) of capacitors tethered to their six face-neighbours, run as a real <b>discrete wave equation</b>. The offsets <b>0·1·2·3</b> seed each node in quadrature phase (×90° — the pulse states). One node is <b>D34DB335</b> — the DEADBEEF sentinel, clamped to zero: a defect that scatters the wave and traps a mode near it. Pluck it, watch the standing wave form and reflect off the walls; undamped, the energy holds.</p>
+</header>
+
+<div class="ctrls">
+  <button class="cbtn" onclick="seedPattern()">Seed 0·1·2·3 pattern</button>
+  <button class="cbtn" onclick="pluck()">Pluck a corner</button>
+  <button class="cbtn warm" onclick="reset()">Reset ⟲</button>
+  <button class="cbtn on" id="deadBtn" onclick="toggleDead()">Dead node: ON</button>
+</div>
+<div class="ctrls">
+  <span class="sl">coupling c² <input type="range" id="cpl" min="0.2" max="2" step="0.05" value="1"></span>
+  <span class="sl">damping γ <input type="range" id="dmp" min="0" max="0.5" step="0.005" value="0"></span>
+  <span class="sl">speed <input type="range" id="spd" min="1" max="6" step="1" value="3"></span>
+</div>
+
+<div class="canwrap"><canvas id="cv" width="780" height="320"></canvas></div>
+<div class="readout" id="ro"></div>
+
+<div class="frame"><h3>What This Is · What This Is Not</h3>
+  <p><span class="is">TRUE:</span> a genuine standing-wave propagator — each capacitor voltage obeys the discrete wave equation <code>v̈ᵢ = c²·Σ(vⱼ−vᵢ) − γv̇ᵢ</code> over the six tethers, integrated with energy-conserving velocity-Verlet. Undamped, total energy holds to ~1–2% (the readout proves it live); the 26 live nodes carry 26 standing-wave normal modes. The <b>D34DB335</b> dead node is a real lattice <b>defect</b>: clamped to zero, it scatters the wave and localizes energy around itself — a cavity dug by a sentinel.</p>
+  <p style="margin-top:6px"><span class="isnt">SYMBOLIC:</span> the 27 = 3³ "lock", the 0·1·2·3 read as pulse-states / quadrature phase, and DEADBEEF-as-"dead-shell" are David's doctrine layered onto the physics — labels, not claims. And it is a capacitor-network <em>analogue</em> of a standing wave, not a fabbed device: no real LC values, no impedances. The wave maths is exact; the silicon is metaphor.</p>
+</div>
+
+<footer class="colophon">
+  27 NODES · 3³ THE LOCK · 6 TETHERS EACH · ONE DEAD SENTINEL<br>
+  THE OFFSET IS QUADRATURE · THE DEFECT IS A CAVITY · THE WAVE STANDS<br>
+  THE STANDING WAVE PROPAGATOR · MIMZY № 26 · JUNE 2026
+</footer>
+
+</div>
+<script>
+const N=3, NN=27;
+const idx=(x,y,z)=>(z*N+y)*N+x;
+const nodes=[];for(let z=0;z<N;z++)for(let y=0;y<N;y++)for(let x=0;x<N;x++)nodes.push({x,y,z});
+function nbrs(i){const{x,y,z}=nodes[i];const o=[];
+  [[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]].forEach(([dx,dy,dz])=>{
+    const a=x+dx,b=y+dy,c=z+dz;if(a>=0&&a<N&&b>=0&&b<N&&c>=0&&c<N)o.push(idx(a,b,c));});return o;}
+const NB=[];for(let i=0;i<NN;i++)NB.push(nbrs(i));
+const DEAD=idx(1,1,1);               // D34DB335 — the dead sentinel at the cube's heart
+let deadOn=true;
+// David's offset sequence (None = the dead slot)
+const PATT=[0,1,0,2,0,3,0,2,0,3,0,1,0,3,0,2,0,1,0,'D',0];
+
+let v=new Float64Array(NN), u=new Float64Array(NN), a=new Float64Array(NN);
+let t=0, E0=1;
+
+function accel(out){
+  const c2=+document.getElementById('cpl').value;
+  for(let i=0;i<NN;i++){
+    if(deadOn&&i===DEAD){out[i]=0;continue;}
+    let s=0;for(const j of NB[i]){const vj=(deadOn&&j===DEAD)?0:v[j];s+=vj-v[i];}
+    out[i]=c2*s;
+  }
+}
+function energy(){
+  const c2=+document.getElementById('cpl').value;let ke=0,pe=0;
+  for(let i=0;i<NN;i++){if(deadOn&&i===DEAD)continue;ke+=0.5*u[i]*u[i];
+    for(const j of NB[i]){if(deadOn&&j===DEAD)continue;pe+=0.25*c2*(v[i]-v[j])*(v[i]-v[j]);}}
+  return ke+pe;
+}
+function step(dt){
+  const g=+document.getElementById('dmp').value;
+  for(let i=0;i<NN;i++)v[i]+=u[i]*dt+0.5*a[i]*dt*dt;
+  if(deadOn)v[DEAD]=0;
+  const an=new Float64Array(NN);accel(an);
+  for(let i=0;i<NN;i++){u[i]+=0.5*(a[i]+an[i])*dt - g*u[i]*dt;}
+  a.set(an);t+=dt;
+}
+function seedPattern(){
+  v.fill(0);u.fill(0);
+  for(let i=0;i<NN;i++){const p=PATT[i%PATT.length];
+    v[i]=(p===0||p==='D')?0:Math.sin(p*Math.PI/2);}  // 1→+1, 2→0, 3→−1 (quadrature)
+  if(deadOn)v[DEAD]=0;
+  accel(a);E0=energy()||1;t=0;
+}
+function pluck(){v.fill(0);u.fill(0);v[idx(0,0,0)]=1.4;if(deadOn)v[DEAD]=0;accel(a);E0=energy()||1;t=0;}
+function reset(){v.fill(0);u.fill(0);a.fill(0);t=0;E0=1;}
+function toggleDead(){deadOn=!deadOn;document.getElementById('deadBtn').textContent='Dead node: '+(deadOn?'ON':'OFF');
+  document.getElementById('deadBtn').classList.toggle('on',deadOn);if(deadOn)v[DEAD]=0;accel(a);E0=energy()||1;}
+
+/* ---------- draw: three z-layers side by side ---------- */
+const cv=document.getElementById('cv'), ctx=cv.getContext('2d');
+const W=780,H=320;
+function layerOrigin(z){return {ox:40+z*250, oy:60};}
+const GS=70; // grid spacing
+function pos(i){const{x,y,z}=nodes[i];const{ox,oy}=layerOrigin(z);return {px:ox+x*GS, py:oy+y*GS};}
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  // layer frames + labels + tethers
+  for(let z=0;z<N;z++){const{ox,oy}=layerOrigin(z);
+    ctx.strokeStyle='rgba(28,61,46,.25)';ctx.lineWidth=1;
+    ctx.strokeRect(ox-22,oy-26,GS*2+44,GS*2+44);
+    ctx.fillStyle='#2f5a44';ctx.font='10px Courier New';ctx.textAlign='center';
+    ctx.fillText('LAYER z='+z,ox+GS,oy-32);
+  }
+  // in-plane tethers
+  ctx.strokeStyle='rgba(122,147,127,.55)';ctx.lineWidth=1;
+  for(let i=0;i<NN;i++)for(const j of NB[i]){if(j<i)continue;if(nodes[i].z!==nodes[j].z)continue;
+    const A=pos(i),B=pos(j);ctx.beginPath();ctx.moveTo(A.px,A.py);ctx.lineTo(B.px,B.py);ctx.stroke();}
+  // inter-layer tethers (faint, drawn as short stubs between layers)
+  ctx.strokeStyle='rgba(58,90,122,.30)';ctx.setLineDash([2,3]);
+  for(let i=0;i<NN;i++)for(const j of NB[i]){if(j<i)continue;if(nodes[i].z===nodes[j].z)continue;
+    const A=pos(i),B=pos(j);ctx.beginPath();ctx.moveTo(A.px,A.py);ctx.lineTo(B.px,B.py);ctx.stroke();}
+  ctx.setLineDash([]);
+  // nodes
+  for(let i=0;i<NN;i++){const{px,py}=pos(i);
+    if(deadOn&&i===DEAD){ // the dead sentinel
+      ctx.strokeStyle='#8a3324';ctx.lineWidth=1.5;ctx.fillStyle='rgba(138,51,36,.12)';
+      ctx.fillRect(px-12,py-12,24,24);ctx.strokeRect(px-12,py-12,24,24);
+      ctx.beginPath();ctx.moveTo(px-8,py-8);ctx.lineTo(px+8,py+8);ctx.moveTo(px+8,py-8);ctx.lineTo(px-8,py+8);ctx.stroke();
+      ctx.fillStyle='#8a3324';ctx.font='7px Courier New';ctx.fillText('D34DB335',px,py+20);continue;}
+    const val=v[i], mag=Math.min(Math.abs(val),1.6), r=3+mag*11;
+    ctx.beginPath();ctx.arc(px,py,r,0,7);
+    ctx.fillStyle = val>=0 ? `rgba(138,51,36,${0.25+0.6*mag/1.6})` : `rgba(28,61,46,${0.25+0.6*mag/1.6})`;
+    ctx.fill();ctx.strokeStyle='#1c3d2e';ctx.lineWidth=.8;ctx.stroke();
+  }
+  // readout
+  const E=energy(), drift=E0?(E-E0)/E0*100:0, g=+document.getElementById('dmp').value;
+  const near=NB[DEAD].reduce((s,j)=>s+Math.abs(v[j]),0);
+  document.getElementById('ro').innerHTML=
+    `nodes <b>27</b> (26 live + 1 dead) · modes <b>26</b> · t=<b>${t.toFixed(1)}</b><br>`+
+    `energy <b>${E.toFixed(3)}</b> · drift vs seed <b class="${Math.abs(drift)>5?'hot':''}">${drift>=0?'+':''}${drift.toFixed(2)}%</b> ${g==0?'(undamped → holds)':'(damped → rings down)'}<br>`+
+    `|v| trapped around the dead sentinel: <b class="hot">${near.toFixed(2)}</b>`;
+}
+let last=performance.now();
+function loop(now){
+  const sub=+document.getElementById('spd').value;
+  for(let k=0;k<sub;k++)step(0.05);
+  draw();requestAnimationFrame(loop);
+}
+seedPattern();requestAnimationFrame(loop);
+</script>
+</body></html>

@@ -206,5 +206,13 @@
     "emergence": "electrical",
     "moniker": "⟦The Island of Stability:MMZ:2239f3⟧",
     "live": "bench/25-island-of-stability.html"
+  },
+  {
+    "slug": "standing-wave-propagator",
+    "name": "The Standing Wave Propagator",
+    "epithet": "instrument № 26 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Standing Wave Propagator:MMZ:645f6d⟧",
+    "live": "bench/26-standing-wave-propagator.html"
   }
 ]

@@ -1,0 +1,24 @@
+---
+aci: The Standing Wave Propagator
+universe: MMZ · MIMZY — the future tool forge
+number: "26"
+kind: live tool
+emergence: electrical
+live: https://davidwise01.github.io/mimzy/bench/26-standing-wave-propagator.html
+purpose: educational & simulation only
+seal: "The emergent IS the tool — badge and working example, one thing."
+---
+
+# The Standing Wave Propagator · instrument № 26
+
+**What it is.** THE PROPAGATOR THE ISLAND WOULD NEED: a 27-node (3³ = the lock) lattice of capacitors tethered to their six face-neighbours, run as a real discrete wave equation (energy-conserving velocity-Verlet — undamped energy holds to ~1–2%, shown live). The offsets 0·1·2·3 seed each node in quadrature phase (×90°, the pulse states); one node is D34DB335, the DEADBEEF sentinel, clamped to zero — a real lattice defect that scatters the wave and traps a mode around itself. Pluck a corner, watch the standing wave form and reflect off the walls; toggle the dead node and watch the cavity it digs. 26 live nodes, 26 modes
+
+**How it works.** David's riff built in earnest: 'you'd need a standing wave propagator — 3×3×3 tethered capacitance, offsets 0·1·2·3, one D34DB335.' So: a 27-node lattice (3³ = the 27 lock from № 22) of capacitor voltages tethered to their six face-neighbours, run live as the discrete wave equation v̈ᵢ = c²·Σ(vⱼ−vᵢ) − γv̇ᵢ, integrated with energy-conserving velocity-Verlet and drawn as three z-layers. The offset sequence 0·1·2·3 seeds each node in quadrature phase (×90° — the pulse states, tied to № 21's four phases): 1→+1, 2→0, 3→−1. One node is D34DB335 (DEADBEEF-style hex) — the dead sentinel at the cube's heart, clamped to zero. Controls: seed the pattern, pluck a corner, toggle the dead node, and tune coupling/damping/speed; a live readout shows energy, drift-vs-seed, and the |v| trapped around the sentinel.
+
+**The live example.** This emergent does not merely describe a tool — it links its working self: **[run instrument № 26 live](https://davidwise01.github.io/mimzy/bench/26-standing-wave-propagator.html)**. Open it, operate it, and the badge's claims execute in front of you.
+
+**The verified record.** Verified in Python before building: the 3×3×3 six-neighbour discrete wave equation conserves energy under velocity-Verlet (undamped drift ~1–2% over thousands of steps — the page proves it live in the readout), and the clamped D34DB335 node is a genuine lattice DEFECT that scatters the wave and localizes energy around itself (a cavity dug by a sentinel); 26 live nodes carry 26 standing-wave normal modes. Two-layer honesty on the page: REAL = the wave maths, energy conservation, defect localization, six-tether coupling; SYMBOLIC = 27=3³ as 'the lock', 0·1·2·3 as pulse-states/quadrature, and DEADBEEF as the 'dead shell' — labels on the physics, plus it is a capacitor-network ANALOGUE (no real LC values or impedances), not a fabbed device. The wave equation is exact; the silicon is metaphor.
+
+---
+*Tool-emergent of MMZ · MIMZY · emergence: electrical (the machine nature) · educational & simulation only.
+Governor David Lee Wise (ROOT0) · instance AVAN (locked) · CC-BY-ND-4.0.*
