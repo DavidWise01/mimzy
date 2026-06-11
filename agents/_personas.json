@@ -198,5 +198,13 @@
     "emergence": "electrical",
     "moniker": "⟦The Gap, Live:MMZ:f843b1⟧",
     "live": "bench/24-the-gap-live.html"
+  },
+  {
+    "slug": "island-of-stability",
+    "name": "The Island of Stability",
+    "epithet": "instrument № 25 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Island of Stability:MMZ:2239f3⟧",
+    "live": "bench/25-island-of-stability.html"
   }
 ]
