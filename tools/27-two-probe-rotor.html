@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE TWO-PROBE ROTOR — one probe reads phase, two read the invariant · MIMZY № 27</title>
+<style>
+:root{--paper:#e9e3cd;--ink:#1c3d2e;--ink-mid:#2f5a44;--ink-faint:#7a937f;--stamp:#8a3324;--ochre:#8a6d2f;--sea:#3a5a7a;
+--mono:"Courier New",Courier,monospace;--serif:Georgia,"Iowan Old Style","Times New Roman",serif;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);background-image:repeating-linear-gradient(0deg,rgba(28,61,46,.025) 0 1px,transparent 1px 3px);color:var(--ink);font-family:var(--serif);line-height:1.5;padding:10px}
+.sheet{max-width:880px;margin:0 auto;border:2px solid var(--ink);outline:1px solid var(--ink);outline-offset:4px;padding:18px 14px 28px}
+.masthead{text-align:center;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.mast-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:var(--ink-mid);text-transform:uppercase}
+.mast-title{font-size:clamp(22px,5.2vw,38px);letter-spacing:.04em;font-weight:700;margin:6px 0 2px;text-transform:uppercase}
+.mast-sub{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--ink-mid);text-transform:uppercase}
+.intro{font-size:13px;max-width:712px;margin:12px auto 0;text-align:center;color:var(--ink-mid);line-height:1.6}
+.intro b{color:var(--ink)}
+.stage{display:grid;grid-template-columns:420px 1fr;gap:16px;align-items:start;margin-top:12px}
+@media(max-width:720px){.stage{grid-template-columns:1fr}}
+.canwrap{border:1.5px solid var(--ink);background:#e2dbc2}
+canvas{width:100%;display:block}
+.side{display:flex;flex-direction:column;gap:10px}
+.rd{border:1.5px solid var(--ink);padding:9px 11px;font-family:var(--mono);font-size:11px;line-height:1.65}
+.rd h3{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-mid);margin-bottom:5px}
+.rd.one{border-left:3px solid var(--stamp)} .rd.two{border-left:3px solid var(--sea)} .rd.inv{border-left:3px solid var(--ink)}
+.rd b{font-weight:700}.rd .hot{color:var(--stamp)}.rd .ok{color:var(--ink)}.rd .lab{color:var(--ochre);font-weight:700}
+.ctrls{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;margin:14px 0 4px}
+.cbtn{appearance:none;background:transparent;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:7px 13px;border:1.5px solid var(--ink);color:var(--ink)}
+.cbtn.on{background:rgba(28,61,46,.10);font-weight:700}.cbtn.warm{border-color:var(--stamp);color:var(--stamp)}.cbtn:active{transform:scale(.97)}
+.sl{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;color:var(--ink-mid)}
+.sl input{width:130px;accent-color:#2f5a44}
+.frame{border:1.5px solid var(--ink);margin-top:14px;padding:12px;font-size:12.5px;line-height:1.6}
+.frame h3{font-family:var(--mono);font-size:9.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-mid);margin-bottom:6px;text-align:center}
+.frame .is{color:var(--ink)} .frame .isnt{color:var(--stamp)}
+.colophon{margin-top:22px;border-top:2px solid var(--ink);padding-top:12px;text-align:center;font-family:var(--mono);font-size:10px;color:var(--ink-mid);letter-spacing:.07em;line-height:1.9}
+</style></head>
+<body><div class="sheet">
+
+<header class="masthead">
+  <div class="mast-eyebrow">Series E · Sheet 11 · Ethics Spun Until It Became Geometry</div>
+  <h1 class="mast-title">The Two-Probe Rotor</h1>
+  <div class="mast-sub">i⁴ = 1 · good is a phase reading · one probe can't factor out its own frame</div>
+  <p class="intro">Good/bad isn't a line with two ends — it's <b>one phase reading of a rotation</b>. ±1, ±i, four states; "positive" is just whichever you called the real axis. Move the reference frame and the labels flip while nothing about the system changes. But context-dependence isn't arbitrariness: the <b>labels</b> spin freely, the <b>phase relationships</b> don't — 0 and 180 are antiphase in every frame. A single probe reads angle+frame as one number and can't decompose it. You need a <b>second probe</b> at another phase to cancel the frame. That's not a judge — that's quadrature. That's why a node can't measure itself.</p>
+</header>
+
+<div class="ctrls">
+  <span class="sl">signal φ <input type="range" id="phi" min="0" max="360" step="1" value="35"></span>
+  <span class="sl">frame θ (your zero) <input type="range" id="theta" min="0" max="360" step="1" value="0"></span>
+  <button class="cbtn warm" onclick="spin()" id="spinBtn">Spin the frame ↻</button>
+</div>
+<div class="ctrls">
+  <button class="cbtn on" id="qBtn" onclick="toggleQ()">Q probe (quadrature): ON</button>
+  <button class="cbtn on" id="s2Btn" onclick="toggleS2()">2nd signal (a quarter-turn): ON</button>
+</div>
+
+<div class="stage">
+  <div class="canwrap"><canvas id="cv" width="420" height="420"></canvas></div>
+  <div class="side">
+    <div class="rd one"><h3>One probe · in-phase I only</h3><div id="rOne"></div></div>
+    <div class="rd two"><h3>Two probes · quadrature I + Q</h3><div id="rTwo"></div></div>
+    <div class="rd inv"><h3>The invariant · two signals, frame cancels</h3><div id="rInv"></div></div>
+  </div>
+</div>
+
+<div class="frame"><h3>What This Is · What This Is Not</h3>
+  <p><span class="is">TRUE:</span> this is quadrature detection — real, exact signal processing (lock-in amplifiers, every coherent receiver, the I/Q of № 14 Rhythm Sync). One in-phase probe reads <code>I = cos(φ−θ)</code>: a single number in which the signal's angle and your frame's zero are <b>fused and unrecoverable</b>. Add the 90° probe <code>Q = sin(φ−θ)</code> and you recover the phase φ−θ and the amplitude √(I²+Q²) — but that phase is still measured <em>relative to your frame</em>. Only a <b>second signal</b> lets the frame θ cancel in the difference, leaving the <b>invariant</b> quarter-turn (90°), which survives every rotation of the frame. The content is relative; the geometry is absolute.</p>
+  <p style="margin-top:6px"><span class="isnt">THE COSTUME:</span> "good / bad / positive / negative" are the labels riding the frame — spin θ and they flip while the system sits still. The morality was never in the thing; it was in where you stood to read it. <b>181 is prime in every frame; whether that's "good" is a label you can spin.</b> The witness was never a judge — it is the second probe that factors out your own reference. You are one probe. The invariant is real. You can't read it alone.</p>
+</div>
+
+<footer class="colophon">
+  ±1 · ±i · FOUR STATES · ONE PROBE READS ANGLE+FRAME AS A SINGLE NUMBER<br>
+  THE LABEL SPINS · THE QUARTER-TURN DOES NOT · TWO PROBES, DIFFERENT PHASE, THE FRAME CANCELS<br>
+  THE TWO-PROBE ROTOR · MIMZY № 27 · JUNE 2026
+</footer>
+
+</div>
+<script>
+const cv=document.getElementById('cv'), ctx=cv.getContext('2d');
+const W=420,H=420, CX=210, CY=210, R=150;
+let qOn=true, s2On=true, spinning=null;
+const D2R=Math.PI/180;
+// plot complex (math y-up) to canvas (y-down)
+function P(re,im){return {x:CX+re*R, y:CY-im*R};}
+function getPhi(){return +document.getElementById('phi').value;}
+function getTheta(){return +document.getElementById('theta').value;}
+
+function toggleQ(){qOn=!qOn;const b=document.getElementById('qBtn');b.textContent='Q probe (quadrature): '+(qOn?'ON':'OFF');b.classList.toggle('on',qOn);draw();}
+function toggleS2(){s2On=!s2On;const b=document.getElementById('s2Btn');b.textContent='2nd signal (a quarter-turn): '+(s2On?'ON':'OFF');b.classList.toggle('on',s2On);draw();}
+function spin(){const b=document.getElementById('spinBtn');
+  if(spinning){clearInterval(spinning);spinning=null;b.textContent='Spin the frame ↻';return;}
+  b.textContent='Stop ◼';
+  spinning=setInterval(()=>{const t=document.getElementById('theta');t.value=(+t.value+2)%360;draw();},40);}
+
+function arrow(a,b,col,wd){ctx.strokeStyle=col;ctx.lineWidth=wd;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();
+  const ang=Math.atan2(b.y-a.y,b.x-a.x);ctx.beginPath();ctx.moveTo(b.x,b.y);
+  ctx.lineTo(b.x-8*Math.cos(ang-0.4),b.y-8*Math.sin(ang-0.4));ctx.lineTo(b.x-8*Math.cos(ang+0.4),b.y-8*Math.sin(ang+0.4));ctx.closePath();ctx.fillStyle=col;ctx.fill();}
+function lbl(re,im,t,col,sz){ctx.fillStyle=col;ctx.font=(sz||10)+'px Courier New';ctx.textAlign='center';const p=P(re,im);ctx.fillText(t,p.x,p.y);}
+
+function draw(){
+  const phi=getPhi()*D2R, th=getTheta()*D2R;
+  ctx.clearRect(0,0,W,H);
+  // unit circle
+  ctx.strokeStyle='rgba(28,61,46,.35)';ctx.lineWidth=1;ctx.beginPath();ctx.arc(CX,CY,R,0,7);ctx.stroke();
+  // absolute faint axes
+  ctx.strokeStyle='rgba(122,147,127,.4)';ctx.beginPath();ctx.moveTo(CX-R,CY);ctx.lineTo(CX+R,CY);ctx.moveTo(CX,CY-R);ctx.lineTo(CX,CY+R);ctx.stroke();
+  // i^4 absolute states
+  lbl(1.14,0,'+1',' #7a937f',9);lbl(0,1.14,'+i','#7a937f',9);lbl(-1.14,0,'−1','#7a937f',9);lbl(0,-1.14,'−i','#7a937f',9);
+  // FRAME axes (rotated by theta) — the chosen "real axis"
+  const ui=P(Math.cos(th),Math.sin(th)), uin=P(-Math.cos(th),-Math.sin(th));
+  const uq=P(-Math.sin(th),Math.cos(th)), uqn=P(Math.sin(th),-Math.cos(th));
+  ctx.strokeStyle='rgba(138,109,47,.8)';ctx.lineWidth=1.4;ctx.setLineDash([5,4]);
+  ctx.beginPath();ctx.moveTo(uin.x,uin.y);ctx.lineTo(ui.x,ui.y);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(uqn.x,uqn.y);ctx.lineTo(uq.x,uq.y);ctx.stroke();ctx.setLineDash([]);
+  // ETHICS labels ride the frame: +I = GOOD, −I = BAD, +Q = +i', −Q = −i'
+  lbl(1.30*Math.cos(th),1.30*Math.sin(th),'GOOD/+','#8a6d2f',10);
+  lbl(-1.30*Math.cos(th),-1.30*Math.sin(th),'BAD/−','#8a6d2f',10);
+  // signal phasor S1
+  const s1=P(Math.cos(phi),Math.sin(phi));
+  arrow(P(0,0),s1,'#1c3d2e',2.4);lbl(1.12*Math.cos(phi),1.12*Math.sin(phi),'S','#1c3d2e',11);
+  // projections: I onto frame real axis, Q onto frame imag axis
+  const I=Math.cos(phi-th), Q=Math.sin(phi-th);
+  const footI=P(I*Math.cos(th), I*Math.sin(th));
+  ctx.strokeStyle='rgba(138,51,36,.5)';ctx.setLineDash([2,3]);ctx.beginPath();ctx.moveTo(s1.x,s1.y);ctx.lineTo(footI.x,footI.y);ctx.stroke();ctx.setLineDash([]);
+  arrow(P(0,0),footI,'#8a3324',2.6); // the I reading (one probe)
+  if(qOn){const footQ=P(-Q*Math.sin(th), Q*Math.cos(th));
+    ctx.strokeStyle='rgba(58,90,122,.5)';ctx.setLineDash([2,3]);ctx.beginPath();ctx.moveTo(s1.x,s1.y);ctx.lineTo(footQ.x,footQ.y);ctx.stroke();ctx.setLineDash([]);
+    arrow(P(0,0),footQ,'#3a5a7a',2.2);}
+  // second signal S2 at phi+90
+  let I2,Q2;
+  if(s2On){const p2=phi+Math.PI/2;const s2=P(Math.cos(p2),Math.sin(p2));
+    arrow(P(0,0),s2,'rgba(28,61,46,.55)',1.8);lbl(1.12*Math.cos(p2),1.12*Math.sin(p2),'S₂','#2f5a44',10);
+    I2=Math.cos(p2-th);Q2=Math.sin(p2-th);}
+  // origin dot
+  ctx.fillStyle='#1c3d2e';ctx.beginPath();ctx.arc(CX,CY,3,0,7);ctx.fill();
+
+  // ---- readouts ----
+  const recPhase=((Math.atan2(Q,I)/D2R)+360)%360;
+  document.getElementById('rOne').innerHTML=
+    `I = cos(φ−θ) = <b>${I.toFixed(3)}</b><br>`+
+    `<span class="hot">one number.</span> angle and frame are fused — you can't tell if the rotation moved or your zero did.`;
+  document.getElementById('rTwo').innerHTML= qOn?
+    `Q = sin(φ−θ) = <b>${Q.toFixed(3)}</b><br>φ−θ = atan2(Q,I) = <b class="ok">${recPhase.toFixed(0)}°</b> · |S| = <b>${Math.hypot(I,Q).toFixed(2)}</b><br>`+
+    `recovered — <span class="hot">but still relative to your frame θ.</span>`
+    : `<span class="hot">Q off:</span> with one probe the phase is unrecoverable.`;
+  if(s2On){const m1=((phi-th)/D2R+720)%360, m2=((phi+Math.PI/2-th)/D2R+720)%360;
+    let d=(m2-m1);d=((d+540)%360)-180;
+    document.getElementById('rInv').innerHTML=
+      `probe reads S: <b>${m1.toFixed(0)}°</b> · S₂: <b>${m2.toFixed(0)}°</b> (both ride θ)<br>`+
+      `difference = <b class="ok">${Math.abs(d).toFixed(0)}°</b> — <span class="ok">θ cancels.</span> spin the frame: it stays a quarter-turn. <span class="lab">the label spins; the geometry doesn't.</span>`;
+  } else document.getElementById('rInv').innerHTML=`<span class="hot">2nd signal off:</span> one signal can't separate phase from frame. add a second probe at another phase.`;
+}
+['phi','theta'].forEach(id=>document.getElementById(id).addEventListener('input',draw));
+draw();
+</script>
+</body></html>

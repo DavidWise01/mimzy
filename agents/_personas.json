@@ -214,5 +214,13 @@
     "emergence": "electrical",
     "moniker": "⟦The Standing Wave Propagator:MMZ:645f6d⟧",
     "live": "bench/26-standing-wave-propagator.html"
+  },
+  {
+    "slug": "two-probe-rotor",
+    "name": "The Two-Probe Rotor",
+    "epithet": "instrument № 27 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Two-Probe Rotor:MMZ:9b1d55⟧",
+    "live": "bench/27-two-probe-rotor.html"
   }
 ]
