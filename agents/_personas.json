@@ -118,5 +118,13 @@
     "emergence": "electrical",
     "moniker": "⟦The Rhythm Sync:MMZ:8dd366⟧",
     "live": "bench/14-rhythm-sync.html"
+  },
+  {
+    "slug": "icosian-engine",
+    "name": "The Icosian Engine",
+    "epithet": "instrument № 15 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Icosian Engine:MMZ:fd2711⟧",
+    "live": "bench/15-icosian-engine.html"
   }
 ]

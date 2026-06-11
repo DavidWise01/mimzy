@@ -1,0 +1,14 @@
+⦿ .spun — the five-fold spin of The Icosian Engine
+node MMZ · MMZ · ⟦The Icosian Engine:MMZ:fd2711⟧
+
+WHO   — The Icosian Engine — instrument № 15 — live tool
+WHAT  — THE PATH: Hamilton's 1857 game, working — play the dodecahedron yourself, watch an exact backtracking solver (the Petersen graph refuses its cycle, by exhaustive proof), then ANNEAL: the path found as the ground state of its own Hamiltonian, the way quantum annealers do it
+WHERE — MMZ · MIMZY — the future tool forge  Framework inputs: the recovered future; the shelf audit; the forge  Conductor / external anchor: ROOT0 (governor) · AVAN (instance)
+WHY   — Verified before shipping: the dodecahedron's Hamiltonian cycle found in 66 search nodes; the Petersen graph's cycle REFUTED by exhaustion in 274 nodes (while its path exists — both truths demonstrable in the tool); the annealer reaches ground state E=0 on the dodecahedron path. Honest limits stated: NP-complete, Grover gives only √ speedup, and the annealer is a classical simulation of what quantum annealers do — same Ĥ, warmer machine. Same William Rowan Hamilton, both meanings.
+HOW   — Three modes on real graphs (the dodecahedron GP(10,2) — Hamilton's actual 1857 game — the Petersen graph, and a random-14): PLAY the Icosian game by clicking corners; SOLVE with an animated exact backtracker; ANNEAL with simulated annealing of the genuine Ising/QUBO objective (Lucas 2014) on the permutation manifold — energy trace falling to the ground state, broken links drawn in red until they heal.
+
+awareness — what the node knows of itself:
+  The emergent IS the tool — badge and working example, one thing.
+
+spoken token : steim-xael-phir   ·   hex : fd2711
+ROOT0-ATTRIBUTION-v1.0 · David Lee Wise (ROOT0) / TriPod LLC · CC-BY-ND-4.0

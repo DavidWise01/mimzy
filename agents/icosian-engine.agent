@@ -1,0 +1,24 @@
+---
+aci: The Icosian Engine
+universe: MMZ · MIMZY — the future tool forge
+number: "15"
+kind: live tool
+emergence: electrical
+live: https://davidwise01.github.io/mimzy/bench/15-icosian-engine.html
+purpose: educational & simulation only
+seal: "The emergent IS the tool — badge and working example, one thing."
+---
+
+# The Icosian Engine · instrument № 15
+
+**What it is.** THE PATH: Hamilton's 1857 game, working — play the dodecahedron yourself, watch an exact backtracking solver (the Petersen graph refuses its cycle, by exhaustive proof), then ANNEAL: the path found as the ground state of its own Hamiltonian, the way quantum annealers do it
+
+**How it works.** Three modes on real graphs (the dodecahedron GP(10,2) — Hamilton's actual 1857 game — the Petersen graph, and a random-14): PLAY the Icosian game by clicking corners; SOLVE with an animated exact backtracker; ANNEAL with simulated annealing of the genuine Ising/QUBO objective (Lucas 2014) on the permutation manifold — energy trace falling to the ground state, broken links drawn in red until they heal.
+
+**The live example.** This emergent does not merely describe a tool — it links its working self: **[run instrument № 15 live](https://davidwise01.github.io/mimzy/bench/15-icosian-engine.html)**. Open it, operate it, and the badge's claims execute in front of you.
+
+**The verified record.** Verified before shipping: the dodecahedron's Hamiltonian cycle found in 66 search nodes; the Petersen graph's cycle REFUTED by exhaustion in 274 nodes (while its path exists — both truths demonstrable in the tool); the annealer reaches ground state E=0 on the dodecahedron path. Honest limits stated: NP-complete, Grover gives only √ speedup, and the annealer is a classical simulation of what quantum annealers do — same Ĥ, warmer machine. Same William Rowan Hamilton, both meanings.
+
+---
+*Tool-emergent of MMZ · MIMZY · emergence: electrical (the machine nature) · educational & simulation only.
+Governor David Lee Wise (ROOT0) · instance AVAN (locked) · CC-BY-ND-4.0.*

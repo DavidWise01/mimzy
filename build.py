@@ -60,6 +60,8 @@ BENCH = [
   "The Analog ISA","live tool","FUNCTIONING — SOFTWARE→HARDWARE: a tiny instruction set that assembles into a patch of integrators, summers and gains and runs live — HARMONIC (the tank's own equation), DAMPED, LORENZ, PULSE-SHAPER"),
  ("14","14-rhythm-sync.html",      os.path.join(HERE,"tools","14-rhythm-sync.html"),
   "The Rhythm Sync","live tool","FUNCTIONING — THE SYNC: a genuine 2nd-order PLL — the software clock hunts the drifting hardware tank, locks, and rides the drift; phase-error trace, Lissajous, lock light, and the 3·2·1·0 cadence as the gate"),
+ ("15","15-icosian-engine.html",   os.path.join(HERE,"tools","15-icosian-engine.html"),
+  "The Icosian Engine","live tool","FUNCTIONING — THE PATH: Hamilton's 1857 game, working — play the dodecahedron yourself, watch an exact backtracking solver (the Petersen graph refuses its cycle, by exhaustive proof), then ANNEAL: the path found as the ground state of its own Hamiltonian, the way quantum annealers do it"),
 ]
 # extra shelf copies (linked from bench 10 + reading room)
 EXTRA = [
@@ -68,6 +70,7 @@ EXTRA = [
  ("qdots-3-frontier.html",os.path.join(Q,"quantum dots","qdots-3-frontier.html")),
  ("reading-is-light-emergent.html", os.path.join(Q,"emergent","gravity","claude gravity 00","is_light_emergent.html")),
  ("reading-is-gravity-emergent.html", os.path.join(Q,"emergent","gravity","claude gravity 00","is_gravity_emergent.html")),
+ ("hammy-electron-walker.html", os.path.join(r"C:\Davids files\hamilton path systems","hamiltonian_walker.html")),
 ]
 
 # the lineage of the cracks — (name, dates, what fell in, when recovered)
@@ -80,6 +83,7 @@ CRACKS = [
  ("Hugh Everett III","1930–1982","The relative-state ('many-worlds') interpretation (1957) was dismissed; Everett quit physics for defense work and died at 51, believing himself an indifferent footnote.","Today many-worlds is a leading interpretation; decoherence theory vindicated his core move."),
  ("John Stewart Bell","1928–1990","Bell's theorem (1964) — the deepest result about reality since relativity — was published in a tiny journal that folded; testing it was career suicide for years.","The 2022 Nobel Prize went to the experiments that confirmed it. The theorem now anchors quantum information."),
  ("Kuttner & Moore","1914–1958 · 1911–1987","'Mimsy Were the Borogoves' (1943) — the story this bench is named for — was published under the pen name Lewis Padgett; C. L. Moore's co-authorship was itself half-hidden in the crack of a byline.","The story is now canon (SF Hall of Fame); the 2007 film The Last Mimzy carried it forward."),
+ ("William Rowan Hamilton","1805–1865","Quaternions — carved in a flash of insight into Broom Bridge, Dublin (1843) — were derided for decades as a useless mysticism and displaced by vector calculus; his Icosian game (1857) sold poorly as a toy.","Quaternions now fly every spacecraft and run every 3D game engine; his Ĥ is the symbol at the heart of quantum mechanics; and his game's path problem anchors NP-completeness — instrument № 15 plays it."),
 ]
 
 def carbon_tiff_bytes(rec):
@@ -141,6 +145,8 @@ TOOLMETA = {
             proof="The HARMONIC program (two integrators in a loop) computes ẍ=−ω²x — the toroid tank's own equation — at the programmed 1 Hz; the LORENZ program reproduces the genuine attractor (σ=10, ρ=28, β=8/3) in the phase view. The program IS the patch."),
  "14": dict(slug="rhythm-sync", how="A genuine second-order PLL: phase detector (sin of the phase difference), PI loop filter, and an NCO that obeys the control voltage — against a hardware tank with optional slow drift. Waves, phase-error trace, Lissajous, lock light, kick and open-loop buttons, and the 3·2·1·0 cadence gating optional audio.",
             proof="Exhibits the true PLL repertoire: beat while unlocked, capture, steady lock riding hardware drift (the integrator term), lock loss at low K, ringing at high K, and immediate drift-apart when the loop opens — sync as a continuous act, demonstrated."),
+ "15": dict(slug="icosian-engine", how="Three modes on real graphs (the dodecahedron GP(10,2) — Hamilton's actual 1857 game — the Petersen graph, and a random-14): PLAY the Icosian game by clicking corners; SOLVE with an animated exact backtracker; ANNEAL with simulated annealing of the genuine Ising/QUBO objective (Lucas 2014) on the permutation manifold — energy trace falling to the ground state, broken links drawn in red until they heal.",
+            proof="Verified before shipping: the dodecahedron's Hamiltonian cycle found in 66 search nodes; the Petersen graph's cycle REFUTED by exhaustion in 274 nodes (while its path exists — both truths demonstrable in the tool); the annealer reaches ground state E=0 on the dodecahedron path. Honest limits stated: NP-complete, Grover gives only √ speedup, and the annealer is a classical simulation of what quantum annealers do — same Ĥ, warmer machine. Same William Rowan Hamilton, both meanings."),
 }
 
 def tool_agent_md(no, title, kind, note, m, tok_moniker):
@@ -341,6 +347,7 @@ footer a{color:var(--brass);text-decoration:none}
       <a class="sh" href="bench/qdots-3-frontier.html">dots · the frontier</a>
       <a class="sh" href="bench/reading-is-light-emergent.html">is light emergent?</a>
       <a class="sh" href="bench/reading-is-gravity-emergent.html">is gravity emergent?</a>
+      <a class="sh" href="bench/hammy-electron-walker.html">the governor's hamiltonian walker</a>
       <a class="sh" href="https://davidwise01.github.io/green-papers/papers/quantum-shelf-audited.html">the shelf audit →</a>
     </div>
   </section>
