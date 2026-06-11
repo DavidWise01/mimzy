@@ -158,5 +158,13 @@
     "emergence": "electrical",
     "moniker": "⟦The Silicon Gap:MMZ:434bb2⟧",
     "live": "bench/19-silicon-gap.html"
+  },
+  {
+    "slug": "the-atom",
+    "name": "The Atom",
+    "epithet": "instrument № 20 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Atom:MMZ:f7fab2⟧",
+    "live": "bench/20-the-atom.html"
   }
 ]

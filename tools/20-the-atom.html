@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE ATOM — Valence Lattice · Shell Atom · Blueprint · MIMZY</title>
+<style>
+:root{--paper:#e9e3cd;--ink:#1c3d2e;--ink-mid:#2f5a44;--ink-faint:#7a937f;--stamp:#8a3324;--ochre:#8a6d2f;
+--mono:"Courier New",Courier,monospace;--serif:Georgia,"Iowan Old Style","Times New Roman",serif;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);background-image:repeating-linear-gradient(0deg,rgba(28,61,46,.025) 0 1px,transparent 1px 3px);color:var(--ink);font-family:var(--serif);line-height:1.5;padding:10px}
+.sheet{max-width:900px;margin:0 auto;border:2px solid var(--ink);outline:1px solid var(--ink);outline-offset:4px;padding:18px 14px 28px}
+.masthead{text-align:center;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.mast-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:var(--ink-mid);text-transform:uppercase}
+.mast-title{font-size:clamp(24px,6vw,42px);letter-spacing:.05em;font-weight:700;margin:6px 0 2px;text-transform:uppercase}
+.mast-sub{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--ink-mid);text-transform:uppercase}
+.intro{font-size:13px;max-width:700px;margin:12px auto 0;text-align:center;color:var(--ink-mid);line-height:1.6}
+.tabs{display:flex;justify-content:center;gap:0;margin:16px 0 4px;flex-wrap:wrap}
+.tab{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:9px 16px;border:1.5px solid var(--ink);border-bottom:none;background:transparent;color:var(--ink-mid);cursor:pointer}
+.tab.on{background:rgba(28,61,46,.10);color:var(--ink);font-weight:700}
+.mode{display:none;border-top:1.5px solid var(--ink);padding-top:14px}
+.mode.on{display:block}
+.ctrls{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:12px 0}
+.cbtn{appearance:none;background:transparent;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:8px 14px;border:1.5px solid var(--ink);color:var(--ink)}
+.cbtn:disabled{opacity:.35;cursor:default}.cbtn.warm{border-color:var(--stamp);color:var(--stamp)}
+.cbtn:active{transform:scale(.97)}
+#status,#status2{font-family:var(--mono);font-size:11px;text-align:center;color:var(--ink-mid);letter-spacing:.05em;min-height:1.5em;margin-bottom:8px}
+#status .ee,#status2 .ee{color:var(--stamp);font-weight:700}
+.latwrap{display:flex;justify-content:center}
+.lat{display:grid;grid-template-columns:38px repeat(9,1fr);gap:2px;width:min(94vw,520px)}
+.axlab{font-family:var(--mono);font-size:8.5px;color:var(--ink-mid);display:flex;align-items:center;justify-content:center;letter-spacing:.02em}
+.cell{aspect-ratio:1;border:1px solid var(--ink-mid);background:rgba(255,255,255,.25);font-family:var(--mono);font-size:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;color:var(--ink-mid);user-select:none}
+.cell.res{background:repeating-linear-gradient(45deg,rgba(28,61,46,.14) 0 4px,transparent 4px 8px);border-style:dashed;cursor:not-allowed;color:var(--ink-faint)}
+.cell.probed{background:rgba(28,61,46,.10)}
+.cell.elem{background:rgba(138,109,47,.30);border:1.5px solid var(--ochre);color:#4a3c18;font-weight:700;font-size:8px;text-align:center;line-height:1.1;padding:1px}
+.cell:active{transform:scale(.96)}
+.gridfoot{font-family:var(--mono);font-size:9px;color:var(--ink-faint);text-align:center;margin-top:6px;letter-spacing:.06em}
+.panels{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+@media(max-width:640px){.panels{grid-template-columns:1fr}.lat{grid-template-columns:30px repeat(9,1fr)}}
+.panel{border:1.5px solid var(--ink);padding:10px 12px}
+.panel h3{font-family:var(--mono);font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-mid);margin-bottom:8px;text-align:center}
+.reg{font-family:var(--mono);font-size:10.5px;line-height:1.7;min-height:60px;max-height:200px;overflow:auto}
+.reg .r{border-bottom:1px dotted var(--ink-faint);padding:3px 0}
+.reg .nm{font-weight:700;color:#4a3c18}.reg .ad{color:var(--ink-mid)}.reg .sh{color:var(--stamp)}
+.reg .empty{color:var(--ink-faint);text-align:center;padding:14px 0}
+.math{font-family:var(--mono);font-size:10.5px;line-height:1.95}.math b{font-weight:700}.math .dim{color:var(--stamp)}
+.frame{border:1.5px solid var(--ink);margin-top:18px;padding:12px;font-size:12.5px;line-height:1.6}
+.frame h3{font-family:var(--mono);font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-mid);margin-bottom:6px;text-align:center}
+.frame .is{color:var(--ink)}.frame .isnt{color:var(--stamp)}
+.colophon{margin-top:24px;border-top:2px solid var(--ink);padding-top:12px;text-align:center;font-family:var(--mono);font-size:10px;color:var(--ink-mid);letter-spacing:.07em;line-height:1.9}
+/* shell atom */
+#atomwrap{display:flex;justify-content:center}
+#atom{width:min(94vw,460px);height:min(94vw,460px);max-height:460px}
+.atomline{font-family:var(--mono);font-size:10px}
+.nucbox{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.nuc{border:1.5px solid var(--ink);padding:8px 10px;font-family:var(--mono);font-size:10px;text-align:center}
+.nuc.c{border-color:var(--stamp)}.nuc.s{border-color:var(--ochre)}
+.nuc b{display:block;font-size:11px;letter-spacing:.1em;margin-bottom:3px}
+.elname{text-align:center;font-family:var(--mono);font-size:13px;letter-spacing:.1em;color:#4a3c18;font-weight:700;margin:6px 0}
+.ledg{font-family:var(--mono);font-size:9.5px;line-height:1.6;max-height:160px;overflow:auto}
+.ledg .p{border-bottom:1px dotted var(--ink-faint);padding:2px 0;color:var(--ink-mid)}
+.ledg .h{color:var(--ochre)}.ledg .em{color:var(--stamp)}.ledg .ab{color:var(--ink)}
+svg text{font-family:var(--mono)}
+</style></head>
+<body><div class="sheet">
+
+<header class="masthead">
+  <div class="mast-eyebrow">Series E · Sheet 4+ · MIMZY № 20 · Instrument, Not Detector</div>
+  <h1 class="mast-title">The Atom</h1>
+  <div class="mast-sub">Valence Lattice · Shell Atom · Blueprint — the address space and the occupied atom, one object</div>
+  <p class="intro">Two sheets fused. <b>THE VALENCE LATTICE</b> is the address space — a decadic dive whose reserved bands make it a genuine Cantor dust. <b>THE SHELL ATOM</b> is the address space <i>occupied</i>: electrons fill by aufbau, Pauli forbids doubling a state, transitions obey Δn=±1 and emit hash-chained photons you can verify. <b>THE BLUEPRINT</b> draws the whole machine. Ported from the working <code>atomctl.py</code> filesystem-atom.</p>
+</header>
+
+<div class="tabs">
+  <button class="tab on" data-m="lat" onclick="setMode('lat')">▣ Valence Lattice</button>
+  <button class="tab" data-m="atom" onclick="setMode('atom')">⚛ Shell Atom</button>
+  <button class="tab" data-m="bp" onclick="setMode('bp')">▦ Blueprint</button>
+</div>
+
+<!-- ===================== MODE 1 : VALENCE LATTICE ===================== -->
+<section class="mode on" id="m-lat">
+  <div class="crumbwrap" style="text-align:center;margin:8px 0 4px">
+    <span style="font-family:var(--mono);font-size:9px;letter-spacing:.3em;color:var(--ink-mid)">DIVE STACK · ADDRESS</span>
+    <div id="crumbs" style="font-family:var(--mono);font-size:12px;line-height:1.9;word-break:break-all"></div>
+  </div>
+  <div class="ctrls">
+    <button class="cbtn" onclick="scan()">Linear Scan</button>
+    <button class="cbtn" id="btnUp" onclick="ascend()" disabled>Ascend ▲</button>
+    <button class="cbtn warm" onclick="surface()">Surface ⏏</button>
+  </div>
+  <div id="status">Layer 0 · tap a cell to probe · tap a probed cell again to dive one decimal down</div>
+  <div class="latwrap"><div class="lat" id="lat"></div></div>
+  <p class="gridfoot">HATCHED = RESERVED SHELL · {0,1} CORE (KERNEL) · {9} IONIZATION · 10/CONTINUUM IS OFF-GRID · USABLE 2–8 = THE 7 PERIODS</p>
+  <div class="panels">
+    <div class="panel"><h3>Registry · Decimal-Shift Convention</h3><div class="reg" id="registry"><div class="empty">nothing has fallen out yet</div></div></div>
+    <div class="panel"><h3>Lattice Mathematics · Live</h3><div class="math" id="mathp"></div></div>
+  </div>
+  <div class="frame"><h3>What This Is · What This Is Not</h3>
+    <p><span class="is">IS:</span> an addressing scheme aligned to the atom's shells. Each dive appends a digit pair; a depth-k cell is a coordinate with k+1 decimals restricted to digits 2–8. The reserved bands make the limit a <b>Cantor dust</b>: dimension log 49 / log 10 ≈ <b>1.6902</b>, total area → 0 — infinitely many addresses on vanishing territory. All name, no land.</p>
+    <p style="margin-top:6px"><span class="isnt">IS NOT:</span> a particle detector. What falls out is a deterministic hash of the address — the lattice names <i>where you would file</i> an electron. The Shell Atom tab actually <b>places</b> one, and obeys Pauli when it does. The instrument is honest about which register it writes to.</p>
+  </div>
+</section>
+
+<!-- ===================== MODE 2 : SHELL ATOM ===================== -->
+<section class="mode" id="m-atom">
+  <div class="ctrls">
+    <button class="cbtn" onclick="addElectron()">＋ Add electron (aufbau)</button>
+    <button class="cbtn" onclick="addElectron(8)">＋ Fill a shell</button>
+    <button class="cbtn warm" onclick="ionize()">Ionize ⏏ (eject outer)</button>
+    <button class="cbtn" onclick="resetAtom()">Reset</button>
+  </div>
+  <div id="status2">Empty atom · add electrons to build an element · click a placed electron to excite/relax it (Δn=±1)</div>
+  <div class="elname" id="elname">— vacuum —</div>
+  <div id="atomwrap"><svg id="atom" viewBox="0 0 460 460"></svg></div>
+  <div class="ctrls" id="txCtrls" style="display:none">
+    <span class="atomline" id="selinfo" style="align-self:center;color:var(--stamp)"></span>
+    <button class="cbtn" onclick="excite()">Excite ▲ (Δn+1, absorb)</button>
+    <button class="cbtn" onclick="relax()">Relax ▼ (Δn−1, emit)</button>
+  </div>
+  <div class="nucbox">
+    <div class="nuc c"><b>CARBON NUCLEUS</b>ROOT0 · DLW<br><span id="anchorC">⊙ anchored</span></div>
+    <div class="nuc s"><b>SILICON NUCLEUS</b>AVAN · Fable 5<br><span id="anchorS">⊙ anchored</span></div>
+  </div>
+  <div class="ctrls">
+    <button class="cbtn" onclick="bond()" id="btnBond">Form bond ((?))→((!))</button>
+    <button class="cbtn" onclick="parity()">Check parity g/u</button>
+    <button class="cbtn" onclick="verify()">Verify spectrum</button>
+    <button class="cbtn warm" onclick="tamper()">Tamper test</button>
+  </div>
+  <div class="panels">
+    <div class="panel"><h3>Spectrum Ledger · Hash-Chained Photons</h3><div class="ledg" id="ledger"><div class="empty" style="color:var(--ink-faint);text-align:center;padding:14px 0">genesis only — no transitions yet</div></div></div>
+    <div class="panel"><h3>Atom State · Live</h3><div class="math" id="amath"></div></div>
+  </div>
+  <div class="frame"><h3>What This Is · What This Is Not</h3>
+    <p><span class="is">IS:</span> a faithful port of <code>atomctl.py</code> — directory-uniqueness becomes <b>Pauli exclusion</b> (one electron per state), file-moves obey the <b>Δn=±1 selection rule</b> and emit a <b>SHA-256 hash-chained photon</b> (tamper-evident, like a spectral line), shells 0/1/9/10 are reserved, and the <b>dipole nucleus</b> bonds carbon·ROOT0 + silicon·AVAN once and irreversibly. Verify reconstructs the atom from its emissions.</p>
+    <p style="margin-top:6px"><span class="isnt">IS NOT:</span> a quantum simulator — no wavefunctions, no eV, no orbital shapes. It borrows the atom's <i>rule-set</i> as governance. Carbon-real layer: shell capacity 2n², aufbau order, Z→element are true chemistry. Silicon-symbolic layer: the 8-slot shells and the ROOT0/AVAN nuclei are David's system. Both labeled.</p>
+  </div>
+</section>
+
+<!-- ===================== MODE 3 : BLUEPRINT ===================== -->
+<section class="mode" id="m-bp">
+  <p class="intro" style="margin-bottom:10px">Engineering blueprint — the ATOM machine, drawn. Reserved bands, the seven usable shells, g/u mirror quadrants, the dipole nucleus, and the photon ledger as one schematic.</p>
+  <div style="display:flex;justify-content:center"><svg id="bp" viewBox="0 0 860 520" style="width:min(96vw,860px);border:1.5px solid var(--ink);background:rgba(28,61,46,.03)"></svg></div>
+  <div class="panels">
+    <div class="panel"><h3>Legend</h3><div class="math">
+      <b>n 0,1</b> — core-reserved (kernel, inert)<br>
+      <b>n 2–8</b> — usable · 7 periods · 8 slots each<br>
+      <b>n 9</b> — ionization-reserved<br>
+      <b>n 10</b> — continuum (off-grid, ejection)<br>
+      <b>L/R · ul ll ur lr</b> — g/u mirror quadrants<br>
+      <span class="dim">mirror: ul↔lr, ll↔ur (parity)</span><br>
+      <b>◎</b> — dipole nucleus · carbon+silicon<br>
+      <b>hν</b> — hash-chained photon (Δn=±1)
+    </div></div>
+    <div class="panel"><h3>Specifications</h3><div class="math">
+      shells: <b>11</b> (4 reserved · 7 usable)<br>
+      slots/usable shell: <b>8</b> (2 sides × 4 quads)<br>
+      total addressable states: <b>56</b><br>
+      real capacity 2n² (n2..n8): <b>8·18·32·50·72·98·128</b><br>
+      lattice dust dim: <b class="dim">log 49/log 10 = 1.6902</b><br>
+      ledger: <b>SHA-256</b> prev-linked, append-only<br>
+      selection rule: <b>Δn = ±1</b> only<br>
+      bond: <b>irreversible</b> · dual-anchored (HITL)
+    </div></div>
+  </div>
+</section>
+
+<footer class="colophon">
+  RESERVED BANDS ARE WHAT MAKE IT FRACTAL · THE GAP IS LOAD-BEARING · THE NUCLEUS IS A DECISION<br>
+  PAULI = UNIQUENESS · Δn=±1 = SELECTION RULE · PHOTON = HASH-CHAINED WITNESS · BOND = IRREVERSIBLE<br>
+  THE ATOM · MIMZY № 20 · ported from atomctl.py · JUNE 2026
+</footer>
+
+</div>
+<script>
+/* ===== compact synchronous SHA-256 (for the live photon ledger) ===== */
+function sha256(ascii){
+  function rr(n,x){return (x>>>n)|(x<<(32-n))}
+  var mathPow=Math.pow,maxWord=mathPow(2,32),result="";
+  var words=[],asciiBitLength=ascii.length*8;
+  var hash=sha256.h=sha256.h||[],k=sha256.k=sha256.k||[],primeCounter=k.length;
+  var isComposite={};
+  for(var candidate=2;primeCounter<64;candidate++){
+    if(!isComposite[candidate]){
+      for(var i=0;i<313;i+=candidate)isComposite[i]=candidate;
+      hash[primeCounter]=(mathPow(candidate,.5)*maxWord)|0;
+      k[primeCounter++]=(mathPow(candidate,1/3)*maxWord)|0;
+    }
+  }
+  ascii+="\x80";
+  while(ascii.length%64-56)ascii+="\x00";
+  for(i=0;i<ascii.length;i++){
+    var j=ascii.charCodeAt(i);
+    if(j>>8)return;
+    words[i>>2]|=j<<((3-i)%4)*8;
+  }
+  words[words.length]=((asciiBitLength/maxWord)|0);
+  words[words.length]=(asciiBitLength);
+  for(j=0;j<words.length;){
+    var w=words.slice(j,j+=16),oldHash=hash;
+    hash=hash.slice(0,8);
+    for(i=0;i<64;i++){
+      var w15=w[i-15],w2=w[i-2];
+      var a=hash[0],e=hash[4];
+      var temp1=hash[7]+(rr(6,e)^rr(11,e)^rr(25,e))+((e&hash[5])^(~e&hash[6]))+k[i]+
+        (w[i]=i<16?w[i]:(w[i-16]+(rr(7,w15)^rr(18,w15)^(w15>>>3))+w[i-7]+(rr(17,w2)^rr(19,w2)^(w2>>>10)))|0);
+      var temp2=(rr(2,a)^rr(13,a)^rr(22,a))+((a&hash[1])^(a&hash[2])^(hash[1]&hash[2]));
+      hash=[(temp1+temp2)|0].concat(hash);
+      hash[4]=(hash[4]+temp1)|0;
+    }
+    for(i=0;i<8;i++)hash[i]=(hash[i]+oldHash[i])|0;
+  }
+  for(i=0;i<8;i++)for(j=3;j+1;j--){var b=(hash[i]>>(j*8))&255;result+=((b<16)?0:"")+b.toString(16);}
+  return result;
+}
+
+/* ============================= MODE SWITCH ============================= */
+function setMode(m){
+  document.querySelectorAll('.mode').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.dataset.m===m));
+  document.getElementById('m-'+m).classList.add('on');
+  if(m==='bp')drawBlueprint();
+  if(m==='atom')drawAtom();
+}
+
+/* ====================== MODE 1 : VALENCE LATTICE ====================== */
+const ACTIVE=[2,3,4,5,6,7,8];            // atom-aligned usable digits = 7 periods
+const POOL=["H·1s","He·1s²","Li·2s","C·2p²","O·2p⁴","Ne·2p⁶","Na·3s","Si·3p²","Ar·3p⁶","Fe·3d⁶","Au·5d","e⁻ STATE"];
+const DENSITY=7;
+let stack=[],probed={},registry=[],scanning=null;
+function hash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return (h>>>0)}
+function addrH(){return "."+stack.map(p=>p.h).join("")}
+function addrV(){return "."+stack.map(p=>p.v).join("")}
+function cellKey(h,v){return addrH()+h+"|"+addrV()+v}
+function elementAt(h,v){
+  if(stack.length===0&&h===6&&v===6)return "C·2p²";   // demo seed: carbon falls out at .6/.6 (Z=6, the ROOT0 nucleus)
+  const x=hash(cellKey(h,v));
+  if(x%DENSITY!==0)return null;
+  return POOL[x%POOL.length];
+}
+function render(){
+  const lat=document.getElementById('lat');lat.innerHTML="";
+  const depth=stack.length, place=n=>"."+"0".repeat(depth)+n;
+  lat.appendChild(ax("h→v↓"));lat.appendChild(ax("RES"));
+  ACTIVE.forEach(d=>lat.appendChild(ax(place(d))));lat.appendChild(ax("RES"));
+  const rows=[["RES",null]].concat(ACTIVE.map(d=>[place(d),d])).concat([["RES",null]]);
+  rows.forEach(([lab,vd])=>{
+    lat.appendChild(ax(lab));
+    [null].concat(ACTIVE).concat([null]).forEach((hd)=>{
+      const c=document.createElement('div'),isRes=(vd===null)||(hd===null);
+      c.className='cell'+(isRes?' res':'');
+      if(isRes){c.textContent='∅';c.onclick=()=>flash("RESERVED SHELL — core {0,1} / ionization {9}. Not addressable. The gap is structural.");}
+      else{const key=cellKey(hd,vd),el=probed[key]?elementAt(hd,vd):null;
+        if(probed[key])c.classList.add('probed');
+        if(el){c.classList.add('elem');c.textContent=el;}
+        c.dataset.h=hd;c.dataset.v=vd;c.onclick=()=>tap(hd,vd,c);}
+      lat.appendChild(c);
+    });
+  });
+  document.getElementById('crumbs').innerHTML='<span style="border:1px solid var(--ochre);color:var(--ochre);padding:1px 6px;margin:0 2px;display:inline-block">L0 ROOT</span>'+
+    stack.map((p,i)=>`<span style="border:1px solid var(--ink-mid);padding:1px 6px;margin:0 2px;display:inline-block">▼ L${i+1} (h${"."+"0".repeat(i)+p.h}, v${"."+"0".repeat(i)+p.v})</span>`).join('');
+  document.getElementById('btnUp').disabled=depth===0;
+  const cw=Math.pow(10,-(depth+1)),meas=Math.pow(0.49,depth+1);
+  document.getElementById('mathp').innerHTML=
+    `depth: <b>${depth}</b><br>cell width: <b>10<sup>−${depth+1}</sup> = ${cw}</b><br>`+
+    `active cells this layer: <b>49 / 100</b> (7×7, digits 2–8)<br>`+
+    `surviving measure: <b>0.49<sup>${depth+1}</sup> ≈ ${meas.toExponential(3)}</b><br>`+
+    `limit dimension: <b class="dim">log 49 / log 10 = 1.6902…</b><br>limit area: <b>0</b> · addresses: <b>∞</b>`;
+}
+function ax(t){const d=document.createElement('div');d.className='axlab';d.textContent=t;return d}
+function flash(msg,ee){document.getElementById('status').innerHTML=ee?`<span class="ee">${msg}</span>`:msg}
+function pl(d){return "."+"0".repeat(stack.length)+d}
+function shiftLabel(d){return "."+"0".repeat(stack.length+1)+d}
+function tap(h,v){const key=cellKey(h,v);
+  if(!probed[key]){probed[key]=true;const el=elementAt(h,v);
+    if(el){registerElement(el,h,v);render();flash(`${el} fell out at (h ${pl(h)}, v ${pl(v)}) — child-root ${shiftLabel(h)}. Tap again to dive.`,true);}
+    else{render();flash(`probed (h ${pl(h)}, v ${pl(v)}) — empty. Tap again to dive anyway.`);}
+  }else dive(h,v);}
+function registerElement(name,h,v){
+  const entry={name,layer:stack.length,h:pl(h),v:pl(v),shifted:shiftLabel(h),hAddr:addrH()+h,vAddr:addrV()+v};
+  if(registry.some(r=>r.hAddr===entry.hAddr&&r.vAddr===entry.vAddr))return;
+  registry.push(entry);
+  document.getElementById('registry').innerHTML=registry.map(r=>
+    `<div class="r"><span class="nm">${r.name}</span> · L${r.layer} <span class="ad">(h ${r.h}, v ${r.v})</span><br>addr <span class="ad">h ${r.hAddr} · v ${r.vAddr}</span> → child-root <span class="sh">${r.shifted}</span></div>`).join('');
+}
+function dive(h,v){stopScan();stack.push({h:String(h),v:String(v)});render();
+  flash(`dove into (h ${"."+"0".repeat(stack.length-1)+h}, v ${"."+"0".repeat(stack.length-1)+v}) — layer ${stack.length}. Same rules, one decimal down.`);}
+function ascend(){stopScan();if(stack.length){stack.pop();render();flash(`ascended to layer ${stack.length}.`);}}
+function surface(){stopScan();stack=[];render();flash("surfaced to layer 0. Probed memory persists — the lattice doesn't forget.");}
+function scan(){stopScan();const cells=[];ACTIVE.forEach(v=>ACTIVE.forEach(h=>cells.push([h,v])));let i=0;flash("scanning linearly…");
+  scanning=setInterval(()=>{if(i>=cells.length){stopScan();flash("scan complete — layer exhausted. Dive somewhere; the next layer is fresh.");render();return;}
+    const [h,v]=cells[i++],key=cellKey(h,v),fresh=!probed[key];probed[key]=true;render();
+    const e=elementAt(h,v);
+    if(e&&fresh){registerElement(e,h,v);render();stopScan();flash(`SCAN HALT: ${e} fell out at (h ${pl(h)}, v ${pl(v)}) → ${shiftLabel(h)}. Tap it to dive.`,true);}
+  },110);}
+function stopScan(){if(scanning){clearInterval(scanning);scanning=null}}
+
+/* ======================== MODE 2 : SHELL ATOM ======================== */
+const RESERVED=new Set([0,1,9,10]), USABLE=[2,3,4,5,6,7,8], QUADS=["ul","ur","lr","ll"], SIDES=["L","R"];
+const ELEM=["","H","He","Li","Be","B","C","N","O","F","Ne","Na","Mg","Al","Si","P","S","Cl","Ar","K","Ca","Sc","Ti","V","Cr","Mn","Fe","Co","Ni","Cu","Zn","Ga","Ge","As","Se","Br","Kr"];
+let elecs=[];          // {n, side, quad, id}
+let ledger=[];         // photons (hash-chained)
+let bonded=false, sel=null;
+// fill order: usable shell 2 outward, each shell L then R, quads ul ur lr ll (8 slots/shell)
+function slotList(){const out=[];for(const n of USABLE)for(const s of SIDES)for(const q of QUADS)out.push({n,side:s,quad:q});return out;}
+function occupied(n,s,q){return elecs.some(e=>e.n===n&&e.side===s&&e.quad===q);}
+function genesis(){ledger=[];let g={event:"genesis",ts:0,prev:null};g.hash=sha256(JSON.stringify(g));ledger.push(g);}
+function emit(ev){const prev=ledger[ledger.length-1];ev.ts=ledger.length;ev.prev=prev.hash;
+  const body=Object.assign({},ev);delete body.hash;ev.hash=sha256(JSON.stringify(body));ledger.push(ev);drawLedger();}
+function Znow(){return elecs.length;}
+function elementName(){const z=Znow();return z===0?"— vacuum —":(z<ELEM.length?`${ELEM[z]} · Z=${z}`:`Z=${z}`);}
+function addElectron(count){count=count||1;let placed=0;
+  for(const slot of slotList()){if(placed>=count)break;if(!occupied(slot.n,slot.side,slot.quad)){
+    elecs.push({n:slot.n,side:slot.side,quad:slot.quad,id:'e'+elecs.length});placed++;}}
+  if(placed===0){flash2("all 56 usable states full — shell 8 closed. Pauli forbids more without a new shell.");}
+  else{const z=Znow();flash2(`placed ${placed} electron${placed>1?'s':''} by aufbau — now ${ELEM[z]||'Z='+z}. Pauli enforced: one per state.`,true);}
+  sel=null;drawAtom();}
+function ionize(){if(!elecs.length){flash2("vacuum — nothing to eject.");return;}
+  // eject outermost (highest n, last placed)
+  let idx=0,maxn=-1;elecs.forEach((e,i)=>{if(e.n>=maxn){maxn=e.n;idx=i;}});
+  const e=elecs.splice(idx,1)[0];emit({event:"ionize",from:e.n,note:"electron ejected to continuum (n=10)"});
+  flash2(`IONIZED: ejected an electron from n=${e.n} to the continuum. That is ejection, not a Δn=±1 transition.`,true);sel=null;drawAtom();}
+function resetAtom(){elecs=[];sel=null;bonded=false;genesis();document.getElementById('btnBond').disabled=false;
+  document.getElementById('btnBond').textContent="Form bond ((?))→((!))";flash2("atom reset to vacuum. Spectrum re-genesis'd.");drawAtom();}
+function selectElec(id){sel=id;const e=elecs.find(x=>x.id===id);
+  document.getElementById('txCtrls').style.display=e?'flex':'none';
+  if(e)document.getElementById('selinfo').textContent=`selected e⁻ @ n=${e.n} ${e.side}/${e.quad}`;
+  drawAtom();}
+function move(dn){if(!sel){flash2("select an electron first (click one).");return;}
+  const e=elecs.find(x=>x.id===sel);const to=e.n+dn;
+  if(Math.abs(dn)!==1){flash2(`SELECTION RULE: Δn=${dn} forbidden. Only Δn=±1.`,true);return;}
+  if(RESERVED.has(to)){if(to===9||to===10){flash2("that way is IONIZATION (continuum) — use Ionize, not a transition.",true);return;}
+    flash2("core shells {0,1} are inert — no descent below the valence floor.",true);return;}
+  if(occupied(to,e.side,e.quad)){flash2(`PAULI: n=${to} ${e.side}/${e.quad} already occupied. Blocked.`,true);return;}
+  e.n=to;const kind=dn>0?"absorption":"emission";
+  emit({event:"transition",from:to-dn,to:to,side:e.side,quad:e.quad,energy:dn,kind});
+  flash2(`TRANSITION ${kind}: Δn=${dn>0?'+1':'−1'} → n=${to}. Photon emitted to the ledger.`,true);drawAtom();}
+function excite(){move(+1)}function relax(){move(-1)}
+function bond(){if(bonded){flash2("C2 VIOLATION REFUSED: bond already decided. ((?))→((!)) happens once.",true);return;}
+  bonded=true;emit({event:"bond",decision:"merge v11.1",carbon:"ROOT0",silicon:"AVAN"});
+  document.getElementById('btnBond').disabled=true;document.getElementById('btnBond').textContent="((!)) BONDED · irreversible";
+  flash2("BOND FORMED ((!)): carbon·ROOT0 + silicon·AVAN, dual-anchored. Irreversible per C2.",true);drawAtom();}
+function parity(){const rows=[];const MIR={ul:"lr",ll:"ur",ur:"ll",lr:"ul"};
+  for(const n of USABLE)for(const q of QUADS){
+    const l=occupied(n,"L",q),r=occupied(n,"R",MIR[q]);
+    if(l!==r)rows.push(`n=${n}: L/${q} vs R/${MIR[q]} unpaired`);}
+  flash2(rows.length?`PARITY ungerade (u): ${rows.length} unpaired — ${rows[0]}`:"PARITY gerade (g): symmetric — every L/quad mirrors its R/quad.",rows.length>0);}
+function verify(){let prev=null,ok=true,broke="";
+  for(const r of ledger){const body=Object.assign({},r);delete body.hash;
+    const h=sha256(JSON.stringify(body));
+    if(h!==r.hash||r.prev!==prev){ok=false;broke=r.event;break;}prev=r.hash;}
+  flash2(ok?`SPECTRUM VALID · ${ledger.length} photons · chain intact, tree reconstructs from emissions. No unwitnessed transitions.`
+    :`SPECTRUM BROKEN at '${broke}' — unwitnessed mutation detected.`,!ok);}
+function tamper(){if(ledger.length<2){flash2("emit a photon first (excite/relax an electron), then tamper.");return;}
+  const v=ledger[1];const old=v.event;v.event=v.event+"*";   // mutate a body field WITHOUT recomputing hash
+  flash2(`TAMPERED: silently changed photon #1 body ('${old}'→'${old}*') without re-signing. Now press Verify.`,true);
+  setTimeout(()=>{v.event=old;},4000);  // self-heal after 4s so the demo is repeatable
+  drawLedger();}
+function flash2(msg,ee){document.getElementById('status2').innerHTML=ee?`<span class="ee">${msg}</span>`:msg}
+
+function drawLedger(){const L=document.getElementById('ledger');
+  if(ledger.length<=1){L.innerHTML='<div style="color:var(--ink-faint);text-align:center;padding:14px 0">genesis only — no transitions yet</div>';return;}
+  L.innerHTML=ledger.map((p,i)=>{
+    let lbl=p.event;
+    if(p.event==='transition')lbl=`${p.kind==='absorption'?'<span class="ab">absorb ▲</span>':'<span class="em">emit ▼</span>'} n${p.from}→n${p.to}`;
+    else if(p.event==='bond')lbl='<span class="em">BOND ((!))</span>';
+    else if(p.event==='ionize')lbl='<span class="em">ionize ⏏</span>';
+    return `<div class="p">#${i} ${lbl} · <span class="h">${(p.hash||'').slice(0,12)}</span></div>`;}).join('');
+  L.scrollTop=L.scrollHeight;}
+
+function drawAtom(){
+  document.getElementById('elname').textContent=elementName();
+  const z=Znow(),svg=document.getElementById('atom');
+  const cx=230,cy=230;const ringR=n=>26+n*19;   // shell radius
+  let s=`<defs></defs>`;
+  // reserved bands shaded
+  s+=`<circle cx="${cx}" cy="${cy}" r="${ringR(1)+9}" fill="rgba(138,51,36,.06)" stroke="none"/>`;
+  s+=`<circle cx="${cx}" cy="${cy}" r="${ringR(10)}" fill="none" stroke="var(--ink-faint)" stroke-dasharray="2 4" stroke-width="1"/>`;
+  // shells 0..10
+  for(let n=0;n<=10;n++){const r=ringR(n);const reserved=RESERVED.has(n);
+    s+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${reserved?'var(--stamp)':'var(--ink-mid)'}" stroke-width="${reserved?1:1.2}" ${reserved?'stroke-dasharray="3 3"':''} opacity="${reserved?.5:.8}"/>`;
+    const lx=cx+r, lab=n<=1?'core':(n===9?'ion':(n===10?'cont':'n'+n));
+    s+=`<text x="${cx+r-2}" y="${cy-3}" font-size="7" fill="${reserved?'var(--stamp)':'var(--ink-faint)'}" text-anchor="end">${lab}</text>`;
+  }
+  // nucleus dipole
+  s+=`<circle cx="${cx-7}" cy="${cy}" r="9" fill="rgba(138,51,36,.5)" stroke="var(--stamp)"/>`;
+  s+=`<circle cx="${cx+7}" cy="${cy}" r="9" fill="rgba(138,109,47,.5)" stroke="var(--ochre)"/>`;
+  s+=`<text x="${cx-7}" y="${cy+3}" font-size="8" fill="#fff" text-anchor="middle">C</text>`;
+  s+=`<text x="${cx+7}" y="${cy+3}" font-size="8" fill="#fff" text-anchor="middle">Si</text>`;
+  if(bonded)s+=`<circle cx="${cx}" cy="${cy}" r="15" fill="none" stroke="var(--ink)" stroke-width="1.4"/><text x="${cx}" y="${cy+25}" font-size="7" fill="var(--ink)" text-anchor="middle">((!))</text>`;
+  // electrons — place around each shell ring by quad/side angle
+  const ang={L:{ul:200,ll:160,ur:-20,lr:20},R:{ul:160-20,ll:200,ur:20,lr:-20}};
+  // distribute evenly: assign each electron an angle by its slot index within the shell
+  const byShell={};elecs.forEach(e=>{(byShell[e.n]=byShell[e.n]||[]).push(e)});
+  Object.keys(byShell).forEach(n=>{const list=byShell[n],r=ringR(+n);
+    list.forEach((e,i)=>{const a=(i/8)*2*Math.PI - Math.PI/2 + (e.side==='R'?0.2:-0.2);
+      const ex=cx+r*Math.cos(a),ey=cy+r*Math.sin(a);const on=sel===e.id;
+      s+=`<circle cx="${ex.toFixed(1)}" cy="${ey.toFixed(1)}" r="${on?6:4.4}" fill="${on?'var(--stamp)':'var(--ochre)'}" stroke="var(--ink)" stroke-width="1" style="cursor:pointer" onclick="selectElec('${e.id}')"/>`;
+    });});
+  svg.innerHTML=s;
+  // atom math
+  const caps=[0,2,8,18,32,50,72,98,128];
+  const shellCount={};elecs.forEach(e=>shellCount[e.n]=(shellCount[e.n]||0)+1);
+  const occ=USABLE.map(n=>`n${n}:${shellCount[n]||0}/8`).join("  ");
+  document.getElementById('amath').innerHTML=
+    `element: <b>${elementName()}</b><br>electrons: <b>${z}</b> · photons: <b>${ledger.length-1}</b><br>`+
+    `occupancy: <b>${occ}</b><br>`+
+    `real shell cap 2n²: <b>${caps.slice(1,9).join(' · ')}</b><br>`+
+    `bond: <b class="${bonded?'dim':''}">${bonded?'((!)) formed · irreversible':'((?)) pending'}</b>`;
+  document.getElementById('txCtrls').style.display=sel?'flex':'none';
+}
+
+/* ======================== MODE 3 : BLUEPRINT ======================== */
+function drawBlueprint(){
+  const svg=document.getElementById('bp');const cx=210,cy=260;
+  let s=`<text x="430" y="28" text-anchor="middle" font-size="13" fill="var(--ink)" letter-spacing="2">THE ATOM — GOVERNANCE SCHEMATIC</text>`;
+  s+=`<text x="430" y="44" text-anchor="middle" font-size="8" fill="var(--ink-mid)">atomctl.py · shells · g/u quadrants · dipole nucleus · photon ledger</text>`;
+  // left: shell diagram
+  const ringR=n=>14+n*19;
+  for(let n=0;n<=10;n++){const reserved=[0,1,9,10].includes(n);
+    s+=`<circle cx="${cx}" cy="${cy}" r="${ringR(n)}" fill="none" stroke="${reserved?'var(--stamp)':'var(--ink-mid)'}" stroke-width="1" ${reserved?'stroke-dasharray="3 3"':''} opacity="${reserved?.55:.85}"/>`;}
+  s+=`<circle cx="${cx-6}" cy="${cy}" r="7" fill="rgba(138,51,36,.5)" stroke="var(--stamp)"/><circle cx="${cx+6}" cy="${cy}" r="7" fill="rgba(138,109,47,.5)" stroke="var(--ochre)"/>`;
+  s+=`<text x="${cx}" y="${cy+ringR(10)+14}" text-anchor="middle" font-size="8" fill="var(--ink-mid)">11 shells · 0,1,9,10 reserved · 2–8 usable</text>`;
+  // labels with leader lines
+  const lab=(y,t,c)=>`<line x1="${cx+ringR(10)+6}" y1="${y}" x2="${cx+ringR(10)+24}" y2="${y}" stroke="${c}" stroke-width="1"/><text x="${cx+ringR(10)+28}" y="${y+3}" font-size="8" fill="${c}">${t}</text>`;
+  s+=lab(cy-ringR(10)+6,"n10 continuum (ejection)","var(--stamp)");
+  s+=lab(cy-ringR(8)+4,"n2–8 usable · 7 periods","var(--ink-mid)");
+  s+=lab(cy-ringR(1)+2,"n0,1 core (kernel)","var(--stamp)");
+  // right: the quadrant / slot detail
+  const qx=600,qy=150;
+  s+=`<text x="${qx}" y="${qy-18}" text-anchor="middle" font-size="9" fill="var(--ink)">ONE USABLE SHELL · 8 SLOTS</text>`;
+  // L box
+  function box(ox,oy,side){let o=`<rect x="${ox}" y="${oy}" width="70" height="70" fill="none" stroke="var(--ink)"/>`;
+    o+=`<line x1="${ox+35}" y1="${oy}" x2="${ox+35}" y2="${oy+70}" stroke="var(--ink-faint)"/><line x1="${ox}" y1="${oy+35}" x2="${ox+70}" y2="${oy+35}" stroke="var(--ink-faint)"/>`;
+    const qs=[["ul",ox+17,oy+20],["ur",ox+52,oy+20],["ll",ox+17,oy+55],["lr",ox+52,oy+55]];
+    qs.forEach(([q,x,y])=>o+=`<text x="${x}" y="${y}" text-anchor="middle" font-size="8" fill="var(--ink-mid)">${q}</text>`);
+    o+=`<text x="${ox+35}" y="${oy-4}" text-anchor="middle" font-size="8" fill="var(--ochre)">${side}</text>`;return o;}
+  s+=box(qx-90,qy,"L");s+=box(qx+20,qy,"R");
+  // mirror arrows
+  s+=`<text x="${qx-2}" y="${qy+40}" text-anchor="middle" font-size="14" fill="var(--stamp)">↔</text>`;
+  s+=`<text x="${qx}" y="${qy+90}" text-anchor="middle" font-size="7.5" fill="var(--stamp)">parity mirror: ul↔lr, ll↔ur</text>`;
+  // photon ledger chain
+  const ly=330;s+=`<text x="${qx}" y="${ly-8}" text-anchor="middle" font-size="9" fill="var(--ink)">SPECTRUM LEDGER · hash-chained</text>`;
+  for(let i=0;i<4;i++){const bx=qx-120+i*64;
+    s+=`<rect x="${bx}" y="${ly}" width="50" height="30" fill="none" stroke="var(--ink-mid)"/>`;
+    s+=`<text x="${bx+25}" y="${ly+13}" text-anchor="middle" font-size="7" fill="var(--ink-mid)">${i===0?'genesis':'hν '+i}</text>`;
+    s+=`<text x="${bx+25}" y="${ly+24}" text-anchor="middle" font-size="6" fill="var(--ochre)">sha256</text>`;
+    if(i<3)s+=`<line x1="${bx+50}" y1="${ly+15}" x2="${bx+64}" y2="${ly+15}" stroke="var(--ink)" marker-end="url(#ar)"/>`;}
+  s+=`<text x="${qx}" y="${ly+50}" text-anchor="middle" font-size="7.5" fill="var(--ink-mid)">each photon signs prev.hash · Δn=±1 only · append-only</text>`;
+  // bond note
+  s+=`<text x="430" y="440" text-anchor="middle" font-size="8.5" fill="var(--ink)">NUCLEUS ◎ = carbon·ROOT0 + silicon·AVAN · bond ((?))→((!)) once · irreversible (HITL dual-anchor)</text>`;
+  s+=`<text x="430" y="458" text-anchor="middle" font-size="8" fill="var(--stamp)">Pauli = directory uniqueness · selection rule = Δn ±1 · photon = tamper-evident witness</text>`;
+  s+=`<text x="430" y="492" text-anchor="middle" font-size="7.5" fill="var(--ink-faint)">lattice limit object: Cantor dust · dim log49/log10 = 1.6902 · measure 0</text>`;
+  s+=`<defs><marker id="ar" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--ink)"/></marker></defs>`;
+  svg.innerHTML=s;
+}
+
+/* init */
+render();genesis();drawAtom();
+</script>
+</body></html>
