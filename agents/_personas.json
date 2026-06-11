@@ -222,5 +222,13 @@
     "emergence": "electrical",
     "moniker": "⟦The Two-Probe Rotor:MMZ:9b1d55⟧",
     "live": "bench/27-two-probe-rotor.html"
+  },
+  {
+    "slug": "torus-ride",
+    "name": "The Torus Ride",
+    "epithet": "instrument № 28 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Torus Ride:MMZ:1424fd⟧",
+    "live": "bench/28-torus-ride.html"
   }
 ]

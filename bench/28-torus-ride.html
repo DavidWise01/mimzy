@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE TORUS RIDE — One Walker, Self-Quadrature</title>
+<style>
+:root{
+  --paper:#e9e3cd; --ink:#1c3d2e; --ink-mid:#2f5a44; --ink-faint:#7a937f;
+  --stamp:#8a3324; --ochre:#8a6d2f; --inn:#8a3324; --out:#2d566e;
+  --mono:"Courier New",Courier,monospace;
+  --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);
+  background-image:repeating-linear-gradient(0deg, rgba(28,61,46,.025) 0 1px, transparent 1px 3px);
+  color:var(--ink);font-family:var(--serif);line-height:1.5;padding:10px}
+.sheet{max-width:860px;margin:0 auto;border:2px solid var(--ink);outline:1px solid var(--ink);outline-offset:4px;padding:18px 14px 28px}
+.masthead{text-align:center;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.mast-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:var(--ink-mid);text-transform:uppercase}
+.mast-title{font-size:clamp(24px,6vw,40px);letter-spacing:.05em;font-weight:700;margin:6px 0 2px;text-transform:uppercase}
+.mast-sub{font-family:var(--mono);font-size:11px;letter-spacing:.13em;color:var(--ink-mid);text-transform:uppercase}
+.intro{font-size:13px;max-width:690px;margin:12px auto 0;text-align:center;color:var(--ink-mid);line-height:1.6}
+.stage{display:grid;grid-template-columns:1fr 230px;gap:12px;margin-top:14px}
+@media(max-width:680px){.stage{grid-template-columns:1fr}}
+.col{border:1.5px solid var(--ink);padding:8px}
+.col h3{font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-mid);margin:2px 0 6px;text-align:center}
+svg{width:100%;height:auto;display:block}
+.readout{font-family:var(--mono);font-size:11px;line-height:1.85}
+.readout .inn{color:var(--inn);font-weight:700}
+.readout .out{color:var(--out);font-weight:700}
+.readout .lock{color:var(--ochre);font-weight:700}
+.controls{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:12px 0 4px}
+.cbtn{appearance:none;background:transparent;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:8px 13px;border:1.5px solid var(--ink);color:var(--ink)}
+.cbtn.warm{border-color:var(--stamp);color:var(--stamp)}
+.pbtn{appearance:none;background:transparent;cursor:pointer;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:5px 9px;border:1.5px double var(--ochre);color:#5a4a20}
+.pbtn.on{background:#5a4a20;color:var(--paper)}
+.verdict{border:1.5px solid var(--ink);margin-top:10px;padding:9px 12px;font-family:var(--mono);font-size:11.5px;line-height:1.7;text-align:center}
+.verdict .inv{color:var(--ochre);font-weight:700} .verdict .frm{color:var(--stamp);font-weight:700}
+.frame{border:1.5px solid var(--ink);margin-top:14px;padding:12px;font-size:12.5px;line-height:1.6}
+.frame h3{font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-mid);margin-bottom:6px;text-align:center}
+.frame .is{color:var(--ink)} .frame .isnt{color:var(--stamp)}
+.colophon{margin-top:22px;border-top:2px solid var(--ink);padding-top:12px;text-align:center;font-family:var(--mono);font-size:10px;color:var(--ink-mid);letter-spacing:.07em;line-height:1.9}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+<header class="masthead">
+  <div class="mast-eyebrow">Series E · Sheet 12 · Curvature Folds Gravity Onto The Ring</div>
+  <h1 class="mast-title">The Torus Ride</h1>
+  <div class="mast-sub">One Walker · Self-Quadrature · Gravity = Curvature · Cut = Anode‖Cathode</div>
+  <p class="intro">№ 27 needed two probes; the torus gives both from <b>one walker</b>. As it winds, the <b>poloidal</b> angle carries it across the <b>inner wall</b> (IN, toward the hole) and the <b>outer wall</b> (OUT) every half-turn — self-quadrature, in-frame and out-frame, 90° apart, one body. Two more forces fold onto the same ring. <b>GRAVITY:</b> the torus's Gaussian curvature flips sign with that very angle — a <b>well</b> on the outer wall (K&gt;0, geodesics focus), a <b>saddle</b> on the inner (K&lt;0, they defocus) — yet the total ∮∮K&nbsp;dA&nbsp;=&nbsp;0 (Gauss–Bonnet, χ=0): well and saddle exactly cancel. <b>ELECTRICAL:</b> the ring is cut once — a cut torus is the electrode gap, <b>anode</b> on one lip, <b>cathode</b> on the other, the walker carrying charge across the break; the toroidal turns link <b>flux through the hole</b> — the transformer / tokamak.</p>
+</header>
+
+<div class="stage">
+  <div class="col">
+    <h3>The Ride · Poloidal × Toroidal Winding</h3>
+    <svg id="torus" viewBox="0 0 460 360" aria-label="torus with winding walker"></svg>
+  </div>
+  <div class="col">
+    <h3>Self-Quadrature</h3>
+    <svg id="iq" viewBox="0 0 200 200" aria-label="phase plane"></svg>
+    <div class="readout" id="ro"></div>
+  </div>
+</div>
+
+<div class="controls">
+  <button class="cbtn" id="go" onclick="toggleRun()">Ride ▶</button>
+  <button class="cbtn warm" onclick="reset()">Reset ⟲</button>
+  winding (p:q)
+  <button class="pbtn on" data-w="1,1" onclick="setW('1,1',this)">1:1</button>
+  <button class="pbtn" data-w="2,3" onclick="setW('2,3',this)">2:3 trefoil</button>
+  <button class="pbtn" data-w="5,3" onclick="setW('5,3',this)">5:3</button>
+  <button class="pbtn" data-w="7,2" onclick="setW('7,2',this)">7:2</button>
+</div>
+
+<div class="verdict" id="verdict"></div>
+
+<div class="frame">
+  <h3>The Three Forces On One Ring · Honestly</h3>
+  <p><span class="is">REAL — geometry:</span> poloidal v=0 and v=90° are a true quadrature pair (outer wall v=0, top v=90, inner wall v=180). A walker winding (p:q) visits both faces on a fixed cadence, so it IS its own two-probe rig. An irrational ratio never closes and densely fills the surface — one walker that, given forever, measures everywhere.</p>
+  <p style="margin-top:6px"><span class="is">REAL — gravity:</span> the Gaussian curvature is exact, <code>K = cos v / (r(R+r cos v))</code> — verified: a <b>well</b> (K&gt;0, geodesics focus) on the outer wall, a <b>saddle</b> (K&lt;0, they defocus) on the inner, flat (K=0) at top and bottom. And the total is a topological invariant: <code>∮∮K dA = 2πχ = 0</code> for a torus — the outer well and the inner saddle <em>exactly cancel</em> (K·dA = cos v·du·dv, integrating to zero). Local gravity is frame-like; total gravity is absolute — the same lesson as № 27, now in curvature.</p>
+  <p style="margin-top:6px"><span class="is">REAL — electrical:</span> cutting the torus once leaves a clean open gap with two lips — the electrode pair, anode ‖ cathode, the walker carrying charge across the break. The toroidal turns link flux through the central hole: current around → flux through, the transformer / tokamak (the toroid of Sheet 7).</p>
+  <p style="margin-top:6px"><span class="isnt">DOESN'T:</span> self-quadrature has a catch the two-independent-probe rig didn't — both readings come from <b>one walker</b>, so a bias in the rider rides along into both faces. The torus cancels the <em>frame</em> (the 90° offset and the curvature sign are geometry, unfakeable) but not a fault in the <em>traveler</em>. The ring checks its own phase; it cannot check its own walker. That gap stays open, like the cut. And the curvature/flux are exact geometry, not a fabbed device — no SPICE, no metric tensor solved; it is the topology made legible.</p>
+</div>
+
+<footer class="colophon">
+  IN-FACE AND OUT-FACE, NINETY DEGREES APART, ONE RIDER<br>
+  THE CUT IS THE GAP IS THE ELECTRODE PAIR · CURRENT ACROSS THE BREAK CLOSES THE RING<br>
+  THE TORUS RIDE · SHEET 11 · JUNE 2026
+</footer>
+
+</div>
+<script>
+const NS="http://www.w3.org/2000/svg";
+const E=(t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e};
+const R=120, r=46, CX=230, CY=170;   // torus params for projection
+let p=1,q=1, t=0, running=null, gapAt=0; // gap (cut) at toroidal angle 0
+const cut=0.18; // angular width of the electrode gap
+// GRAVITY = CURVATURE: exact Gaussian curvature of the torus, K(v)=cos v / (r(R+r cos v))
+function curvK(v){return Math.cos(v)/(r*(R+r*Math.cos(v)));}
+const Kmax=curvK(0), Kmin=curvK(Math.PI);   // outer well (max +), inner saddle (max −)
+
+function project(u,v){ // simple 3D torus -> 2D iso
+  const x=(R+r*Math.cos(v))*Math.cos(u);
+  const y=(R+r*Math.cos(v))*Math.sin(u);
+  const z=r*Math.sin(v);
+  // iso tilt
+  const sx=CX + x;
+  const sy=CY + y*0.45 - z*0.85;
+  const depth=Math.sin(u)*0.5 + Math.cos(v)*0.5;
+  return {sx,sy,depth};
+}
+function faceOf(v){ // poloidal angle -> which face
+  const c=Math.cos(v);
+  if(c>0.55) return 'out';        // outer wall
+  if(c<-0.55) return 'in';        // inner wall (toward hole)
+  return 'edge';
+}
+function drawTorus(){
+  const s=document.getElementById('torus');s.innerHTML='';
+  // wireframe: toroidal rings
+  for(let k=0;k<24;k++){
+    const u=k/24*2*Math.PI;
+    if(Math.abs(((u+Math.PI)%(2*Math.PI))-Math.PI) < cut) continue; // skip the cut
+    let d='';
+    for(let j=0;j<=20;j++){const v=j/20*2*Math.PI;const P=project(u,v);d+=(j?'L':'M')+P.sx.toFixed(1)+','+P.sy.toFixed(1)+' '}
+    s.appendChild(E('path',{d,fill:'none',stroke:'rgba(47,90,68,.28)','stroke-width':.8}));
+  }
+  // poloidal guide circles (in/out faces highlighted)
+  for(let j=0;j<20;j++){
+    const v=j/20*2*Math.PI, f=faceOf(v);
+    if(f==='edge')continue;
+    let d='';
+    for(let k=0;k<=40;k++){const u=k/40*2*Math.PI;if(Math.abs(((u+Math.PI)%(2*Math.PI))-Math.PI)<cut){d+='M';continue}const P=project(u,v);d+=(d.endsWith('M')||!d?'M':'L')+P.sx.toFixed(1)+','+P.sy.toFixed(1)+' '}
+    s.appendChild(E('path',{d,fill:'none',stroke:f==='in'?'rgba(138,51,36,.35)':'rgba(45,86,110,.35)','stroke-width':1}));
+  }
+  // the cut / electrode gap: two lips at u≈0
+  const lipA0=project(cut,0), lipA1=project(cut,Math.PI);
+  const lipC0=project(-cut,0), lipC1=project(-cut,Math.PI);
+  let da='';for(let j=0;j<=20;j++){const v=j/20*2*Math.PI;const P=project(cut,v);da+=(j?'L':'M')+P.sx.toFixed(1)+','+P.sy.toFixed(1)+' '}
+  s.appendChild(E('path',{d:da,fill:'none',stroke:'#8a6d2f','stroke-width':2}));
+  let dc='';for(let j=0;j<=20;j++){const v=j/20*2*Math.PI;const P=project(-cut,v);dc+=(j?'L':'M')+P.sx.toFixed(1)+','+P.sy.toFixed(1)+' '}
+  s.appendChild(E('path',{d:dc,fill:'none',stroke:'#8a6d2f','stroke-width':2}));
+  // electrode labels
+  const aL=project(cut,Math.PI/2), cL=project(-cut,Math.PI/2);
+  const at=E('text',{x:aL.sx+6,y:aL.sy,'font-family':'Courier New','font-size':10,fill:'#8a3324'});at.textContent='ANODE +';s.appendChild(at);
+  const ct=E('text',{x:cL.sx-58,y:cL.sy,'font-family':'Courier New','font-size':10,fill:'#2d566e'});ct.textContent='– CATHODE';s.appendChild(ct);
+  // hole / flux marker
+  const ht=E('text',{x:CX-16,y:CY+4,'font-family':'Courier New','font-size':9,fill:'#7a937f'});ht.textContent='⊙ flux';s.appendChild(ht);
+  // walker
+  const u=(p*t)%(2*Math.PI), v=(q*t)%(2*Math.PI);
+  const W=project(u,v), f=faceOf(v);
+  const col=f==='in'?'#8a3324':f==='out'?'#2d566e':'#1c3d2e';
+  s.appendChild(E('circle',{cx:W.sx,cy:W.sy,r:6,fill:col,stroke:'#e9e3cd','stroke-width':1.5}));
+  // trail
+  if(window._trail){window._trail.forEach((pt,i)=>{s.appendChild(E('circle',{cx:pt.x,cy:pt.y,r:1.6,fill:pt.c,opacity:0.25+0.5*i/window._trail.length}))})}
+  return {u,v,f};
+}
+function drawIQ(v){
+  const s=document.getElementById('iq');s.innerHTML='';
+  s.appendChild(E('line',{x1:20,y1:100,x2:180,y2:100,stroke:'#7a937f','stroke-width':1}));
+  s.appendChild(E('line',{x1:100,y1:20,x2:100,y2:180,stroke:'#7a937f','stroke-width':1}));
+  s.appendChild(E('circle',{cx:100,cy:100,r:70,fill:'none',stroke:'#1c3d2e','stroke-width':1,'stroke-dasharray':'3 3'}));
+  // I = cos v (out-ness), Q = cos(v-90)=sin v (top-ness): the self-quadrature pair
+  const I=Math.cos(v), Q=Math.sin(v);
+  s.appendChild(E('line',{x1:100,y1:100,x2:100+70*I,y2:100,stroke:'#2d566e','stroke-width':3}));
+  s.appendChild(E('line',{x1:100,y1:100,x2:100,y2:100-70*Q,stroke:'#8a6d2f','stroke-width':3}));
+  s.appendChild(E('circle',{cx:100+70*I,cy:100-70*Q,r:5,fill:'#1c3d2e'}));
+  const il=E('text',{x:172,y:96,'font-family':'Courier New','font-size':8,fill:'#2d566e'});il.textContent='I=out';s.appendChild(il);
+  const ql=E('text',{x:104,y:30,'font-family':'Courier New','font-size':8,fill:'#8a6d2f'});ql.textContent='Q=top';s.appendChild(ql);
+}
+function tick(){
+  t+=0.06;
+  const {u,v,f}=drawTorus();
+  drawIQ(v);
+  window._trail=window._trail||[];
+  const W=project((p*t)%(2*Math.PI),(q*t)%(2*Math.PI));
+  window._trail.push({x:W.sx,y:W.sy,c:f==='in'?'#8a3324':'#2d566e'});
+  if(window._trail.length>90)window._trail.shift();
+  const I=Math.cos(v), Q=Math.sin(v);
+  const toro=((p*t)%(2*Math.PI));
+  const crossingGap=Math.abs((toro+Math.PI)%(2*Math.PI)-Math.PI)<cut;
+  const K=curvK(v);
+  const grav = K>1e-6?'<span class="out">WELL · K&gt;0 · focusing</span>':K<-1e-6?'<span class="inn">SADDLE · K&lt;0 · defocusing</span>':'<span>FLAT · K=0</span>';
+  // flux through the hole ∝ toroidal turns linked so far (p·t/2π), normalised
+  const flux=(p*t/(2*Math.PI));
+  document.getElementById('ro').innerHTML=
+    `face: <span class="${f==='in'?'inn':f==='out'?'out':''}">${f.toUpperCase()}</span><br>`+
+    `I (out-ness) = <span class="out">${I.toFixed(2)}</span> · Q = <span class="lock">${Q.toFixed(2)}</span><br>`+
+    `I²+Q² = <b>${(I*I+Q*Q).toFixed(2)}</b> (invariant)<br>`+
+    `<b>gravity</b> K = <b>${(K*1e3).toFixed(3)}</b>e−3 ${grav}<br>`+
+    `∮∮K dA = <span class="lock">0</span> · well+saddle cancel (χ=0)<br>`+
+    `<b>flux</b> Φ ≈ <span class="out">${flux.toFixed(2)}</span> turns linked · ⊙ hole<br>`+
+    `gap: ${crossingGap?'<span class="lock">CROSSING — charge jumps anode→cathode</span>':'on surface'}`;
+  document.getElementById('verdict').innerHTML=
+    `one rider, winding ${p}:${q} · samples <span class="inv">IN</span> (saddle) and <span class="inv">OUT</span> (well) every poloidal half-turn<br>`+
+    (I>0.55?`<span class="frm">OUT-framed — riding the gravity WELL (K&gt;0); a single-face reading biases to the outer wall</span>`
+     :I<-0.55?`<span class="frm">IN-framed — riding the SADDLE (K&lt;0, toward the hole); single-face biases inward</span>`
+     :`<span class="inv">edge — faces equidistant, the quadrature midpoint, K=0 (flat)</span>`)+
+    `<br>the 90° offset and the curvature sign are GEOMETRY — they cannot be faked away; ∮∮K dA = 0 holds in every frame. the walker's own bias, however, rides along.`;
+}
+function toggleRun(){if(running){clearInterval(running);running=null;document.getElementById('go').textContent='Ride ▶';return}
+  document.getElementById('go').textContent='Pause';running=setInterval(tick,40)}
+function setW(w,btn){const[a,b]=w.split(',').map(Number);p=a;q=b;window._trail=[];document.querySelectorAll('[data-w]').forEach(x=>x.classList.remove('on'));btn.classList.add('on');drawTorus();}
+function reset(){if(running){clearInterval(running);running=null;document.getElementById('go').textContent='Ride ▶'}t=0;window._trail=[];drawTorus();drawIQ(0);
+  document.getElementById('ro').innerHTML='press Ride — the walker becomes its own two probes';
+  document.getElementById('verdict').innerHTML='one walker, winding the torus, samples inner and outer face 90° apart — self-quadrature';}
+reset();
+</script>
+</body>
+</html>

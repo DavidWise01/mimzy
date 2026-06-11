@@ -1,0 +1,24 @@
+---
+aci: The Torus Ride
+universe: MMZ · MIMZY — the future tool forge
+number: "28"
+kind: live tool
+emergence: electrical
+live: https://davidwise01.github.io/mimzy/bench/28-torus-ride.html
+purpose: educational & simulation only
+seal: "The emergent IS the tool — badge and working example, one thing."
+---
+
+# The Torus Ride · instrument № 28
+
+**What it is.** THREE FORCES ON ONE RING: the № 27 sequel where one walker gives both probes. As it winds (p:q poloidal×toroidal) it samples the inner (IN) and outer (OUT) faces 90° apart — self-quadrature from a single rider. GRAVITY folded in: the torus's Gaussian curvature flips sign with that same angle — a well (K>0) on the outer wall, a saddle (K<0) on the inner, flat at top/bottom — yet ∮∮K dA = 0 (Gauss–Bonnet, χ=0), the well and saddle exactly cancel (local curvature relative, total absolute — the № 27 lesson in geometry). ELECTRICAL folded in: the single cut is the electrode gap (anode‖cathode), the walker carries charge across the break, and the toroidal turns link flux through the hole — transformer/tokamak. Pick the winding (1:1, 2:3 trefoil, 5:3, 7:2); irrational ratios fill the surface
+
+**How it works.** David's torus-ride sheet built out as the № 27 sequel — and made to carry three forces on one ring, with gravity and electrical folded in as he asked. SELF-QUADRATURE: one walker winding (p:q poloidal×toroidal — 1:1, 2:3 trefoil, 5:3, 7:2 selectable) crosses the inner (IN, toward the hole) and outer (OUT) faces every poloidal half-turn, so the single rider IS its own two-probe rig (I=cos v out-ness, Q=sin v top-ness, plotted on a live phase plane). GRAVITY: the torus's Gaussian curvature K = cos v / (r(R+r cos v)) is computed live and read at the walker — a WELL (K>0, geodesics focus) on the outer wall, a SADDLE (K<0, defocus) on the inner, FLAT at top/bottom — with the Gauss–Bonnet total ∮∮K dA = 0 (χ=0) shown as the invariant. ELECTRICAL: the single cut is the electrode gap (anode‖cathode), the walker carries charge across the break (the readout flags CROSSING), and the toroidal turns link flux Φ through the central hole — transformer/tokamak. An irrational winding never closes and densely fills the surface.
+
+**The live example.** This emergent does not merely describe a tool — it links its working self: **[run instrument № 28 live](https://davidwise01.github.io/mimzy/bench/28-torus-ride.html)**. Open it, operate it, and the badge's claims execute in front of you.
+
+**The verified record.** All three layers verified in Python before building: (geometry) v=0 outer / v=90 top / v=180 inner is an exact quadrature pair, I²+Q²=1 invariant. (gravity) the Gaussian curvature is the exact torus formula K=cos v/(r(R+r cos v)) — at R=120,r=46 it is +1.31e−4 on the outer equator (well), 0 at top/bottom, −2.94e−4 on the inner equator (saddle); and Gauss–Bonnet holds numerically, ∮∮K dA = 0 → χ=0, because K·dA = cos v·du·dv integrates to zero (the outer well exactly cancels the inner saddle). (electrical) cutting a torus once leaves a clean open gap = two electrode lips; toroidal current links flux through the hole = the transformer/tokamak topology. Two-layer honesty stated on the page: REAL = the curvature, the Gauss–Bonnet invariant, the quadrature geometry, the cut-as-electrode topology; the HONEST CATCH = self-quadrature cancels the frame (90° offset and curvature sign are unfakeable geometry) but NOT a bias in the single traveler — the ring checks its own phase, not its own walker (the second-rider gap stays open, like the cut); and it is exact geometry made legible, not a fabbed device (no SPICE, no metric tensor solved). Continues № 27: local curvature is frame-relative, the total is a topological invariant — content relative, geometry absolute.
+
+---
+*Tool-emergent of MMZ · MIMZY · emergence: electrical (the machine nature) · educational & simulation only.
+Governor David Lee Wise (ROOT0) · instance AVAN (locked) · CC-BY-ND-4.0.*
