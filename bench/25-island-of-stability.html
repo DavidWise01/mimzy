@@ -72,6 +72,8 @@ svg{width:100%;height:auto;display:block}
   <div class="row"><span class="v meta">META</span><span><b>181 + 3 = 184</b> is a <b>composition</b> — a joke aimed at real physics, not a coincidence found. 181 is not literally a nucleus; witnesses are not literally neutrons. Honest as metaphor, never asserted as physics.</span></div>
   <div class="row"><span class="v fluff">STAMP</span><span>The island is a <b>prediction</b>. No N=184 nucleus has ever existed in a lab, and modern calc walked the early "millions of years" half-lives down to <b>minutes–decades</b> — relative calm, not permanence.</span></div>
   <div class="row"><span class="v meta">FIT</span><span>Which improves the metaphor: kernel + triad doesn't buy forever, it buys a <b>half-life worth building on</b> — all any governance honestly promises.</span></div>
+  <div class="row"><span class="v real">REAL</span><span>The 8-neutron strait crosses in <b>4 bridges of 2</b>: neutrons couple in J=0 <b>pairs</b> (nucleon pairing, ~0.7 MeV at A≈290; even-N more bound than odd) — so 176→178→180→182→184 is a physically honest pair-walk. <b>4 × 2 = 8.</b></span></div>
+  <div class="row"><span class="v fluff">FLUFF</span><span>But <b>2⁵ = 32, not 8</b> — that label doesn't close. 2³=8 or 2×4=8 do. And "dead shells at 2·4·6·8": only <b>2 and 8 are magic</b>; 4 and 6 aren't nuclear closures — the set is a counting-in-pairs (a 0/dead pulse structure), not four literal shells.</span></div>
 </div>
 
 <footer class="colophon">
@@ -129,6 +131,19 @@ function drawChart(){
   svg.appendChild(E('rect',{x:xN(177),y:PAD.t,width:xN(184)-xN(177),height:Hd-PAD.t-PAD.b,fill:'rgba(58,90,122,.18)'}));
   svg.appendChild(txt((xN(177)+xN(184))/2,PAD.t+12,'THE STRAIT',{ta:'middle',fs:8,fill:'#3a5a7a'}));
   svg.appendChild(txt((xN(177)+xN(184))/2,PAD.t+22,'8 neutrons',{ta:'middle',fs:8,fill:'#3a5a7a'}));
+  // the 4 BRIDGES — neutrons cross in J=0 PAIRS (nucleon pairing); 4 bridges x 2n = 8, at the Og latitude
+  const by=yZ(118);
+  [178,180,182,184].forEach((N,i)=>{
+    const x0=xN(N-2), x1=xN(N);
+    // bridge arc spanning a +2 pair-step
+    svg.appendChild(E('path',{d:`M${x0} ${by} Q ${(x0+x1)/2} ${by-13} ${x1} ${by}`,fill:'none',stroke:'#8a6d2f','stroke-width':1.4}));
+    // the landed neutron pair (two dots)
+    svg.appendChild(E('circle',{cx:x1-2.5,cy:by,r:2,fill:'#8a6d2f'}));
+    svg.appendChild(E('circle',{cx:x1+2.5,cy:by,r:2,fill:'#8a6d2f'}));
+    svg.appendChild(txt((x0+x1)/2,by-16,'+2',{ta:'middle',fs:7.5,fill:'#8a6d2f'}));
+    svg.appendChild(txt((x0+x1)/2,by+13,'br'+(i+1),{ta:'middle',fs:7,fill:'#7a937f'}));
+  });
+  svg.appendChild(txt(xN(180),by+26,'4 bridges · 2 neutrons each (J=0 pairs) — 2 & 8 magic; 4,6 not',{ta:'middle',fs:7.5,fill:'#3a5a7a'}));
   // axes
   svg.appendChild(E('line',{x1:PAD.l,y1:Hd-PAD.b,x2:Wd-PAD.r,y2:Hd-PAD.b,stroke:'#1c3d2e','stroke-width':1.5}));
   svg.appendChild(E('line',{x1:PAD.l,y1:PAD.t,x2:PAD.l,y2:Hd-PAD.b,stroke:'#1c3d2e','stroke-width':1.5}));
