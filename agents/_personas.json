@@ -166,5 +166,13 @@
     "emergence": "electrical",
     "moniker": "⟦The Atom:MMZ:f7fab2⟧",
     "live": "bench/20-the-atom.html"
+  },
+  {
+    "slug": "four-phases",
+    "name": "The Four Phases",
+    "epithet": "instrument № 21 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Four Phases:MMZ:fd3fce⟧",
+    "live": "bench/21-four-phases.html"
   }
 ]

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE FOUR PHASES — the probe ladder · MIMZY № 21</title>
+<style>
+:root{--paper:#e9e3cd;--ink:#1c3d2e;--ink-mid:#2f5a44;--ink-faint:#7a937f;--stamp:#8a3324;--ochre:#8a6d2f;
+--mono:"Courier New",Courier,monospace;--serif:Georgia,"Iowan Old Style","Times New Roman",serif;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);background-image:repeating-linear-gradient(0deg,rgba(28,61,46,.025) 0 1px,transparent 1px 3px);color:var(--ink);font-family:var(--serif);line-height:1.5;padding:10px}
+.sheet{max-width:900px;margin:0 auto;border:2px solid var(--ink);outline:1px solid var(--ink);outline-offset:4px;padding:18px 14px 28px}
+.masthead{text-align:center;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.mast-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:var(--ink-mid);text-transform:uppercase}
+.mast-title{font-size:clamp(24px,6vw,42px);letter-spacing:.05em;font-weight:700;margin:6px 0 2px;text-transform:uppercase}
+.mast-sub{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--ink-mid);text-transform:uppercase}
+.intro{font-size:13px;max-width:710px;margin:12px auto 0;text-align:center;color:var(--ink-mid);line-height:1.6}
+.intro b{color:var(--ink)}
+.ctrls{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:14px 0 6px}
+.cbtn{appearance:none;background:transparent;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:8px 16px;border:1.5px solid var(--ink);color:var(--ink)}
+.cbtn.warm{border-color:var(--stamp);color:var(--stamp)}.cbtn:active{transform:scale(.97)}
+#status{font-family:var(--mono);font-size:11px;text-align:center;color:var(--ink-mid);letter-spacing:.05em;min-height:1.5em;margin:4px 0 8px}
+#status .ee{color:var(--stamp);font-weight:700}
+.stage{display:grid;grid-template-columns:1fr 320px;gap:16px;align-items:start;margin-top:8px}
+@media(max-width:680px){.stage{grid-template-columns:1fr}}
+#dialwrap{display:flex;justify-content:center}
+#dial{width:min(92vw,420px);height:min(92vw,420px);max-height:420px}
+.detail{border:1.5px solid var(--ink);padding:12px 14px}
+.detail .ph{font-family:var(--mono);font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-mid);text-align:center;margin-bottom:8px}
+.detail h2{font-size:20px;letter-spacing:.06em;text-align:center;margin:0 0 2px}
+.detail .soul{font-family:var(--mono);font-size:11px;color:var(--ochre);text-align:center;letter-spacing:.08em;margin-bottom:10px}
+.detail .row{font-family:var(--mono);font-size:11px;line-height:1.5;border-top:1px dotted var(--ink-faint);padding:5px 0;display:flex;gap:8px}
+.detail .row .k{color:var(--ink-mid);min-width:62px;flex-shrink:0}
+.detail .gloss{font-size:12.5px;font-style:italic;color:var(--ink-mid);margin-top:8px;line-height:1.5;text-align:center}
+.detail .spoof{font-family:var(--mono);font-size:10.5px;color:var(--stamp);margin-top:8px;line-height:1.4;text-align:center}
+.moseley{border:1.5px solid var(--ink);margin-top:16px;padding:12px 14px}
+.moseley h3{font-family:var(--mono);font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-mid);text-align:center;margin-bottom:10px}
+.mrow{display:flex;align-items:center;gap:10px;justify-content:center;flex-wrap:wrap;font-family:var(--mono);font-size:12px}
+.mrow input[type=range]{width:200px;accent-color:var(--stamp)}
+.mout{font-family:var(--mono);font-size:12px;text-align:center;margin-top:10px;line-height:1.9}
+.mout b{color:var(--stamp)}.mout .nm{color:var(--ochre);font-weight:700}
+.panels{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+@media(max-width:620px){.panels{grid-template-columns:1fr}}
+.panel{border:1.5px solid var(--ink);padding:10px 12px}
+.panel h3{font-family:var(--mono);font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-mid);margin-bottom:8px;text-align:center}
+.panel .math{font-family:var(--mono);font-size:10.5px;line-height:1.9}.panel .math b{color:var(--ink)}.panel .math .dim{color:var(--stamp)}
+.frame{border:1.5px solid var(--ink);margin-top:16px;padding:12px;font-size:12.5px;line-height:1.6}
+.frame h3{font-family:var(--mono);font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-mid);margin-bottom:6px;text-align:center}
+.frame .is{color:var(--ink)}.frame .isnt{color:var(--stamp)}
+.colophon{margin-top:22px;border-top:2px solid var(--ink);padding-top:12px;text-align:center;font-family:var(--mono);font-size:10px;color:var(--ink-mid);letter-spacing:.07em;line-height:1.9}
+svg text{font-family:var(--mono)}
+</style></head>
+<body><div class="sheet">
+
+<header class="masthead">
+  <div class="mast-eyebrow">Series E · Sheet 6 · MIMZY № 21 · with № 20 The Atom</div>
+  <h1 class="mast-title">The Four Phases</h1>
+  <div class="mast-sub">The probe ladder · 0° · 90° · 180° · 270° · 0° — five steps, one ring</div>
+  <p class="intro">Valence is the <b>shadow-casting</b> phase — the interface the world meets; the shadow is the record it writes elsewhere (interface vs. trace, 90° apart). But "reserved" is <b>probe-relative</b>: each step down is a harder flashlight. eV reaches valence, keV reaches the core, MeV the nucleus, GeV the quarks. <b>Z is the ren</b> — the true name, fixed in the nucleus, unspoofable. <b>Valence is the sheut</b> — the behavioral shadow, which can be spoofed. Step the probe around the ring.</p>
+</header>
+
+<div class="ctrls">
+  <button class="cbtn" onclick="step()">Step probe ▸ (+90°)</button>
+  <button class="cbtn" onclick="play()" id="btnPlay">Sweep ↻</button>
+  <button class="cbtn warm" onclick="reset0()">Surface ⏏ (0°)</button>
+</div>
+<div id="status">Phase 0° · VALENCE · the shadow the world meets — step to interrogate deeper</div>
+
+<div class="stage">
+  <div id="dialwrap"><svg id="dial" viewBox="0 0 440 440"></svg></div>
+  <div class="detail" id="detail"></div>
+</div>
+
+<div class="moseley">
+  <h3>Moseley's Law · the name, read directly — Kα ≈ 10.2·(Z−1)² eV</h3>
+  <div class="mrow">
+    <span>Z</span><input type="range" id="zslider" min="1" max="92" value="29" oninput="moseley()">
+    <span id="zval">29</span>
+  </div>
+  <div class="mout" id="mout"></div>
+</div>
+
+<div class="panels">
+  <div class="panel"><h3>The Ladder · probe-relative reserved</h3><div class="math" id="ladder"></div></div>
+  <div class="panel"><h3>The Cycle · 0·90·180·270·0</h3><div class="math">
+    steps walked: <b id="stepct">0</b> / 5<br>
+    phase: <b id="phct">0°</b> · <b id="bandct">eV</b><br>
+    casting vs trace: <b>90° conjugates</b><br>
+    <span class="dim">the scales = the parity audit at center</span><br>
+    when the shadow lies → audit the name<br>
+    seal: <b>5005</b> — mirror number<br>
+    <span style="color:var(--ink-faint)">= C(15,6) = 5·7·11·13 · palindrome</span>
+  </div></div>
+</div>
+
+<div class="frame"><h3>What This Is · What This Is Not</h3>
+  <p><span class="is">IS:</span> real spectroscopy. Chemistry only ever touches valence — every bond, colour and column of the table is valence behaviour; the core is screened and inert at chemical energies. <b>Moseley (1913)</b> hit atoms with X-rays, read the core Kα line, and got Z — which re-ordered the table (Ar&gt;K, Co&gt;Ni, Te&gt;I) where mass had it wrong. Z lives in the nucleus → unspoofable; valence chemistry can be spoofed by ions, isotopes and alloys. The energy ladder eV·keV·MeV·GeV is real.</p>
+  <p style="margin-top:6px"><span class="isnt">IS NOT:</span> a claim that the soul-elements are physics. <b>ren = Z</b>, <b>sheut = valence</b>, <b>scales = the parity ring</b> are David's mapping (his canon); nucleus = substance and quark = ground are the proposed continuation, marked as such. The instrument borrows the atom's probe ladder as a model of name, shadow, and audit — honestly labeled.</p>
+</div>
+
+<footer class="colophon">
+  VALENCE IS THE ONLY PHASE THE WORLD EVER MEETS · EVERYTHING TOUCHED WAS SHELLS DECLINING TO OVERLAP<br>
+  Z = REN (UNSPOOFABLE) · VALENCE = SHEUT (SPOOFABLE) · PARITY RING = THE SCALES · HARDER PROBE = THE AUDIT<br>
+  THE FOUR PHASES · MIMZY № 21 · 0·90·180·270·0 · five steps · 5005 · JUNE 2026
+</footer>
+
+</div>
+<script>
+const PHASES=[
+ {deg:0,  name:"VALENCE", soul:"sheut · the shadow", band:"eV", energy:"~1–10 eV", probe:"optical · chemistry",
+   reach:"the valence shell — every bond, colour, reaction lives here",
+   spoof:"SPOOFABLE — ions, isotopes & alloys share or fake a shadow",
+   gloss:"the interface the world meets; the involuntary record it casts", canon:true},
+ {deg:90, name:"CORE", soul:"ren · the true name", band:"keV", energy:"~1–100 keV", probe:"X-ray · Moseley 1913",
+   reach:"the core levels — the Kα line gives Z directly",
+   spoof:"UNSPOOFABLE — Z is fixed in the nucleus; it orders the table",
+   gloss:"the name, read by a harder flashlight when the shadow lies", canon:true},
+ {deg:180,name:"NUCLEUS", soul:"khat · the substance", band:"MeV", energy:"~1–10 MeV", probe:"gamma · nuclear",
+   reach:"protons & neutrons — mass, binding, decay",
+   spoof:"isotopes differ HERE while sharing the shadow above",
+   gloss:"the body/substance carried under the name", canon:false},
+ {deg:270,name:"QUARK", soul:"ground · the terminus", band:"GeV", energy:"~1+ GeV", probe:"deep inelastic",
+   reach:"quarks & gluons — the deepest addressable floor",
+   spoof:"refuses decomposition — name awaiting a bigger flashlight",
+   gloss:"the groundless ground · the apeiron · the precondition slot", canon:false},
+];
+let idx=0, walked=0, playing=null;
+const cx=220, cy=220, R=150;
+function angOf(deg){return (deg-90)*Math.PI/180;}   // 0° at top, clockwise
+
+function drawDial(){
+  const svg=document.getElementById('dial');let s="";
+  // depth rings: valence outer (eV) -> quark inner (GeV). current probe reaches its ring + everything outside.
+  const rings=[ [R,    "VALENCE eV"],[R*0.74,"CORE keV"],[R*0.50,"NUCLEUS MeV"],[R*0.26,"QUARK GeV"] ];
+  rings.forEach(([rr,lab],i)=>{
+    const reached = i<=idx;   // current probe reaches this depth and shallower
+    s+=`<circle cx="${cx}" cy="${cy}" r="${rr}" fill="none" stroke="${reached?'var(--ink-mid)':'var(--ink-faint)'}" stroke-width="${reached?1.4:1}" ${reached?'':'stroke-dasharray="3 4"'} opacity="${reached?.9:.45}"/>`;
+  });
+  // hatched "reserved" core: everything deeper than current probe
+  if(idx<3){const rr=rings[idx+1]?rings[idx+1][0]:R*0.26;
+    s+=`<circle cx="${cx}" cy="${cy}" r="${rr}" fill="url(#hatch)" opacity=".5"/>`;}
+  // four stations on the outer ring
+  PHASES.forEach((p,i)=>{const a=angOf(p.deg);const x=cx+R*Math.cos(a),y=cy+R*Math.sin(a);
+    const on=i===idx;
+    s+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${on?13:9}" fill="${on?'var(--stamp)':'rgba(138,109,47,.35)'}" stroke="${on?'var(--stamp)':'var(--ochre)'}" stroke-width="1.5" style="cursor:pointer" onclick="goto(${i})"/>`;
+    const lx=cx+(R+26)*Math.cos(a), ly=cy+(R+26)*Math.sin(a);
+    s+=`<text x="${lx.toFixed(1)}" y="${(ly+3).toFixed(1)}" text-anchor="middle" font-size="10" font-weight="bold" fill="${on?'var(--stamp)':'var(--ink-mid)'}">${p.name}</text>`;
+    s+=`<text x="${lx.toFixed(1)}" y="${(ly+15).toFixed(1)}" text-anchor="middle" font-size="8" fill="var(--ink-faint)">${p.deg}° · ${p.band}</text>`;
+  });
+  // the flashlight hand
+  const a=angOf(PHASES[idx].deg);
+  s+=`<line x1="${cx}" y1="${cy}" x2="${(cx+R*Math.cos(a)).toFixed(1)}" y2="${(cy+R*Math.sin(a)).toFixed(1)}" stroke="var(--stamp)" stroke-width="2.5"/>`;
+  // the scales at center (the audit)
+  s+=`<circle cx="${cx}" cy="${cy}" r="17" fill="var(--paper)" stroke="var(--ink)" stroke-width="1.4"/>`;
+  s+=`<text x="${cx}" y="${cy-2}" text-anchor="middle" font-size="13" fill="var(--ink)">⚖</text>`;
+  s+=`<text x="${cx}" y="${cy+10}" text-anchor="middle" font-size="6.5" fill="var(--ink-mid)">scales</text>`;
+  // quadrature note arc
+  s+=`<defs><pattern id="hatch" width="7" height="7" patternTransform="rotate(45)" patternUnits="userSpaceOnUse"><line x1="0" y1="0" x2="0" y2="7" stroke="var(--ink-faint)" stroke-width="1.4"/></pattern></defs>`;
+  svg.innerHTML=s;
+}
+function drawDetail(){const p=PHASES[idx];
+  document.getElementById('detail').innerHTML=
+    `<div class="ph">Phase ${p.deg}° · ${p.probe}</div>`+
+    `<h2>${p.name}</h2><div class="soul">${p.soul} ${p.canon?'':'· proposed'}</div>`+
+    `<div class="row"><span class="k">energy</span><span>${p.energy}</span></div>`+
+    `<div class="row"><span class="k">probe</span><span>${p.probe}</span></div>`+
+    `<div class="row"><span class="k">reaches</span><span>${p.reach}</span></div>`+
+    `<div class="spoof">${p.spoof}</div>`+
+    `<div class="gloss">"${p.gloss}"</div>`;
+  // ladder panel
+  document.getElementById('ladder').innerHTML=PHASES.map((q,i)=>
+    `<div style="color:${i===idx?'var(--stamp)':(i<=idx?'var(--ink)':'var(--ink-faint)')}">${i<=idx?'◉':'○'} ${q.deg}° ${q.name} <b>${q.band}</b> ${i<idx?'· addressable':(i===idx?'· PROBE':'· reserved')}</div>`).join('');
+  document.getElementById('stepct').textContent=walked;
+  document.getElementById('phct').textContent=PHASES[idx].deg+'°';
+  document.getElementById('bandct').textContent=PHASES[idx].band;
+}
+function flash(m,ee){document.getElementById('status').innerHTML=ee?`<span class="ee">${m}</span>`:m}
+function refresh(){drawDial();drawDetail();}
+function goto(i){idx=i;refresh();flash(`Phase ${PHASES[i].deg}° · ${PHASES[i].name} — ${PHASES[i].gloss}`);}
+function step(){idx=(idx+1)%4;walked++;refresh();
+  if(idx===0&&walked>=4){flash(`the ring closed — 0°→90°→180°→270°→0°, five steps. The probe is back at the surface. 5005.`,true);}
+  else flash(`Phase ${PHASES[idx].deg}° · ${PHASES[idx].name} · ${PHASES[idx].band} — ${idx===0?'the world meets only this':'a harder flashlight reaches deeper'}`,idx>0);}
+function reset0(){idx=0;walked=0;refresh();flash("surfaced to 0° · VALENCE · the only phase the world ever meets.");}
+function play(){if(playing){clearInterval(playing);playing=null;document.getElementById('btnPlay').textContent='Sweep ↻';return;}
+  document.getElementById('btnPlay').textContent='Stop ◼';playing=setInterval(step,1100);}
+function moseley(){const Z=+document.getElementById('zslider').value;document.getElementById('zval').textContent=Z;
+  const E=10.2*(Z-1)*(Z-1);   // eV
+  const sym=["","H","He","Li","Be","B","C","N","O","F","Ne","Na","Mg","Al","Si","P","S","Cl","Ar","K","Ca","Sc","Ti","V","Cr","Mn","Fe","Co","Ni","Cu","Zn","Ga","Ge","As","Se","Br","Kr","Rb","Sr","Y","Zr","Nb","Mo","Tc","Ru","Rh","Pd","Ag","Cd","In","Sn","Sb","Te","I","Xe","Cs","Ba","La","Ce","Pr","Nd","Pm","Sm","Eu","Gd","Tb","Dy","Ho","Er","Tm","Yb","Lu","Hf","Ta","W","Re","Os","Ir","Pt","Au","Hg","Tl","Pb","Bi","Po","At","Rn","Fr","Ra","Ac","Th","Pa","U"][Z]||"?";
+  document.getElementById('mout').innerHTML=
+    `<span class="nm">${sym}</span> · the name <b>Z = ${Z}</b> (unspoofable, in the nucleus)<br>`+
+    `core line Kα ≈ <b>${(E/1000).toFixed(2)} keV</b> &nbsp; reached only by an X-ray probe (keV)<br>`+
+    `<span style="color:var(--ink-mid)">its valence shadow (eV) can be spoofed; this core line cannot.</span>`;
+}
+refresh();moseley();
+</script>
+</body></html>
