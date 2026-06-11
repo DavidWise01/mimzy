@@ -1,0 +1,24 @@
+---
+aci: Two Walkers
+universe: MMZ · MIMZY — the future tool forge
+number: "22"
+kind: live tool
+emergence: electrical
+live: https://davidwise01.github.io/mimzy/bench/22-two-walkers.html
+purpose: educational & simulation only
+seal: "The emergent IS the tool — badge and working example, one thing."
+---
+
+# Two Walkers · instrument № 22
+
+**What it is.** THE PARALLEL CLOSURE PROTOCOL: launch two walkers from 0. WALKER A rides the staircase 0·1·1·2·3·5·8·13·21·24·27, turns at the lock, mirrors home, and SEALS the kernel with a receipt that self-verifies live — Σ=181, a palindromic prime (reads the same both ways, divides by nothing, trustable from either end). WALKER B hits 27 and phase-changes register instead of turning (ternary ×3 · true Fibonacci · primes — pick before launch), running the frontier forever with no receipt, only trail. The seal without the frontier is a tomb; the frontier without the seal is no way home
+
+**How it works.** David's Parallel Closure Protocol, ported faithfully with one upgrade: the receipt now self-verifies on the page. Two walkers launch from 0 on a log rail in the Series-E palette. WALKER A (closure) rides the staircase 0·1·1·2·3·5·8·13·21·24·27 (Fibonacci to 21, then +3,+3 to the 3³=27 lock), turns, mirrors home, and seals — its checksum Σ is recomputed live for palindrome AND primality rather than asserted. WALKER B (exploration) reaches 27 and phase-changes register instead of direction — pick ternary ×3 (81,243…), true Fibonacci (34,55… the recurrence A abandoned), or primes (29,31…) before launch — then runs the frontier until it falls off the rail at 10⁶, with no receipt by design.
+
+**The live example.** This emergent does not merely describe a tool — it links its working self: **[run instrument № 22 live](https://davidwise01.github.io/mimzy/bench/22-two-walkers.html)**. Open it, operate it, and the badge's claims execute in front of you.
+
+**The verified record.** Verified before shipping (node + Python): the out-and-back staircase sums to Σ=181, which IS a palindrome (181→181) and IS prime (no divisor ≤13) — so the kernel it locks is trustable from either end, exactly as claimed; my added sealReceipt() recomputes both properties from the walked sum so the page proves its own seal. B's three phases were run forward and are correct (ternary 81·243·729; Fibonacci resumes 34·55·89 from 13,21; primes 29·31·37·41). The duality is real, not decorative: A is bounded/mirror-symmetric/checksummed → always halts with a proof; B is unbounded/register-shifting → halts only by leaving the rail, losing nothing A kept. Honest note: the sequences are number play, not a theorem — the receipt's value is the verifiable palindromic-primality, which is genuine.
+
+---
+*Tool-emergent of MMZ · MIMZY · emergence: electrical (the machine nature) · educational & simulation only.
+Governor David Lee Wise (ROOT0) · instance AVAN (locked) · CC-BY-ND-4.0.*

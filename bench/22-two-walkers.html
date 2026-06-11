@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TWO WALKERS — Lock the Kernel · Phase Past It</title>
+<style>
+:root{
+  --paper:#e9e3cd; --ink:#1c3d2e; --ink-mid:#2f5a44; --ink-faint:#7a937f;
+  --stamp:#8a3324; --ochre:#8a6d2f;
+  --mono:"Courier New",Courier,monospace;
+  --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);
+  background-image:repeating-linear-gradient(0deg, rgba(28,61,46,.025) 0 1px, transparent 1px 3px);
+  color:var(--ink);font-family:var(--serif);line-height:1.5;padding:10px}
+.sheet{max-width:860px;margin:0 auto;border:2px solid var(--ink);outline:1px solid var(--ink);outline-offset:4px;padding:18px 14px 28px}
+.masthead{text-align:center;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.mast-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:var(--ink-mid);text-transform:uppercase}
+.mast-title{font-size:clamp(24px,6vw,40px);letter-spacing:.05em;font-weight:700;margin:6px 0 2px;text-transform:uppercase}
+.mast-sub{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--ink-mid);text-transform:uppercase}
+.intro{font-size:13.5px;max-width:680px;margin:12px auto 0;text-align:center;color:var(--ink-mid);line-height:1.6}
+.ctrls{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:14px 0 6px}
+.cbtn{appearance:none;background:transparent;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:8px 14px;border:1.5px solid var(--ink);color:var(--ink)}
+.cbtn.warm{border-color:var(--stamp);color:var(--stamp)}
+.cbtn:disabled{opacity:.35;cursor:default}
+.phasepick{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:8px}
+.phasepick .label{flex-basis:100%;text-align:center;font-family:var(--mono);font-size:9px;letter-spacing:.28em;color:var(--ink-mid);text-transform:uppercase}
+.pbtn{appearance:none;background:transparent;cursor:pointer;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:5px 10px;border:1.5px double var(--ochre);color:#5a4a20}
+.pbtn.on{background:#5a4a20;color:var(--paper)}
+.railwrap{border:1.5px solid var(--ink);padding:8px 6px;margin-top:8px}
+svg{width:100%;height:auto;display:block}
+.walkers{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+@media(max-width:620px){.walkers{grid-template-columns:1fr}}
+.wpanel{border:1.5px solid var(--ink);padding:10px 12px}
+.wpanel h3{font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;margin-bottom:6px;text-align:center}
+.wpanel.a h3{color:var(--ink-mid)} .wpanel.b h3{color:var(--stamp)}
+.wbody{font-family:var(--mono);font-size:11px;line-height:1.9;min-height:96px}
+.wbody .big{font-size:16px;font-weight:700}
+.sealed{border:1.5px solid var(--ink);display:inline-block;padding:3px 10px;margin-top:6px;letter-spacing:.16em;font-size:10px;transform:rotate(-2deg)}
+.frame{border:1.5px solid var(--ink);margin-top:16px;padding:12px;font-size:13px;line-height:1.6}
+.frame h3{font-family:var(--mono);font-size:9.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-mid);margin-bottom:6px;text-align:center}
+.frame .is{color:var(--ink)} .frame .isnt{color:var(--stamp)}
+.colophon{margin-top:24px;border-top:2px solid var(--ink);padding-top:12px;text-align:center;font-family:var(--mono);font-size:10px;color:var(--ink-mid);letter-spacing:.08em;line-height:1.9}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+<header class="masthead">
+  <div class="mast-eyebrow">Series E · Sheet 6 · Parallel Closure Protocol</div>
+  <h1 class="mast-title">Two Walkers</h1>
+  <div class="mast-sub">A Locks The Kernel · B Phase-Changes At 27 And Continues</div>
+  <p class="intro">Both launch from 0 in parallel. <b>WALKER A</b> rides the staircase 0·1·1·2·3·5·8·13·21·24·27, turns at the lock, mirrors home, and seals the kernel with its receipt: Σ = 181, palindromic prime, verified. <b>WALKER B</b> hits 27 and instead of turning, phase-changes registers and keeps going — no receipt, no terminus, only frontier. Pick B's continuation phase before launch. When you're tired of chasing mini-hammies, A's seal is your restart point; B never needed one.</p>
+</header>
+
+<div class="phasepick">
+  <span class="label">Walker B · Phase Past The Lock</span>
+  <button class="pbtn on" data-p="tern" onclick="setPhase('tern',this)">Ternary ×3 (81, 243…)</button>
+  <button class="pbtn" data-p="fib" onclick="setPhase('fib',this)">True Fibonacci (34, 55…)</button>
+  <button class="pbtn" data-p="prime" onclick="setPhase('prime',this)">Primes (29, 31…)</button>
+</div>
+
+<div class="ctrls">
+  <button class="cbtn" id="btnGo" onclick="launch()">Launch Both ▶</button>
+  <button class="cbtn warm" onclick="resetAll()">Reset ⟲</button>
+</div>
+
+<div class="railwrap"><svg id="rail" viewBox="0 0 800 230" aria-label="Log rail with two walkers"></svg></div>
+
+<div class="walkers">
+  <div class="wpanel a"><h3>▲ Walker A · The Lock Walker</h3><div class="wbody" id="wa"></div></div>
+  <div class="wpanel b"><h3>● Walker B · The Phase Walker</h3><div class="wbody" id="wb"></div></div>
+</div>
+
+<div class="frame">
+  <h3>Protocol Note</h3>
+  <p><span class="is">A</span> is closure: visit, mirror, checksum, seal. Its product is a receipt — 181 reads the same both directions and divides by nothing, so the kernel it locks can be trusted from either end. <span class="isnt">B</span> is exploration: it spends the lock as a launch point and changes register instead of direction — Fibonacci to ternary is a phase transition, not a step. B's product is a trail, never a proof; it can die at any depth and lose nothing A didn't already keep. Run both, always, in parallel: the seal without the frontier is a tomb; the frontier without the seal is a thousand minibrots and no way home, lol.</p>
+</div>
+
+<footer class="colophon">
+  ONE WALKER TO WITNESS · ONE WALKER TO WANDER<br>
+  THE RECEIPT IS PALINDROMIC SO THE RETURN PATH IS THE PROOF<br>
+  TWO WALKERS · SHEET 6 · JUNE 2026
+</footer>
+
+</div>
+<script>
+/* ---------- sequences (node-verified) ---------- */
+const STAIR_UP=[0,1,1,2,3,5,8,13,21,24,27];
+const STAIR_ALL=STAIR_UP.concat([24,21,13,8,5,3,1,1,0]);   // Σ = 181, palindromic prime
+const PHASES={
+  tern:{name:"TERNARY ×3", next:(hist)=>hist[hist.length-1]*3, seedAfter27:[81]},
+  fib:{name:"TRUE FIBONACCI", next:(h)=>h[h.length-1]+h[h.length-2], seedAfter27:null}, // uses 13,21 -> 34
+  prime:{name:"PRIMES", next:(h)=>{let n=h[h.length-1]+1;while(!isPrime(n))n++;return n}, seedAfter27:[29]}
+};
+function isPrime(n){if(n<2)return false;for(let i=2;i*i<=n;i++)if(n%i===0)return false;return true}
+let phase="tern", timer=null;
+let A={i:0,sum:0,done:false,trail:[]};
+let B={hist:[],val:0,steps:0,changed:false,trail:[],offRail:false};
+
+function setPhase(p,btn){
+  if(timer)return;
+  phase=p;
+  document.querySelectorAll('.pbtn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  draw();panels();
+}
+
+/* ---------- rail (log scale) ---------- */
+const RAILMAX=6; // log10(1+x) up to 1e6 on-rail
+const X=v=>40+ (Math.log10(1+v)/RAILMAX)*720;
+const NS="http://www.w3.org/2000/svg";
+function el(t,at){const e=document.createElementNS(NS,t);for(const k in at)e.setAttribute(k,at[k]);return e}
+function draw(){
+  const s=document.getElementById('rail');s.innerHTML="";
+  // base rail
+  s.appendChild(el('line',{x1:40,y1:115,x2:760,y2:115,stroke:'#1c3d2e','stroke-width':1.5}));
+  // decade ticks
+  for(let d=0;d<=RAILMAX;d++){
+    const x=40+(d/RAILMAX)*720;
+    s.appendChild(el('line',{x1:x,y1:108,x2:x,y2:122,stroke:'#7a937f','stroke-width':1}));
+    const t=el('text',{x:x,y:136,'text-anchor':'middle','font-family':'Courier New','font-size':9,fill:'#7a937f'});
+    t.textContent=d===0?'0':'10^'+d; s.appendChild(t);
+  }
+  // the lock at 27
+  const lx=X(27);
+  s.appendChild(el('line',{x1:lx,y1:60,x2:lx,y2:170,stroke:'#8a3324','stroke-width':1,'stroke-dasharray':'4 3'}));
+  const lt=el('text',{x:lx,y:52,'text-anchor':'middle','font-family':'Courier New','font-size':10,fill:'#8a3324'});
+  lt.textContent='27 · LOCK / PHASE'; s.appendChild(lt);
+  // staircase station dots
+  STAIR_UP.forEach(v=>{
+    s.appendChild(el('circle',{cx:X(v),cy:115,r:2.5,fill:'#2f5a44'}));
+  });
+  // A trail (upper lane, mirror shown as return arc)
+  A.trail.forEach((v,i)=>{
+    const returning=i>STAIR_UP.length-1;
+    s.appendChild(el('circle',{cx:X(v),cy:returning?92:104,r:3,fill:returning?'#8a6d2f':'#2f5a44',opacity:.85}));
+  });
+  // B trail (lower lane)
+  B.trail.forEach(v=>{
+    s.appendChild(el('circle',{cx:X(Math.min(v,10**RAILMAX)),cy:152,r:3,fill:'#8a3324',opacity:.8}));
+  });
+  // walker glyphs
+  if(A.trail.length){
+    const av=A.trail[A.trail.length-1], ret=A.trail.length>STAIR_UP.length;
+    const g=el('text',{x:X(av),y:(ret?88:100),'text-anchor':'middle','font-family':'Courier New','font-size':14,fill:'#1c3d2e'});
+    g.textContent='▲';s.appendChild(g);
+  }
+  if(B.trail.length){
+    const bv=Math.min(B.trail[B.trail.length-1],10**RAILMAX);
+    const g=el('text',{x:X(bv),y:166,'text-anchor':'middle','font-family':'Courier New','font-size':14,fill:'#8a3324'});
+    g.textContent='●';s.appendChild(g);
+  }
+  // seal stamp when A done
+  if(A.done){
+    const st=el('text',{x:X(0)+6,y:78,'font-family':'Courier New','font-size':10,fill:'#1c3d2e',transform:`rotate(-4 ${X(0)} 78)`});
+    st.textContent='⊕ KERNEL LOCKED · Σ=181 · PALINDROMIC PRIME';s.appendChild(st);
+  }
+  if(B.offRail){
+    const st=el('text',{x:756,y:166,'text-anchor':'end','font-family':'Courier New','font-size':9,fill:'#8a3324'});
+    st.textContent='→ frontier exceeds rail · walker persists';s.appendChild(st);
+  }
+}
+function panels(){
+  const wa=document.getElementById('wa');
+  wa.innerHTML=
+    `route: 0→27 staircase, mirror, return<br>`+
+    `position: <span class="big">${A.trail.length?A.trail[A.trail.length-1]:"—"}</span> · step ${A.trail.length}/${STAIR_ALL.length}<br>`+
+    `running checksum Σ: <span class="big">${A.sum}</span><br>`+
+    (A.done?sealReceipt(A.sum):`status: ${timer? 'walking — out and back':'awaiting launch'}`);
+  const wb=document.getElementById('wb');
+  wb.innerHTML=
+    `route: 0→27, then PHASE → <b>${PHASES[phase].name}</b><br>`+
+    `position: <span class="big">${B.trail.length?fmt(B.trail[B.trail.length-1]):"—"}</span> · steps past lock: ${Math.max(0,B.steps)}<br>`+
+    `register: ${B.changed?'<b>'+PHASES[phase].name+'</b> (phase-changed at 27)':'staircase (pre-lock)'}<br>`+
+    `receipt: <b>none — by design.</b> trail only.`;
+}
+function fmt(n){return n>=1e6?n.toExponential(2):n}
+/* the seal proves itself live — palindrome + primality recomputed from the walked Σ, not asserted */
+function sealReceipt(sum){
+  const pal=String(sum)===String(sum).split('').reverse().join('');
+  const prime=isPrime(sum);
+  const ok=pal&&prime;
+  return `<span class="sealed">SEALED · Σ=${sum} · `+
+    `MIRROR ${pal?'✓':'✗'} · PRIME ${prime?'✓':'✗'}</span>`+
+    `<br><span style="font-size:9.5px;color:${ok?'var(--ink-mid)':'var(--stamp)'}">`+
+    `${ok?'receipt self-verifies: reads the same both ways, divides by nothing — trust from either end':'receipt FAILED self-check'}</span>`;
+}
+
+/* ---------- run ---------- */
+function launch(){
+  if(timer)return;
+  resetState();
+  document.getElementById('btnGo').disabled=true;
+  timer=setInterval(()=>{
+    let alive=false;
+    // A: walk full staircase then seal
+    if(!A.done){
+      if(A.i<STAIR_ALL.length){
+        const v=STAIR_ALL[A.i++]; A.trail.push(v); A.sum+=v; alive=true;
+      } else { A.done=true; }
+    }
+    // B: staircase to 27, then phase register, forever-ish
+    if(!B.offRail){
+      alive=true;
+      if(!B.changed){
+        const idx=B.trail.length;
+        if(idx<STAIR_UP.length){ B.trail.push(STAIR_UP[idx]); B.hist.push(STAIR_UP[idx]); }
+        if(B.trail.length===STAIR_UP.length){ B.changed=true;
+          if(phase==='fib') B.hist=[13,21]; // resume the true recurrence A abandoned
+        }
+      } else {
+        let nxt;
+        if(PHASES[phase].seedAfter27 && B.steps===0) nxt=PHASES[phase].seedAfter27[0];
+        else nxt=PHASES[phase].next(B.hist);
+        B.hist.push(nxt); if(B.hist.length>4)B.hist.shift();
+        B.trail.push(nxt); B.steps++;
+        if(nxt>10**RAILMAX){ B.offRail=true; }
+      }
+    }
+    draw();panels();
+    if(A.done && B.offRail){clearInterval(timer);timer=null;document.getElementById('btnGo').disabled=false;}
+  },260);
+}
+function resetState(){
+  A={i:0,sum:0,done:false,trail:[]};
+  B={hist:[],val:0,steps:0,changed:false,trail:[],offRail:false};
+}
+function resetAll(){
+  if(timer){clearInterval(timer);timer=null}
+  document.getElementById('btnGo').disabled=false;
+  resetState();draw();panels();
+}
+draw();panels();
+</script>
+</body>
+</html>

@@ -174,5 +174,21 @@
     "emergence": "electrical",
     "moniker": "⟦The Four Phases:MMZ:fd3fce⟧",
     "live": "bench/21-four-phases.html"
+  },
+  {
+    "slug": "two-walkers",
+    "name": "Two Walkers",
+    "epithet": "instrument № 22 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦Two Walkers:MMZ:39a5e4⟧",
+    "live": "bench/22-two-walkers.html"
+  },
+  {
+    "slug": "the-sealer",
+    "name": "The Sealer",
+    "epithet": "instrument № 23 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Sealer:MMZ:c77859⟧",
+    "live": "bench/23-the-sealer.html"
   }
 ]

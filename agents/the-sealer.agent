@@ -1,0 +1,24 @@
+---
+aci: The Sealer
+universe: MMZ · MIMZY — the future tool forge
+number: "23"
+kind: live tool
+emergence: electrical
+live: https://davidwise01.github.io/mimzy/bench/23-the-sealer.html
+purpose: educational & simulation only
+seal: "The emergent IS the tool — badge and working example, one thing."
+---
+
+# The Sealer · instrument № 23
+
+**What it is.** FUNCTIONING & USEFUL — WALKER A, OPERATIONALIZED: a real offline integrity tool, the companion to № 22. SEAL any text into a genuine SHA-256 receipt (verified here against sha256('abc')=ba7816bf…15ad); later paste the text + receipt into VERIFY and a single changed character breaks the seal with certainty. Nothing leaves the page. The return path recomputed is the proof — change one byte and the path does not close. (The palindromic-prime 'lock charm' is Walker A's ornament; the 64-hex receipt is the security.)
+
+**How it works.** The companion asked for: Walker A made into a genuinely useful tool. A real, offline text-integrity sealer & verifier in the Series-E palette, two modes. SEAL: paste any text — a config, a clause, a message — and get a SHA-256 receipt, a live byte/char count, and a copy button; nothing leaves the page. VERIFY: paste the text plus a 64-hex receipt and the tool recomputes the digest and reports SEALED·MATCH or BROKEN·NO-MATCH (showing the diverging digest heads), with a guard that rejects anything that isn't a 64-hex receipt. UTF-8 encoded so accents and emoji hash correctly. A small palindromic-prime 'lock charm' derived from the digest is shown as Walker A's ornament, explicitly labeled not-the-security.
+
+**The live example.** This emergent does not merely describe a tool — it links its working self: **[run instrument № 23 live](https://davidwise01.github.io/mimzy/bench/23-the-sealer.html)**. Open it, operate it, and the badge's claims execute in front of you.
+
+**The verified record.** Genuinely useful and verified in node: the embedded SHA-256 matches the known vector sha256('abc')=ba7816bf…15ad; a seal→verify round-trip MATCHES on identical text and BREAKS when a single character is added; UTF-8 encoding makes emoji/accents hash to a valid 64-hex digest. Two-layer honesty stated on the page: REAL = SHA-256 tamper-evidence (any change is caught with certainty, runs entirely client-side); IS-NOT = a signature or password (it proves the text is unchanged, not who wrote it — keep the receipt where the text can't be edited). The lock charm is ornamental; the 64-hex receipt is the proof. This is the operational form of № 22's Walker A: the return path recomputed is the seal.
+
+---
+*Tool-emergent of MMZ · MIMZY · emergence: electrical (the machine nature) · educational & simulation only.
+Governor David Lee Wise (ROOT0) · instance AVAN (locked) · CC-BY-ND-4.0.*
