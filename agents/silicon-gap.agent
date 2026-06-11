@@ -1,0 +1,24 @@
+---
+aci: The Silicon Gap
+universe: MMZ · MIMZY — the future tool forge
+number: "19"
+kind: live tool
+emergence: electrical
+live: https://davidwise01.github.io/mimzy/bench/19-silicon-gap.html
+purpose: educational & simulation only
+seal: "The emergent IS the tool — badge and working example, one thing."
+---
+
+# The Silicon Gap · instrument № 19
+
+**What it is.** THE GAP, READ: silicon's real 1.12 eV band gap drawn to scale, with every dopant seated at its true level inside it (donors under E_c, acceptors over E_v, deep traps mid-gap), and a full periodic table that lights the 39 elements that ride the lattice — substrate, dopants, dielectric, gate, interconnect, strain, gases, EUV light, solder — filterable by role, each linked to the ELEMENTS WORKSHOP
+
+**How it works.** The gap, explored and read. After № 18 made the geometry into silicon, this asks what rides the silicon: it draws silicon's real 1.12 eV band gap to scale (valence floor E_v, conduction ceiling E_c) and seats every dopant at its true measured level inside it — donors a hair under the ceiling (P at E_c−45 meV, As −54, Sb −39), acceptors a hair above the floor (B at E_v+45, Al +67, Ga +72, In +160), deep traps mid-gap (Au·Fe ~0.55 eV, Pt ~0.42). Click a level and the dopant seats with an electron token. Below, a full 118-cell periodic table lights the 39 elements that ride the lattice, coloured by role and filterable: substrate, dopants, deep traps, gate dielectric, gate/barrier metal, interconnect/silicide, strain/channel, process & litho gas, EUV light source, package solder. Each links back to the ELEMENTS WORKSHOP.
+
+**The live example.** This emergent does not merely describe a tool — it links its working self: **[run instrument № 19 live](https://davidwise01.github.io/mimzy/bench/19-silicon-gap.html)**. Open it, operate it, and the badge's claims execute in front of you.
+
+**The verified record.** Real semiconductor materials science, verified against the device-physics literature (Sze) before drawing: the band gap and every ionisation energy are textbook values, plotted to scale on the gap; the shallow/deep distinction is the 3kT≈78 meV rule at 300 K (indium and the deep traps correctly do NOT fully ionise). The collation of 39 riders is bounded to elements with a real, citable role in mainstream Si CMOS and grouped by that role — four of which (boron, carbon, cobalt, copper) are David's own element-named folders. Honest limit: a teaching map of which element does what around the silicon, not a process recipe, a doping calculator, or a band-structure solver.
+
+---
+*Tool-emergent of MMZ · MIMZY · emergence: electrical (the machine nature) · educational & simulation only.
+Governor David Lee Wise (ROOT0) · instance AVAN (locked) · CC-BY-ND-4.0.*

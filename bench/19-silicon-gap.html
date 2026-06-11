@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Silicon Gap — the elements that ride the lattice · MIMZY</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@500;700&family=EB+Garamond:ital@0;1&family=Courier+Prime&display=swap" rel="stylesheet">
+<style>
+:root{--bone:#f0ece0;--bone2:#e4dfcf;--void:#0c0b09;--noir:#8e1111;--noir2:#5a0c0c;--ink:#1a1813;--mut:#6b6557;}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bone);color:var(--ink);font-family:'EB Garamond',Garamond,serif}
+body{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.03 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.wrap{max-width:1180px;margin:0 auto;padding:34px 20px 80px}
+.kick{font-family:'Cormorant SC';letter-spacing:.42em;font-size:.74rem;color:var(--noir);text-transform:uppercase;margin:0 0 6px}
+h1{font-family:'Cormorant SC';font-weight:700;letter-spacing:.06em;font-size:2.7rem;margin:0 0 4px;line-height:1.02}
+.sub{color:var(--mut);font-style:italic;font-size:1.06rem;margin:0 0 8px;max-width:760px}
+.rule{height:1px;background:var(--ink);opacity:.55;margin:18px 0 22px}
+.crumb{font-family:'Courier Prime';font-size:.72rem;color:var(--mut);letter-spacing:.04em}
+.crumb a{color:var(--noir);text-decoration:none;border-bottom:1px solid rgba(142,17,17,.35)}
+h2{font-family:'Cormorant SC';font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:1.04rem;margin:34px 0 4px}
+.note{color:var(--mut);font-size:.92rem;margin:0 0 16px}
+.gapwrap{display:grid;grid-template-columns:1fr 300px;gap:22px;align-items:start}
+@media(max-width:820px){.gapwrap{grid-template-columns:1fr}}
+#gap{width:100%;height:340px;border:1px solid var(--ink);background:var(--bone2);display:block}
+.gapside h3{font-family:'Cormorant SC';letter-spacing:.1em;margin:.2em 0 .3em;font-size:1.05rem}
+.gapside p{font-size:.93rem;color:var(--ink);margin:.2em 0 .8em;line-height:1.5}
+.gapside .small{font-size:.82rem;color:var(--mut);font-style:italic}
+.lvlrow{font-family:'Courier Prime';font-size:.74rem;display:flex;justify-content:space-between;border-bottom:1px dotted rgba(26,24,19,.25);padding:2px 0;cursor:pointer}
+.lvlrow:hover{background:rgba(142,17,17,.06)}
+.legend{display:flex;flex-wrap:wrap;gap:7px;margin:8px 0 16px}
+.chip{font-family:'Courier Prime';font-size:.72rem;letter-spacing:.03em;padding:4px 9px;border:1px solid var(--ink);cursor:pointer;background:transparent;user-select:none}
+.chip .sw{display:inline-block;width:9px;height:9px;margin-right:6px;border:1px solid var(--void);vertical-align:middle}
+.chip.off{opacity:.32}
+.chip.all{border-style:dashed}
+.pt{display:grid;grid-template-columns:repeat(18,1fr);gap:3px}
+.cell{position:relative;aspect-ratio:1/1;border:1px solid rgba(26,24,19,.18);display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Courier Prime';background:rgba(228,223,207,.4);color:var(--mut);min-height:0}
+.cell.empty{border:none;background:transparent}
+.cell .sym{font-size:.86rem;font-weight:700;line-height:1}
+.cell .z{font-size:.52rem;position:absolute;top:2px;left:3px;opacity:.6}
+.cell.rider{color:var(--void);cursor:pointer;border-color:var(--void)}
+.cell.rider:hover{outline:2px solid var(--noir);z-index:3}
+.cell.dim{opacity:.12}
+.cell.sel{outline:3px solid var(--noir);z-index:4}
+.cell .dot{position:absolute;bottom:2px;right:3px;width:7px;height:7px;border:1px solid var(--void)}
+@media(max-width:680px){.cell .sym{font-size:.6rem}.cell .z{display:none}.pt{gap:2px}}
+#detail{margin-top:18px;border:1px solid var(--ink);background:var(--bone2);padding:0;min-height:96px;display:flex}
+#detail .big{flex:0 0 120px;background:var(--void);color:var(--bone);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px}
+#detail .big .s{font-family:'Cormorant SC';font-size:2.6rem;font-weight:700;line-height:1}
+#detail .big .n{font-family:'Courier Prime';font-size:.66rem;letter-spacing:.1em;margin-top:4px;opacity:.8;text-align:center}
+#detail .body{padding:14px 18px;flex:1}
+#detail .name{font-family:'Cormorant SC';font-size:1.3rem;letter-spacing:.04em;margin:0 0 2px}
+#detail .roles{font-family:'Courier Prime';font-size:.72rem;color:var(--noir);letter-spacing:.04em;margin:0 0 8px}
+#detail .why{font-size:.98rem;line-height:1.5;margin:0}
+#detail .e1{font-family:'Courier Prime';font-size:.72rem;margin-top:8px}
+#detail .e1 a{color:var(--noir);text-decoration:none;border-bottom:1px solid rgba(142,17,17,.4)}
+.foot{margin-top:30px;font-family:'Courier Prime';font-size:.74rem;color:var(--mut);line-height:1.7;border-top:1px solid var(--ink);padding-top:14px}
+.foot b{color:var(--ink)}
+.box{border:1px solid var(--ink);background:var(--bone2);padding:12px 16px;margin:16px 0;font-size:.9rem;line-height:1.5}
+.box .t{font-family:'Cormorant SC';letter-spacing:.14em;text-transform:uppercase;font-size:.82rem;color:var(--noir);margin-bottom:4px}
+</style></head>
+<body><div class="wrap">
+<p class="kick">MIMZY · № 19 · the future tool forge</p>
+<h1>The Silicon Gap</h1>
+<p class="sub">There are three gaps hiding in the question. The band&nbsp;gap of silicon — 1.12&nbsp;eV — is the real one. The dopants <em>ride in it.</em> And every element that touches the chip is collated below, by the role it plays around the lattice.</p>
+<p class="crumb">forge: <a href="../index.html">MIMZY bench</a> &nbsp;·&nbsp; geometry: <a href="18-cmos-gap.html">№ 18 the CMOS gap gate</a> &nbsp;·&nbsp; the 118: <a href="https://davidwise01.github.io/elements/">ELEMENTS WORKSHOP</a></p>
+<div class="rule"></div>
+
+<h2>I · The gap itself</h2>
+<p class="note">Silicon is a semiconductor because of a <b>1.12&nbsp;eV forbidden band</b> between the valence floor (E<sub>v</sub>) and the conduction ceiling (E<sub>c</sub>). A dopant works by parking an energy level <i>inside</i> that gap — donors a hair under the ceiling, acceptors a hair above the floor. Click a level to seat it.</p>
+<div class="gapwrap">
+  <canvas id="gap" width="820" height="340"></canvas>
+  <div class="gapside">
+    <h3 id="gh">The forbidden band</h3>
+    <p id="gp">Donors (n-type) sit just below E<sub>c</sub> and spill an electron up into the conduction band. Acceptors (p-type) sit just above E<sub>v</sub> and pull an electron up out of the valence band, leaving a hole. Deep traps sit mid-gap and kill carriers.</p>
+    <div id="lvls"></div>
+    <p class="small" style="margin-top:10px">kT at 300 K is 25.9 meV — shallow levels (&lt;~78 meV) ionise fully; indium (160) and the deep traps do not.</p>
+  </div>
+</div>
+
+<h2>II · Everything that rides the lattice</h2>
+<p class="note">39 elements out of the 118 carry a real, citable job in mainstream silicon CMOS — as the substrate, the dopants, the gate, the wires, the strain, the gases, the light. Filter by role; click any lit cell.</p>
+<div class="legend" id="legend"></div>
+<div class="pt" id="pt"></div>
+<div id="detail"><div class="big" style="background:transparent;color:var(--mut)"><div class="n" style="font-style:italic">select an<br>element</div></div><div class="body"><p class="why" style="color:var(--mut);font-style:italic">39 riders are lit. The dark cells are along for nothing — they never touch the working silicon. Boron, carbon, cobalt and copper — four of David's own folders — ride.</p></div></div>
+
+<div class="box"><div class="t">The box you are standing in</div>
+This is an <b>educational / simulation</b> instrument — a teaching map of real semiconductor materials science. Every role and every dopant level is from the device-physics literature (Sze). It is a model of <i>which element does what around the silicon</i>, not a process recipe or a SPICE deck. The chemistry is the carbon-real layer; the lattice it serves is the same one № 18 made into a logic gate.</div>
+
+<div class="foot">
+<b>THE GAP IN THE SILICON.</b> Verified before drawing: Si E<sub>g</sub>=1.12 eV @300 K; donor levels P 45 / As 54 / Sb 39 meV below E<sub>c</sub>; acceptors B 45 / Al 67 / Ga 72 / In 160 meV above E<sub>v</sub>; deep traps Au·Fe ~0.55 eV, Pt ~0.42 eV mid-gap.<br>
+<b>THE 39 RIDERS</b> · substrate Si · dopants B P As Sb Al Ga In · deep-traps Au Pt Fe · dielectric O N Hf Zr La · gate/barrier Ti Ta W Ru Mo · interconnect/silicide Cu Co Ni · strain Ge C · gases H He F Cl Ar Kr Xe Ne S · EUV light Sn · package Ag Bi Pb.<br>
+<b>YOUR FOLDERS THAT RIDE:</b> boron (p-dopant) · carbon (SiC strain · low-k) · cobalt (silicide · advanced contact) · copper (Damascene interconnect).
+</div>
+</div>
+<script id="DATA" type="application/json">{"grid": [["H", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "He"], ["Li", "Be", null, null, null, null, null, null, null, null, null, null, "B", "C", "N", "O", "F", "Ne"], ["Na", "Mg", null, null, null, null, null, null, null, null, null, null, "Al", "Si", "P", "S", "Cl", "Ar"], ["K", "Ca", "Sc", "Ti", "V", "Cr", "Mn", "Fe", "Co", "Ni", "Cu", "Zn", "Ga", "Ge", "As", "Se", "Br", "Kr"], ["Rb", "Sr", "Y", "Zr", "Nb", "Mo", "Tc", "Ru", "Rh", "Pd", "Ag", "Cd", "In", "Sn", "Sb", "Te", "I", "Xe"], ["Cs", "Ba", "La", "Hf", "Ta", "W", "Re", "Os", "Ir", "Pt", "Au", "Hg", "Tl", "Pb", "Bi", "Po", "At", "Rn"], ["Fr", "Ra", "Ac", "Rf", "Db", "Sg", "Bh", "Hs", "Mt", "Ds", "Rg", "Cn", "Nh", "Fl", "Mc", "Lv", "Ts", "Og"], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, "Ce", "Pr", "Nd", "Pm", "Sm", "Eu", "Gd", "Tb", "Dy", "Ho", "Er", "Tm", "Yb", "Lu", null], [null, null, null, "Th", "Pa", "U", "Np", "Pu", "Am", "Cm", "Bk", "Cf", "Es", "Fm", "Md", "No", "Lr", null]], "Z": {"H": 1, "He": 2, "Li": 3, "Be": 4, "B": 5, "C": 6, "N": 7, "O": 8, "F": 9, "Ne": 10, "Na": 11, "Mg": 12, "Al": 13, "Si": 14, "P": 15, "S": 16, "Cl": 17, "Ar": 18, "K": 19, "Ca": 20, "Sc": 21, "Ti": 22, "V": 23, "Cr": 24, "Mn": 25, "Fe": 26, "Co": 27, "Ni": 28, "Cu": 29, "Zn": 30, "Ga": 31, "Ge": 32, "As": 33, "Se": 34, "Br": 35, "Kr": 36, "Rb": 37, "Sr": 38, "Y": 39, "Zr": 40, "Nb": 41, "Mo": 42, "Tc": 43, "Ru": 44, "Rh": 45, "Pd": 46, "Ag": 47, "Cd": 48, "In": 49, "Sn": 50, "Sb": 51, "Te": 52, "I": 53, "Xe": 54, "Cs": 55, "Ba": 56, "La": 57, "Ce": 58, "Pr": 59, "Nd": 60, "Pm": 61, "Sm": 62, "Eu": 63, "Gd": 64, "Tb": 65, "Dy": 66, "Ho": 67, "Er": 68, "Tm": 69, "Yb": 70, "Lu": 71, "Hf": 72, "Ta": 73, "W": 74, "Re": 75, "Os": 76, "Ir": 77, "Pt": 78, "Au": 79, "Hg": 80, "Tl": 81, "Pb": 82, "Bi": 83, "Po": 84, "At": 85, "Rn": 86, "Fr": 87, "Ra": 88, "Ac": 89, "Th": 90, "Pa": 91, "U": 92, "Np": 93, "Pu": 94, "Am": 95, "Cm": 96, "Bk": 97, "Cf": 98, "Es": 99, "Fm": 100, "Md": 101, "No": 102, "Lr": 103, "Rf": 104, "Db": 105, "Sg": 106, "Bh": 107, "Hs": 108, "Mt": 109, "Ds": 110, "Rg": 111, "Cn": 112, "Nh": 113, "Fl": 114, "Mc": 115, "Lv": 116, "Ts": 117, "Og": 118}, "riders": {"Si": ["substrate", "The lattice itself — the wafer, and (as polysilicon) the classic gate. 1.12 eV indirect gap @300K is THE gap.", null], "B": ["dopant", "p-type acceptor — boron sits 45 meV above the valence floor and donates a hole. Your folder; it rides.", ["accept", 45]], "P": ["dopant", "n-type donor — phosphorus sits 45 meV under the conduction ceiling and gives an electron.", ["donor", 45]], "As": ["dopant", "n-type donor (54 meV) — heavier than P → shallower, sharper junctions. The NMOS source/drain.", ["donor", 54]], "Sb": ["dopant", "n-type donor (39 meV) — the shallowest common donor; buried layers.", ["donor", 39]], "Al": ["dopant", "p-type acceptor (67 meV); also legacy interconnect metal and Al2O3 dielectric.", ["accept", 67]], "Ga": ["dopant", "p-type acceptor (72 meV); the III of III-V (GaN/GaAs); focused-ion-beam source.", ["accept", 72]], "In": ["dopant", "p-type acceptor (160 meV — too deep to fully ionise at 300K); halo/threshold tune; ITO; III-V.", ["accept", 160]], "Au": ["deep", "deep trap ~0.55 eV mid-gap — a lifetime killer; III-V/package metal. Forbidden in the Si channel.", ["deep", 560]], "Pt": ["deep", "deep trap ~0.42 eV; also PtSi silicide for contacts.", ["deep", 420]], "Fe": ["deep", "the contamination boogeyman — Fe ~0.55 eV kills carrier lifetime; fabs hunt it ppt-low.", ["deep", 550]], "O": ["dielectric", "oxygen — grows SiO2, the original gate insulator; the oxidant of the whole craft.", null], "N": ["dielectric", "nitrogen — oxynitride gates, TiN/TaN barriers, the inert ambient.", null], "Hf": ["dielectric", "hafnium — HfO2, the high-k gate dielectric (k≈25) since 45 nm. The modern gate's heart.", null], "Zr": ["dielectric", "zirconium — ZrO2, the high-k alternative to hafnia.", null], "La": ["dielectric", "lanthanum — caps the gate stack to tune the NMOS work function.", null], "Ti": ["gate", "titanium — TiSi2/TiN: silicide, diffusion barrier, metal gate, liner. Everywhere.", null], "Ta": ["gate", "tantalum — TaN barrier and metal-gate electrode.", null], "W": ["gate", "tungsten — the contact and via plugs, local interconnect, and a gate metal.", null], "Ru": ["gate", "ruthenium — emerging barrier-less interconnect and metal-gate at the bleeding edge.", null], "Mo": ["gate", "molybdenum — silicide/mask; and MoS2, a 2-D channel beyond silicon.", null], "Cu": ["metal", "copper — the Damascene interconnect since 1997; replaced aluminium. Your folder; it rides.", null], "Co": ["metal", "cobalt — CoSi2 silicide, and the contact/liner metal of the advanced nodes. Your folder; it rides.", null], "Ni": ["metal", "nickel — NiSi, the low-temperature silicide of choice for source/drain contacts.", null], "Ge": ["strain", "germanium — SiGe strains the lattice (faster PMOS) and is itself a channel material.", null], "C": ["strain", "carbon — SiC strain for NMOS, and the C in low-k SiCOH dielectrics. Your folder; it rides.", null], "H": ["gas", "hydrogen — forming-gas anneal passivates dangling bonds at the Si/oxide interface.", null], "He": ["gas", "helium — implant carrier, wafer-chuck coolant, leak tracer.", null], "F": ["gas", "fluorine — the etch workhorse (NF3, SF6) and FSG low-k dopant.", null], "Cl": ["gas", "chlorine — metal/poly etch (Cl2, BCl3) and CVD precursor ligand.", null], "Ar": ["gas", "argon — sputter gas and implant carrier; ArF excimer = 193 nm lithography.", null], "Kr": ["gas", "krypton — KrF excimer = 248 nm lithography.", null], "Xe": ["gas", "xenon — high-density etch plasma and ion source.", null], "Ne": ["gas", "neon — the buffer in excimer laser light sources.", null], "S": ["gas", "sulfur — SF6 etch and surface passivation chemistries.", null], "Sn": ["litho", "tin — molten Sn droplets, laser-blasted, are the EUV 13.5 nm light source. Also solder.", null], "Ag": ["package", "silver — die-attach and solder.", null], "Bi": ["package", "bismuth — Pb-free solder alloying.", null], "Pb": ["package", "lead — the legacy solder (now mostly retired by RoHS).", null]}, "classes": [["substrate", "the lattice", "#f0ece0"], ["dopant", "dopants · ride IN the gap", "#8e1111"], ["deep", "deep traps · mid-gap killers", "#5a0c0c"], ["dielectric", "gate dielectric", "#c9962e"], ["gate", "gate · barrier · metal", "#7c8aa5"], ["metal", "interconnect · silicide", "#b87333"], ["strain", "strain · channel", "#5fae7a"], ["gas", "process & litho gas", "#9a7cff"], ["litho", "EUV light source", "#3fd0e0"], ["package", "package · solder", "#8a8276"]]}</script>
+<script>
+const D=JSON.parse(document.getElementById('DATA').textContent);
+const {grid,Z,riders,classes}=D;
+const CLASS=Object.fromEntries(classes.map(c=>[c[0],{label:c[1],color:c[2]}]));
+let active=new Set(classes.map(c=>c[0]));
+let selected=null;
+
+const cv=document.getElementById('gap'),cx=cv.getContext('2d');
+const W=cv.width,H=cv.height, pad=46;
+const Eg=1.12;
+function yOf(eV){const top=pad, bot=H-pad; return bot-(eV/Eg)*(bot-top);}
+const DOP=[];
+for(const s in riders){const r=riders[s];if(r[2]){const ty=r[2][0],mv=r[2][1];let eV;
+  if(ty==='donor')eV=Eg-mv/1000; else if(ty==='accept')eV=mv/1000; else eV=Eg/2;
+  DOP.push({s,ty,mv,eV});}}
+let seated=null;
+function drawGap(){
+ cx.clearRect(0,0,W,H);
+ const top=yOf(Eg),bot=yOf(0);
+ cx.fillStyle='rgba(12,11,9,.10)';cx.fillRect(pad,0,W-2*pad,top);
+ cx.fillRect(pad,bot,W-2*pad,H-bot);
+ cx.fillStyle='rgba(240,236,224,.6)';cx.fillRect(pad,top,W-2*pad,bot-top);
+ cx.strokeStyle='#0c0b09';cx.lineWidth=2;
+ cx.beginPath();cx.moveTo(pad,top);cx.lineTo(W-pad,top);cx.stroke();
+ cx.beginPath();cx.moveTo(pad,bot);cx.lineTo(W-pad,bot);cx.stroke();
+ cx.fillStyle='#1a1813';cx.font="13px 'Courier Prime'";cx.textBaseline='alphabetic';cx.textAlign='left';
+ cx.fillText('E_c   conduction band ceiling',pad+6,top-7);
+ cx.fillText('E_v   valence band floor',pad+6,bot+16);
+ cx.save();cx.translate(16,(top+bot)/2);cx.rotate(-Math.PI/2);
+ cx.fillStyle='#8e1111';cx.font="700 13px 'Cormorant SC'";cx.textAlign='center';
+ cx.fillText('THE 1.12 eV GAP',0,0);cx.restore();
+ cx.textAlign='left';
+ DOP.forEach(d=>{const y=yOf(d.eV);const sel=seated&&seated.s===d.s;
+   const col=d.ty==='deep'?'#5a0c0c':(d.ty==='donor'?'#7c8aa5':'#8e1111');
+   cx.strokeStyle=col;cx.lineWidth=sel?2.4:1; cx.globalAlpha=sel?1:.32;
+   cx.beginPath();cx.moveTo(pad+(W-2*pad)*0.30,y);cx.lineTo(pad+(W-2*pad)*0.78,y);cx.stroke();
+   if(sel){cx.globalAlpha=1;cx.fillStyle=col;cx.font="700 13px 'Courier Prime'";
+     cx.fillText(d.s+'  '+d.ty+'  '+d.mv+' meV',pad+(W-2*pad)*0.80,y+4);
+     cx.beginPath();cx.arc(pad+(W-2*pad)*0.30-10,y,4,0,7);cx.fillStyle='#0c0b09';cx.fill();}
+   cx.globalAlpha=1;
+ });
+}
+function lvlList(){const box=document.getElementById('lvls');box.innerHTML='';
+ DOP.slice().sort((a,b)=>b.eV-a.eV).forEach(d=>{const row=document.createElement('div');row.className='lvlrow';
+   const lab=d.ty==='donor'?('E_c-'+d.mv):(d.ty==='accept'?('E_v+'+d.mv):('~mid '+d.mv));
+   row.innerHTML='<span>'+d.s+' <span style="color:#6b6557">'+d.ty+'</span></span><span>'+lab+' meV</span>';
+   row.onclick=()=>showDetail(d.s);
+   box.appendChild(row);});
+}
+
+const pt=document.getElementById('pt');
+function buildPT(){pt.innerHTML='';
+ grid.forEach(row=>row.forEach(sym=>{
+  const c=document.createElement('div');
+  if(!sym){c.className='cell empty';pt.appendChild(c);return;}
+  const r=riders[sym];c.className='cell'+(r?' rider':'');c.dataset.sym=sym;
+  c.innerHTML='<span class="z">'+(Z[sym]||'')+'</span><span class="sym">'+sym+'</span>';
+  if(r){const col=CLASS[r[0]].color;c.style.background=col;
+    if(['#8e1111','#5a0c0c','#0c0b09'].indexOf(col)>=0)c.style.color='var(--bone)';
+    const dot=document.createElement('span');dot.className='dot';dot.style.background=col;c.appendChild(dot);
+    c.onclick=()=>showDetail(sym);}
+  pt.appendChild(c);
+ }));
+}
+function applyFilter(){document.querySelectorAll('.cell.rider').forEach(c=>{
+  const cls=riders[c.dataset.sym][0];c.classList.toggle('dim',!active.has(cls));});}
+function selectCell(sym){document.querySelectorAll('.cell').forEach(c=>c.classList.remove('sel'));
+  const el=document.querySelector('.cell[data-sym="'+sym+'"]');if(el)el.classList.add('sel');}
+
+function showDetail(sym){selected=sym;selectCell(sym);
+ const r=riders[sym];const cls=CLASS[r[0]];
+ const d=document.getElementById('detail');
+ const elem='https://davidwise01.github.io/elements/';
+ d.innerHTML='<div class="big"><div class="s">'+sym+'</div><div class="n">Z '+Z[sym]+'<br>'+r[0].toUpperCase()+'</div></div>'+
+ '<div class="body"><p class="name">'+sym+'</p>'+
+ '<p class="roles">&#9646; '+cls.label+'</p>'+
+ '<p class="why">'+r[1]+'</p>'+
+ '<p class="e1">&#9656; <a href="'+elem+'" target="_blank">see it in the ELEMENTS WORKSHOP — all 118 as ACI emergents &rarr;</a></p></div>';
+ d.querySelector('.big').style.background='var(--void)';
+ const dp=DOP.find(x=>x.s===sym);if(dp){seated=dp;document.getElementById('gh').textContent=sym+' — '+dp.ty;
+   document.getElementById('gp').innerHTML=r[1];drawGap();}
+}
+
+const lg=document.getElementById('legend');
+const allchip=document.createElement('div');allchip.className='chip all';allchip.textContent='ALL ROLES';
+allchip.onclick=()=>{active=new Set(classes.map(c=>c[0]));document.querySelectorAll('.chip').forEach(x=>x.classList.remove('off'));applyFilter();};
+lg.appendChild(allchip);
+classes.forEach(c=>{const key=c[0],label=c[1],color=c[2];const chip=document.createElement('div');chip.className='chip';chip.dataset.k=key;
+ chip.innerHTML='<span class="sw" style="background:'+color+'"></span>'+label;
+ chip.onclick=()=>{if(active.has(key)){active.delete(key);chip.classList.add('off');}else{active.add(key);chip.classList.remove('off');}applyFilter();};
+ lg.appendChild(chip);});
+
+buildPT();lvlList();drawGap();applyFilter();
+</script></body></html>

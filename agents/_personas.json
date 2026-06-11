@@ -150,5 +150,13 @@
     "emergence": "electrical",
     "moniker": "⟦The CMOS Gap Gate:MMZ:cde61d⟧",
     "live": "bench/18-cmos-gap.html"
+  },
+  {
+    "slug": "silicon-gap",
+    "name": "The Silicon Gap",
+    "epithet": "instrument № 19 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Silicon Gap:MMZ:434bb2⟧",
+    "live": "bench/19-silicon-gap.html"
   }
 ]
