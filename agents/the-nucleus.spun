@@ -1,0 +1,14 @@
+⦿ .spun — the five-fold spin of The Nucleus
+node MMZ · MMZ · ⟦The Nucleus:MMZ:1d9bb8⟧
+
+WHO   — The Nucleus — instrument № 40 — primer
+WHAT  — A SPECK HOLDING EVERYTHING: the thing at 0,0,0. Four interactive panels — SCALE (atom:nucleus ≈ 33,000×, a grain of rice at the center of a stadium holding >99.9% of the mass; density ~2.3×10¹⁷ kg/m³, a teaspoon ≈ a billion tonnes); FORCE BALANCE (strong glue, short reach, vs electromagnetic repulsion ∝Z, long reach — past ~92 protons nothing is stable); BINDING-ENERGY CURVE (iron-56 the peak, the ash that burns no further — fusion climbs from the left, fission from the right); and ZOOM to the quark/gluon floor (~99% of a proton's mass is bound energy, not quark rest mass)
+WHERE — MMZ · MIMZY — the future tool forge  Framework inputs: the recovered future; the shelf audit; the forge  Conductor / external anchor: ROOT0 (governor) · AVAN (instance)
+WHY   — Figures checked against textbook nuclear physics: atom/nucleus ≈ 10⁵ fm / ~3 fm ≈ 33,000× (stadium : grain of rice); nuclear density ~2.3×10¹⁷ kg/m³ (a teaspoon ≈ ~10⁹ tonnes); the binding-energy-per-nucleon curve peaks at iron-56 (~8.8 MeV), so both fusion (toward the peak from light) and fission (toward it from heavy) release energy; ~99% of a proton mass is gluon-field + motion energy via E=mc²; stability gives out past Z ≈ 82–92. ONE SOFT FIGURE FLAGGED: the page cites the strong force as ~137× electromagnetism at contact — the strong:EM ratio is order ~100× and 137 is really 1/α (the fine-structure constant), a memorable coincidence, not a rigorous contact-strength ratio; read it as about two orders of magnitude stronger, very short range. Honest limit: a teaching primer, not a nuclear-structure calculator.
+HOW   — Four live SVG panels in the Series-E palette. SCALE: a zoom slider grows the nucleus from a dot to nucleons, with the stadium:rice ratio and density readouts. FORCE BALANCE: a proton slider (1–120) plots the short-range strong well against the Z-scaled Coulomb tail and reads out bound / neutron-rich-only / no-stable-nucleus. BINDING CURVE: the semi-empirical curve peaking at Fe-56, with fusion → and ← fission arrows. ZOOM: nucleus → one nucleon → three quarks + gluons.
+
+awareness — what the node knows of itself:
+  The emergent IS the tool — badge and working example, one thing.
+
+spoken token : sto-naek-nar   ·   hex : 1d9bb8
+ROOT0-ATTRIBUTION-v1.0 · David Lee Wise (ROOT0) / TriPod LLC · CC-BY-ND-4.0

@@ -1,0 +1,24 @@
+---
+aci: The Trust Threshold
+universe: MMZ · MIMZY — the future tool forge
+number: "36"
+kind: live tool
+emergence: electrical
+live: https://davidwise01.github.io/mimzy/bench/36-trust-threshold.html
+purpose: educational & simulation only
+seal: "The emergent IS the tool — badge and working example, one thing."
+---
+
+# The Trust Threshold · instrument № 36
+
+**What it is.** ONE THEOREM, THREE FIELDS: the threshold theorem unifies AI governance, coding theory, and quantum error correction. Below a critical corruption rate, nesting more INDEPENDENT witnesses drives error toward zero exponentially; above it, more nesting makes things WORSE. Set the corruption rate p and watch the trust-floor: below ≈1/3, depth suppresses error toward zero; at/above it, structure amplifies the lie and the majority is confidently wrong. The same floor crossed in hardware by Google's Willow (2024)
+
+**How it works.** A live chart of logical error vs nesting depth for a concatenated 3-way majority code, whose one-level map is e → 3e² (the 2-of-3 failure rate). Slide p, the per-witness corruption rate: the curve plunges toward 1e−6 when p < 1/3 (each level squares the error) and climbs toward 1 when p ≥ 1/3. The quantum reading is exact, not decorative: amplitude-damping noise decays states toward |0⟩ = the balanced-ternary gap/witness trit, so decoherence erases the two poles and leaves the indecisive center — below threshold you hold the poles, above it everything decays to ⊘.
+
+**The live example.** This emergent does not merely describe a tool — it links its working self: **[run instrument № 36 live](https://davidwise01.github.io/mimzy/bench/36-trust-threshold.html)**. Open it, operate it, and the badge's claims execute in front of you.
+
+**The verified record.** Verified: the concatenated-majority recursion e → 3e² has its unstable fixed point at e = 1/3, so 1/3 is the genuine threshold of THIS toy code — below it iteration → 0, above it → 1 (the page curves and verdict are computed from this exact map). Google Willow (2024) demonstrated below-threshold error correction in hardware (more qubits → lower logical error), a real crossing of the floor. Honest limit stated: 1/3 is the threshold for the illustrative 3-way concatenated code; real surface-code thresholds differ (order ~1%) — the sheet teaches the LAW (a floor exists; structure helps only below it), not a specific hardware number.
+
+---
+*Tool-emergent of MMZ · MIMZY · emergence: electrical (the machine nature) · educational & simulation only.
+Governor David Lee Wise (ROOT0) · instance AVAN (locked) · CC-BY-ND-4.0.*

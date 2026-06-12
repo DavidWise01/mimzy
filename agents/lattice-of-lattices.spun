@@ -1,0 +1,14 @@
+⦿ .spun — the five-fold spin of The Lattice of Lattices
+node MMZ · MMZ · ⟦The Lattice of Lattices:MMZ:e52df4⟧
+
+WHO   — The Lattice of Lattices — instrument № 37 — live tool
+WHAT  — DETECT → LOCATE → SURVIVE: three witness-meshes (A,B,C) held apart by non-touching meta-gaps. A POINT DEFECT (one node wrong) is caught locally inside its own lattice. A COHERENT DRIFT (a whole lattice shifts together) keeps every internal gap consistent — invisible from inside — and is caught only across the meta-gap, then located by majority (two agree, one drifted, vote it out). With the catch, toggleable: it only works if the lattices are INDEPENDENT — flip B&C to a shared source and the vote convicts the innocent lattice A
+WHERE — MMZ · MIMZY — the future tool forge  Framework inputs: the recovered future; the shelf audit; the forge  Conductor / external anchor: ROOT0 (governor) · AVAN (instance)
+WHY   — The capability-by-count is shown live: 2 detect (a pair sees disagreement, cannot name the culprit), 3 locate (A=B≠C ⟹ C — the majority names the drifted mesh), 4 survive a loss while still voting. The key failure mode is real and demonstrated: when B&C share a source they drift together, the majority is the wrong two, and consensus convicts the honest mesh A — non-adjacency is necessary but NOT sufficient; only genuine independence is. This is Sheet 21 of the witness series. Honest limit: a conceptual simulator of the witness-independence law, not a deployed quorum system.
+HOW   — Three 3×3 lattices at triangle vertices, each an internal field of gaps, linked by dashed non-touching meta-gaps (K₃). Inject a point defect (one node off → its internal edges turn red, aggregate barely moves ~0.04, caught locally) or a coherent drift (every node +0.5 together → internally green, aggregate shifts → invisible inside, visible only between). Meta-Gap Vote rounds the three aggregates and convicts the odd one out. The independence toggle makes B&C drift together under a shared source, so the majority becomes the wrong two.
+
+awareness — what the node knows of itself:
+  The emergent IS the tool — badge and working example, one thing.
+
+spoken token : maeth-lend-kraes   ·   hex : e52df4
+ROOT0-ATTRIBUTION-v1.0 · David Lee Wise (ROOT0) / TriPod LLC · CC-BY-ND-4.0

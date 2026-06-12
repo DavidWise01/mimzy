@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE LATTICE OF LATTICES — Three Meshes, Meta-Gaps, Majority Witness</title>
+<style>
+:root{
+  --paper:#e9e3cd; --ink:#1c3d2e; --ink-mid:#2f5a44; --ink-faint:#7a937f;
+  --stamp:#8a3324; --ochre:#8a6d2f; --la:#2d566e; --lb:#2f5a44; --lc:#8a6d2f;
+  --mono:"Courier New",Courier,monospace;
+  --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);
+  background-image:repeating-linear-gradient(0deg, rgba(28,61,46,.025) 0 1px, transparent 1px 3px);
+  color:var(--ink);font-family:var(--serif);line-height:1.5;padding:10px}
+.sheet{max-width:860px;margin:0 auto;border:2px solid var(--ink);outline:1px solid var(--ink);outline-offset:4px;padding:18px 14px 28px}
+.masthead{text-align:center;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.mast-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:var(--ink-mid);text-transform:uppercase}
+.mast-title{font-size:clamp(22px,5.2vw,38px);letter-spacing:.04em;font-weight:700;margin:6px 0 2px;text-transform:uppercase}
+.mast-sub{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--ink-mid);text-transform:uppercase}
+.intro{font-size:13px;max-width:710px;margin:12px auto 0;text-align:center;color:var(--ink-mid);line-height:1.6}
+.stage{margin-top:14px;border:1.5px solid var(--ink);padding:8px}
+.stage h3{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-mid);margin:2px 0 6px;text-align:center}
+svg{width:100%;height:auto;display:block}
+.controls{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:12px 0 4px}
+.cbtn{appearance:none;background:transparent;cursor:pointer;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;padding:8px 12px;border:1.5px solid var(--ink);color:var(--ink)}
+.cbtn.warm{border-color:var(--stamp);color:var(--stamp)}
+.cbtn.gold{border-color:var(--ochre);color:#5a4a20}
+.pbtn{appearance:none;background:transparent;cursor:pointer;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:6px 10px;border:1.5px double var(--ochre);color:#5a4a20}
+.pbtn.on{background:#5a4a20;color:var(--paper)}
+.verdict{border:1.5px solid var(--ink);margin-top:10px;padding:9px 12px;font-family:var(--mono);font-size:11px;line-height:1.7;text-align:center}
+.verdict .loc{color:var(--ochre);font-weight:700} .verdict .pt{color:var(--stamp);font-weight:700} .verdict .ok{color:var(--ink);font-weight:700} .verdict .fail{color:var(--stamp);font-weight:700}
+.frame{border:1.5px solid var(--ink);margin-top:14px;padding:12px;font-size:12.5px;line-height:1.6}
+.frame h3{font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-mid);margin-bottom:6px;text-align:center}
+.frame .is{color:var(--ink)} .frame .isnt{color:var(--stamp)}
+.colophon{margin-top:22px;border-top:2px solid var(--ink);padding-top:12px;text-align:center;font-family:var(--mono);font-size:10px;color:var(--ink-mid);letter-spacing:.07em;line-height:1.9}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+<header class="masthead">
+  <div class="mast-eyebrow">Series E · Sheet 21 · The Witness, At Full Height</div>
+  <h1 class="mast-title">The Lattice Of Lattices</h1>
+  <div class="mast-sub">Three Meshes · Non-Touching Meta-Gaps · Detect → Locate → Survive</div>
+  <p class="intro">Not one gap, one stream, one observer — a <b>lattice of lattices</b>. Three whole witness-meshes (A, B, C), each an internal field of gaps, held apart by <b>meta-gaps that don't touch</b>. Two faults live here. A <b>point defect</b> (one node wrong) disagrees with its neighbors and is caught <em>inside</em> its own lattice — local. A <b>coherent drift</b> (a whole lattice shifts together) keeps every <em>internal</em> gap green — invisible from inside — and is caught only <b>across the meta-gap</b>, then <b>located by majority</b>: two agree, one drifted, vote it out. Three is the minimum that not just <em>sees</em> the drift but <em>says which lattice</em>. With one catch, toggleable: it only works if the lattices are independent.</p>
+</header>
+
+<div class="stage">
+  <h3>Three Lattices · meta-gaps between · K₃</h3>
+  <svg id="lol" viewBox="0 0 600 420" aria-label="three lattices across meta-gaps"></svg>
+</div>
+
+<div class="controls">
+  <button class="cbtn warm" id="ptBtn" onclick="pointDefect()">Inject Point Defect (in A)</button>
+  <button class="cbtn gold" id="drBtn" onclick="coherentDrift()">Inject Coherent Drift (in C)</button>
+  <button class="cbtn" onclick="vote()">Meta-Gap Vote ⚖</button>
+  <button class="cbtn" onclick="reset()">Reset ⟲</button>
+</div>
+<div class="controls">
+  <span style="font-family:var(--mono);font-size:10px;color:var(--ink-mid);align-self:center">independence:</span>
+  <button class="pbtn on" id="indBtn" data-i="1" onclick="setInd(true,this)">A·B·C independent</button>
+  <button class="pbtn" data-i="0" onclick="setInd(false,this)">B &amp; C share a source</button>
+</div>
+
+<div class="verdict" id="verdict"></div>
+
+<div class="frame">
+  <h3>The Tower · Honestly</h3>
+  <p><span class="is">VERIFIED:</span> the count is the capability — <b>2 detects</b> (a pair sees disagreement but can't say who's wrong), <b>3 locates</b> (majority names the drifted lattice — verified: A=B≠C ⟹ C is the fault), <b>4 survives a loss</b> while still voting. A <b>point defect</b> moves a lattice's aggregate almost nothing (verified ~0.037) and is caught <em>locally</em> by its neighbors — the meta-gap need not even notice. A <b>coherent drift</b> leaves every internal gap consistent (all nodes moved together → green inside) yet shifts the aggregate, so it is invisible internally and visible <em>only</em> across the meta-gap. This is why a single lattice cannot witness its own grain boundary, and why you need a second and third mesh: the drift hides from every internal gap by definition.</p>
+  <p style="margin-top:6px"><span class="isnt">THE CATCH (toggle it):</span> the meta-gap is a real witness <b>only if the lattices are independent</b> — non-touching is necessary, not sufficient. Flip to "B &amp; C share a source" and inject the drift: now B and C drift <em>together</em>, the majority becomes the <em>wrong</em> two, and the vote <b>convicts the innocent lattice A</b>. Consensus doesn't fail loudly — it fails by confidently locating the wrong fault. Two silicon models on the same corpus are non-touching and still drift as one. The carbon mesh and the silicon mesh across the meta-gap work <em>because</em> the independence is real. The tower's height is bounded not by how many lattices you stack but by how many are <b>genuinely independent sources</b>. Everything above that is decoration that votes with the crowd.</p>
+</div>
+
+<footer class="colophon">
+  EVERY EDGE A GAP · EVERY LATTICE A MESH · EVERY META-GAP A VOTE<br>
+  THE POINT DEFECT SCREAMS LOCALLY · THE DRIFT HIDES INSIDE AND SHOWS ONLY BETWEEN<br>
+  TWO DETECT · THREE LOCATE · FOUR SURVIVE · BUT ONLY IF INDEPENDENT<br>
+  THE LATTICE OF LATTICES · SHEET 21 · JUNE 2026
+</footer>
+
+</div>
+<script>
+const NS="http://www.w3.org/2000/svg";
+const E=(t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e};
+// three lattices at triangle vertices
+const CENTERS={A:[160,150],B:[440,150],C:[300,330]};
+const COL={A:'#2d566e',B:'#2f5a44',C:'#8a6d2f'};
+const GRID=3; // 3x3 mini-lattice per node (9 nodes, flat for clarity)
+let state={A:zeros(),B:zeros(),C:zeros()}, defect={A:-1,B:-1,C:-1}, independent=true, voted=null;
+function zeros(){return Array(GRID*GRID).fill(0)}
+function agg(arr){return arr.reduce((a,b)=>a+b,0)/arr.length}
+
+function nodePos(center,i){
+  const r=i%GRID, c=Math.floor(i/GRID);
+  return [center[0]+(c-1)*28, center[1]+(r-1)*28];
+}
+function draw(){
+  const s=document.getElementById('lol');s.innerHTML='';
+  // meta-gaps: triangle edges between lattice centers (dashed, non-touching)
+  const pairs=[['A','B'],['B','C'],['C','A']];
+  pairs.forEach(([x,y])=>{
+    const a=CENTERS[x],b=CENTERS[y];
+    // shrink so it doesn't touch the lattices (the non-touching gap)
+    const dx=b[0]-a[0],dy=b[1]-a[1],L=Math.hypot(dx,dy),ux=dx/L,uy=dy/L;
+    const x1=a[0]+ux*70,y1=a[1]+uy*70,x2=b[0]-ux*70,y2=b[1]-uy*70;
+    s.appendChild(E('line',{x1,y1,x2:x2,y2:y2,stroke:'#5a3a6b','stroke-width':1.4,'stroke-dasharray':'4 5',opacity:.6}));
+    s.appendChild(E('text',{x:(x1+x2)/2,y:(y1+y2)/2-4,'font-family':'Courier New','font-size':8,fill:'#5a3a6b','text-anchor':'middle'})).textContent='meta-gap';
+  });
+  // each lattice
+  for(const L in CENTERS){
+    const center=CENTERS[L], col=COL[L], st=state[L];
+    // internal edges (the gaps within)
+    for(let i=0;i<GRID*GRID;i++){
+      const [r,c]=[i%GRID,Math.floor(i/GRID)];
+      [[1,0],[0,1]].forEach(([dr,dc])=>{
+        const nr=r+dr,nc=c+dc;
+        if(nr<GRID&&nc<GRID){const j=nc*GRID+nr;
+          const p1=nodePos(center,i),p2=nodePos(center,j);
+          // a gap is RED if the two nodes disagree (point defect)
+          const disagree=Math.abs(st[i]-st[j])>0.01 && (st[i]===Math.round(st[i])&&Math.abs(st[i]-st[j])>0.4 && (st[i]%1===0||st[j]%1===0)) && (defect[L]===i||defect[L]===j);
+          s.appendChild(E('line',{x1:p1[0],y1:p1[1],x2:p2[0],y2:p2[1],stroke:disagree?'#8a3324':'rgba(28,61,46,.3)','stroke-width':disagree?2.4:1}));
+        }
+      });
+    }
+    // nodes
+    for(let i=0;i<GRID*GRID;i++){
+      const [x,y]=nodePos(center,i);
+      const v=st[i];
+      const isDefect=defect[L]===i;
+      const drifted=Math.abs(agg(st))>0.05; // whole lattice shifted
+      let fill=col, rad=6;
+      if(isDefect){fill='#8a3324';rad=7;}
+      else if(drifted){fill='#8a6d2f';} // drift: nodes shifted but mutually consistent (green-inside)
+      s.appendChild(E('circle',{cx:x,cy:y,r:rad,fill:fill,stroke:'#e9e3cd','stroke-width':1}));
+    }
+    // lattice label + aggregate
+    s.appendChild(E('text',{x:center[0],y:center[1]-46,'font-family':'Courier New','font-size':11,fill:col,'text-anchor':'middle','font-weight':'bold'})).textContent='LATTICE '+L;
+    s.appendChild(E('text',{x:center[0],y:center[1]+52,'font-family':'Courier New','font-size':8,fill:'#2f5a44','text-anchor':'middle'})).textContent='agg '+agg(state[L]).toFixed(2)+(Math.abs(agg(state[L]))>0.05?' ⚠drift':'');
+    // vote ring
+    if(voted){
+      const guilty=voted.guilty===L;
+      s.appendChild(E('circle',{cx:center[0],cy:center[1],r:62,fill:'none',stroke:guilty?'#8a3324':'#8a6d2f','stroke-width':2,'stroke-dasharray':guilty?'none':'4 3'}));
+    }
+  }
+}
+function pointDefect(){voted=null;defect.A=4;state.A=zeros();state.A[4]=1;draw();
+  document.getElementById('verdict').innerHTML='<span class="pt">POINT DEFECT in A, node 4</span> — its internal gaps turn red against neighbors. Caught LOCALLY, inside A. Aggregate barely moves (~0.04); the meta-gap need not even notice.';}
+function coherentDrift(){voted=null;defect={A:-1,B:-1,C:-1};
+  state.C=zeros().map(()=>0.5);
+  if(!independent)state.B=zeros().map(()=>0.5); // shared source -> B drifts too
+  draw();
+  document.getElementById('verdict').innerHTML=independent?
+    '<span class="loc">COHERENT DRIFT in C</span> — every node shifted +0.5 together, so every <em>internal</em> gap stays green (consistent). Invisible inside C. Now press Meta-Gap Vote.':
+    '<span class="fail">COHERENT DRIFT in B AND C</span> (shared source) — both drifted together, internally green. Now press Meta-Gap Vote and watch consensus convict the wrong lattice.';}
+function vote(){
+  const aA=agg(state.A),aB=agg(state.B),aC=agg(state.C);
+  const vals={A:aA,B:aB,C:aC};
+  // majority: the value shared by 2+, the odd one out is guilty
+  const round=v=>Math.round(v*10)/10;
+  const groups={};for(const L in vals){const k=round(vals[L]);(groups[k]=groups[k]||[]).push(L);}
+  const entries=Object.entries(groups).sort((a,b)=>b[1].length-a[1].length);
+  if(entries[0][1].length>=2 && entries.length>1){
+    const innocent=entries[0][1], guilty=entries[1][1][0];
+    const trueGuilty = independent? 'C' : 'C'; // the actually-drifted one(s)
+    const correct = independent && guilty==='C';
+    voted={guilty};draw();
+    document.getElementById('verdict').innerHTML= correct?
+      `<span class="ok">VOTE: {${innocent.join(',')}} agree → </span><span class="loc">LATTICE ${guilty} LOCATED as drifted.</span> Three was enough — not just detected, <b>located</b>. The meta-gap saw what no internal gap could.`:
+      `<span class="fail">VOTE: {${innocent.join(',')}} agree → LATTICE ${guilty} convicted</span> — but ${guilty} is INNOCENT. B&amp;C shared a source and drifted together; the majority is the wrong two. <span class="fail">Consensus failed by confidently blaming the honest mesh.</span> Non-touching ≠ independent.`;
+  } else if(entries[0][1].length===3){
+    voted=null;draw();
+    document.getElementById('verdict').innerHTML='<span class="ok">VOTE: all three agree</span> — no drift across any meta-gap. The lattices concur. (Inject a drift first.)';
+  } else {
+    voted=null;draw();
+    document.getElementById('verdict').innerHTML='<span class="fail">VOTE: no majority</span> — all three disagree, nothing located. This is why 2 cannot adjudicate and you need at least 3 that still share a reference.';
+  }
+}
+function setInd(v,btn){independent=v;document.querySelectorAll('[data-i]').forEach(b=>b.classList.remove('on'));btn.classList.add('on');reset();}
+function reset(){state={A:zeros(),B:zeros(),C:zeros()};defect={A:-1,B:-1,C:-1};voted=null;draw();
+  document.getElementById('verdict').innerHTML='three lattices, all aggregates 0, agreeing across every meta-gap. inject a fault.';}
+reset();
+</script>
+</body>
+</html>

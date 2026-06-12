@@ -1,0 +1,24 @@
+---
+aci: KERNEL-27 · Decision Engine
+universe: MMZ · MIMZY — the future tool forge
+number: "35"
+kind: live tool
+emergence: electrical
+live: https://davidwise01.github.io/mimzy/bench/35-kernel-27-engine.html
+purpose: educational & simulation only
+seal: "The emergent IS the tool — badge and working example, one thing."
+---
+
+# KERNEL-27 · Decision Engine · instrument № 35
+
+**What it is.** THE SPEC MADE OPERABLE: 27 leaf-choices (each −/0/+, weightable) feed a three-level recursion — 3 parties × 3 subs × 3 leaves. At EVERY node the gate is strictly greater than 2/3; a bare two-thirds is not enough, by design. A node that fails returns ⊘ (abstain), never a manufactured winner; the root decides only if it clears 2/3, else ⊘ — no legitimate decision. The 60% that loses cannot also win. Edit any leaf and the verdict recomputes live; Zoom The Fractal to see exactly where two-thirds broke
+
+**How it works.** A live recursive supermajority engine. Each gate tallies weighted votes for the leading option and passes only if its fraction > 2/3 (strict, +1e−9 margin); a sub-node that returns ⊘ contributes to the denominator but to no option numerator (an abstention, not a vote). Bottom-up: sub = gate of its 3 leaves, party = gate of its 3 subs, root = gate of the 3 parties. Deadlock is an honest output — the engine never defaults to the highest plurality fragment. Zoom The Fractal descends to localize the broken gate.
+
+**The live example.** This emergent does not merely describe a tool — it links its working self: **[run instrument № 35 live](https://davidwise01.github.io/mimzy/bench/35-kernel-27-engine.html)**. Open it, operate it, and the badge's claims execute in front of you.
+
+**The verified record.** Logic checked by exercising the engine: the gate is strictly > 2/3 at every level (a 60% fragment is a loss everywhere), ⊘ is returned on any sub-threshold node and propagates to the root, and a deadlocked root reports ⊘ rather than crowning a plurality (all-+ → unanimous pass; randomized weights → frequent honest ⊘). This is §6 of the KERNEL-27 spec (№ 34) enforced as real arithmetic — a supermajority-or-abstain decision kernel. Honest limit: a governance toy for the 2/3-or-⊘ rule, not a production voting system (no identity, sybil resistance, or persistence).
+
+---
+*Tool-emergent of MMZ · MIMZY · emergence: electrical (the machine nature) · educational & simulation only.
+Governor David Lee Wise (ROOT0) · instance AVAN (locked) · CC-BY-ND-4.0.*

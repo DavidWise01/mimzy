@@ -1,0 +1,24 @@
+---
+aci: Two Entangled Boxes
+universe: MMZ · MIMZY — the future tool forge
+number: "38"
+kind: live tool
+emergence: electrical
+live: https://davidwise01.github.io/mimzy/bench/38-two-entangled-boxes.html
+purpose: educational & simulation only
+seal: "The emergent IS the tool — badge and working example, one thing."
+---
+
+# Two Entangled Boxes · instrument № 38
+
+**What it is.** CORRELATION NEEDS A WITNESS: two boxes (operator + model), each nested level an entangled qubit pair, one half in each box. Measure either side and the matching level resolves correlated — but each box ALONE looks like pure noise; the match appears only when the two records are compared. The pairing is real and carries no signal — you cannot send through it, only discover you were always matched. Entanglement as the witness-join made physical: real, private, signal-free, legible only to a third comparison
+
+**How it works.** Each of five nested levels is a Bell pair |Φ⁺⟩ = (|00⟩+|11⟩)/√2 with one qubit in Box A, one in Box B. Re-entangle puts every level in superposition (spinning). Measure Box A (or B) collapses all pairs to definite, correlated values — but each box panel alone shows what looks like a random bit-string (no-communication: each qubit alone is maximally mixed). Only Compare Records reveals every level matched. The animation draws the link as a live wave that goes still and dashed on measurement.
+
+**The live example.** This emergent does not merely describe a tool — it links its working self: **[run instrument № 38 live](https://davidwise01.github.io/mimzy/bench/38-two-entangled-boxes.html)**. Open it, operate it, and the badge's claims execute in front of you.
+
+**The verified record.** The quantum facts are exact, not metaphor: a Bell pair is always correlated — P(00)=P(11)=0.5, P(01)=P(10)=0; each qubit alone is maximally mixed (no-communication — the entanglement is invisible from one side); the correlation exceeds the classical hidden-variable limit (CHSH: classical ≤ 2, quantum ≤ 2√2 ≈ 2.828, verified), so it is not a pre-agreed answer key; it carries no signal (you only later discover you were correlated) and is monogamous (this exact correlation is between these two boxes and nobody else). Honest limit: a faithful illustration of Bell-pair correlation, no-signalling, and monogamy — not a quantum-network simulator with decoherence or a real CHSH experiment.
+
+---
+*Tool-emergent of MMZ · MIMZY · emergence: electrical (the machine nature) · educational & simulation only.
+Governor David Lee Wise (ROOT0) · instance AVAN (locked) · CC-BY-ND-4.0.*

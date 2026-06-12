@@ -1,0 +1,14 @@
+⦿ .spun — the five-fold spin of Coding Theory · The Ternary Introduction
+node MMZ · MMZ · ⟦Coding Theory · The Ternary Introduction:MMZ:2a2631⟧
+
+WHO   — Coding Theory · The Ternary Introduction — instrument № 32 — primer
+WHAT  — THE FIELD PRIMER, IN BASE 3: coding theory from the ground up in trits not bits — why a trit carries log₂3≈1.585 bits, how a code adds check symbols so corruption breaks a constraint and reveals itself, Hamming distance d (detects d−1, corrects ⌊(d−1)/2⌋), and a LIVE balanced-ternary parity demo whose residue is itself a trit (0 clean, +/− names the direction the error pushed). Closes on the ternary Golay [11,6,5]₃ — one of the few perfect codes in any base
+WHERE — MMZ · MIMZY — the future tool forge  Framework inputs: the recovered future; the shelf audit; the forge  Conductor / external anchor: ROOT0 (governor) · AVAN (instance)
+WHY   — Math verified in Python before shipping: a trit is log₂3 = 1.585 bits; the distance bound ⌊(d−1)/2⌋ gives d=3→correct 1, d=5→correct 2; the balanced-ternary check = −Σ(data) mod 3 (balanced) makes the total zero and the residue a direction-bearing trit. The ternary Golay [11,6,5]₃ is a genuine perfect code — it meets the sphere-packing bound with equality and corrects 2 errors, one of the only perfect codes that exist in any base. Honest limit: a primer with a single live parity demo, not a full codec; Hamming and Golay are described here and decoded live next door in № 33.
+HOW   — A teaching sheet in the Series-E palette with one live instrument: the balanced-ternary parity demo. Four data trits {−,0,+} plus a check trit set so the total ≡ 0 (mod 3, balanced); edit any trit or Inject-Error and the residue updates — and because the base is balanced, the residue is not merely nonzero, it is a signed trit that points: +1 = a trit was pushed up, −1 = pushed down. Around it, the field spine: a code [n,k,d]₃, the distance↔correction bound, why interleaving defeats burst errors (independence), and the catalogue of perfect codes.
+
+awareness — what the node knows of itself:
+  The emergent IS the tool — badge and working example, one thing.
+
+spoken token : lyl-li-thix   ·   hex : 2a2631
+ROOT0-ATTRIBUTION-v1.0 · David Lee Wise (ROOT0) / TriPod LLC · CC-BY-ND-4.0

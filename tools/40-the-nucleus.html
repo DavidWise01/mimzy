@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE NUCLEUS — What It Is, Does, Relates To, Contains</title>
+<style>
+:root{
+  --paper:#e9e3cd; --ink:#1c3d2e; --ink-mid:#2f5a44; --ink-faint:#7a937f;
+  --stamp:#8a3324; --ochre:#8a6d2f; --blue:#2d566e; --purp:#5a3a6b;
+  --mono:"Courier New",Courier,monospace;
+  --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);
+  background-image:repeating-linear-gradient(0deg, rgba(28,61,46,.025) 0 1px, transparent 1px 3px);
+  color:var(--ink);font-family:var(--serif);line-height:1.5;padding:10px}
+.sheet{max-width:860px;margin:0 auto;border:2px solid var(--ink);outline:1px solid var(--ink);outline-offset:4px;padding:18px 14px 28px}
+.masthead{text-align:center;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.mast-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:var(--ink-mid);text-transform:uppercase}
+.mast-title{font-size:clamp(24px,6vw,42px);letter-spacing:.05em;font-weight:700;margin:6px 0 2px;text-transform:uppercase}
+.mast-sub{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--ink-mid);text-transform:uppercase}
+.intro{font-size:13.5px;max-width:700px;margin:12px auto 0;text-align:center;color:var(--ink-mid);line-height:1.6}
+h2.sec{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;border-bottom:1.5px solid var(--ink);padding-bottom:4px;margin:24px 0 10px}
+.body p{font-size:14px;margin-bottom:10px}
+.body b{color:var(--ink)}
+.panel{border:1.5px solid var(--ink);padding:10px;margin:10px 0}
+.panel h3{font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-mid);margin-bottom:6px;text-align:center}
+svg{width:100%;height:auto;display:block}
+.readout{font-family:var(--mono);font-size:10.5px;line-height:1.7;text-align:center;margin-top:6px}
+.readout b{font-weight:700} .readout .g{color:var(--ochre);font-weight:700}
+.controls{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:8px}
+.pbtn{appearance:none;background:transparent;cursor:pointer;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:5px 9px;border:1.5px double var(--ochre);color:#5a4a20}
+.pbtn.on{background:#5a4a20;color:var(--paper)}
+.slider{display:flex;align-items:center;gap:8px;justify-content:center;font-family:var(--mono);font-size:10px;margin-top:6px;flex-wrap:wrap}
+input[type=range]{accent-color:#2f5a44;max-width:200px}
+.relgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+@media(max-width:600px){.relgrid{grid-template-columns:1fr}}
+.rel{border:1px solid var(--ink-faint);padding:7px 9px;font-size:12.5px}
+.rel b{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-mid);display:block;margin-bottom:2px}
+.colophon{margin-top:24px;border-top:2px solid var(--ink);padding-top:12px;text-align:center;font-family:var(--mono);font-size:10px;color:var(--ink-mid);letter-spacing:.07em;line-height:1.9}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+<header class="masthead">
+  <div class="mast-eyebrow">Series E · Sheet 18 · The Core You Hadn't Opened</div>
+  <h1 class="mast-title">The Nucleus</h1>
+  <div class="mast-sub">What It Is · What It Does · What It Relates To · What's Inside</div>
+  <p class="intro">You've ridden the electron shells, the gap, the dead center. This is the thing at 0,0,0 — the actual core. A speck ten-thousand times smaller than its atom, holding essentially all the mass, run by the strongest force in nature, and itself made of smaller things held by an even stranger one. Four questions, four panels.</p>
+</header>
+
+<!-- WHAT IS IT -->
+<section class="body">
+  <h2 class="sec">I · What It Is — a speck holding everything</h2>
+  <p>The nucleus is the tiny, dense, positively-charged knot at the center of every atom, made of <b>protons</b> and <b>neutrons</b> packed together. Almost nothing about it is intuitive from its size. If the whole atom were a <b>sports stadium</b>, the nucleus would be a <b>grain of rice at the center spot</b> — verified ratio ~33,000× — and the electrons would be a faint haze out in the stands. Yet that grain holds <b>over 99.9% of the atom's mass</b>. Its density is the part that breaks the mind: about <b>2.3×10¹⁷ kg/m³</b>, meaning a single teaspoon of pure nuclear matter would weigh <b>~a billion tonnes</b> — a mountain in a spoon. A neutron star is, essentially, a nucleus the size of a city.</p>
+
+  <div class="panel">
+    <h3>Scale · atom vs nucleus</h3>
+    <svg id="scaleSvg" viewBox="0 0 600 200" aria-label="atom to nucleus scale"></svg>
+    <div class="slider">zoom <input type="range" id="zoom" min="0" max="100" value="0" oninput="drawScale()"> <span id="zoomv">atom view</span></div>
+    <div class="readout" id="scaleRo"></div>
+  </div>
+</section>
+
+<!-- WHAT DOES IT DO -->
+<section class="body">
+  <h2 class="sec">II · What It Does — holds the line against its own repulsion</h2>
+  <p>The nucleus has a paradox to solve: protons are all positively charged, and like charges <b>repel</b> — fiercely, at these tiny distances. A nucleus of many protons should blow itself apart instantly by electromagnetic repulsion. It doesn't, because of the <b>strong nuclear force</b> — about <b>137× stronger</b> than electromagnetism at contact range, but with a catch: it only reaches <b>~1–3 femtometers</b>, barely past touching. So the nucleus is a constant tug-of-war: <b>strong force gluing neighbors together (short reach, very strong) vs. electromagnetic repulsion pushing all protons apart (long reach, weaker but relentless)</b>. Neutrons are the peacekeepers — they feel the strong glue but carry no charge, so they add binding without adding repulsion. That's why big nuclei need extra neutrons to survive, and why past a point (~92 protons, uranium) nothing is truly stable: the repulsion finally out-reaches the glue.</p>
+
+  <div class="panel">
+    <h3>Force Balance · glue vs repulsion</h3>
+    <svg id="forceSvg" viewBox="0 0 600 220" aria-label="strong force vs coulomb"></svg>
+    <div class="slider">protons <input type="range" id="protons" min="1" max="120" value="26" oninput="drawForce()"> <span id="protonsv">26 (iron)</span></div>
+    <div class="readout" id="forceRo"></div>
+  </div>
+</section>
+
+<!-- WHAT IT RELATES TO -->
+<section class="body">
+  <h2 class="sec">III · What It Relates To — the center of everything else</h2>
+  <div class="relgrid">
+    <div class="rel"><b>↔ the electrons</b>Its positive charge (proton count, Z) is the leash that holds the electron cloud. Z <em>is</em> the element — change it and you change what substance this is. The electrons never touch it; they orbit the field it makes.</div>
+    <div class="rel"><b>↔ chemistry</b>Almost none. Chemistry is electron business. The nucleus just sets the charge and stays sealed in its core — the reserved kernel from Sheet 5. Bonds never reach it.</div>
+    <div class="rel"><b>↔ energy</b>Everything. Fusion (joining light nuclei) powers stars; fission (splitting heavy ones) powers reactors and bombs. Both release the binding energy — the mass that goes missing when nucleons bind, E=mc².</div>
+    <div class="rel"><b>↔ identity &amp; time</b>The nucleus is the atom's true name (Z) and its clock (radioactive decay). An unstable nucleus is a timer; its half-life dates rocks, bones, and the universe.</div>
+  </div>
+
+  <div class="panel">
+    <h3>Binding Energy Curve · why fusion AND fission both release energy</h3>
+    <svg id="bindSvg" viewBox="0 0 600 220" aria-label="binding energy per nucleon"></svg>
+    <div class="readout" id="bindRo">the peak is iron-56 · climb toward it from either side releases energy · iron is the ash that burns no further</div>
+  </div>
+</section>
+
+<!-- WHAT'S INSIDE -->
+<section class="body">
+  <h2 class="sec">IV · What's Inside — turtles part of the way down</h2>
+  <p>Zoom in and the nucleus isn't fundamental. Each proton and neutron is itself made of <b>three quarks</b> bound by <b>gluons</b> — proton = up-up-down, neutron = up-down-down — held by the strong force in its <em>original</em> form (the nuclear force between protons and neutrons is just the leftover spillover of this deeper binding). The mind-bending part, verified earlier this session: the quarks' own mass is almost nothing. <b>~99% of a proton's mass is the energy of the gluon field and the quarks' motion</b> — confined energy registering as mass via E=mc². You are made of atoms; atoms are mostly empty; the tiny full part is mostly not matter but <b>bound energy wearing mass</b>. The floor, as far as we can currently see: quarks and gluons, with no known substructure. That's where the turtles stop — for now.</p>
+
+  <div class="panel">
+    <h3>Zoom To The Floor · nucleus → nucleon → quarks</h3>
+    <svg id="zoomSvg" viewBox="0 0 600 200" aria-label="nucleus to quark zoom"></svg>
+    <div class="controls">
+      <button class="pbtn on" data-z="0" onclick="setZ(0,this)">Nucleus</button>
+      <button class="pbtn" data-z="1" onclick="setZ(1,this)">One Nucleon</button>
+      <button class="pbtn" data-z="2" onclick="setZ(2,this)">Quarks + Gluons</button>
+    </div>
+    <div class="readout" id="zoomRo"></div>
+  </div>
+</section>
+
+<div class="colophon">
+  A GRAIN OF RICE HOLDING THE STADIUM'S WHOLE WEIGHT · GLUE VS REPULSION, FOREVER<br>
+  Z IS THE NAME · DECAY IS THE CLOCK · IRON IS THE ASH · THE FULL PART IS MOSTLY BOUND ENERGY<br>
+  THE NUCLEUS · SHEET 18 · JUNE 2026
+</div>
+
+</div>
+<script>
+const NS="http://www.w3.org/2000/svg";
+const E=(t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e};
+
+/* ---- I scale ---- */
+function drawScale(){
+  const s=document.getElementById('scaleSvg');s.innerHTML='';
+  const z=+document.getElementById('zoom').value/100;
+  // atom: big faint circle with haze; nucleus: tiny dot growing as we zoom
+  const atomR=90*(1-z)+ z*2000; // atom balloons off-screen as we zoom in
+  s.appendChild(E('circle',{cx:300,cy:100,r:Math.min(atomR,290),fill:'rgba(45,86,110,.06)',stroke:'rgba(45,86,110,.4)','stroke-width':1,'stroke-dasharray':'4 4'}));
+  // electron haze
+  if(z<0.5)for(let i=0;i<40;i++){const a=i/40*2*Math.PI*7, r=(40+i*1.2)*(1-z*2>0?1-z*2:0);
+    s.appendChild(E('circle',{cx:300+Math.min(atomR,280)*0.0+ (60+i)*Math.cos(a)*(1-z*1.8>0?1-z*1.8:0),cy:100+(60+i)*Math.sin(a)*0.5*(1-z*1.8>0?1-z*1.8:0),r:1.2,fill:'#2d566e',opacity:.4*(1-z*2>0?1-z*2:0)}));}
+  // nucleus: grows from a dot to filling as zoom increases
+  const nucR=2 + z*z*120;
+  s.appendChild(E('circle',{cx:300,cy:100,r:nucR,fill:'rgba(138,51,36,.5)',stroke:'#8a3324','stroke-width':1.5}));
+  if(z>0.4){ // show nucleons appearing
+    for(let i=0;i<12;i++){const a=i/12*2*Math.PI,r=nucR*0.55;
+      s.appendChild(E('circle',{cx:300+r*Math.cos(a),cy:100+r*Math.sin(a),r:nucR*0.18,fill:i%2?'#8a3324':'#2d566e',stroke:'#e9e3cd','stroke-width':.5}));}
+  }
+  s.appendChild(E('text',{x:300,y:100-nucR-6,'font-family':'Courier New','font-size':10,fill:'#8a3324','text-anchor':'middle'})).textContent='nucleus';
+  document.getElementById('zoomv').textContent=z<0.3?'atom view':z<0.7?'diving in…':'nucleus view';
+  document.getElementById('scaleRo').innerHTML= z<0.3?
+    `atom ≈ <b>100,000 fm</b> · nucleus ≈ <b>3 fm</b> · ratio <b class="g">~33,000×</b><br>stadium : grain of rice`:
+    `the grain holds <b class="g">99.9%</b> of the mass · density <b>2.3×10¹⁷ kg/m³</b> · a teaspoon ≈ a billion tonnes`;
+}
+
+/* ---- II force balance ---- */
+function drawForce(){
+  const s=document.getElementById('forceSvg');s.innerHTML='';
+  const Z=+document.getElementById('protons').value;
+  document.getElementById('protonsv').textContent=Z+(Z===1?' (H)':Z===26?' (iron)':Z===92?' (uranium)':'');
+  // two curves: strong (short range, saturates) vs coulomb (grows with Z^2-ish, long range)
+  s.appendChild(E('line',{x1:40,y1:180,x2:560,y2:180,stroke:'#1c3d2e','stroke-width':1}));
+  s.appendChild(E('line',{x1:40,y1:20,x2:40,y2:180,stroke:'#1c3d2e','stroke-width':1}));
+  s.appendChild(E('text',{x:300,y:198,'font-family':'Courier New','font-size':9,fill:'#7a937f','text-anchor':'middle'})).textContent='separation between nucleons (fm) →';
+  // strong: strong attraction ~1.4fm then vanishes
+  let ds='';for(let x=0;x<=520;x+=4){const r=x/520*5; // 0..5 fm
+    const f= r<0.7? -30 : 90*Math.exp(-(r-0.8)/0.4)*Math.exp(-((r-0.8)**2)/0.3); // crude well
+    ds+=(x?'L':'M')+(40+x)+','+(120-Math.max(-40,Math.min(90,f)))+' ';}
+  s.appendChild(E('path',{d:ds,fill:'none',stroke:'#8a3324','stroke-width':2}));
+  s.appendChild(E('text',{x:120,y:50,'font-family':'Courier New','font-size':10,fill:'#8a3324'})).textContent='STRONG (glue)';
+  // coulomb: scales with Z, long tail
+  let dc='';for(let x=4;x<=520;x+=4){const r=x/520*5;
+    const f=(Z/10)*8/(r+0.3);
+    dc+=(x===4?'M':'L')+(40+x)+','+(120-Math.min(95,f))+' ';}
+  s.appendChild(E('path',{d:dc,fill:'none',stroke:'#2d566e','stroke-width':2,'stroke-dasharray':'5 3'}));
+  s.appendChild(E('text',{x:360,y:46,'font-family':'Courier New','font-size':10,fill:'#2d566e'})).textContent='REPULSION (∝Z)';
+  s.appendChild(E('line',{x1:40,y1:120,x2:560,y2:120,stroke:'rgba(28,61,46,.3)','stroke-width':.6}));
+  const stable = Z<=82, edge = Z>82&&Z<=92;
+  document.getElementById('forceRo').innerHTML=
+    `Z=${Z} · strong glue: <b>137× EM but only ~1.4 fm reach</b><br>`+
+    `<b class="${stable?'g':''}" style="${stable?'':'color:#8a3324'}">${stable?'glue wins locally — bound':edge?'repulsion reaching past glue — only neutron-rich isotopes hold':'repulsion out-reaches glue — no stable nucleus exists here'}</b>`;
+}
+
+/* ---- III binding curve ---- */
+function drawBind(){
+  const s=document.getElementById('bindSvg');s.innerHTML='';
+  s.appendChild(E('line',{x1:40,y1:180,x2:580,y2:180,stroke:'#1c3d2e','stroke-width':1}));
+  s.appendChild(E('line',{x1:40,y1:20,x2:40,y2:180,stroke:'#1c3d2e','stroke-width':1}));
+  s.appendChild(E('text',{x:310,y:198,'font-family':'Courier New','font-size':9,fill:'#7a937f','text-anchor':'middle'})).textContent='mass number A (nucleons) →';
+  s.appendChild(E('text',{x:14,y:100,'font-family':'Courier New','font-size':8,fill:'#7a937f',transform:'rotate(-90 14 100)'})).textContent='binding/nucleon (MeV)';
+  // semi-empirical-ish curve: rises fast, peaks ~A=56 (~8.8), slow decline
+  let d='';for(let A=1;A<=250;A+=2){const x=40+(A/250)*540;
+    const be= 8.8*(1-Math.exp(-A/16)) - 0.0045*Math.max(0,A-56);
+    const y=180-(be/9)*150;
+    d+=(A===1?'M':'L')+x+','+y.toFixed(1)+' ';}
+  s.appendChild(E('path',{d,fill:'none',stroke:'#8a6d2f','stroke-width':2.4}));
+  // iron peak marker
+  const xFe=40+(56/250)*540, yFe=180-(8.8/9)*150;
+  s.appendChild(E('circle',{cx:xFe,cy:yFe,r:4,fill:'#8a3324'}));
+  s.appendChild(E('text',{x:xFe,y:yFe-8,'font-family':'Courier New','font-size':9,fill:'#8a3324','text-anchor':'middle'})).textContent='Fe-56 peak';
+  // arrows: fusion -> , <- fission
+  s.appendChild(E('text',{x:90,y:150,'font-family':'Courier New','font-size':9,fill:'#2f5a44'})).textContent='fusion →';
+  s.appendChild(E('text',{x:430,y:90,'font-family':'Courier New','font-size':9,fill:'#2f5a44'})).textContent='← fission';
+}
+
+/* ---- IV zoom ---- */
+let zlevel=0;
+function setZ(z,btn){zlevel=z;document.querySelectorAll('[data-z]').forEach(b=>b.classList.remove('on'));btn.classList.add('on');drawZoom()}
+function drawZoom(){
+  const s=document.getElementById('zoomSvg');s.innerHTML='';
+  if(zlevel===0){
+    // nucleus: cluster of nucleons
+    for(let i=0;i<16;i++){const a=i/16*2*Math.PI*1.6,r=20+i*2.6;
+      s.appendChild(E('circle',{cx:300+r*Math.cos(a),cy:100+r*Math.sin(a),r:11,fill:i%2?'#8a3324':'#2d566e',stroke:'#e9e3cd','stroke-width':1}));}
+    s.appendChild(E('text',{x:300,y:185,'font-family':'Courier New','font-size':10,fill:'#2f5a44','text-anchor':'middle'})).textContent='NUCLEUS = protons (red) + neutrons (blue)';
+    document.getElementById('zoomRo').innerHTML='a packed cluster of nucleons, held by the strong force';
+  } else if(zlevel===1){
+    s.appendChild(E('circle',{cx:300,cy:100,r:70,fill:'rgba(138,51,36,.1)',stroke:'#8a3324','stroke-width':2}));
+    s.appendChild(E('text',{x:300,y:190,'font-family':'Courier New','font-size':10,fill:'#8a3324','text-anchor':'middle'})).textContent='ONE NUCLEON (e.g. a proton)';
+    // hint of 3 inside
+    [[0,-22],[19,16],[-19,16]].forEach((p,i)=>s.appendChild(E('circle',{cx:300+p[0],cy:100+p[1],r:8,fill:'rgba(90,58,107,.4)'})));
+    document.getElementById('zoomRo').innerHTML='not fundamental — three quarks lurk inside';
+  } else {
+    // quarks + gluons
+    const q=[[0,-30,'u'],[26,18,'u'],[-26,18,'d']];
+    q.forEach(([x,y,lbl])=>{s.appendChild(E('circle',{cx:300+x,cy:100+y,r:14,fill:'#5a3a6b',stroke:'#e9e3cd','stroke-width':1}));
+      s.appendChild(E('text',{x:300+x,y:100+y+4,'font-family':'Courier New','font-size':11,fill:'#e9e3cd','text-anchor':'middle'})).textContent=lbl;});
+    // gluon springs between
+    [[0,1],[1,2],[2,0]].forEach(([a,b])=>{const A=q[a],B=q[b];
+      s.appendChild(E('line',{x1:300+A[0],y1:100+A[1],x2:300+B[0],y2:100+B[1],stroke:'#8a6d2f','stroke-width':2,'stroke-dasharray':'3 3'}));});
+    s.appendChild(E('text',{x:300,y:188,'font-family':'Courier New','font-size':10,fill:'#5a3a6b','text-anchor':'middle'})).textContent='QUARKS (uud) bound by GLUONS — the floor';
+    document.getElementById('zoomRo').innerHTML='~99% of the mass here is gluon-field + motion energy, not quark rest mass · no known substructure below';
+  }
+}
+
+drawScale();drawForce();drawBind();drawZoom();
+</script>
+</body>
+</html>

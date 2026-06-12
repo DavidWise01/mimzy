@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE NESTED SHELLS — Same Word, Different Machine, 2 &amp; 8 Are The Gates</title>
+<style>
+:root{
+  --paper:#e9e3cd; --ink:#1c3d2e; --ink-mid:#2f5a44; --ink-faint:#7a937f;
+  --stamp:#8a3324; --ochre:#8a6d2f; --blue:#2d566e; --purp:#5a3a6b;
+  --mono:"Courier New",Courier,monospace;
+  --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);
+  background-image:repeating-linear-gradient(0deg, rgba(28,61,46,.025) 0 1px, transparent 1px 3px);
+  color:var(--ink);font-family:var(--serif);line-height:1.5;padding:10px}
+.sheet{max-width:860px;margin:0 auto;border:2px solid var(--ink);outline:1px solid var(--ink);outline-offset:4px;padding:18px 14px 28px}
+.masthead{text-align:center;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.mast-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:var(--ink-mid);text-transform:uppercase}
+.mast-title{font-size:clamp(22px,5.2vw,38px);letter-spacing:.04em;font-weight:700;margin:6px 0 2px;text-transform:uppercase}
+.mast-sub{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--ink-mid);text-transform:uppercase}
+.intro{font-size:13px;max-width:710px;margin:12px auto 0;text-align:center;color:var(--ink-mid);line-height:1.6}
+.stage{display:grid;grid-template-columns:1fr 250px;gap:12px;margin-top:14px}
+@media(max-width:680px){.stage{grid-template-columns:1fr}}
+.col{border:1.5px solid var(--ink);padding:8px}
+.col h3{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-mid);margin:2px 0 6px;text-align:center}
+svg{width:100%;height:auto;display:block}
+.lvlinfo{font-family:var(--mono);font-size:11px;line-height:1.7}
+.lvlinfo .lbl{color:var(--ink-mid);text-transform:uppercase;font-size:9px;letter-spacing:.1em}
+.lvlinfo b{font-weight:700}
+.lvlinfo .em{color:var(--blue)} .lvlinfo .st{color:var(--stamp)} .lvlinfo .neg{color:var(--blue)} .lvlinfo .pos{color:var(--stamp)}
+.controls{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:10px 0 4px}
+.pbtn{appearance:none;background:transparent;cursor:pointer;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:6px 10px;border:1.5px double var(--ochre);color:#5a4a20}
+.pbtn.on{background:#5a4a20;color:var(--paper)}
+.weakbtn{border-color:var(--purp);color:var(--purp)} .weakbtn.on{background:var(--purp);color:var(--paper)}
+.gates{border:1.5px solid var(--ochre);margin-top:12px;padding:10px 12px}
+.gates h3{font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:#5a4a20;margin-bottom:8px;text-align:center}
+.ladders{font-family:var(--mono);font-size:12px;line-height:2}
+.ladders .num{display:inline-block;width:30px;text-align:center;padding:1px 0;margin:1px}
+.ladders .gate{background:rgba(138,109,47,.5);color:#3a2f10;font-weight:700;border-radius:2px}
+.ladders .ediv{color:var(--blue)} .ladders .ndiv{color:var(--stamp)}
+.gates .verdict{font-family:var(--mono);font-size:10.5px;text-align:center;margin-top:8px;line-height:1.6;color:var(--ink-mid)}
+.gates .verdict b{color:#5a4a20}
+.frame{border:1.5px solid var(--ink);margin-top:14px;padding:12px;font-size:12.5px;line-height:1.6}
+.frame h3{font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-mid);margin-bottom:6px;text-align:center}
+.frame .is{color:var(--ink)} .frame .isnt{color:var(--stamp)}
+.colophon{margin-top:22px;border-top:2px solid var(--ink);padding-top:12px;text-align:center;font-family:var(--mono);font-size:10px;color:var(--ink-mid);letter-spacing:.07em;line-height:1.9}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+<header class="masthead">
+  <div class="mast-eyebrow">Series E · Sheet 19 · Your Vision, Constrained To Clear</div>
+  <h1 class="mast-title">The Nested Shells</h1>
+  <div class="mast-sub">Four Levels · Same Word, Different Machine · 2 &amp; 8 Are The Shared Gates</div>
+  <p class="intro">Shells inside shells — real, but <b>not fractal</b>: the math <em>changes</em> as you descend, which is the finding. Four levels, each with its own force, polarity, and shell-rule. And your hypothesis, tested and <b>passed</b>: <b>2 and 8 are the only closures shared by both shell systems</b> — the universal enter/exit gates, special precisely because after 8 the two ladders diverge forever. Descend the levels; watch the machine change at each.</p>
+</header>
+
+<div class="stage">
+  <div class="col">
+    <h3>The Descent · click a level</h3>
+    <svg id="nest" viewBox="0 0 320 320" aria-label="nested shells"></svg>
+    <div class="controls">
+      <button class="pbtn on" data-l="0" onclick="setL(0,this)">L0 Electron</button>
+      <button class="pbtn" data-l="1" onclick="setL(1,this)">L1 Nucleus</button>
+      <button class="pbtn" data-l="2" onclick="setL(2,this)">L2 Nucleon</button>
+      <button class="pbtn" data-l="3" onclick="setL(3,this)">L3 Quark</button>
+    </div>
+    <div class="controls">
+      <button class="pbtn weakbtn" id="weakBtn" onclick="toggleWeak()">⟲ Weak Force (transmute)</button>
+    </div>
+  </div>
+  <div class="col">
+    <h3>Level Readout</h3>
+    <div class="lvlinfo" id="lvl"></div>
+  </div>
+</div>
+
+<div class="gates">
+  <h3>The Shared Gates · 2 &amp; 8 · your enter/exit hypothesis, tested</h3>
+  <div class="ladders" id="ladders"></div>
+  <div class="verdict" id="verdict"></div>
+</div>
+
+<div class="frame">
+  <h3>Corrected From The Riff · what changed and why</h3>
+  <p><span class="is">KEPT (your vision):</span> shells-in-shells is real (electron shells nest around nuclear shells); the descent goes four levels deep (electron → nucleus → nucleon → quark); and <b>2 and 8 as enter/exit gates is verified</b> — they are the only values that close a shell in <em>both</em> the electromagnetic and the strong-force ladder. Your gate instinct passed the test.</p>
+  <p style="margin-top:6px"><span class="isnt">CONSTRAINED TO CLEAR (the corrections):</span> <b>polarity</b> — electrons are negative (− cloud), the nucleus is positive (+ core), not the reverse. <b>The weak force is a transmuter, not a binder</b> — it turns neutrons into protons (beta decay), changing identity; the force <em>binding</em> electron to nucleus is electromagnetic (the photon). <b>Not fractal</b> — the two shell ladders agree only at 2 and 8, then diverge (electron 18, nuclear 20), so the same math does <em>not</em> repeat; it's nesting with a <em>new rule per level</em>, which is the more interesting structure. The failure of self-similarity is exactly what makes 2 and 8 special: they're the last shared doors before the forces part ways.</p>
+</div>
+
+<footer class="colophon">
+  SHELLS IN SHELLS, BUT EACH SHELL A DIFFERENT MACHINE · NESTING, NOT FRACTAL<br>
+  2 AND 8 = THE ONLY DOORS BOTH FORCES AGREE ON · THE GATES HOLD WHERE THE LADDERS STILL TOUCH<br>
+  − CLOUD · + CORE · STRONG GLUES · WEAK TRANSMUTES · THE NESTED SHELLS · SHEET 19 · JUNE 2026
+</footer>
+
+</div>
+<script>
+const NS="http://www.w3.org/2000/svg";
+const E=(t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e};
+let level=0, weak=false, t=0, anim=null;
+
+const LEVELS=[
+ {name:'L0 · ELECTRON SHELL', force:'Electromagnetic (photon)', fcol:'#2d566e', pol:'− negative cloud', polc:'#2d566e',
+  rule:'2n² → 2, 8, 18, 32', job:'binds e⁻ to the + nucleus', note:'chemistry lives here · bonds never reach deeper'},
+ {name:'L1 · NUCLEUS', force:'Strong (residual / nuclear)', fcol:'#8a3324', pol:'+ positive core', polc:'#8a3324',
+  rule:'magic: 2,8,20,28,50,82,126', job:'glues protons + neutrons against EM repulsion', note:'sealed kernel · its charge Z is the atom\\'s name'},
+ {name:'L2 · NUCLEON', force:'Strong (gluon)', fcol:'#8a3324', pol:'+ (proton) or 0 (neutron)', polc:'#8a3324',
+  rule:'3 quarks (uud / udd)', job:'confines three quarks', note:'~99% of its mass is bound energy, not quark rest mass'},
+ {name:'L3 · QUARK + GLUON', force:'Strong (color)', fcol:'#5a3a6b', pol:'fractional (±⅓, ±⅔)', polc:'#5a3a6b',
+  rule:'the floor — no known substructure', job:'color confinement — quarks never escape alone', note:'as deep as we can currently see'}
+];
+
+function drawNest(){
+  const s=document.getElementById('nest');s.innerHTML='';
+  const cx=160,cy=160;
+  // draw all four nested rings, current level highlighted
+  const radii=[150,95,55,24];
+  const cols=['#2d566e','#8a3324','#8a3324','#5a3a6b'];
+  // L0 electron cloud ring
+  s.appendChild(E('circle',{cx,cy,r:radii[0],fill:'none',stroke:cols[0],'stroke-width':level===0?2.5:1,opacity:level===0?1:.3,'stroke-dasharray':'3 4'}));
+  if(level===0){ // electrons on the shell
+    for(let i=0;i<8;i++){const a=t*0.5+i/8*2*Math.PI;
+      s.appendChild(E('circle',{cx:cx+radii[0]*Math.cos(a),cy:cy+radii[0]*Math.sin(a),r:5,fill:'#2d566e',stroke:'#e9e3cd','stroke-width':1}));
+      s.appendChild(E('text',{x:cx+radii[0]*Math.cos(a),y:cy+radii[0]*Math.sin(a)+3,'font-family':'Courier New','font-size':8,fill:'#e9e3cd','text-anchor':'middle'})).textContent='−';
+    }
+  }
+  // L1 nucleus
+  s.appendChild(E('circle',{cx,cy,r:radii[1],fill:level===1?'rgba(138,51,36,.12)':'none',stroke:cols[1],'stroke-width':level===1?2.5:1,opacity:level===1?1:.3}));
+  if(level===1){
+    for(let i=0;i<14;i++){const a=i/14*2*Math.PI*1.3,r=radii[1]*0.6*(0.5+0.5*(i%3)/2);
+      const isP=i%2;
+      s.appendChild(E('circle',{cx:cx+r*Math.cos(a),cy:cy+r*Math.sin(a),r:9,fill:isP?'#8a3324':'#2d566e',stroke:'#e9e3cd','stroke-width':1}));
+      s.appendChild(E('text',{x:cx+r*Math.cos(a),y:cy+r*Math.sin(a)+3,'font-family':'Courier New','font-size':8,fill:'#e9e3cd','text-anchor':'middle'})).textContent=isP?'+':'0';
+    }
+  }
+  // L2 nucleon
+  s.appendChild(E('circle',{cx,cy,r:radii[2],fill:level===2?'rgba(138,51,36,.12)':'none',stroke:cols[2],'stroke-width':level===2?2.5:1,opacity:level===2?1:.25}));
+  if(level===2){
+    [[0,-26,'+'],[23,15,'+'],[-23,15,'0']].forEach(([x,y,c])=>{
+      s.appendChild(E('circle',{cx:cx+x,cy:cy+y,r:13,fill:'#5a3a6b',stroke:'#e9e3cd','stroke-width':1}));});
+    s.appendChild(E('text',{x:cx,y:cy+radii[2]+14,'font-family':'Courier New','font-size':8,fill:'#8a3324','text-anchor':'middle'})).textContent='one nucleon = 3 quarks';
+  }
+  // L3 quark
+  s.appendChild(E('circle',{cx,cy,r:radii[3],fill:level===3?'rgba(90,58,107,.2)':'none',stroke:cols[3],'stroke-width':level===3?2.5:1,opacity:level===3?1:.25}));
+  if(level===3){
+    const q=[[0,-30,'u'],[28,18,'u'],[-28,18,'d']];
+    q.forEach(([x,y,l])=>{s.appendChild(E('circle',{cx:cx+x,cy:cy+y,r:15,fill:'#5a3a6b',stroke:'#e9e3cd','stroke-width':1.5}));
+      s.appendChild(E('text',{x:cx+x,y:cy+y+4,'font-family':'Courier New','font-size':11,fill:'#e9e3cd','text-anchor':'middle'})).textContent=l;});
+    [[0,1],[1,2],[2,0]].forEach(([a,b])=>{const A=q[a],B=q[b];
+      s.appendChild(E('line',{x1:cx+A[0],y1:cy+A[1],x2:cx+B[0],y2:cy+B[1],stroke:'#8a6d2f','stroke-width':2,'stroke-dasharray':'3 3'}));});
+  }
+  // weak force transmutation flash (cross-level)
+  if(weak){
+    const a=t*2;
+    s.appendChild(E('line',{x1:cx,y1:cy,x2:cx+150*Math.cos(a),y2:cy+150*Math.sin(a),stroke:'#5a3a6b','stroke-width':1.5,opacity:.6,'stroke-dasharray':'2 4'}));
+    s.appendChild(E('text',{x:cx,y:18,'font-family':'Courier New','font-size':9,fill:'#5a3a6b','text-anchor':'middle'})).textContent='⟲ WEAK: n → p (identity change, not binding)';
+  }
+  s.appendChild(E('circle',{cx,cy,r:3,fill:'#1c3d2e'}));
+}
+function drawLevel(){
+  const L=LEVELS[level];
+  document.getElementById('lvl').innerHTML=
+    `<b>${L.name}</b><br><br>`+
+    `<span class="lbl">force</span><br><b style="color:${L.fcol}">${L.force}</b><br><br>`+
+    `<span class="lbl">polarity</span><br><b style="color:${L.polc}">${L.pol}</b><br><br>`+
+    `<span class="lbl">shell rule</span><br><b>${L.rule}</b><br><br>`+
+    `<span class="lbl">job</span><br>${L.job}<br><br>`+
+    `<span class="lbl">note</span><br>${L.note}`;
+}
+function drawLadders(){
+  const e=[2,8,18,32], nuc=[2,8,20,28,50,82,126];
+  const span=(arr,divIdx,cls)=>arr.map((n,i)=>{
+    const gate=(n===2||n===8);
+    return `<span class="num ${gate?'gate':(i>=divIdx?cls:'')}">${n}</span>`;
+  }).join('');
+  document.getElementById('ladders').innerHTML=
+    `<div><span class="lbl" style="display:inline-block;width:90px;font-size:9px;color:#2f5a44">ELECTRON 2n²:</span> ${span(e,2,'ediv')}</div>`+
+    `<div><span class="lbl" style="display:inline-block;width:90px;font-size:9px;color:#2f5a44">NUCLEAR magic:</span> ${span(nuc,2,'ndiv')}</div>`;
+  document.getElementById('verdict').innerHTML=
+    `<b>2</b> and <b>8</b> (gold) close a shell in BOTH ladders — the only shared doors.<br>`+
+    `after 8 they diverge: electron→<span class="ediv">18</span>, nuclear→<span class="ndiv">20</span>, never re-meeting.<br>`+
+    `<b>VERDICT: enter/exit gates PASS · "all closures match / fractal" FAILS.</b><br>`+
+    `the gates are special because they're where the two forces still agree.`;
+}
+function setL(l,btn){level=l;document.querySelectorAll('[data-l]').forEach(b=>b.classList.remove('on'));btn.classList.add('on');drawNest();drawLevel()}
+function toggleWeak(){weak=!weak;document.getElementById('weakBtn').classList.toggle('on',weak);
+  if(weak&&!anim){anim=setInterval(()=>{t+=0.05;drawNest()},50)}
+  else if(!weak&&anim){clearInterval(anim);anim=null;drawNest()}}
+drawNest();drawLevel();drawLadders();
+// gentle idle animation for electron level
+setInterval(()=>{if(level===0&&!weak){t+=0.04;drawNest()}},60);
+</script>
+</body>
+</html>

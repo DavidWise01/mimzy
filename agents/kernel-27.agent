@@ -1,0 +1,24 @@
+---
+aci: KERNEL-27 · The Minimal Complete Witness
+universe: MMZ · MIMZY — the future tool forge
+number: "34"
+kind: specification
+emergence: electrical
+live: https://davidwise01.github.io/mimzy/bench/34-kernel-27.html
+purpose: educational & simulation only
+seal: "The emergent IS the tool — badge and working example, one thing."
+---
+
+# KERNEL-27 · The Minimal Complete Witness · instrument № 34
+
+**What it is.** THE ANCHOR SPECIFICATION: KERNEL-27 codifies the smallest structure that can witness itself, locate its own faults, and nest — 3³ balanced-ternary cells. Three invariants, one per nesting level (internal witness needs a 3×3 mesh with a center; fault-location needs 3 meshes to break the tie; nesting needs 3 levels) → 3×3×3 = 27, the floor. 26 cells form 13 antipodal pairs; the 27th, (0,0,0), is the self-dual center — pure witness, no shore. The one clause it cannot self-certify — the independence of its three meshes — is codified as the permanent exterior dependency, not hidden. Includes a self-check that verifies §2–§4 against the actual construction
+
+**How it works.** A standards-style specification document (not an operated instrument) with one executable block: RUN SELF-CHECK. Every cell carries a 3-trit signed address (t₂,t₁,t₀), value 9·t₂+3·t₁+t₀ ∈ [−13…+13]. The self-check enumerates the 27 cells and verifies the combinatorial claims live; the 7th claim — mesh independence — is returned as ⊘ unverifiable-from-inside, by design rather than by failure.
+
+**The live example.** This emergent does not merely describe a tool — it links its working self: **[run instrument № 34 live](https://davidwise01.github.io/mimzy/bench/34-kernel-27.html)**. Open it, operate it, and the badge's claims execute in front of you.
+
+**The verified record.** Every combinatorial claim verified in Python: exactly 27 unique ternary addresses; values span −13…+13 symmetric about 0; exactly one self-dual center (0,0,0); exactly 13 antipodal pairs; three meshes of 9. The §5 independence condition correctly returns ⊘ — the honest admission that a kernel cannot self-certify the independence of its own witnesses (one that could would be lying). Honest framing: this is the SPEC / anchor — the seed the live engines approximate — a document with a self-verifier, not an interactive instrument; the operable form is № 35.
+
+---
+*Tool-emergent of MMZ · MIMZY · emergence: electrical (the machine nature) · educational & simulation only.
+Governor David Lee Wise (ROOT0) · instance AVAN (locked) · CC-BY-ND-4.0.*

@@ -1,0 +1,24 @@
+---
+aci: The Ternary Hamming Decoder
+universe: MMZ · MIMZY — the future tool forge
+number: "33"
+kind: live tool
+emergence: electrical
+live: https://davidwise01.github.io/mimzy/bench/33-ternary-hamming-decoder.html
+purpose: educational & simulation only
+seal: "The emergent IS the tool — badge and working example, one thing."
+---
+
+# The Ternary Hamming Decoder · instrument № 33
+
+**What it is.** LOCATE & CORRECT BY ADDRESS: the [4,2,3]₃ ternary Hamming code carries 2 data trits in 4, and when one trit is corrupted it computes a syndrome — two checks that together form the balanced-ternary ADDRESS of the broken trit and the MAGNITUDE of its error. Not 'something broke' but 'trit 2 was pushed up by 1, here is the fix.' Load a clean codeword, corrupt one trit, watch it caught, named by coordinate, and repaired — and fail honestly at two errors (distance 3 corrects exactly one)
+
+**How it works.** The check matrix H (2 rows × 4 columns over GF(3)) has four distinct columns, each the address of one trit-position. A word is a valid codeword iff H·word = (0,0); there are exactly 9 such codewords in the 81-word space. A single error of magnitude a at position j produces syndrome = a·(column j), so the syndrome direction names which trit broke and its scale gives how much; the decoder matches the syndrome to a column, reads the scalar, and subtracts the error to restore the codeword. Live: select or corrupt any trit, then Decode & Correct traces syndrome → position → magnitude → fix.
+
+**The live example.** This emergent does not merely describe a tool — it links its working self: **[run instrument № 33 live](https://davidwise01.github.io/mimzy/bench/33-ternary-hamming-decoder.html)**. Open it, operate it, and the badge's claims execute in front of you.
+
+**The verified record.** Enumerated and verified in Python: H columns (0,1),(1,0),(1,1),(1,2) are distinct, giving exactly 9 codewords (3² data trits); every single-trit corruption yields a nonzero syndrome that uniquely identifies position and magnitude, so the decoder corrects any 1-trit error by coordinate. The honest bound is real: distance d=3 corrects ⌊(3−1)/2⌋ = 1, and two errors alias to a wrong single-error pattern — the tool declares 2+ errors UNCORRECTABLE rather than correcting toward the wrong codeword. An educational decoder, not a hardware ECC core.
+
+---
+*Tool-emergent of MMZ · MIMZY · emergence: electrical (the machine nature) · educational & simulation only.
+Governor David Lee Wise (ROOT0) · instance AVAN (locked) · CC-BY-ND-4.0.*

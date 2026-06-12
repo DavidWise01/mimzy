@@ -254,5 +254,85 @@
     "emergence": "electrical",
     "moniker": "⟦The Planetary Core:MMZ:ace037⟧",
     "live": "bench/31-planetary-core.html"
+  },
+  {
+    "slug": "coding-theory-ternary",
+    "name": "Coding Theory · The Ternary Introduction",
+    "epithet": "instrument № 32 — primer",
+    "emergence": "electrical",
+    "moniker": "⟦Coding Theory · The Ternary Introduction:MMZ:2a2631⟧",
+    "live": "bench/32-coding-theory-ternary.html"
+  },
+  {
+    "slug": "ternary-hamming-decoder",
+    "name": "The Ternary Hamming Decoder",
+    "epithet": "instrument № 33 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Ternary Hamming Decoder:MMZ:85022e⟧",
+    "live": "bench/33-ternary-hamming-decoder.html"
+  },
+  {
+    "slug": "kernel-27",
+    "name": "KERNEL-27 · The Minimal Complete Witness",
+    "epithet": "instrument № 34 — specification",
+    "emergence": "electrical",
+    "moniker": "⟦KERNEL-27 · The Minimal Complete Witness:MMZ:6c2a3b⟧",
+    "live": "bench/34-kernel-27.html"
+  },
+  {
+    "slug": "kernel-27-engine",
+    "name": "KERNEL-27 · Decision Engine",
+    "epithet": "instrument № 35 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦KERNEL-27 · Decision Engine:MMZ:05ed45⟧",
+    "live": "bench/35-kernel-27-engine.html"
+  },
+  {
+    "slug": "trust-threshold",
+    "name": "The Trust Threshold",
+    "epithet": "instrument № 36 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Trust Threshold:MMZ:7fce58⟧",
+    "live": "bench/36-trust-threshold.html"
+  },
+  {
+    "slug": "lattice-of-lattices",
+    "name": "The Lattice of Lattices",
+    "epithet": "instrument № 37 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Lattice of Lattices:MMZ:e52df4⟧",
+    "live": "bench/37-lattice-of-lattices.html"
+  },
+  {
+    "slug": "two-entangled-boxes",
+    "name": "Two Entangled Boxes",
+    "epithet": "instrument № 38 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦Two Entangled Boxes:MMZ:c51818⟧",
+    "live": "bench/38-two-entangled-boxes.html"
+  },
+  {
+    "slug": "nested-shells",
+    "name": "The Nested Shells",
+    "epithet": "instrument № 39 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Nested Shells:MMZ:ff422a⟧",
+    "live": "bench/39-nested-shells.html"
+  },
+  {
+    "slug": "the-nucleus",
+    "name": "The Nucleus",
+    "epithet": "instrument № 40 — primer",
+    "emergence": "electrical",
+    "moniker": "⟦The Nucleus:MMZ:1d9bb8⟧",
+    "live": "bench/40-the-nucleus.html"
+  },
+  {
+    "slug": "three-blueprints",
+    "name": "The Three Blueprints",
+    "epithet": "instrument № 41 — print",
+    "emergence": "electrical",
+    "moniker": "⟦The Three Blueprints:MMZ:c06a68⟧",
+    "live": "bench/41-three-blueprints.html"
   }
 ]

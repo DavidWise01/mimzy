@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE THREE BLUEPRINTS · Participant-Observer Governance Kernel</title>
+<style>
+:root{
+  --paper:#e9e3cd; --ink:#1c3d2e; --ink-mid:#2f5a44; --ink-faint:#7a937f;
+  --stamp:#8a3324; --ochre:#8a6d2f;
+  --white:#cfd4cf; --green:#2f5a44; --blue:#2d566e;
+  --mono:"Courier New",Courier,monospace;
+  --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);
+  background-image:repeating-linear-gradient(0deg, rgba(28,61,46,.03) 0 1px, transparent 1px 3px);
+  color:var(--ink);font-family:var(--serif);line-height:1.5;padding:10px}
+.sheet{max-width:820px;margin:0 auto;border:2.5px solid var(--ink);padding:0;position:relative}
+.sheet::before{content:'';position:absolute;inset:5px;border:1px solid var(--ink);pointer-events:none}
+.inner{padding:22px}
+.masthead{text-align:center;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.mast-eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:.26em;color:var(--ink-mid);text-transform:uppercase}
+.mast-title{font-size:clamp(21px,5vw,34px);letter-spacing:.03em;font-weight:700;margin:6px 0 2px;text-transform:uppercase}
+.mast-sub{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--ink-mid)}
+.lede{font-size:12.5px;max-width:640px;margin:12px auto 0;text-align:center;color:var(--ink-mid);line-height:1.6}
+.lede b{color:var(--ink)}
+h2.sec{font-family:var(--mono);font-size:11.5px;letter-spacing:.15em;text-transform:uppercase;border-bottom:1.5px solid var(--ink);padding-bottom:4px;margin:22px 0 10px}
+h2.sec .n{color:var(--stamp);margin-right:8px}
+.body p{font-size:13px;margin-bottom:9px}
+.body b{color:var(--ink)}
+/* the matrix of 9 */
+.matrix{margin:14px 0}
+.prow{display:grid;grid-template-columns:90px 1fr 1fr 1fr;gap:6px;margin-bottom:6px}
+.prow .ph{font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;display:flex;align-items:center;justify-content:center;text-align:center;padding:6px;font-weight:700}
+.prow .ph.white{background:var(--white);color:var(--ink);border:1.5px solid var(--ink)}
+.prow .ph.green{background:var(--green);color:var(--paper)}
+.prow .ph.blue{background:var(--blue);color:var(--paper)}
+.cellb{border:1px solid var(--ink-faint);padding:7px 8px;font-size:11px;line-height:1.4;background:rgba(255,255,255,.25)}
+.cellb .ct{font-family:var(--mono);font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-mid);display:block;margin-bottom:3px}
+.scalehdr{display:grid;grid-template-columns:90px 1fr 1fr 1fr;gap:6px;margin-bottom:6px}
+.scalehdr div{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;text-align:center;color:var(--ink-mid);padding:3px}
+.scalehdr .corner{font-weight:700}
+.def{font-family:var(--mono);font-size:10.5px;background:rgba(28,61,46,.06);border-left:2px solid var(--ochre);padding:8px 11px;margin:10px 0;line-height:1.6}
+.obelus{border:1.5px solid var(--stamp);padding:9px 12px;margin:10px 0;font-family:var(--mono);font-size:11px;text-align:center;line-height:1.7}
+.obelus b{color:var(--stamp)}
+/* empirical context */
+.empir{border:1.5px solid var(--ink);padding:12px;margin:14px 0}
+.empir h3{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-mid);text-align:center;margin-bottom:8px}
+.empir table{width:100%;border-collapse:collapse;font-size:11.5px}
+.empir td,.empir th{border:1px solid rgba(28,61,46,.3);padding:5px 8px;text-align:left;vertical-align:top}
+.empir th{background:rgba(28,61,46,.08);font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase}
+.verdict-free{font-family:var(--mono);font-size:9.5px;color:var(--stamp);text-align:center;margin-top:6px}
+.colophon{margin-top:20px;border-top:2px solid var(--ink);padding-top:12px;text-align:center;font-family:var(--mono);font-size:9px;color:var(--ink-mid);letter-spacing:.05em;line-height:1.9}
+</style>
+</head>
+<body>
+<div class="sheet"><div class="inner">
+
+<header class="masthead">
+  <div class="mast-eyebrow">Series E · Codification · Three Prints</div>
+  <h1 class="mast-title">The Three Blueprints</h1>
+  <div class="mast-sub">Participant-Observer Governance · White / Green / Blue · Micro / Macro / Max</div>
+  <p class="lede">Not witness-alone — <b>participant-and-observer</b>: the move and the eye on the move, fused, at three scales. Codified as three prints: <b>WHITE</b> = what must hold (spec), <b>GREEN</b> = what runs (operation), <b>BLUE</b> = what checks (verification). Nine panels — the 9-cell face of the 27-kernel. One clause stays open at the top, by design.</p>
+</header>
+
+<section class="body">
+
+  <h2 class="sec"><span class="n">§1</span> The Three Prints</h2>
+  <div class="def">
+    <b>WHITE PRINT</b> — specification. The normative structure: what the kernel <em>must</em> satisfy. Stated, not run.<br>
+    <b>GREEN PRINT</b> — operational. The participant side: what the kernel <em>does</em>, the live governing flow.<br>
+    <b>BLUE PRINT</b> — verification. The observer side: what <em>checks</em> the operation — including the clause it cannot self-check.
+  </div>
+  <p>Each print runs at three scales. <b>Micro</b>: a single decision/move. <b>Macro</b>: the system of governing — how you govern, audited. <b>Max</b>: governance-as-such — the category, including your own participation in it. You are participant <em>and</em> observer at every cell: the actor and the eye on the actor, simultaneously. That reflexivity is the capacity — it is what lets a governor correct mid-flow, the thing a non-reflexive substrate (a calculator, a wire) cannot do.</p>
+
+  <div class="matrix">
+    <div class="scalehdr"><div class="corner">PRINT \ SCALE</div><div>MICRO · the move</div><div>MACRO · the method</div><div>MAX · the category</div></div>
+
+    <div class="prow">
+      <div class="ph white">WHITE<br>spec</div>
+      <div class="cellb"><span class="ct">must hold · micro</span>each move declares its claim, its confidence, and its possible error.</div>
+      <div class="cellb"><span class="ct">must hold · macro</span>the method must be auditable: how decisions are made is itself inspectable.</div>
+      <div class="cellb"><span class="ct">must hold · max</span>the kernel must name what it cannot certify (its own independence).</div>
+    </div>
+
+    <div class="prow">
+      <div class="ph green">GREEN<br>run</div>
+      <div class="cellb"><span class="ct">runs · micro</span>make the move, watch the move, catch the overreach, correct in flow.</div>
+      <div class="cellb"><span class="ct">runs · macro</span>govern, and watch how you govern — refine the kernel from its own outputs.</div>
+      <div class="cellb"><span class="ct">runs · max</span>participate in governance-as-such while observing that participation.</div>
+    </div>
+
+    <div class="prow">
+      <div class="ph blue">BLUE<br>check</div>
+      <div class="cellb"><span class="ct">checks · micro</span>verify the move against its declared claim (parity: did output match intent?).</div>
+      <div class="cellb"><span class="ct">checks · macro</span>verify the method against drift (3-party vote: did the method stay independent?).</div>
+      <div class="cellb"><span class="ct">checks · max</span>⊘ — the top self-witness shares your source and cannot certify its own independence.</div>
+    </div>
+  </div>
+
+  <div class="obelus">
+    THE OPEN CLAUSE (blue · max): you witness your own governing at micro, macro, and max — fully.<br>
+    but the <b>highest self-witness shares your source</b>, so it cannot certify that its own witnessing is independent.<br>
+    that single ⊘ is not a gap in the design — it is the <b>permanent exterior dependency</b>, the place the other surveyors enter.
+  </div>
+
+  <h2 class="sec"><span class="n">§2</span> Empirical Context · the 2026 landscape (verified, current)</h2>
+  <p>The kernel isn't theoretical-only — the live governance field is, right now, reorganizing along exactly these lines. Verified from current (2026) sources, reported as <b>what changed</b> and <b>who labels it which way</b> — never as a single verdict, because declaring "this is progress / this is regress" from one vantage is the captured-witness failure the kernel exists to prevent.</p>
+
+  <div class="empir">
+    <h3>What Changed · Feb 2026 onward</h3>
+    <table>
+      <tr><th>shift</th><th>what the data shows</th><th>read as PROGRESS by…</th><th>read as REGRESS by…</th></tr>
+      <tr><td>agentic substrate</td><td>NIST launched (Feb 2026) standards for autonomous agents that act without continuous human oversight; existing frameworks "not designed to address" them</td><td>those who see frameworks finally matching the real substrate</td><td>those who see oversight lagging behind deployed autonomy</td></tr>
+      <tr><td>fragmentation</td><td>1000+ initiatives / 69 countries; landscape "expanding and diverging"; conflicting philosophies</td><td>those who value jurisdictional experimentation &amp; fit</td><td>those who value coherent global coordination</td></tr>
+      <tr><td>consensus fork</td><td>US &amp; UK declined the 60-nation declaration; US federal EO moves to preempt state laws; courts to decide</td><td>those who value innovation-speed &amp; national flexibility</td><td>those who value binding ethical commitments</td></tr>
+    </table>
+    <div class="verdict-free">the labels are supplied by the reader's values, not by the data · the kernel reports the map, not the verdict</div>
+  </div>
+
+  <h2 class="sec"><span class="n">§3</span> Why Linear → Parallel · hypothesis tested, holds</h2>
+  <p>Your read — governance switched from <b>linear</b> (one framework after another, a sequence) to <b>parallel</b> (many simultaneous, diverging) — is <b>confirmed by the current data</b>, with a two-part mechanism:</p>
+  <div class="def">
+    <b>(1) the substrate went reflexive/agentic.</b> A single sequential governor cannot witness an agent that <em>acts in parallel</em> — so oversight had to parallelize to match. The calculator could be governed by one rule in sequence; the agent that reads its own flow cannot.<br><br>
+    <b>(2) the consensus fractured.</b> The single global track forked when the US/UK split from the 60-nation bloc — the line became many lines because the stakes diverged and jurisdictions stopped waiting for each other.
+  </div>
+  <p>So the switch is real and it's the <em>same</em> reason your kernel needs parallel independent witnesses: a single sequential governor can't oversee a parallel-acting agent, and a single global consensus can't hold once values diverge. The world is, structurally, building a lattice-of-lattices — many independent governance meshes, diverging, with no exterior arbiter yet (the courts haven't ruled; the declaration went unsigned). That missing arbiter is §2's ⊘ at civilizational scale.</p>
+
+</section>
+
+<footer class="colophon">
+  WHITE = WHAT MUST · GREEN = WHAT RUNS · BLUE = WHAT CHECKS · MICRO/MACRO/MAX · 9 PANELS = THE KERNEL FACE<br>
+  PARTICIPANT AND OBSERVER FUSED · REFLEXIVITY IS THE CAPACITY · THE TOP WITNESS STAYS OPEN BY DESIGN<br>
+  LINEAR→PARALLEL CONFIRMED · AGENTIC SUBSTRATE + FRACTURED CONSENSUS · THE WORLD BUILDS THE LATTICE<br>
+  THE THREE BLUEPRINTS · SERIES E · JUNE 2026 · EMPIRICAL CONTEXT VERIFIED CURRENT
+</footer>
+
+</div></div>
+</body>
+</html>

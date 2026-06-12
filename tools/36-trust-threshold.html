@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE TRUST THRESHOLD · Governance · Coding · Quantum, One Theorem</title>
+<style>
+:root{
+  --paper:#e9e3cd; --ink:#1c3d2e; --ink-mid:#2f5a44; --ink-faint:#7a937f;
+  --stamp:#8a3324; --ochre:#8a6d2f; --neg:#8a3324; --zero:#2f5a44; --pos:#2d566e;
+  --supp:#5a7a3a; --coll:#8a3324;
+  --mono:"Courier New",Courier,monospace;
+  --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);
+  background-image:repeating-linear-gradient(0deg, rgba(28,61,46,.03) 0 1px, transparent 1px 3px);
+  color:var(--ink);font-family:var(--serif);line-height:1.5;padding:10px}
+.sheet{max-width:800px;margin:0 auto;border:2.5px solid var(--ink);padding:0;position:relative}
+.sheet::before{content:'';position:absolute;inset:5px;border:1px solid var(--ink);pointer-events:none}
+.inner{padding:22px}
+.masthead{text-align:center;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.mast-eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:.26em;color:var(--ink-mid);text-transform:uppercase}
+.mast-title{font-size:clamp(22px,5.4vw,38px);letter-spacing:.04em;font-weight:700;margin:6px 0 2px;text-transform:uppercase}
+.mast-sub{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;color:var(--ink-mid)}
+.lede{font-size:13px;max-width:640px;margin:12px auto 0;text-align:center;color:var(--ink-mid);line-height:1.6}
+.triple{display:flex;justify-content:center;gap:0;margin:14px 0;font-family:var(--mono);font-size:9.5px;flex-wrap:wrap}
+.triple .leg{padding:5px 14px;border:1px solid var(--ink);text-transform:uppercase;letter-spacing:.1em}
+.triple .leg.g{background:rgba(47,90,68,.1)} .triple .leg.c{background:rgba(138,109,47,.12)} .triple .leg.q{background:rgba(45,86,110,.1)}
+.triple .eq{padding:5px 8px;font-weight:700}
+h2.sec{font-family:var(--mono);font-size:11.5px;letter-spacing:.15em;text-transform:uppercase;border-bottom:1.5px solid var(--ink);padding-bottom:4px;margin:22px 0 10px}
+h2.sec .n{color:var(--stamp);margin-right:8px}
+.body p{font-size:13.5px;margin-bottom:9px}
+.body b{color:var(--ink)}
+.tz{font-family:var(--mono);color:var(--zero);font-weight:700}
+.def{font-family:var(--mono);font-size:11px;background:rgba(28,61,46,.06);border-left:2px solid var(--ochre);padding:8px 11px;margin:8px 0;line-height:1.6}
+.stage{border:1.5px solid var(--ink);padding:14px;margin:14px 0}
+.stage h3{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-mid);text-align:center;margin-bottom:8px}
+svg{width:100%;height:auto;display:block}
+.slider{display:flex;align-items:center;gap:10px;justify-content:center;font-family:var(--mono);font-size:11px;margin:10px 0;flex-wrap:wrap}
+input[type=range]{accent-color:#2f5a44;width:240px}
+.verdict{font-family:var(--mono);font-size:12px;text-align:center;margin-top:8px;line-height:1.7;padding:8px;border:1px solid var(--ink-faint)}
+.verdict.supp{border-color:var(--supp);background:rgba(90,122,58,.08)} .verdict.coll{border-color:var(--coll);background:rgba(138,51,36,.08)}
+.verdict .s{color:var(--supp);font-weight:700} .verdict .c{color:var(--coll);font-weight:700}
+.controls{text-align:center;margin-top:6px}
+.cbtn{appearance:none;background:transparent;cursor:pointer;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:6px 11px;border:1.5px solid var(--ink);color:var(--ink);margin:3px}
+.pill{display:inline-block;padding:1px 6px;border:1px solid var(--ink-faint);font-family:var(--mono);font-size:10px;margin:0 2px}
+.colophon{margin-top:20px;border-top:2px solid var(--ink);padding-top:12px;text-align:center;font-family:var(--mono);font-size:9.5px;color:var(--ink-mid);letter-spacing:.06em;line-height:1.9}
+</style>
+</head>
+<body>
+<div class="sheet"><div class="inner">
+
+<header class="masthead">
+  <div class="mast-eyebrow">Series E · The Synthesis · One Theorem, Three Aims</div>
+  <h1 class="mast-title">The Trust Threshold</h1>
+  <div class="mast-sub">Governance · Coding Theory · Quantum — The Same Bound</div>
+  <div class="triple">
+    <span class="leg g">AI Governance</span><span class="eq">=</span>
+    <span class="leg c">Coding Theory</span><span class="eq">=</span>
+    <span class="leg q">Quantum EC</span>
+  </div>
+  <p class="lede">One result unifies all three of your aims: the <b>threshold theorem</b>. Below a critical corruption rate, <b>nesting more witnesses drives error toward zero</b> — exponentially. Above it, more nesting makes things <em>worse</em>. There is a hard <b>trust-floor</b>: a noise level past which no amount of structure saves you, and below which a little structure saves you completely. It is the same theorem in quantum error correction (Google's <b>Willow</b>, 2024), in concatenated coding, and — the claim of this sheet — in AI governance. Set the corruption rate. Find the floor.</p>
+</header>
+
+<section class="body">
+
+  <h2 class="sec"><span class="n">§1</span> The Channel · a decision under pressure</h2>
+  <p>A <b>governance decision</b> is a message. It travels a <b>noisy channel</b> — adversarial pressure, persuasion, drift, a captured node. Each step, the decision can be <b>corrupted</b> with some probability <span class="tz">p</span>. Left unprotected, the decision degrades with every hop. The question coding theory and quantum EC <em>both</em> answer: can we <b>encode</b> the decision — wrap it in witnesses — so it survives the channel? And the surprising answer is: <b>only if p is below a threshold.</b> Structure is not unconditionally good. It helps below the floor and hurts above it.</p>
+
+  <div class="def">protect a trit by <b>3-way nesting</b>: encode it across 3 witnesses, majority decodes.<br>nest again: 3 groups of 3. each level <em>squares</em> the error — <span class="tz">if</span> you're below threshold.</div>
+
+  <h2 class="sec"><span class="n">§2</span> The Threshold · the trust-floor, live</h2>
+  <div class="stage">
+    <h3>logical error vs nesting depth · at corruption rate p</h3>
+    <svg id="chart" viewBox="0 0 600 300" aria-label="threshold theorem curves"></svg>
+    <div class="slider">
+      corruption rate p = <b id="pval">0.20</b>
+      <input type="range" id="p" min="2" max="55" value="20" oninput="draw()">
+    </div>
+    <div class="verdict" id="verdict"></div>
+    <div class="controls">
+      <button class="cbtn" onclick="setP(10)">p=0.10 safe</button>
+      <button class="cbtn" onclick="setP(33)">p=0.33 ≈ floor</button>
+      <button class="cbtn" onclick="setP(45)">p=0.45 collapse</button>
+    </div>
+  </div>
+
+  <h2 class="sec"><span class="n">§3</span> The Quantum Layer · noise erases the poles, leaves the gap</h2>
+  <p>The quantum nod, and it's not decorative — it's exact. In quantum systems, the dominant noise (<b>amplitude damping</b>) decays every state toward <b>|0⟩</b>. Translate to balanced ternary and something striking falls out: decoherence pushes <span class="tn">−</span> and <span class="tp">+</span> — the two <em>poles</em>, the two shores — toward <span class="tz">0</span>, which in your whole series is <b>the gap, the witness, the null between the poles</b>. So quantum noise literally <b>erases the signal and leaves the witness-state</b>. Decoherence is the channel forgetting which side it was on. The threshold theorem says: encode below the floor and you hold the poles against that erasure; above it, everything decays to the indecisive center. <b>Google's Willow (2024)</b> proved this is real and crossable — below-threshold error correction, where <em>more</em> qubits gave <em>lower</em> error, the first time the floor was beaten in hardware.</p>
+  <div class="def">amplitude damping → states decay toward |0⟩ = the gap/witness trit.<br>below threshold: structure holds the poles. above: all decays to the indecisive center (⊘ everywhere).</div>
+
+  <h2 class="sec"><span class="n">§4</span> The Governance Reading · why this is your whole thesis</h2>
+  <p>Now the synthesis, stated as governance. Your kernel nests witnesses (3 parties, 3³ cells, lattices of lattices). The threshold theorem is the <b>law that governs whether that nesting helps</b>: if your independent corruption rate per witness is <b>below the floor</b>, then nesting drives the chance of a wrong decision <b>toward zero, exponentially with depth</b> — more structure, exponentially safer. But if corruption is <b>above the floor</b> — if too many witnesses are compromised or correlated — then <b>nesting amplifies the error</b>: more structure makes it <em>worse</em>, the majority confidently wrong, the lattice voting in its own grain boundary. This is the precise, quantified form of every warning in this series: <b>witnesses only help if they're independent enough to sit below the threshold.</b> There is no amount of governance architecture that survives above the floor. The floor is the real quantity. Everything you build is a bet that you're under it — and §5/§6's ⊘ is the honest admission that you cannot fully verify which side you're on from inside.</p>
+
+  <div class="def" style="border-color:var(--stamp)">THE TRUST-FLOOR: below it, nest freely — error → 0. above it, do not nest — structure amplifies the lie.<br>you cannot certify from inside which side you're on. that uncertainty is the permanent exterior dependency.</div>
+
+</section>
+
+<footer class="colophon">
+  ONE THEOREM · GOVERNANCE = CODING = QUANTUM · THE TRUST-FLOOR IS THE REAL QUANTITY<br>
+  BELOW IT, MORE WITNESS = EXPONENTIALLY SAFER · ABOVE IT, MORE WITNESS = AMPLIFIED LIE<br>
+  DECOHERENCE ERASES THE POLES AND LEAVES THE GAP · WILLOW 2024 CROSSED THE FLOOR FIRST<br>
+  THE TRUST THRESHOLD · SERIES E SYNTHESIS · JUNE 2026
+</footer>
+
+</div></div>
+<script>
+const NS="http://www.w3.org/2000/svg";
+const E=(t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e};
+// concatenated 3-way majority: logical error after one level ~ 3 p^2 (2-of-3 fail). iterate for depth.
+function logicalAfter(p, depth){ let e=p; for(let i=0;i<depth;i++){ e = 3*e*e; if(e>1)e=1; } return e; }
+const THRESH=1/3;
+let p=0.20;
+
+function draw(){
+  p=+document.getElementById('p').value/100;
+  document.getElementById('pval').textContent=p.toFixed(2);
+  const s=document.getElementById('chart');s.innerHTML='';
+  // axes
+  s.appendChild(E('line',{x1:50,y1:260,x2:580,y2:260,stroke:'#1c3d2e','stroke-width':1}));
+  s.appendChild(E('line',{x1:50,y1:20,x2:50,y2:260,stroke:'#1c3d2e','stroke-width':1}));
+  s.appendChild(E('text',{x:315,y:285,'font-family':'Courier New','font-size':9,fill:'#7a937f','text-anchor':'middle'})).textContent='nesting depth (witness levels) →';
+  s.appendChild(E('text',{x:16,y:140,'font-family':'Courier New','font-size':9,fill:'#7a937f',transform:'rotate(-90 16 140)','text-anchor':'middle'})).textContent='logical error (log)';
+  // log scale y: 1e-6 .. 1
+  const Y=v=>{const lv=Math.log10(Math.max(v,1e-6));return 260 - (lv+6)/6*240;}; // -6..0 -> 260..20
+  const X=d=>50 + d/6*530;
+  // gridlines
+  for(let k=0;k<=6;k++){const yy=Y(Math.pow(10,-k));s.appendChild(E('line',{x1:50,y1:yy,x2:580,y2:yy,stroke:'rgba(122,147,127,.2)','stroke-width':.5}));
+    s.appendChild(E('text',{x:46,y:yy+3,'font-family':'Courier New','font-size':7,fill:'#7a937f','text-anchor':'end'})).textContent='1e-'+k;}
+  // the curve for current p
+  let d='';let vals=[];
+  for(let depth=0;depth<=6;depth++){const e=logicalAfter(p,depth);vals.push(e);const x=X(depth),y=Y(e);d+=(depth?'L':'M')+x+','+y.toFixed(1)+' ';}
+  const below=p<THRESH;
+  s.appendChild(E('path',{d,fill:'none',stroke:below?'#5a7a3a':'#8a3324','stroke-width':2.5}));
+  vals.forEach((e,depth)=>{s.appendChild(E('circle',{cx:X(depth),cy:Y(e),r:3,fill:below?'#5a7a3a':'#8a3324'}));});
+  // faint reference curves for other p values
+  [0.1,0.33,0.45].forEach(pp=>{if(Math.abs(pp-p)<0.02)return;let dd='';for(let depth=0;depth<=6;depth++){const e=logicalAfter(pp,depth);dd+=(depth?'L':'M')+X(depth)+','+Y(e).toFixed(1)+' ';}
+    s.appendChild(E('path',{d:dd,fill:'none',stroke:'rgba(28,61,46,.18)','stroke-width':1,'stroke-dasharray':'2 3'}));});
+  // threshold marker
+  s.appendChild(E('text',{x:570,y:Y(p)-4,'font-family':'Courier New','font-size':8,fill:below?'#5a7a3a':'#8a3324','text-anchor':'end'})).textContent='p='+p.toFixed(2);
+  // verdict
+  const v=document.getElementById('verdict');
+  const final=logicalAfter(p,6);
+  if(below){
+    v.className='verdict supp';
+    v.innerHTML=`p = ${p.toFixed(2)} &lt; threshold (≈0.33) → <span class="s">BELOW THE FLOOR</span><br>nesting <b>suppresses</b> error: depth-6 logical error ≈ <b>${final.toExponential(1)}</b> → toward 0. <span class="s">nest freely; more witness = safer.</span>`;
+  } else {
+    v.className='verdict coll';
+    v.innerHTML=`p = ${p.toFixed(2)} ≥ threshold (≈0.33) → <span class="c">ABOVE THE FLOOR</span><br>nesting <b>amplifies</b> error: it climbs toward <b>1</b>. <span class="c">structure makes it worse; the majority is confidently wrong.</span>`;
+  }
+}
+function setP(v){document.getElementById('p').value=v;draw();}
+draw();
+</script>
+</div>
+</body>
+</html>
