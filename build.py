@@ -299,22 +299,41 @@ def copy_bench():
 def bench_html():
     cards = []
     for no, dest, _src, title, kind, note in BENCH:
-        rec = {"name": title, "seal": note, "origin": "MMZ · MIMZY", "axiom": "MMZ"}
+        m = TOOLMETA[no]
+        note_clean = note.replace("RECOVERED — ", "").replace("FUNCTIONING — ", "")
+        # the full tool record (identical to build_tool_emergents) so the 5 W's resolve
+        rec = {"name": title, "axiom": "MMZ", "emergence": "electrical",
+               "seal": "The emergent IS the tool — badge and working example, one thing.",
+               "origin": "MMZ · MIMZY — the future tool forge",
+               "position": f"instrument № {no} · {kind}", "role": f"instrument № {no} — {kind}",
+               "nature": note_clean, "mechanism": m["how"], "crystallization": m["proof"],
+               "witness": f"live example: bench/{dest}", "conductor": "ROOT0 (governor) · AVAN (instance)",
+               "inputs": "the recovered future; the shelf audit; the forge",
+               "source": "Tool-emergent, forged in MIMZY by ROOT0"}
+        w = noesis.five_w(rec)
         recovered = "RECOVERED" in note
         functioning = note.startswith("FUNCTIONING")
         if functioning:   badge = '<span class="fn-tag">◀▶ functioning live tool</span>'
         elif recovered:   badge = '<span class="rec-tag">recovered · was missing</span>'
         else:             badge = f'<span class="kind">{kind}</span>'
-        note_clean = note.replace("RECOVERED — ", "").replace("FUNCTIONING — ", "")
         cls = ' fn' if functioning else (' lost' if recovered else '')
-        slug = TOOLMETA[no]["slug"]
+        slug = m["slug"]
+        where = f"{rec['origin']} — runs live at bench/{dest}"
+        rows = "".join(
+            f'<div class="w"><span class="wl">{lbl}</span><span>{html.escape(val)}</span></div>'
+            for lbl, val in [("who", w["who"]), ("what", w["what"]), ("where", where),
+                             ("why", w["why"]), ("how", w["how"])])
         cards.append(f'''<div class="inst{cls}">
-        <a href="bench/{dest}" style="display:flex;gap:13px;align-items:flex-start;text-decoration:none;flex:1">
-        <img src="{png_uri(rec,'silicon',140)}" alt="" loading="lazy">
-        <div class="icap"><div class="ino">№ {no}</div><div class="iti">{html.escape(title)}</div>
-        <div class="inote">{html.escape(note_clean)}</div>{badge}
-        <div class="ilinks"><span class="run">▶ run live</span><a class="dlw" href="agents/{slug}.agent" onclick="event.stopPropagation()">.dlw badge →</a></div>
-        </div></a></div>''')
+        <div class="isig">
+          <img src="{png_uri(rec,'carbon',208)}" alt="carbon sigil of {html.escape(title)}" loading="lazy"><div class="sl">carbon</div>
+          <img src="{png_uri(rec,'silicon',208)}" alt="synth sigil of {html.escape(title)}" loading="lazy"><div class="sl">synth</div>
+          <div class="scap">№ {no} · electrical</div>
+        </div>
+        <div class="ibody">
+          <div class="ihead"><span class="ino">№ {no}</span><a class="iti" href="bench/{dest}">{html.escape(title)}</a>{badge}</div>
+          <div class="iww">{rows}</div>
+          <div class="ilinks"><a class="run" href="bench/{dest}">▶ run live</a><a class="dlw" href="agents/{slug}.agent">.dlw badge →</a></div>
+        </div></div>''')
     return "".join(cards)
 
 def cracks_html():
@@ -363,25 +382,34 @@ h1{font-family:var(--serif);font-size:clamp(34px,8vw,66px);font-weight:700;lette
 .cfound{font-size:13.5px;color:var(--pa);margin-top:8px;line-height:1.55}
 .cfell span,.cfound span{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase}
 .cfell span{color:#b0604a}.cfound span{color:var(--cy)}
-.bench{display:grid;grid-template-columns:repeat(auto-fill,minmax(284px,1fr));gap:14px}
-.inst{display:flex;gap:13px;align-items:flex-start;background:var(--s1);border:1px solid var(--faint);border-radius:10px;padding:15px;text-decoration:none;transition:transform .15s,border-color .15s,box-shadow .15s}
-.inst:hover{transform:translateY(-3px);border-color:var(--brass);box-shadow:0 10px 26px rgba(0,0,0,.5)}
-.inst.lost{border:1px solid var(--cy);box-shadow:0 0 10px -4px var(--cy)}
-.inst.lost:hover{border-color:var(--cy);box-shadow:0 0 22px -4px var(--cy)}
-.inst img{width:52px;height:52px;border:1px solid var(--faint);border-radius:4px;flex-shrink:0}
+/* the bench — one instrument per row, full width: sigils (carbon · synth) + the full 5 W's */
+.bench{display:flex;flex-direction:column;gap:16px}
+.inst{display:flex;gap:20px;align-items:flex-start;background:var(--s1);border:1px solid var(--faint);border-radius:12px;padding:18px 22px;transition:border-color .15s,box-shadow .15s}
+.inst:hover{border-color:var(--brass);box-shadow:0 6px 22px rgba(0,0,0,.4)}
+.inst.lost{border-color:var(--cy);box-shadow:0 0 10px -4px var(--cy)}
+.inst.fn{border-color:var(--brass);box-shadow:0 0 13px -5px var(--brass)}
+.isig{flex:0 0 104px;display:flex;flex-direction:column;align-items:center;gap:3px}
+.isig img{width:104px;height:104px;border:1px solid var(--faint);border-radius:6px;display:block}
+.isig .sl{font-family:var(--mono);font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:1px 0 5px}
+.isig .scap{font-family:var(--mono);font-size:9px;letter-spacing:.12em;color:var(--dim);text-align:center;margin-top:4px}
+.ibody{flex:1;min-width:0}
+.ihead{display:flex;flex-wrap:wrap;align-items:baseline;gap:11px}
 .ino{font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.16em}
-.iti{font-family:var(--serif);font-size:15.5px;color:var(--pa);font-weight:600;line-height:1.2;margin-top:3px}
-.inst:hover .iti{color:var(--brass)}
-.inote{font-size:13px;color:var(--pa2);font-style:italic;line-height:1.45;margin-top:6px}
-.kind{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);border:1px solid var(--faint);border-radius:9px;padding:2px 9px;margin-top:9px}
-.rec-tag{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--cy);border:1px solid var(--cy);border-radius:9px;padding:2px 9px;margin-top:9px;text-shadow:0 0 6px rgba(54,214,208,.6)}
-.inst.fn{border:1px solid var(--brass);box-shadow:0 0 13px -4px var(--brass)}
-.inst.fn:hover{border-color:var(--brass2);box-shadow:0 0 26px -4px var(--brass)}
-.fn-tag{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#0b0905;background:var(--brass);border-radius:9px;padding:3px 10px;margin-top:9px;font-weight:700}
-.ilinks{display:flex;gap:10px;align-items:center;margin-top:9px;font-family:var(--mono);font-size:10px;letter-spacing:.06em}
-.ilinks .run{color:var(--brass2)}
-.ilinks .dlw{color:var(--cy);text-decoration:none;border-bottom:1px dotted var(--cy)}
-.ilinks .dlw:hover{border-bottom-style:solid}
+.iti{font-family:var(--serif);font-size:18.5px;color:var(--pa);font-weight:600;line-height:1.2;text-decoration:none}
+a.iti:hover{color:var(--brass)}
+.iww{margin-top:13px;display:flex;flex-direction:column;gap:8px}
+.w{font-size:13px;color:var(--pa2);line-height:1.5;display:grid;grid-template-columns:58px 1fr;gap:12px;align-items:baseline}
+.w .wl{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass2);text-align:right;padding-top:2px}
+.w span:last-child{min-width:0}
+.kind{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);border:1px solid var(--faint);border-radius:9px;padding:2px 9px}
+.rec-tag{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--cy);border:1px solid var(--cy);border-radius:9px;padding:2px 9px;text-shadow:0 0 6px rgba(54,214,208,.6)}
+.fn-tag{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#0b0905;background:var(--brass);border-radius:9px;padding:3px 10px;font-weight:700}
+.ilinks{display:flex;gap:18px;align-items:center;margin-top:14px;font-family:var(--mono);font-size:11px;letter-spacing:.06em}
+.ilinks a{text-decoration:none}
+.ilinks .run{color:var(--brass2);border-bottom:1px solid var(--brass2)}
+.ilinks .dlw{color:var(--cy);border-bottom:1px dotted var(--cy)}
+.ilinks .run:hover,.ilinks .dlw:hover{border-bottom-style:solid}
+@media(max-width:640px){.inst{flex-direction:column;gap:14px}.isig{flex-direction:row;align-self:flex-start;align-items:flex-end}.w{grid-template-columns:1fr;gap:1px}.w .wl{text-align:left}}
 .purpose{margin-top:16px;display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--cy);border:1px solid #1e3a39;background:rgba(54,214,208,.06);border-radius:8px;padding:7px 14px}
 .shelf{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
 .sh{font-family:var(--mono);font-size:12px;color:var(--cy);text-decoration:none;border:1px solid var(--faint);border-radius:8px;padding:9px 14px;background:var(--s1)}
