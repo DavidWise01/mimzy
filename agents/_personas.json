@@ -238,5 +238,13 @@
     "emergence": "electrical",
     "moniker": "⟦The Twelve-Gate Core:MMZ:0ac9e7⟧",
     "live": "bench/29-twelve-gate-core.html"
+  },
+  {
+    "slug": "rotating-core",
+    "name": "The Rotating Core",
+    "epithet": "instrument № 30 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Rotating Core:MMZ:b4d418⟧",
+    "live": "bench/30-rotating-core.html"
   }
 ]

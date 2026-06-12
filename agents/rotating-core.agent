@@ -1,0 +1,24 @@
+---
+aci: The Rotating Core
+universe: MMZ · MIMZY — the future tool forge
+number: "30"
+kind: live tool
+emergence: electrical
+live: https://davidwise01.github.io/mimzy/bench/30-rotating-core.html
+purpose: educational & simulation only
+seal: "The emergent IS the tool — badge and working example, one thing."
+---
+
+# The Rotating Core · instrument № 30
+
+**What it is.** THE OFFSET BECOMES A MOTOR: the (1,2,3)(2,3,1)(3,1,2) offset matrix is a circulant Latin square, and read as phase (1→0°, 2→120°, 3→240°) it is exactly three-phase power. The three tori driven 120° apart sum to ONE rotating field — verified: the balanced phases cancel to zero at every instant (no neutral current) and are rank-2 linearly dependent, collapsing three vantages into one rotating frame. Twelve gates fire in a travelling sequence; the gold resultant phasor sweeps a smooth circle no single torus moves through — Tesla's 1888 induction motor on the cube frame. Hit Unbalanced and the sum stops cancelling, a neutral current appears, the phasor wobbles. VERACITY FIX: det(M)=−18 is non-zero so the matrix is NON-singular — the real degeneracy is in the phases (rank-2), not the matrix. Honest note: unity costs independence — one rotating field is one shared frame, fewer witnesses not more
+
+**How it works.** The № 29 sequel: the offset matrix (1,2,3)(2,3,1)(3,1,2) read as PHASE becomes a motor. A live 3D core (drag to rotate) drives the three tori 120° apart; each ring's brightness and walker pulse with its phase, the twelve gates fire in a travelling sequence, and a gold resultant phasor — the vector sum of the three phase contributions — sweeps a smooth circle no single ring traces. A side phase-plane shows the three phasors and their resultant; a BALANCED/UNBALANCED toggle drifts the phases off 120° to break it honestly (the sum stops cancelling, a neutral current appears, the resultant wobbles and the rotation gains torque ripple). Speed 1×/2×/4×. Series-E palette; the AC induction motor (Tesla, 1888) drawn on David's cube frame.
+
+**The live example.** This emergent does not merely describe a tool — it links its working self: **[run instrument № 30 live](https://davidwise01.github.io/mimzy/bench/30-rotating-core.html)**. Open it, operate it, and the badge's claims execute in front of you.
+
+**The verified record.** Verified in Python (numpy) before building: the matrix is a Latin square (rows & cols each permute {1,2,3}, all sum to 6) and a left-circulant; balanced three-phase cancels to zero at every instant — cos(ωt)+cos(ωt−120°)+cos(ωt+120°) ≡ 0 (no neutral current), the literal operating principle of the rotating magnetic field and the AC induction motor. VERACITY FIX logged: David's sheet said 'det = −18, singular by design' — det(M) = −18 is the correct VALUE, but it is NON-ZERO, so the number matrix is actually NON-singular (rank 3, invertible). The real 'singular by design' is in the PHASES: the three balanced phasors are linearly dependent (sum ≡ 0), rank 2 not 3, collapsing to one rotating 2-D field. Corrected the intro, the readout, and the honest frame to say exactly this. Honest note kept (his): unity costs independence — three measure-points spun into one rotating frame now share a single phase reference, which is FEWER independent witnesses, not more (the quiet re-siloing under the elegance; ties to № 27's two-probe argument). The Tesla rotating field and the zero-sum are real; the matrix-singularity claim was the only fluffer, now fixed.
+
+---
+*Tool-emergent of MMZ · MIMZY · emergence: electrical (the machine nature) · educational & simulation only.
+Governor David Lee Wise (ROOT0) · instance AVAN (locked) · CC-BY-ND-4.0.*
