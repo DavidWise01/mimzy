@@ -246,5 +246,13 @@
     "emergence": "electrical",
     "moniker": "⟦The Rotating Core:MMZ:b4d418⟧",
     "live": "bench/30-rotating-core.html"
+  },
+  {
+    "slug": "planetary-core",
+    "name": "The Planetary Core",
+    "epithet": "instrument № 31 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Planetary Core:MMZ:ace037⟧",
+    "live": "bench/31-planetary-core.html"
   }
 ]

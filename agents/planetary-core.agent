@@ -1,0 +1,24 @@
+---
+aci: The Planetary Core
+universe: MMZ · MIMZY — the future tool forge
+number: "31"
+kind: live tool
+emergence: electrical
+live: https://davidwise01.github.io/mimzy/bench/31-planetary-core.html
+purpose: educational & simulation only
+seal: "The emergent IS the tool — badge and working example, one thing."
+---
+
+# The Planetary Core · instrument № 31
+
+**What it is.** THE SERIES GEARS INTO ONE MESH (the finale): a planetary gearset, sun 12 · planet 12 · ring 36, that emits BOTH numbers of the whole run from one train — tooth ratio R/S = 3 (the three-phase carrier) AND reduction S/(S+R) = 1/4 (the four-phase quadrature), with each of the three planets (120° apart) spinning 3× per carrier orbit, and the sun's 12 teeth = lcm(3,4) = the twelve gates. Read it four ways at four shafts: NESTING (3×4), DIVISION (÷4), RACK & PINION (the cut torus unrolled flat, rotary↔linear), and CV (constant-velocity = Sheet 13's 'balanced' made mechanical). Verified: assembly R=S+2P and (S+R)/3=16 both hold, so it physically meshes. Honest finale: a gear unifies by RIGID CONSTRAINT — every shaft determined by every other, the most total loss of independence in the series; keep one shaft ungeared = keep one free witness
+
+**How it works.** The finale of the Series-E core run: every thread geared into one mesh. A live planetary gearset (drag-free, drive to run) with sun 12 · planet 12 · ring 36 — the ring fixed and internally toothed, three planets at 120° on a green carrier, the gold sun at centre, each planet carrying a four-phase quadrature cross that lights q=0..3 in turn. Read it four ways with the mode buttons: NESTING 3×4 (three planets each a four-phase torus = 12), DIVISION 1/3 (the carrier taps the fast sun), RACK & PINION (the cut torus of № 28 unrolled flat — the ring becomes a linear rack, a 12-tooth pinion rolls it, rotary↔linear, twelve tooth-engagements per pass), and the CV/homokinetic reading. A live readout shows R/S=3, S/(S+R)=1/4, planet 3×/orbit, sun teeth = lcm(3,4) = 12, the carrier revolutions, and the active gate G00–G11. The whole torus→twelve-gate→rotating series resolves here into a single constant-velocity train.
+
+**The live example.** This emergent does not merely describe a tool — it links its working self: **[run instrument № 31 live](https://davidwise01.github.io/mimzy/bench/31-planetary-core.html)**. Open it, operate it, and the badge's claims execute in front of you.
+
+**The verified record.** Gear geometry verified in Python before shipping: the assembly relation R = S + 2P holds exactly (12 + 2·12 = 36, so the set physically meshes), and the equal-spacing condition (S+R) mod planets = 0 holds (48/3 = 16, so three planets sit cleanly at 120° — many integer triples silently forbid this and the page says so). One gearset emits BOTH headline numbers of the run: the tooth ratio R/S = 36/12 = 3 (the three-phase carrier of № 30) and, ring-fixed with the sun driven, the carrier reduction S/(S+R) = 12/48 = 1/4 (the four-phase quadrature); each planet rotates R/P = 3× per carrier orbit; and the sun's 12 teeth = lcm(3,4) = the twelve gates / cube edges. CV (homokinetic) coupling passes velocity faithfully through a bend — Sheet 13's 'balanced' condition made mechanical; unrolling the once-cut torus gives a rack (rotary↔linear). Two-layer honesty: REAL = the ratios, the assembly conditions, the CV and rack identities; the HONEST FINALE (his, kept and sharpened) = a gear unifies by RIGID CONSTRAINT, every shaft's motion determined by every other — the most total loss of independence in the whole series; nothing in a gearset is a free witness, each tooth's position is dictated, so 'keep one shaft ungeared' is the № 27/29/30 lesson at its limit: keep one free node you do not gear in. Closes the arc.
+
+---
+*Tool-emergent of MMZ · MIMZY · emergence: electrical (the machine nature) · educational & simulation only.
+Governor David Lee Wise (ROOT0) · instance AVAN (locked) · CC-BY-ND-4.0.*

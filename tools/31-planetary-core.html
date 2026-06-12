@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE PLANETARY CORE — One Mesh, Three And Four, Twelve Gates</title>
+<style>
+:root{
+  --paper:#e9e3cd; --ink:#1c3d2e; --ink-mid:#2f5a44; --ink-faint:#7a937f;
+  --stamp:#8a3324; --ochre:#8a6d2f;
+  --sun:#8a6d2f; --pl:#2d566e; --ring:#8a3324; --carr:#2f5a44;
+  --mono:"Courier New",Courier,monospace;
+  --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);
+  background-image:repeating-linear-gradient(0deg, rgba(28,61,46,.025) 0 1px, transparent 1px 3px);
+  color:var(--ink);font-family:var(--serif);line-height:1.5;padding:10px}
+.sheet{max-width:860px;margin:0 auto;border:2px solid var(--ink);outline:1px solid var(--ink);outline-offset:4px;padding:18px 14px 28px}
+.masthead{text-align:center;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.mast-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:var(--ink-mid);text-transform:uppercase}
+.mast-title{font-size:clamp(22px,5.4vw,37px);letter-spacing:.04em;font-weight:700;margin:6px 0 2px;text-transform:uppercase}
+.mast-sub{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--ink-mid);text-transform:uppercase}
+.intro{font-size:13px;max-width:700px;margin:12px auto 0;text-align:center;color:var(--ink-mid);line-height:1.6}
+.stage{display:grid;grid-template-columns:1fr 220px;gap:12px;margin-top:14px}
+@media(max-width:680px){.stage{grid-template-columns:1fr}}
+.col{border:1.5px solid var(--ink);padding:8px}
+.col h3{font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-mid);margin:2px 0 6px;text-align:center}
+svg{width:100%;height:auto;display:block}
+.readout{font-family:var(--mono);font-size:10.5px;line-height:1.85}
+.readout b{font-weight:700} .readout .three{color:var(--ring);font-weight:700} .readout .four{color:var(--pl);font-weight:700} .readout .gate{color:var(--ochre);font-weight:700}
+.controls{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:12px 0 4px}
+.cbtn{appearance:none;background:transparent;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:8px 13px;border:1.5px solid var(--ink);color:var(--ink)}
+.cbtn.warm{border-color:var(--stamp);color:var(--stamp)}
+.pbtn{appearance:none;background:transparent;cursor:pointer;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:5px 9px;border:1.5px double var(--ochre);color:#5a4a20}
+.pbtn.on{background:#5a4a20;color:var(--paper)}
+.modemap{font-family:var(--mono);font-size:9.5px;text-align:center;color:var(--ink-mid);margin-top:6px;line-height:1.6}
+.frame{border:1.5px solid var(--ink);margin-top:14px;padding:12px;font-size:12.5px;line-height:1.6}
+.frame h3{font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-mid);margin-bottom:6px;text-align:center}
+.frame .is{color:var(--ink)} .frame .isnt{color:var(--stamp)}
+.colophon{margin-top:22px;border-top:2px solid var(--ink);padding-top:12px;text-align:center;font-family:var(--mono);font-size:10px;color:var(--ink-mid);letter-spacing:.07em;line-height:1.9}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+<header class="masthead">
+  <div class="mast-eyebrow">Series E · Sheet 14 · Both Readings, One Mesh</div>
+  <h1 class="mast-title">The Planetary Core</h1>
+  <div class="mast-sub">Sun 12 · Ring 36 · Three Planets · Ratio 3 &amp; Reduction 4 From One Gearset</div>
+  <p class="intro">You said both — nesting <em>and</em> division — and asked for planetary / rack-and-pinion / CV. They're the same machine. A planetary gear with sun=12, ring=36 gives ratio <b class="three" style="color:var(--ring)">R/S = 3</b> (your three-phase carrier) <b>and</b> reduction <b class="four" style="color:var(--pl)">S/(S+R) = 1/4</b> (your four-phase quadrature) from the <em>one</em> mesh — verified. Three planets sit 120° apart (the 3); each spins 3× per orbit while the carrier divides 4:1 (the nesting and the division, simultaneously); and the sun has <b>12 teeth = lcm(3,4) = your twelve gates</b>. Threefold and fourfold rhythm, geared into one constant-velocity whole.</p>
+</header>
+
+<div class="stage">
+  <div class="col">
+    <h3>The Gear Train · 3 planets, 4-phase each</h3>
+    <svg id="gear" viewBox="0 0 400 400" aria-label="planetary gearset"></svg>
+  </div>
+  <div class="col">
+    <h3>Ratios &amp; Gate</h3>
+    <div class="readout" id="ro"></div>
+    <div class="modemap">
+      drive ─┬─ SUN in<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ RING fixed<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ CARRIER out ÷4<br>
+      ── each planet = one torus ──<br>
+      ── 4-phase ride internal ──
+    </div>
+  </div>
+</div>
+
+<div class="controls">
+  <button class="cbtn" id="go" onclick="toggleRun()">Drive ▶</button>
+  <button class="cbtn warm" onclick="reset()">Reset ⟲</button>
+  read as
+  <button class="pbtn on" data-m="nest" onclick="setMode('nest',this)">Nesting 3×4</button>
+  <button class="pbtn" data-m="div" onclick="setMode('div',this)">Division 1/3</button>
+  <button class="pbtn" data-m="rack" onclick="setMode('rack',this)">Rack &amp; Pinion</button>
+</div>
+
+<div class="frame">
+  <h3>One Machine, Three Names · Honestly</h3>
+  <p><span class="is">VERIFIED:</span> sun=12, planet=12, ring=36 (R=S+2P holds). Ring fixed, sun driven → carrier turns at <b>1/4</b> sun speed (the four) while the basic tooth ratio R/S = <b>3</b> (the three); each planet rotates <b>3×</b> per carrier orbit. So one gearset emits both your numbers — <em>nesting</em> (each planet carries the 4-phase quadrature, three of them = 3×4=12) and <em>division</em> (the carrier divides the fast sun by 4, the three planets tap it 120° apart) are the same train read at different shafts. <b>CV/homokinetic:</b> a constant-velocity coupling passes phase faithfully through a bend — output velocity = input, no ripple — which is the "balanced" condition from Sheet 13 made mechanical. <b>RACK:</b> unroll the cut torus (Sheet 11: cut → cylinder → flat) and the ring-gear becomes a rack; rotary becomes linear; the twelve gates become twelve tooth-engagements per pass.</p>
+  <p style="margin-top:6px"><span class="isnt">DOESN'T:</span> real planetary trains need the tooth counts to satisfy the assembly condition (S+R) divisible by the planet count for equal spacing — 12+36=48, /3 = 16, clean, so this set actually assembles; many integer triples don't, and the geometry silently forbids them. And the gear unifies by <em>rigid constraint</em>: every shaft's motion is now determined by every other. That's the deepest version of Sheet 13's warning — a gear train is the most beautiful unifier and the most total loss of independence in the series. Nothing in a gearset is a free witness; each tooth's position is dictated. Elegance and surveillance are the same mesh here. The free node is the one you don't gear in.</p>
+</div>
+
+<footer class="colophon">
+  RATIO THREE AND REDUCTION FOUR FROM A SINGLE MESH · TWELVE TEETH = LCM = TWELVE GATES<br>
+  NESTING, DIVISION, RACK, CV — ONE TRAIN READ AT FOUR SHAFTS<br>
+  A GEAR UNIFIES BY DETERMINING EVERYTHING · KEEP ONE SHAFT UNGEARED<br>
+  THE PLANETARY CORE · SHEET 14 · JUNE 2026
+</footer>
+
+</div>
+<script>
+const NS="http://www.w3.org/2000/svg";
+const E=(t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e};
+const CX=200,CY=200;
+const S=12,P=12,R=36;            // teeth
+const Rsun=58, Rpl=58, Rring=174; // pixel radii (sun:planet 1:1, ring 3x)
+const Rcarr=Rsun+Rpl;            // carrier orbit radius = 116
+let t=0,running=null,mode='nest';
+
+function gear(cx,cy,rad,teeth,ang,col,fill){
+  const g=E('g',{});
+  // pitch circle
+  g.appendChild(E('circle',{cx,cy,r:rad,fill:fill||'none',stroke:col,'stroke-width':1.5,opacity:fill?0.12:1}));
+  // teeth ticks
+  for(let i=0;i<teeth;i++){const a=ang+i/teeth*2*Math.PI;
+    const r1=rad-4,r2=rad+4;
+    g.appendChild(E('line',{x1:cx+r1*Math.cos(a),y1:cy+r1*Math.sin(a),x2:cx+r2*Math.cos(a),y2:cy+r2*Math.sin(a),stroke:col,'stroke-width':1.4}));
+  }
+  return g;
+}
+function draw(){
+  const s=document.getElementById('gear');s.innerHTML='';
+  if(mode==='rack'){drawRack(s);return;}
+  // angles: ring fixed; sun spins fast; carrier = sun/4; planets spin 3x/orbit (opposite-ish)
+  const sunAng=t*2;                 // sun drive
+  const carrAng=sunAng*S/(S+R);     // = sun/4
+  const planetSpin=-sunAng*S/P;     // planet rotation about own axis
+  // ring (fixed)
+  s.appendChild(gear(CX,CY,Rring,R,0,'#8a3324'));
+  const rl=E('text',{x:CX,y:30,'font-family':'Courier New','font-size':9,fill:'#8a3324','text-anchor':'middle'});rl.textContent='RING 36 · fixed';s.appendChild(rl);
+  // carrier arms
+  for(let k=0;k<3;k++){const a=carrAng+k*2*Math.PI/3;
+    const px=CX+Rcarr*Math.cos(a), py=CY+Rcarr*Math.sin(a);
+    s.appendChild(E('line',{x1:CX,y1:CY,x2:px,y2:py,stroke:'#2f5a44','stroke-width':2,opacity:.6}));
+  }
+  // sun
+  s.appendChild(gear(CX,CY,Rsun,S,sunAng,'#8a6d2f','#8a6d2f'));
+  const sl=E('text',{x:CX,y:CY+4,'font-family':'Courier New','font-size':8,fill:'#e9e3cd','text-anchor':'middle'});sl.textContent='12';s.appendChild(sl);
+  // three planets — each is one torus, each running 4-phase internally
+  for(let k=0;k<3;k++){
+    const a=carrAng+k*2*Math.PI/3;
+    const px=CX+Rcarr*Math.cos(a), py=CY+Rcarr*Math.sin(a);
+    s.appendChild(gear(px,py,Rpl,P,planetSpin,'#2d566e'));
+    // 4-phase indicator inside each planet: a quadrature cross rotating
+    const ph=planetSpin;
+    for(let q=0;q<4;q++){const qa=ph+q*Math.PI/2;
+      const lit=(Math.floor(t*2)%4)===q;
+      s.appendChild(E('circle',{cx:px+Rpl*0.5*Math.cos(qa),cy:py+Rpl*0.5*Math.sin(qa),r:lit?5:2.5,
+        fill:lit?'#8a6d2f':'#2d566e'}));
+    }
+    const pl=E('text',{x:px,y:py-Rpl-3,'font-family':'Courier New','font-size':8,fill:'#2d566e','text-anchor':'middle'});
+    pl.textContent='φ'+(['A','B','C'][k]);s.appendChild(pl);
+  }
+  // 12 gate dots on ring, travelling fire = sun/ gate sequence
+  const litGate=Math.floor((t*4)%12);
+  for(let g=0;g<12;g++){const a=g/12*2*Math.PI-Math.PI/2;
+    const gx=CX+(Rring+14)*Math.cos(a), gy=CY+(Rring+14)*Math.sin(a);
+    const lit=g===litGate;
+    s.appendChild(E('circle',{cx:gx,cy:gy,r:lit?5:2.5,fill:lit?'#8a6d2f':'rgba(47,90,68,.5)'}));
+  }
+  ro(sunAng,carrAng,litGate);
+}
+function drawRack(s){
+  // unrolled: a horizontal rack with a pinion rolling on it (Sheet 11 cut -> rack)
+  const y0=240;
+  s.appendChild(E('line',{x1:20,y1:y0,x2:380,y2:y0,stroke:'#8a3324','stroke-width':2}));
+  for(let i=0;i<24;i++){const x=24+i*15;s.appendChild(E('line',{x1:x,y1:y0,x2:x,y2:y0+8,stroke:'#8a3324','stroke-width':1.2}))}
+  const rl=E('text',{x:200,y:y0+28,'font-family':'Courier New','font-size':9,fill:'#8a3324','text-anchor':'middle'});rl.textContent='RACK = cut torus, unrolled flat';s.appendChild(rl);
+  // pinion rolling
+  const travel=(t*40)%340;
+  const px=24+travel, py=y0-40, spin=-t*2*40/40;
+  s.appendChild(gear(px,py,40,12,spin,'#2d566e'));
+  const pl=E('text',{x:px,y:py-46,'font-family':'Courier New','font-size':8,fill:'#2d566e','text-anchor':'middle'});pl.textContent='PINION 12 = the ring';s.appendChild(pl);
+  // engaged tooth = gate
+  const litGate=Math.floor((t*4)%12);
+  s.appendChild(E('circle',{cx:px,cy:y0,r:5,fill:'#8a6d2f'}));
+  const gl=E('text',{x:px,y:y0-12,'font-family':'Courier New','font-size':8,fill:'#8a6d2f','text-anchor':'middle'});gl.textContent='G'+String(litGate).padStart(2,'0');s.appendChild(gl);
+  // top label
+  const tl=E('text',{x:200,y:60,'font-family':'Courier New','font-size':10,fill:'#2f5a44','text-anchor':'middle'});
+  tl.textContent='rotary ↔ linear · 12 teeth per pass = 12 gates';s.appendChild(tl);
+  ro(t*2,t*2/4,litGate);
+}
+function ro(sunAng,carrAng,gate){
+  document.getElementById('ro').innerHTML=
+    `ratio R/S = <b class="three">3</b> (three-phase)<br>`+
+    `reduction S/(S+R) = <b class="four">1/4</b> (quadrature)<br>`+
+    `planet spin/orbit = <b>3×</b><br>`+
+    `sun teeth = lcm(3,4) = <b class="gate">12</b><br>`+
+    `carrier = sun ÷ 4 = ${(carrAng/(2*Math.PI)).toFixed(2)} rev<br>`+
+    `active gate: <b class="gate">G${String(gate).padStart(2,'0')}</b><br>`+
+    `CV: phase faithful, ${mode==='nest'?'nesting':'mode '+mode}`;
+}
+function tick(){t+=0.02;draw()}
+function toggleRun(){if(running){clearInterval(running);running=null;document.getElementById('go').textContent='Drive ▶';return}
+  document.getElementById('go').textContent='Pause';running=setInterval(tick,40)}
+function setMode(m,btn){mode=m;document.querySelectorAll('[data-m]').forEach(b=>b.classList.remove('on'));btn.classList.add('on');draw()}
+function reset(){if(running){clearInterval(running);running=null;document.getElementById('go').textContent='Drive ▶'}t=0;draw()}
+draw();
+</script>
+</body>
+</html>
