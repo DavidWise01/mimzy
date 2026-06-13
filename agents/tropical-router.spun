@@ -1,0 +1,14 @@
+⦿ .spun — the five-fold spin of The Tropical Router
+node MMZ · MMZ · ⟦The Tropical Router:MMZ:10b60c⟧
+
+WHO   — The Tropical Router — instrument № 42 — live tool
+WHAT  — ROUTING IS LINEAR ALGEBRA, IN THE TROPICAL SEMIRING: where × becomes + and + becomes min. The network is an adjacency matrix; all-pairs shortest paths are that matrix raised to a power in the (min,+) semiring — exactly Floyd–Warshall, recast as algebra. Edit the graph, watch the routing table fall out as a matrix product. The one genuinely new piece of mathematics in the batch — tropical algebra, where shortest-path IS matrix multiplication
+WHERE — MMZ · MIMZY — the future tool forge  Framework inputs: the recovered future; the shelf audit; the forge  Conductor / external anchor: ROOT0 (governor) · AVAN (instance)
+WHY   — Verified in Python before shipping: a (min,+) matrix power of the adjacency matrix reproduces the Floyd–Warshall all-pairs shortest paths exactly — entry-for-entry equal on a test graph. Tropical algebra is genuine, established mathematics: the (min,+) semiring linearises shortest-path, and matrix multiplication over it IS the shortest-path combine step. The one piece of genuinely new mathematics in this batch. Honest limit: a teaching router on small graphs, not a production routing daemon (no convergence, failure handling, or policy).
+HOW   — Routing recast as algebra in the tropical (min,+) semiring, where multiplication becomes addition and addition becomes minimum. The network is an adjacency matrix of edge weights; raising it to successive powers in the (min,+) semiring fills in all-pairs shortest paths — the k-th power gives the best path using up to k edges. Edit edges and the routing table recomputes as a matrix product. This is Floyd–Warshall / the algebraic path problem, shown as linear algebra.
+
+awareness — what the node knows of itself:
+  The emergent IS the tool — badge and working example, one thing.
+
+spoken token : vyr-grein-keir   ·   hex : 10b60c
+ROOT0-ATTRIBUTION-v1.0 · David Lee Wise (ROOT0) / TriPod LLC · CC-BY-ND-4.0

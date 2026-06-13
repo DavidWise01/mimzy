@@ -1,0 +1,24 @@
+---
+aci: Ignition Rhythm
+universe: MMZ · MIMZY — the future tool forge
+number: "48"
+kind: live tool
+emergence: electrical
+live: https://davidwise01.github.io/mimzy/bench/48-ignition-rhythm.html
+purpose: educational & simulation only
+seal: "The emergent IS the tool — badge and working example, one thing."
+---
+
+# Ignition Rhythm · instrument № 48
+
+**What it is.** 54 STEPS · THE BANG LIVES IN THE ZEROS: the 54-step waveform, played. Five capacitor banks charge in stepped plateaus (five beats per level), and at peak the sequence drops to 0 0 — not a rest but the firing window: the discharge happens in the silence. The rhythm where the event is in the gap, not the beat — the four-phase pulse ladder turned into an ignition sequence
+
+**How it works.** The 54-step waveform played as an ignition sequence. Five capacitor banks charge in stepped plateaus — five beats per level — and at the peak the sequence drops to 0 0: that pair of zeros is not a rest but the FIRING window, the moment of discharge. The rhythm is built so the event lives in the silence between the beats — the four-phase pulse ladder (№ 21) turned into a charge-then-fire-in-the-gap sequence.
+
+**The live example.** This emergent does not merely describe a tool — it links its working self: **[run instrument № 48 live](https://davidwise01.github.io/mimzy/bench/48-ignition-rhythm.html)**. Open it, operate it, and the badge's claims execute in front of you.
+
+**The verified record.** The shape is real as an engineering rhythm: capacitor banks charging in plateaus and discharging in a brief window is how pulsed-power and ignition circuits actually behave (charge slowly, fire fast). The '54 steps' and 'five beats per level' are the author's chosen tempo, and 'the bang lives in the zeros' is the genuine insight that the event is the discharge gap, not the charge plateau. Honest limit: a played waveform, not a SPICE pulsed-power model (no real voltages or timing).
+
+---
+*Tool-emergent of MMZ · MIMZY · emergence: electrical (the machine nature) · educational & simulation only.
+Governor David Lee Wise (ROOT0) · instance AVAN (locked) · CC-BY-ND-4.0.*

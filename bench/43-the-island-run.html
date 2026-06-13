@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE ISLAND RUN — Superheavy Synthesis Simulator · Stark Protocol</title>
+<style>
+:root{
+  --paper:#e9e3cd; --ink:#1c3d2e; --ink-mid:#2f5a44; --ink-faint:#7a937f;
+  --stamp:#8a3324; --ochre:#8a6d2f;
+  --mono:"Courier New",Courier,monospace;
+  --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);
+  background-image:repeating-linear-gradient(0deg, rgba(28,61,46,.025) 0 1px, transparent 1px 3px);
+  color:var(--ink);font-family:var(--serif);line-height:1.5;padding:10px}
+.sheet{max-width:860px;margin:0 auto;border:2px solid var(--ink);outline:1px solid var(--ink);outline-offset:4px;padding:18px 14px 28px}
+.masthead{text-align:center;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.mast-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:var(--ink-mid);text-transform:uppercase}
+.mast-title{font-size:clamp(24px,6vw,40px);letter-spacing:.05em;font-weight:700;margin:6px 0 2px;text-transform:uppercase}
+.mast-sub{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--ink-mid);text-transform:uppercase}
+.intro{font-size:13.5px;max-width:680px;margin:12px auto 0;text-align:center;color:var(--ink-mid);line-height:1.6}
+.row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:12px 0 4px;font-family:var(--mono);font-size:11px;align-items:center}
+select{font-family:var(--mono);font-size:11px;background:transparent;border:1.5px solid var(--ink);color:var(--ink);padding:6px}
+.cbtn{appearance:none;background:transparent;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:8px 14px;border:1.5px solid var(--ink);color:var(--ink)}
+.cbtn.warm{border-color:var(--stamp);color:var(--stamp)}
+.pbtn{appearance:none;background:transparent;cursor:pointer;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:5px 10px;border:1.5px double var(--ochre);color:#5a4a20}
+.pbtn.on{background:#5a4a20;color:var(--paper)}
+.fic{border:1.5px solid var(--stamp);color:var(--stamp)}
+.fic.on{background:var(--stamp);color:var(--paper)}
+#mission{font-family:var(--mono);font-size:11px;text-align:center;letter-spacing:.06em;min-height:1.5em;margin:4px 0;color:var(--ink-mid)}
+.canwrap{border:1.5px solid var(--ink);margin-top:8px;background:#e2dbc2}
+canvas{width:100%;display:block}
+.panels{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+@media(max-width:620px){.panels{grid-template-columns:1fr}}
+.panel{border:1.5px solid var(--ink);padding:10px 12px}
+.panel h3{font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-mid);margin-bottom:6px;text-align:center}
+.stats{font-family:var(--mono);font-size:11px;line-height:1.95}
+.stats .hot{color:var(--stamp);font-weight:700}
+.stats .gold{color:var(--ochre);font-weight:700}
+#log{font-family:var(--mono);font-size:10.5px;line-height:1.7;height:150px;overflow-y:auto;border-top:1px dotted var(--ink-faint);padding-top:4px}
+#log .ev{color:var(--stamp);font-weight:700}
+#log .al{color:var(--ochre)}
+.frame{border:1.5px solid var(--ink);margin-top:14px;padding:12px;font-size:13px;line-height:1.6}
+.frame h3{font-family:var(--mono);font-size:9.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-mid);margin-bottom:6px;text-align:center}
+.frame .is{color:var(--ink)} .frame .isnt{color:var(--stamp)}
+.colophon{margin-top:24px;border-top:2px solid var(--ink);padding-top:12px;text-align:center;font-family:var(--mono);font-size:10px;color:var(--ink-mid);letter-spacing:.08em;line-height:1.9}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+<header class="masthead">
+  <div class="mast-eyebrow">Series E · Sheet 9 · Simulation, Stamped As Such</div>
+  <h1 class="mast-title">The Island Run</h1>
+  <div class="mast-sub">Fusion-Evaporation Synthesis · Target: N = 184 · Stark Protocol</div>
+  <p class="intro">Pick a beam and a target, ignite, and burn beam-days. The arithmetic is real (compound nucleus, 3n evaporation); the cross sections are stylized but shaped like the truth: picobarns, one atom per week on a good route, and a <b>quasi-fission penalty</b> that kills exactly the heavy symmetric routes whose arithmetic comes closest to the island. The boats that float fall short; the boat that points at the island sinks. STARK MODE adds the beam that doesn't exist — stamped accordingly.</p>
+</header>
+
+<div class="row">
+  BEAM <select id="beam"></select>
+  + TARGET <select id="tgt"></select>
+  <button class="pbtn fic" id="stark" onclick="toggleStark()">Stark Mode: OFF</button>
+</div>
+<div class="row">
+  <button class="cbtn" id="go" onclick="ignite()">Ignite Beam ▶</button>
+  <button class="cbtn warm" onclick="halt()">Kill Beam ⟲</button>
+  speed
+  <button class="pbtn on" data-s="1" onclick="spd(1,this)">1 d/s</button>
+  <button class="pbtn" data-s="7" onclick="spd(7,this)">1 wk/s</button>
+  <button class="pbtn" data-s="30" onclick="spd(30,this)">1 mo/s</button>
+</div>
+<div id="mission">configure the run</div>
+
+<div class="canwrap"><canvas id="cv" width="800" height="380"></canvas></div>
+
+<div class="panels">
+  <div class="panel">
+    <h3>Run Telemetry</h3>
+    <div class="stats" id="tele"></div>
+  </div>
+  <div class="panel">
+    <h3>Event Log</h3>
+    <div id="log"></div>
+  </div>
+</div>
+
+<div class="frame">
+  <h3>What's Real · What's Stylized · What's Fiction</h3>
+  <p><span class="is">REAL:</span> the nucleon arithmetic (verified), the record holders plotted (Fl-289 via Ca-48+Pu-244, Og-294 via Ca-48+Cf-249 — Dubna, ~0.5–6 pb, atoms per week), the 6–9 neutron deficit of every existing route, the quasi-fission wall on symmetric heavy projectiles (Ni-64+Pu-244 reaches N=183 on paper and ~nothing in a detector), and N=184 as the predicted shell closure. <b>STYLIZED:</b> cross sections and half-lives here are shaped, not computed — this sheet teaches the structure of the problem, it does not predict experiments. <span class="isnt">FICTION:</span> the Ca-57 beam. No such beam exists at usable intensity; it is included, stamped, so you can stand on the island once and watch the honest ending: even there, the atom decays. The theorem is the deliverable. The atom never was.</p>
+</div>
+
+<footer class="colophon">
+  THE MAP IS PROVEN BY THE LANDING, NOT THE SETTLEMENT<br>
+  EVERY BOAT THAT FLOATS FALLS SHORT · THE BOAT THAT POINTS TRUE SINKS · THE FICTIONAL BOAT ARRIVES AND STILL DECAYS<br>
+  THE ISLAND RUN · SHEET 9 · JUNE 2026
+</footer>
+
+</div>
+<script>
+/* ---------- data (arithmetic node-verified) ---------- */
+const BEAMS={'Ca-48':[20,48,1],'Ti-50':[22,50,.22],'Cr-54':[24,54,.07],'Fe-58':[26,58,.02],'Ni-64':[28,64,.006]};
+const FICBEAM={'Ca-57 [FICTION]':[20,57,1]};
+const TGTS={'U-238':[92,238],'Pu-244':[94,244],'Am-243':[95,243],'Cm-248':[96,248],'Bk-249':[97,249],'Cf-251':[98,251]};
+const RECORDS=[{n:175,z:114,l:'Fl-289'},{n:176,z:118,l:'Og-294'},{n:177,z:116,l:'Lv-293'}];
+const ELEM=['','H','He','Li','Be','B','C','N','O','F','Ne','Na','Mg','Al','Si','P','S','Cl','Ar','K','Ca','Sc','Ti','V','Cr','Mn','Fe','Co','Ni','Cu','Zn','Ga','Ge','As','Se','Br','Kr','Rb','Sr','Y','Zr','Nb','Mo','Tc','Ru','Rh','Pd','Ag','Cd','In','Sn','Sb','Te','I','Xe','Cs','Ba','La','Ce','Pr','Nd','Pm','Sm','Eu','Gd','Tb','Dy','Ho','Er','Tm','Yb','Lu','Hf','Ta','W','Re','Os','Ir','Pt','Au','Hg','Tl','Pb','Bi','Po','At','Rn','Fr','Ra','Ac','Th','Pa','U','Np','Pu','Am','Cm','Bk','Cf','Es','Fm','Md','No','Lr','Rf','Db','Sg','Bh','Hs','Mt','Ds','Rg','Cn','Nh','Fl','Mc','Lv','Ts','Og','Uue','Ubn','Ubu','Ubb'];
+let stark=false,daysPerSec=1,running=null,days=0,ions=0,fissions=0,residues=0,chain=null;
+
+function fillSelects(){
+  const b=document.getElementById('beam');b.innerHTML='';
+  const src=stark?{...BEAMS,...FICBEAM}:BEAMS;
+  for(const k in src){const o=document.createElement('option');o.textContent=k;b.appendChild(o)}
+  const t=document.getElementById('tgt');if(!t.options.length){for(const k in TGTS){const o=document.createElement('option');o.textContent=k;t.appendChild(o)}t.value='Pu-244'}
+  mission();
+}
+function getRx(){
+  const bk=document.getElementById('beam').value, tk=document.getElementById('tgt').value;
+  const B=(BEAMS[bk]||FICBEAM[bk]), T=TGTS[tk];
+  const Z=B[0]+T[0], A=B[1]+T[1]-3, N=A-Z;
+  return {bk,tk,Z,A,N,asym:B[2],fic:!!FICBEAM[bk]};
+}
+function sigma(rx){ // stylized pb: shell help near Z114, falloff with Z, quasi-fission penalty
+  const zb={112:4,113:6,114:6,115:9,116:4,117:2.5,118:.6,119:.06,120:.02,121:.005,122:.001}[rx.Z]||.0005;
+  return rx.fic? 3 : zb*rx.asym;
+}
+function ratePerDay(rx){return sigma(rx)*0.022} // ~6pb*Ca48 → ~1 atom/wk
+function mission(){
+  const rx=getRx();
+  document.getElementById('mission').innerHTML=
+    `${rx.bk} + ${rx.tk} → <b>${ELEM[rx.Z]}-${rx.A}</b> (Z=${rx.Z}, N=${rx.N}) after 3n · deficit from island: <b>${184-rx.N}</b> neutrons · σ≈${sigma(rx).toFixed(3)} pb (stylized)`;
+  draw();tele();
+}
+document.getElementById('beam')?.addEventListener?.('change',mission);
+function toggleStark(){stark=!stark;const b=document.getElementById('stark');
+  b.textContent='Stark Mode: '+(stark?'ON — FICTION BEAM LOADED':'OFF');b.classList.toggle('on',stark);fillSelects()}
+function spd(s,btn){daysPerSec=s;document.querySelectorAll('[data-s]').forEach(b=>b.classList.remove('on'));btn.classList.add('on')}
+
+/* ---------- chart ---------- */
+const cv=document.getElementById('cv'),ctx=cv.getContext('2d');
+const N0=150,N1=200,Z0=105,Z1=125;
+const X=n=>40+(n-N0)/(N1-N0)*740, Y=z=>350-(z-Z0)/(Z1-Z0)*320;
+function draw(){
+  ctx.clearRect(0,0,800,380);
+  // known sea (rough): everything synthesized clusters N 155–178
+  ctx.fillStyle='rgba(47,90,68,.13)';
+  ctx.beginPath();ctx.moveTo(X(155),Y(105));ctx.lineTo(X(178),Y(105));ctx.lineTo(X(179),Y(118));ctx.lineTo(X(160),Y(118));ctx.closePath();ctx.fill();
+  ctx.fillStyle='#7a937f';ctx.font='10px Courier New';ctx.fillText('THE KNOWN SEA — everything ever synthesized',X(156),Y(106)+14);
+  // island
+  ctx.strokeStyle='#8a6d2f';ctx.setLineDash([5,4]);ctx.lineWidth=1.6;
+  ctx.beginPath();ctx.ellipse(X(184),Y(116),52,46,0,0,7);ctx.stroke();ctx.setLineDash([]);
+  ctx.fillStyle='#8a6d2f';ctx.fillText('ISLAND OF STABILITY (predicted)',X(184)-78,Y(116)-52);
+  // magic lines
+  ctx.strokeStyle='rgba(138,51,36,.6)';ctx.setLineDash([7,5]);
+  ctx.beginPath();ctx.moveTo(X(184),20);ctx.lineTo(X(184),360);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(30,Y(114));ctx.lineTo(790,Y(114));ctx.stroke();ctx.setLineDash([]);
+  ctx.fillStyle='#8a3324';ctx.fillText('N = 184',X(184)+4,30);ctx.fillText('Z = 114',34,Y(114)-5);
+  // axes labels
+  ctx.fillStyle='#2f5a44';ctx.fillText('N →',760,372);ctx.fillText('Z ↑',8,28);
+  // record holders
+  RECORDS.forEach(r=>{ctx.fillStyle='#2f5a44';ctx.beginPath();ctx.arc(X(r.n),Y(r.z),3.5,0,7);ctx.fill();
+    ctx.font='9px Courier New';ctx.fillText(r.l,X(r.n)+5,Y(r.z)-4)});
+  // current target residue
+  const rx=getRx();
+  ctx.strokeStyle=rx.fic?'#8a3324':'#1c3d2e';ctx.lineWidth=2;
+  ctx.beginPath();ctx.arc(X(rx.N),Y(rx.Z),6,0,7);ctx.stroke();
+  ctx.font='10px Courier New';ctx.fillStyle=rx.fic?'#8a3324':'#1c3d2e';
+  ctx.fillText((rx.fic?'[FICTION] ':'')+ELEM[rx.Z]+'-'+rx.A,X(rx.N)+8,Y(rx.Z)+4);
+  // deficit arrow
+  if(rx.N<184){ctx.strokeStyle='#8a3324';ctx.setLineDash([3,3]);
+    ctx.beginPath();ctx.moveTo(X(rx.N)+6,Y(rx.Z));ctx.lineTo(X(184)-4,Y(rx.Z));ctx.stroke();ctx.setLineDash([]);
+    ctx.fillStyle='#8a3324';ctx.fillText((184-rx.N)+'n short',(X(rx.N)+X(184))/2-18,Y(rx.Z)-7)}
+  // active decay chain
+  if(chain){chain.pts.forEach((p,i)=>{
+    ctx.fillStyle=i===chain.pts.length-1?'#8a3324':'#8a6d2f';
+    ctx.beginPath();ctx.arc(X(p.n),Y(p.z),4,0,7);ctx.fill();
+    if(i>0){ctx.strokeStyle='#8a6d2f';ctx.beginPath();ctx.moveTo(X(chain.pts[i-1].n),Y(chain.pts[i-1].z));ctx.lineTo(X(p.n),Y(p.z));ctx.stroke()}
+  })}
+  if(stark){ctx.fillStyle='rgba(138,51,36,.85)';ctx.font='bold 11px Courier New';
+    ctx.fillText('⚠ STARK MODE — FICTION BEAM IN USE — RESULTS ARE NARRATIVE',180,372)}
+}
+function tele(){
+  const rx=getRx();
+  document.getElementById('tele').innerHTML=
+    `beam-days: <b>${days.toFixed(1)}</b> · ions: <b>${ions.toExponential(2)}</b><br>`+
+    `fission/transfer noise events: <b>${fissions.toExponential(1)}</b><br>`+
+    `evaporation residues: <b class="${residues?'gold':''}">${residues}</b><br>`+
+    `expected yield: ~${(ratePerDay(rx)*7).toFixed(2)} atoms/week<br>`+
+    `route deficit: <b class="hot">${184-rx.N} neutrons</b>${rx.fic?' — <b class="hot">VIA FICTION</b>':''}`;
+}
+function logln(s,cls){const l=document.getElementById('log');
+  l.innerHTML+=`<div class="${cls||''}">${s}</div>`;l.scrollTop=l.scrollHeight}
+
+/* ---------- run ---------- */
+function ignite(){
+  if(running)return;
+  const rx=getRx();
+  logln(`— BEAM ON: ${rx.bk} → ${rx.tk} · σ≈${sigma(rx).toFixed(3)} pb · expect ~${(ratePerDay(rx)*7).toFixed(2)}/wk`);
+  running=setInterval(()=>{
+    const dt=daysPerSec*0.25; days+=dt; ions+=6e12*86400*dt; fissions+=2.1e7*dt;
+    if(Math.random()<ratePerDay(getRx())*dt){residues++;detect()}
+    if(Math.random()<0.04)logln(`day ${days.toFixed(0)}: transfer products, fission background… nothing survives separation.`);
+    tele();draw();
+  },250);
+}
+function halt(){if(running){clearInterval(running);running=null;logln('— beam killed.')}}
+function detect(){
+  halt();
+  const rx=getRx();
+  logln(`★ EVAPORATION RESIDUE DETECTED: ${ELEM[rx.Z]}-${rx.A} — one atom.`,'ev');
+  // build stylized chain
+  chain={pts:[{z:rx.Z,n:rx.N}]};
+  let z=rx.Z,n=rx.N,t=0,steps=2+Math.floor(Math.random()*3);
+  const onIsl=rx.N>=183;
+  const next=()=>{
+    if(steps-->0&&z>104){
+      const hl=onIsl?(60+Math.random()*86400):(Math.pow(10,-(2*Math.random()))* (10**(Math.random()*2)));
+      t+=hl;z-=2;n-=2;chain.pts.push({z,n});
+      logln(`&nbsp;&nbsp;α → ${ELEM[z]}-${z+n} · t½(stylized) ${fmtT(hl)}`,'al');
+      draw();setTimeout(next,700);
+    }else{
+      logln(`&nbsp;&nbsp;✕ spontaneous fission — chain ends. the atom existed ~${fmtT(t)}.`,'ev');
+      logln(onIsl?
+        `&nbsp;&nbsp;ISLAND VERDICT: shell closure reached — and it still decayed. stability is a half-life, not a halt. the theorem survives; the atom did not.`:
+        `&nbsp;&nbsp;ledger: the map gains one data point. ${184-rx.N} neutrons of sea remain.`,'ev');
+      setTimeout(()=>{chain=null;draw()},4500);
+    }
+  };
+  setTimeout(next,700);
+}
+function fmtT(s){return s<1?(s*1000).toFixed(1)+' ms':s<120?s.toFixed(1)+' s':s<7200?(s/60).toFixed(1)+' min':(s/3600).toFixed(1)+' h'}
+
+document.getElementById('beam').addEventListener('change',mission);
+document.getElementById('tgt').addEventListener('change',mission);
+fillSelects();mission();
+</script>
+</body>
+</html>

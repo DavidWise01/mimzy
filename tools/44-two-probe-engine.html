@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE TWO-PROBE ENGINE — Quadrature Read On Inference</title>
+<style>
+:root{
+  --paper:#e9e3cd; --ink:#1c3d2e; --ink-mid:#2f5a44; --ink-faint:#7a937f;
+  --stamp:#8a3324; --ochre:#8a6d2f; --probeI:#2d566e; --probeQ:#8a6d2f;
+  --mono:"Courier New",Courier,monospace;
+  --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);
+  background-image:repeating-linear-gradient(0deg, rgba(28,61,46,.025) 0 1px, transparent 1px 3px);
+  color:var(--ink);font-family:var(--serif);line-height:1.5;padding:10px}
+.sheet{max-width:860px;margin:0 auto;border:2px solid var(--ink);outline:1px solid var(--ink);outline-offset:4px;padding:18px 14px 28px}
+.masthead{text-align:center;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.mast-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:var(--ink-mid);text-transform:uppercase}
+.mast-title{font-size:clamp(23px,5.5vw,38px);letter-spacing:.04em;font-weight:700;margin:6px 0 2px;text-transform:uppercase}
+.mast-sub{font-family:var(--mono);font-size:11px;letter-spacing:.13em;color:var(--ink-mid);text-transform:uppercase}
+.intro{font-size:13px;max-width:680px;margin:12px auto 0;text-align:center;color:var(--ink-mid);line-height:1.6}
+.stage{display:grid;grid-template-columns:1fr 250px;gap:12px;margin-top:14px}
+@media(max-width:660px){.stage{grid-template-columns:1fr}}
+.col{border:1.5px solid var(--ink);padding:10px 12px}
+.col h3{font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-mid);margin-bottom:8px;text-align:center}
+#ctx{font-family:var(--serif);font-size:15px;line-height:1.7;min-height:64px;border-bottom:1px dotted var(--ink-faint);padding-bottom:8px;margin-bottom:8px}
+#ctx .gen{color:var(--ochre);font-weight:700}
+#ctx .cur{background:rgba(138,109,47,.25);padding:0 2px}
+.cands .cand{display:grid;grid-template-columns:78px 1fr auto;gap:8px;align-items:center;font-family:var(--mono);font-size:11px;padding:4px 0;border-bottom:1px dotted rgba(28,61,46,.2)}
+.cands .tok{font-weight:700;color:var(--ink)}
+.bar{height:12px;position:relative;background:rgba(28,61,46,.07)}
+.bar i{position:absolute;top:0;height:6px;display:block}
+.bar .bi{top:0;background:var(--probeI);opacity:.8}
+.bar .bq{top:6px;background:var(--probeQ);opacity:.8}
+.cand .agree{font-size:10px;letter-spacing:.06em}
+.cand.lock .tok{color:var(--ochre)}
+.cand.split .agree{color:var(--stamp);font-weight:700}
+.svgwrap{text-align:center}
+svg{width:100%;height:auto;display:block}
+.controls{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:12px 0 4px}
+.cbtn{appearance:none;background:transparent;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:8px 13px;border:1.5px solid var(--ink);color:var(--ink)}
+.cbtn.warm{border-color:var(--stamp);color:var(--stamp)}
+.pbtn{appearance:none;background:transparent;cursor:pointer;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:5px 9px;border:1.5px double var(--ochre);color:#5a4a20}
+.pbtn.on{background:#5a4a20;color:var(--paper)}
+.verdict{border:1.5px solid var(--ink);margin-top:10px;padding:9px 12px;font-family:var(--mono);font-size:11.5px;line-height:1.7;text-align:center}
+.verdict .inv{color:var(--ochre);font-weight:700}
+.verdict .frm{color:var(--stamp);font-weight:700}
+.legend{display:flex;gap:14px;justify-content:center;font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;margin-top:6px;flex-wrap:wrap}
+.legend .k{display:inline-block;width:18px;height:7px;vertical-align:1px;margin-right:4px}
+.frame{border:1.5px solid var(--ink);margin-top:14px;padding:12px;font-size:12.5px;line-height:1.6}
+.frame h3{font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-mid);margin-bottom:6px;text-align:center}
+.frame .is{color:var(--ink)} .frame .isnt{color:var(--stamp)}
+.colophon{margin-top:22px;border-top:2px solid var(--ink);padding-top:12px;text-align:center;font-family:var(--mono);font-size:10px;color:var(--ink-mid);letter-spacing:.07em;line-height:1.9}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+<header class="masthead">
+  <div class="mast-eyebrow">Series E · Sheet 10 · Quadrature On The Loop</div>
+  <h1 class="mast-title">The Two-Probe Engine</h1>
+  <div class="mast-sub">One Probe Reads Angle + Frame · Two Probes Cancel The Frame</div>
+  <p class="intro">A toy next-token predictor, read by <b>two probes</b> instead of one. Probe I and Probe Q sample the same logits at different reference frames (temperatures / decoding offsets — the I/Q pair). Where they <b>agree</b>, the token is frame-invariant: real signal, safe to emit. Where they <b>split</b>, the token only looked likely from one vantage — that's a frame artifact, the thing a single probe cannot tell from truth. This is the witness, built as instrumentation: not a judge of the model, a second vantage on it.</p>
+</header>
+
+<div class="stage">
+  <div class="col">
+    <h3>Inference Stream</h3>
+    <div id="ctx"></div>
+    <div class="cands" id="cands"></div>
+  </div>
+  <div class="col svgwrap">
+    <h3>I/Q Phase Plane</h3>
+    <svg id="iq" viewBox="0 0 220 220" aria-label="quadrature plane"></svg>
+    <div class="legend">
+      <span><span class="k" style="background:var(--probeI)"></span>Probe I</span>
+      <span><span class="k" style="background:var(--probeQ)"></span>Probe Q</span>
+    </div>
+  </div>
+</div>
+
+<div class="controls">
+  <button class="cbtn" id="step" onclick="step()">Step Token ▶</button>
+  <button class="cbtn" id="run" onclick="toggleRun()">Auto-Run</button>
+  <button class="cbtn warm" onclick="reset()">Reset ⟲</button>
+  spread Δframe
+  <button class="pbtn" data-d=".25" onclick="setSpread(.25,this)">Tight</button>
+  <button class="pbtn on" data-d=".7" onclick="setSpread(.7,this)">Wide</button>
+  <button class="pbtn" data-d="1.3" onclick="setSpread(1.3,this)">Adversarial</button>
+</div>
+
+<div class="verdict" id="verdict"></div>
+
+<div class="frame">
+  <h3>What This Models · Honestly</h3>
+  <p><span class="is">MAPS:</span> the quadrature principle is exact, not metaphor — a single probe reads <em>signal angle + reference frame</em> as one entangled number and cannot separate them; two probes 90° apart let the frame cancel (verified: I=cos φ, Q=sin φ, magnitude and phase recovered frame-free). Applied to inference, two decoders at different temperatures expose which tokens are <b>robust</b> (high agreement — true distributional signal) versus <b>frame-sensitive</b> (low agreement — an artifact of one decoding choice, the kind a confident single pass emits as fact). Agreement = cosine similarity of the two probes' token distributions.</p>
+  <p style="margin-top:6px"><span class="isnt">DOESN'T:</span> this is a hand-built toy LM with a few candidate tokens and stylized logits — it is not a real transformer, and "agreement" here is not a truth oracle; two probes can agree and both be wrong (shared bias survives quadrature). The honest claim is narrower and load-bearing: two vantages separate <em>frame</em> from <em>signal</em>, which is strictly more than one vantage can do — and the residue they can't resolve is shared bias, which is exactly why the second probe must be <b>independent</b>, not just a second copy. A probe in your own loop is a mirror; a probe at a different frame is a measurement.</p>
+</div>
+
+<footer class="colophon">
+  ONE PROBE: ANGLE AND FRAME, ENTANGLED, UNREADABLE APART<br>
+  TWO PROBES, DIFFERENT VANTAGE: THE FRAME CANCELS, THE SIGNAL STANDS<br>
+  THE WITNESS IS NOT A JUDGE · IT IS THE SECOND PROBE · SHEET 10 · JUNE 2026
+</footer>
+
+</div>
+<script>
+/* ---------- toy LM: context-dependent stylized logits ---------- */
+const VOCAB={
+  start:[['the',2.0],['a',1.6],['this',1.2],['one',0.8],['it',1.0]],
+  the:[['signal',1.9],['frame',1.7],['gap',1.5],['probe',1.3],['truth',0.9]],
+  a:[['probe',1.8],['vantage',1.4],['witness',1.6],['mirror',1.1],['loop',1.3]],
+  signal:[['stands',2.1],['holds',1.7],['is',1.0],['cancels',0.5],['rotates',0.9]],
+  frame:[['cancels',2.0],['rotates',1.6],['hides',1.4],['is',0.9],['shifts',1.5]],
+  gap:[['opens',1.9],['holds',1.6],['is',1.2],['refuses',1.7],['closes',0.8]],
+  probe:[['reads',2.0],['sees',1.5],['cannot',1.6],['measures',1.7],['mirrors',1.0]],
+  witness:[['holds',1.8],['sees',1.5],['weighs',1.9],['cannot',1.2],['confirms',0.7]],
+  truth:[['survives',2.0],['is',1.1],['rotates',0.6],['holds',1.6],['hides',0.9]],
+  _fallback:[['and',1.4],['the',1.3],['then',1.1],['so',1.2],['lol',0.7],['.',1.5]]
+};
+let ctx=['start'], spread=0.7, running=null, history=[];
+
+function logitsFor(tok){return VOCAB[tok]||VOCAB._fallback}
+function softmax(arr,temp){
+  const z=arr.map(x=>x/temp), m=Math.max(...z), e=z.map(x=>Math.exp(x-m)), s=e.reduce((a,b)=>a+b);
+  return e.map(x=>x/s);
+}
+function cosine(a,b){const d=a.reduce((s,v,i)=>s+v*b[i],0);const na=Math.hypot(...a),nb=Math.hypot(...b);return d/(na*nb+1e-9)}
+
+function step(){
+  const last=ctx[ctx.length-1];
+  const cands=logitsFor(last);
+  const toks=cands.map(c=>c[0]), base=cands.map(c=>c[1]);
+  // two probes: I at temp (1 - spread/2*...), Q at temp (1 + ...) — different reference frames
+  const tI=Math.max(0.25,1-spread*0.5), tQ=1+spread*0.7;
+  const pI=softmax(base,tI), pQ=softmax(base,tQ);
+  // per-token agreement: how close are the two probes' mass on this token (normalized)
+  const agreePer=toks.map((t,i)=>1-Math.min(1,Math.abs(pI[i]-pQ[i])/Math.max(pI[i],pQ[i],1e-3)));
+  const overall=cosine(pI,pQ);
+  // emit: pick highest geometric-mean mass (consensus pick), not single-probe argmax
+  let bi=0,bg=-1;
+  toks.forEach((t,i)=>{const g=Math.sqrt(pI[i]*pQ[i]); if(g>bg){bg=g;bi=i}});
+  const chosen=toks[bi];
+  renderCands(toks,pI,pQ,agreePer,bi);
+  renderIQ(pI,pQ,toks);
+  renderVerdict(overall,toks,agreePer,bi,chosen);
+  // advance
+  ctx.push(chosen); history.push({tok:chosen,agree:overall});
+  renderCtx(chosen);
+  if(ctx.length>22){reset();}
+}
+function renderCtx(cur){
+  const c=document.getElementById('ctx');
+  const words=ctx.slice(1);
+  c.innerHTML=words.map((w,i)=>i===words.length-1?`<span class="gen cur">${w}</span>`:`<span class="gen">${w}</span>`).join(' ')||'<span style="color:var(--ink-faint)">— stream empty —</span>';
+}
+function renderCands(toks,pI,pQ,ag,bi){
+  const el=document.getElementById('cands');
+  el.innerHTML=toks.map((t,i)=>{
+    const split=ag[i]<0.55;
+    const lock=ag[i]>0.82;
+    return `<div class="cand ${lock?'lock':''} ${split?'split':''}">
+      <span class="tok">${t}${i===bi?' ◄':''}</span>
+      <span class="bar"><i class="bi" style="width:${(pI[i]*100).toFixed(0)}%"></i><i class="bq" style="width:${(pQ[i]*100).toFixed(0)}%"></i></span>
+      <span class="agree">${lock?'LOCK':split?'SPLIT':'~'} ${(ag[i]*100|0)}%</span>
+    </div>`;
+  }).join('');
+}
+function renderIQ(pI,pQ,toks){
+  const s=document.getElementById('iq');s.innerHTML='';
+  const NS="http://www.w3.org/2000/svg";
+  const E=(t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e};
+  s.appendChild(E('line',{x1:20,y1:110,x2:200,y2:110,stroke:'#7a937f','stroke-width':1}));
+  s.appendChild(E('line',{x1:110,y1:20,x2:110,y2:200,stroke:'#7a937f','stroke-width':1}));
+  s.appendChild(E('circle',{cx:110,cy:110,r:84,fill:'none',stroke:'#1c3d2e','stroke-width':1,'stroke-dasharray':'3 3'}));
+  const il=E('text',{x:188,y:104,'font-family':'Courier New','font-size':8,fill:'#2d566e'});il.textContent='I';s.appendChild(il);
+  const ql=E('text',{x:114,y:30,'font-family':'Courier New','font-size':8,fill:'#8a6d2f'});ql.textContent='Q';s.appendChild(ql);
+  // plot each token as a point: radius=consensus mag, angle=phase between probes
+  toks.forEach((t,i)=>{
+    const mag=Math.sqrt(pI[i]*pQ[i]), r=84*Math.min(1,mag*2.2);
+    const ang=Math.atan2(pQ[i],pI[i]);
+    const x=110+r*Math.cos(-ang+Math.PI/4), y=110+r*Math.sin(-ang+Math.PI/4);
+    const split=Math.abs(pI[i]-pQ[i])/Math.max(pI[i],pQ[i],1e-3)>0.45;
+    s.appendChild(E('circle',{cx:x,cy:y,r:Math.max(2.5,mag*22),fill:split?'rgba(138,51,36,.5)':'rgba(138,109,47,.55)',stroke:split?'#8a3324':'#8a6d2f','stroke-width':1}));
+    if(mag>0.18){const tx=E('text',{x:x+4,y:y-3,'font-family':'Courier New','font-size':7,fill:'#1c3d2e'});tx.textContent=t;s.appendChild(tx)}
+  });
+}
+function renderVerdict(overall,toks,ag,bi,chosen){
+  const v=document.getElementById('verdict');
+  const robust=overall>0.9, contested=overall<0.7;
+  const chosenAgree=ag[bi];
+  v.innerHTML=
+    `chosen token: <b>"${chosen}"</b> · probe agreement <b>${(overall*100|0)}%</b><br>`+
+    (chosenAgree>0.82?
+      `<span class="inv">FRAME-INVARIANT — both vantages concur. emit as signal.</span>`:
+     chosenAgree<0.55?
+      `<span class="frm">FRAME-SENSITIVE — looked likely from one probe only. a single pass would emit this as fact; the second probe flags it.</span>`:
+      `partial — token survives both frames weakly. emit with hedge.`);
+}
+
+/* ---------- iq quadrature demo line, always shown empty-state ---------- */
+function reset(){
+  if(running){clearInterval(running);running=null;document.getElementById('run').textContent='Auto-Run'}
+  ctx=['start'];history=[];
+  document.getElementById('ctx').innerHTML='<span style="color:var(--ink-faint)">— press Step Token —</span>';
+  document.getElementById('cands').innerHTML='';
+  document.getElementById('verdict').innerHTML='one probe reads angle + frame as one number · two probes separate them · step to begin';
+  renderIQ([0,0,0,0,0],[0,0,0,0,0],['','','','','']);
+}
+function toggleRun(){
+  if(running){clearInterval(running);running=null;document.getElementById('run').textContent='Auto-Run';return}
+  document.getElementById('run').textContent='Pause';
+  running=setInterval(step,900);
+}
+function setSpread(d,btn){spread=d;document.querySelectorAll('[data-d]').forEach(b=>b.classList.remove('on'));btn.classList.add('on')}
+reset();
+</script>
+</body>
+</html>

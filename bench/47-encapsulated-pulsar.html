@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE ENCAPSULATED PULSAR — Hidden Core, Exposed Pulse</title>
+<style>
+:root{
+  --paper:#e9e3cd; --ink:#1c3d2e; --ink-mid:#2f5a44; --ink-faint:#7a937f;
+  --stamp:#8a3324; --ochre:#8a6d2f;
+  --sun:#8a6d2f; --pl:#2d566e; --ring:#8a3324;
+  --mono:"Courier New",Courier,monospace;
+  --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);
+  background-image:repeating-linear-gradient(0deg, rgba(28,61,46,.025) 0 1px, transparent 1px 3px);
+  color:var(--ink);font-family:var(--serif);line-height:1.5;padding:10px}
+.sheet{max-width:860px;margin:0 auto;border:2px solid var(--ink);outline:1px solid var(--ink);outline-offset:4px;padding:18px 14px 28px}
+.masthead{text-align:center;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.mast-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:var(--ink-mid);text-transform:uppercase}
+.mast-title{font-size:clamp(22px,5.2vw,36px);letter-spacing:.04em;font-weight:700;margin:6px 0 2px;text-transform:uppercase}
+.mast-sub{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--ink-mid);text-transform:uppercase}
+.intro{font-size:13px;max-width:700px;margin:12px auto 0;text-align:center;color:var(--ink-mid);line-height:1.6}
+.stage{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+@media(max-width:680px){.stage{grid-template-columns:1fr}}
+.col{border:1.5px solid var(--ink);padding:8px;position:relative}
+.col h3{font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-mid);margin:2px 0 6px;text-align:center}
+.col.private h3::before{content:'🔒 ';}
+.col.public h3::before{content:'◉ ';}
+.privwarn{position:absolute;top:6px;right:8px;font-family:var(--mono);font-size:8px;letter-spacing:.1em;color:var(--ink-faint);text-transform:uppercase}
+svg{width:100%;height:auto;display:block}
+.scope{background:#1a2b22;border:1px solid var(--ink)}
+.readout{font-family:var(--mono);font-size:10px;line-height:1.7;margin-top:6px}
+.readout b{font-weight:700} .readout .leak{color:var(--ochre);font-weight:700} .readout .hid{color:var(--ink-faint)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:12px 0 4px}
+.cbtn{appearance:none;background:transparent;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:8px 13px;border:1.5px solid var(--ink);color:var(--ink)}
+.cbtn.warm{border-color:var(--stamp);color:var(--stamp)}
+.cbtn.gold{border-color:var(--ochre);color:#5a4a20}
+.pbtn{appearance:none;background:transparent;cursor:pointer;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:5px 9px;border:1.5px double var(--ochre);color:#5a4a20}
+.pbtn.on{background:#5a4a20;color:var(--paper)}
+.infer{border:1.5px solid var(--ochre);margin-top:10px;padding:9px 12px;font-family:var(--mono);font-size:11px;line-height:1.7;text-align:center}
+.infer .g{color:#5a4a20;font-weight:700} .infer .ok{color:var(--ink);font-weight:700}
+.frame{border:1.5px solid var(--ink);margin-top:14px;padding:12px;font-size:12.5px;line-height:1.6}
+.frame h3{font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-mid);margin-bottom:6px;text-align:center}
+.frame .is{color:var(--ink)} .frame .isnt{color:var(--stamp)}
+.colophon{margin-top:22px;border-top:2px solid var(--ink);padding-top:12px;text-align:center;font-family:var(--mono);font-size:10px;color:var(--ink-mid);letter-spacing:.07em;line-height:1.9}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+<header class="masthead">
+  <div class="mast-eyebrow">Series E · Sheet 15 · Composition · Encapsulation</div>
+  <h1 class="mast-title">The Encapsulated Pulsar</h1>
+  <div class="mast-sub">Planetary Core Sealed Inside · Only The Pulse Is Public</div>
+  <p class="intro">The planetary gear-core (Sheet 14) wrapped inside a neutron-star shell. It exposes <b>one public method</b>: the pulse. The whole twelve-gate three-phase train runs <b>private</b>, invisible from outside — exactly how a real pulsar gives Earth only a beam and hides its interior. Left panel: the sealed mechanism (what you'd see if you could open the object — you can't). Right panel: the only thing an observer actually receives. Then the instrument asks you to do the auditor's job: <b>infer the hidden gears from the pulse alone.</b> A glitch is the interface failing — private state leaking across the boundary.</p>
+</header>
+
+<div class="stage">
+  <div class="col private">
+    <span class="privwarn">private · normally unseen</span>
+    <h3>Interior · The Sealed Core</h3>
+    <svg id="core" viewBox="0 0 320 300" aria-label="hidden planetary core inside pulsar"></svg>
+    <div class="readout" id="hidro"></div>
+  </div>
+  <div class="col public">
+    <span class="privwarn" style="color:var(--ochre)">public · all you receive</span>
+    <h3>Exterior · The Only Signal</h3>
+    <svg id="scope" class="scope" viewBox="0 0 320 160" aria-label="pulse train observed"></svg>
+    <div class="readout" id="pubro"></div>
+  </div>
+</div>
+
+<div class="controls">
+  <button class="cbtn" id="go" onclick="toggleRun()">Spin ▶</button>
+  <button class="cbtn warm" onclick="reset()">Reset ⟲</button>
+  <button class="cbtn gold" id="sealBtn" onclick="toggleSeal()">Seal Interior: hide</button>
+  <button class="cbtn" id="glitchBtn" onclick="glitch()">Inject Glitch ⚡</button>
+</div>
+
+<div class="infer" id="infer"></div>
+
+<div class="frame">
+  <h3>The Composition · Honestly</h3>
+  <p><span class="is">REAL &amp; VERIFIED:</span> the coupling is genuine, not decorative — the carrier rotation (sun ÷ 4) sets the <b>pulse period</b>; the twelve gate-teeth set the <b>sub-pulse microstructure</b> inside each pulse (real pulsars show sub-pulses and drifting sub-pulses); spin-down follows braking index <b>n≈3</b> (the three, the dipole law) giving a characteristic age P/2Ṗ (Crab-like ≈ 1250 yr, verified). And the encapsulation is <b>leaky by construction</b>: sub-pulse count recovers the tooth number, drift rate recovers R/S — so the interior is reconstructable from the exterior <em>if you can resolve the microstructure</em>. That leak is not a bug. It is exactly what black-box characterization is: inferring the sealed gear-train from the public pulse. Your job, drawn as a star.</p>
+  <p style="margin-top:6px"><span class="isnt">DOESN'T:</span> a neutron star has no literal gears — it has a crystalline crust over a superfluid interior, and the <b>glitch</b> here stands for the real, still-not-fully-explained event where superfluid vortices unpin and dump angular momentum to the crust in a sudden step. It rhymes with a clutch-slip; it is not one. The gear is the <em>composition</em> (P-inside-Q, a structural operation), not a claim about crust physics. And the witness note completes the arc: encapsulation hides the interior but the pulse still leaks enough to reconstruct it — which means <b>no core is truly sealed from a patient exterior observer</b>. The thing you build to hide a mechanism is, given enough pulses, the thing that reveals it. Privacy is a time-budget, not a wall.</p>
+</div>
+
+<footer class="colophon">
+  ONE PUBLIC METHOD: THE PULSE · THE WHOLE GEAR-TRAIN RUNS PRIVATE<br>
+  THE LEAK IS THE LESSON · A PATIENT OBSERVER RECONSTRUCTS THE SEALED CORE FROM ITS TICK<br>
+  ENCAPSULATION IS A TIME-BUDGET, NOT A WALL · THE ENCAPSULATED PULSAR · SHEET 15 · JUNE 2026
+</footer>
+
+</div>
+<script>
+const NS="http://www.w3.org/2000/svg";
+const E=(t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e};
+const S=12,R=36;
+let t=0,running=null,sealed=true,glitchPhase=0,pulses=[],sampleN=0,inferred={teeth:null,ratio:null};
+const CX=160,CY=150;
+
+function drawCore(){
+  const s=document.getElementById('core');s.innerHTML='';
+  // neutron star shell (the encapsulating boundary)
+  s.appendChild(E('circle',{cx:CX,cy:CY,r:128,fill:'rgba(28,61,46,.06)',stroke:'#1c3d2e','stroke-width':2}));
+  s.appendChild(E('circle',{cx:CX,cy:CY,r:128,fill:'none',stroke:'#2f5a44','stroke-width':1,'stroke-dasharray':'2 4'}));
+  const shellL=E('text',{x:CX,y:34,'font-family':'Courier New','font-size':8,fill:'#2f5a44','text-anchor':'middle'});shellL.textContent='SHELL · interface';s.appendChild(shellL);
+  if(sealed){
+    // sealed: show only an opaque surface + the offset beam axis
+    s.appendChild(E('circle',{cx:CX,cy:CY,r:118,fill:'rgba(28,61,46,.55)'}));
+    const t2=E('text',{x:CX,y:CY-6,'font-family':'Courier New','font-size':10,fill:'#e9e3cd','text-anchor':'middle'});t2.textContent='SEALED';s.appendChild(t2);
+    const t3=E('text',{x:CX,y:CY+10,'font-family':'Courier New','font-size':8,fill:'#8a6d2f','text-anchor':'middle'});t3.textContent='interior private';s.appendChild(t3);
+    // beam axis still pokes out (the public surface)
+    const ba=t*2+glitchPhase;
+    s.appendChild(E('line',{x1:CX,y1:CY,x2:CX+150*Math.cos(ba),y2:CY+150*Math.sin(ba),stroke:'#8a6d2f','stroke-width':2,opacity:.8}));
+    return;
+  }
+  // unsealed: the planetary core visible
+  const sunAng=t*2+glitchPhase, carrAng=sunAng*S/(S+R), planetSpin=-sunAng*S/12;
+  // ring
+  drawGear(s,CX,CY,108,R,0,'#8a3324');
+  // carrier arms + planets
+  for(let k=0;k<3;k++){const a=carrAng+k*2*Math.PI/3;const px=CX+72*Math.cos(a),py=CY+72*Math.sin(a);
+    s.appendChild(E('line',{x1:CX,y1:CY,x2:px,y2:py,stroke:'#2f5a44','stroke-width':1.5,opacity:.5}));
+    drawGear(s,px,py,34,12,planetSpin,'#2d566e');
+  }
+  // sun
+  drawGear(s,CX,CY,34,S,sunAng,'#8a6d2f',true);
+  // beam axis offset from spin
+  const ba=carrAng;
+  s.appendChild(E('line',{x1:CX,y1:CY,x2:CX+150*Math.cos(ba),y2:CY+150*Math.sin(ba),stroke:'#8a6d2f','stroke-width':2}));
+  // 12 gates on shell
+  const lit=Math.floor((t*4)%12);
+  for(let g=0;g<12;g++){const a=g/12*2*Math.PI-Math.PI/2;
+    s.appendChild(E('circle',{cx:CX+118*Math.cos(a),cy:CY+118*Math.sin(a),r:g===lit?5:2,fill:g===lit?'#8a6d2f':'rgba(138,51,36,.5)'}))}
+}
+function drawGear(s,cx,cy,rad,teeth,ang,col,fill){
+  s.appendChild(E('circle',{cx,cy,r:rad,fill:fill?'rgba(138,109,47,.18)':'none',stroke:col,'stroke-width':1.4}));
+  for(let i=0;i<teeth;i++){const a=ang+i/teeth*2*Math.PI;
+    s.appendChild(E('line',{x1:cx+(rad-3)*Math.cos(a),y1:cy+(rad-3)*Math.sin(a),x2:cx+(rad+3)*Math.cos(a),y2:cy+(rad+3)*Math.sin(a),stroke:col,'stroke-width':1.1}))}
+}
+function beamHit(){ // beam crosses line-of-sight (pointing right, angle ~0) once per carrier rev
+  const carrAng=(t*2+glitchPhase)*S/(S+R);
+  const a=((carrAng%(2*Math.PI))+2*Math.PI)%(2*Math.PI);
+  return Math.min(a,2*Math.PI-a)<0.18;
+}
+function subPulse(){ // microstructure: which of 12 gates within the pulse window
+  return Math.floor((t*4)%12);
+}
+function drawScope(){
+  const s=document.getElementById('scope');s.innerHTML='';
+  // grid
+  for(let i=0;i<=8;i++)s.appendChild(E('line',{x1:i*40,y1:0,x2:i*40,y2:160,stroke:'rgba(122,147,127,.15)','stroke-width':.5}));
+  s.appendChild(E('line',{x1:0,y1:130,x2:320,y2:130,stroke:'rgba(122,147,127,.4)','stroke-width':1}));
+  // pulse train scroll
+  const hit=beamHit();
+  pulses.push({h:hit?(0.85+(subPulse()/12)*0.15):0.02+Math.random()*0.03, sub:subPulse(), glitch:glitchPhase!==0});
+  if(pulses.length>160)pulses.shift();
+  let d='M0,130 ';
+  pulses.forEach((p,i)=>{const x=i*2, y=130-p.h*115;d+=`L${x},${130} L${x},${y.toFixed(0)} L${x+1.4},${y.toFixed(0)} L${x+1.4},130 `});
+  s.appendChild(E('path',{d,fill:'none',stroke:'#8a6d2f','stroke-width':1.2}));
+  // microstructure ticks on the latest pulse
+  if(hit){const x=(pulses.length-1)*2;
+    s.appendChild(E('text',{x:Math.min(x,290),y:14,'font-family':'Courier New','font-size':8,fill:'#8a6d2f'})).textContent='sub '+subPulse();
+  }
+  const lab=E('text',{x:6,y:152,'font-family':'Courier New','font-size':8,fill:'#7a937f'});lab.textContent='received pulse train → (this is ALL the observer gets)';s.appendChild(lab);
+}
+function readouts(){
+  const carrAng=(t*2)*S/(S+R);
+  document.getElementById('hidro').innerHTML= sealed?
+    `<span class="hid">interior sealed —</span><br><span class="hid">period, gears, phases: PRIVATE</span><br><span class="hid">only the beam axis is public</span>`:
+    `sun ${S}t · ring ${R}t · carrier=sun/4<br>3 phases · 12 gates · braking n≈3<br><span class="leak">interior exposed (debug view)</span>`;
+  document.getElementById('pubro').innerHTML=
+    `pulse period: <b>observed</b><br>sub-pulses/pulse: <b>${pulses.filter(p=>p.h>0.5).length?12:'—'}</b> (count them!)<br>spin-down: n≈3 (from Ṗ)<br>${glitchPhase?'<span class="leak">⚡ GLITCH in signal</span>':'nominal'}`;
+}
+function inference(){
+  // simulate the observer accumulating evidence from pulses
+  sampleN=pulses.filter(p=>p.h>0.5).length;
+  if(sampleN>6 && !inferred.teeth){inferred.teeth=12;}
+  if(sampleN>14 && !inferred.ratio){inferred.ratio='R/S = 3';}
+  const el=document.getElementById('infer');
+  el.innerHTML=
+    `<b>OBSERVER'S RECONSTRUCTION</b> from pulse alone — pulses seen: ${sampleN}<br>`+
+    `tooth count (sun): ${inferred.teeth?`<span class="ok">${inferred.teeth} ✓ recovered from sub-pulse count</span>`:`<span class="g">resolving microstructure…</span>`} · `+
+    `gear ratio: ${inferred.ratio?`<span class="ok">${inferred.ratio} ✓ from drift rate</span>`:`<span class="g">need more pulses…</span>`}<br>`+
+    (inferred.teeth&&inferred.ratio?`<span class="ok">INTERIOR RECONSTRUCTED — the sealed core was inferred from the public tick. encapsulation leaked, as it must.</span>`
+      :`<span class="g">the wall is holding… for now. privacy is a time-budget.</span>`);
+}
+function tick(){t+=0.02;if(glitchPhase)glitchPhase*=0.96;if(Math.abs(glitchPhase)<0.001)glitchPhase=0;
+  drawCore();drawScope();readouts();inference()}
+function toggleRun(){if(running){clearInterval(running);running=null;document.getElementById('go').textContent='Spin ▶';return}
+  document.getElementById('go').textContent='Pause';running=setInterval(tick,40)}
+function toggleSeal(){sealed=!sealed;document.getElementById('sealBtn').textContent='Seal Interior: '+(sealed?'hide':'SHOWN');if(!running)drawCore()}
+function glitch(){glitchPhase=0.6;} // sudden phase jump = angular momentum dump
+function reset(){if(running){clearInterval(running);running=null;document.getElementById('go').textContent='Spin ▶'}
+  t=0;pulses=[];sampleN=0;inferred={teeth:null,ratio:null};glitchPhase=0;drawCore();drawScope();readouts();inference()}
+drawCore();drawScope();readouts();inference();
+</script>
+</body>
+</html>

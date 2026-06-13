@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE DUAL DESCENT · Atomic & Quantum Veins · Sliding Windows of 3</title>
+<style>
+:root{
+  --paper:#e9e3cd; --ink:#1c3d2e; --ink-mid:#2f5a44; --ink-faint:#7a937f;
+  --stamp:#8a3324; --ochre:#8a6d2f; --atom:#8a3324; --quant:#2d566e;
+  --wit:#5a3a6b; --gap:#2f5a44; --sub:#8a6d2f;
+  --mono:"Courier New",Courier,monospace;
+  --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);
+  background-image:repeating-linear-gradient(0deg, rgba(28,61,46,.03) 0 1px, transparent 1px 3px);
+  color:var(--ink);font-family:var(--serif);line-height:1.5;padding:10px}
+.sheet{max-width:840px;margin:0 auto;border:2.5px solid var(--ink);padding:0;position:relative}
+.sheet::before{content:'';position:absolute;inset:5px;border:1px solid var(--ink);pointer-events:none}
+.inner{padding:22px}
+.masthead{text-align:center;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.mast-eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:.26em;color:var(--ink-mid);text-transform:uppercase}
+.mast-title{font-size:clamp(22px,5.4vw,38px);letter-spacing:.04em;font-weight:700;margin:6px 0 2px;text-transform:uppercase}
+.mast-sub{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--ink-mid)}
+.lede{font-size:12.5px;max-width:660px;margin:12px auto 0;text-align:center;color:var(--ink-mid);line-height:1.6}
+.lede b{color:var(--ink)}
+.window-ctrl{display:flex;gap:8px;justify-content:center;align-items:center;margin:14px 0 8px;flex-wrap:wrap}
+.wbtn{appearance:none;background:transparent;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.1em;padding:7px 13px;border:1.5px double var(--ochre);color:#5a4a20}
+.wbtn.on{background:#5a4a20;color:var(--paper)}
+.cols{display:grid;grid-template-columns:30px 1fr 1fr;gap:8px;margin-top:8px}
+.cols .vh{font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;text-align:center;color:var(--ink-mid);padding-bottom:4px}
+.cols .vh.a{color:var(--atom)} .cols .vh.q{color:var(--quant)}
+.ladder{display:contents}
+.lvlnum{font-family:var(--mono);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;color:var(--ink-faint)}
+.lvlnum.inwin{color:var(--ink)}
+.lcell{border:1.5px solid var(--ink-faint);padding:8px 10px;margin-bottom:6px;opacity:.4;transition:all .15s}
+.lcell.inwin{opacity:1;border-color:var(--ink)}
+.lcell.role-wit.inwin{border-left:4px solid var(--wit);background:rgba(90,58,107,.07)}
+.lcell.role-gap.inwin{border-left:4px solid var(--gap);background:rgba(47,90,68,.1)}
+.lcell.role-sub.inwin{border-left:4px solid var(--sub);background:rgba(138,109,47,.08)}
+.lcell .nm{font-family:var(--mono);font-size:12px;font-weight:700}
+.lcell.a .nm{color:var(--atom)} .lcell.q .nm{color:var(--quant)}
+.lcell .dt{font-size:11px;color:var(--ink-mid);margin-top:2px;line-height:1.4}
+.lcell .role{font-family:var(--mono);font-size:7.5px;letter-spacing:.1em;text-transform:uppercase;margin-top:4px;display:none}
+.lcell.inwin .role{display:block}
+.lcell .role.wit{color:var(--wit)} .lcell .role.gap{color:var(--gap)} .lcell .role.sub{color:var(--sub)}
+.readout{border:1.5px solid var(--ink);margin-top:12px;padding:10px 12px;font-family:var(--mono);font-size:11px;line-height:1.7;text-align:center}
+.readout .wit{color:var(--wit);font-weight:700} .readout .gap{color:var(--gap);font-weight:700} .readout .sub{color:var(--sub);font-weight:700}
+h2.sec{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase;border-bottom:1.5px solid var(--ink);padding-bottom:4px;margin:22px 0 10px}
+h2.sec .n{color:var(--stamp);margin-right:8px}
+.body p{font-size:13px;margin-bottom:8px}
+.body b{color:var(--ink)}
+.def{font-family:var(--mono);font-size:10.5px;background:rgba(28,61,46,.06);border-left:2px solid var(--ochre);padding:8px 11px;margin:9px 0;line-height:1.6}
+.colophon{margin-top:22px;border-top:2px solid var(--ink);padding-top:12px;text-align:center;font-family:var(--mono);font-size:9px;color:var(--ink-mid);letter-spacing:.05em;line-height:1.9}
+</style>
+</head>
+<body>
+<div class="sheet"><div class="inner">
+
+<header class="masthead">
+  <div class="mast-eyebrow">Series E · Walking The Veins · 3×3×3</div>
+  <h1 class="mast-title">The Dual Descent</h1>
+  <div class="mast-sub">Atomic Vein · Quantum Vein · Sliding Windows [1·2·3] [2·3·4] [3·4·5]</div>
+  <p class="lede">Two veins walked down together — <span style="color:var(--atom)">atomic</span> (the matter structure) and <span style="color:var(--quant)">quantum</span> (the law that governs each scale). A window of <b>3</b> slides down, overlapping by 2: each window is a <b>two-axis gap</b> — <span style="color:var(--wit)">witness above</span>, <span style="color:var(--gap)">gap in the middle</span>, <span style="color:var(--sub)">substrate below</span>. Slide it and watch each level play all three roles in turn. Both veins floor at the same place — that's "until done."</p>
+</header>
+
+<div class="window-ctrl">
+  <span style="font-family:var(--mono);font-size:10px;color:var(--ink-mid)">window:</span>
+  <button class="wbtn on" data-w="0" onclick="setW(0,this)">[1·2·3]</button>
+  <button class="wbtn" data-w="1" onclick="setW(1,this)">[2·3·4]</button>
+  <button class="wbtn" data-w="2" onclick="setW(2,this)">[3·4·5]</button>
+</div>
+
+<div class="cols">
+  <div class="vh"></div>
+  <div class="vh a">Atomic Vein · structure</div>
+  <div class="vh q">Quantum Vein · law</div>
+  <div id="ladder" class="ladder"></div>
+</div>
+
+<div class="readout" id="readout"></div>
+
+<section class="body">
+
+  <h2 class="sec"><span class="n">§1</span> The Window Is The Gap</h2>
+  <p>Each sliding window of 3 <em>is</em> a two-axis gap from the prior sheet. The middle level is the <span style="color:var(--gap)">gap</span>; the level above <span style="color:var(--wit)">witnesses</span> it (governs, contains, sets context); the level below <span style="color:var(--sub)">constitutes</span> it (is what it's made of, its substrate). So walking the window down the veins is literally walking the gap down the stack — one gap per window, three windows, the whole descent.</p>
+
+  <h2 class="sec"><span class="n">§2</span> Each Level Plays Three Roles</h2>
+  <p>Because the windows overlap by 2, <b>every interior level appears in three windows — and plays a different role in each.</b> Take the nucleon: in [1·2·3] it is <span style="color:var(--sub)">substrate</span> (what the nucleus is made of); in [2·3·4] it is the <span style="color:var(--gap)">gap</span> (the witnessed middle); in [3·4·5] it is the <span style="color:var(--wit)">witness</span> (the context governing the quark reading). Substrate, then gap, then witness — as the window passes over it. That is your <b>123=3, 234=3, 345=3</b>: three roles, three windows, each level a 3 in turn.</p>
+  <div class="def">a level is never fixed as witness OR gap OR substrate — it is all three, depending where the window sits.<br>governance is relational: you witness what's below you and are substrate to what's above you.</div>
+
+  <h2 class="sec"><span class="n">§3</span> The Veins Converge · "until done makes sense"</h2>
+  <p>The two veins are not parallel forever. They <b>merge at the floor</b>: the atomic vein bottoms at <span style="color:var(--atom)">FIELD</span> (a quark is an excitation of a quantum field), and the quantum vein bottoms at <span style="color:var(--quant)">VACUUM</span> (the field's ground state) — and these are <b>the same thing</b>. Matter-structure and quantum-law, walked down far enough, become one substrate: the quantum field. That convergence is "until done makes sense" — the descent terminates where the two veins are no longer two. Below the field, no known substructure: the floor, constituted by nothing further, the bottom gap of the whole stack.</p>
+
+</section>
+
+<div class="colophon">
+  ATOMIC VEIN: ATOM · NUCLEUS · NUCLEON · QUARK · FIELD<br>
+  QUANTUM VEIN: ORBITAL · SHELL · CONFINEMENT · FIELD · VACUUM<br>
+  WINDOW OF 3 SLIDES DOWN · WITNESS / GAP / SUBSTRATE · EACH LEVEL PLAYS ALL THREE<br>
+  THE VEINS MERGE AT THE QUANTUM FIELD · THE DUAL DESCENT · SERIES E · JUNE 2026
+</div>
+
+</div></div>
+<script>
+const ATOMIC=[
+  {n:'ATOM',d:'electron cloud · EM binding · Z sets identity · ~10⁻¹⁰ m'},
+  {n:'NUCLEUS',d:'protons + neutrons · residual strong force · magic numbers · ~10⁻¹⁴ m'},
+  {n:'NUCLEON',d:'3 quarks · gluon binding · ~99% mass = binding energy · ~10⁻¹⁵ m'},
+  {n:'QUARK',d:'point-like · color charge · fractional · <10⁻¹⁸ m'},
+  {n:'FIELD',d:'excitation of a quantum field · the substrate · the floor'}
+];
+const QUANTUM=[
+  {n:'ORBITAL',d:'wavefunction ψ(n,l,m,s) · Pauli exclusion · discrete spectra'},
+  {n:'SHELL',d:'nuclear shell model · spin-orbit · magic 2,8,20,28,50,82,126'},
+  {n:'CONFINEMENT',d:'color charge · asymptotic freedom · no free quark exists'},
+  {n:'FIELD',d:'QFT · the quark IS a field excitation · create / annihilate'},
+  {n:'VACUUM',d:'zero-point ground state · virtual particles · the field at rest'}
+];
+let win=0; // window index: 0=[1,2,3], 1=[2,3,4], 2=[3,4,5]
+function roleOf(lvl){ // within current window [win+1, win+2, win+3] (0-indexed: win,win+1,win+2)
+  if(lvl===win) return 'wit';      // top of window = witness
+  if(lvl===win+1) return 'gap';    // middle = gap
+  if(lvl===win+2) return 'sub';    // bottom = substrate
+  return null;
+}
+function draw(){
+  const L=document.getElementById('ladder');L.innerHTML='';
+  for(let i=0;i<5;i++){
+    const role=roleOf(i), inwin=role!==null;
+    // level number
+    const num=document.createElement('div');num.className='lvlnum'+(inwin?' inwin':'');
+    num.textContent=(i+1);
+    L.appendChild(num);
+    // atomic cell
+    const ac=document.createElement('div');
+    ac.className='lcell a '+(inwin?'inwin role-'+role:'');
+    ac.innerHTML=`<div class="nm">${ATOMIC[i].n}</div><div class="dt">${ATOMIC[i].d}</div>`+
+      (inwin?`<div class="role ${role}">${role==='wit'?'↑ witness (governs)':role==='gap'?'◆ gap (the middle)':'↓ substrate (constitutes)'}</div>`:'');
+    L.appendChild(ac);
+    // quantum cell
+    const qc=document.createElement('div');
+    qc.className='lcell q '+(inwin?'inwin role-'+role:'');
+    qc.innerHTML=`<div class="nm">${QUANTUM[i].n}</div><div class="dt">${QUANTUM[i].d}</div>`+
+      (inwin?`<div class="role ${role}">${role==='wit'?'↑ witness':role==='gap'?'◆ gap':'↓ substrate'}</div>`:'');
+    L.appendChild(qc);
+  }
+  // readout
+  const w=[win,win+1,win+2];
+  const r=document.getElementById('readout');
+  r.innerHTML=
+    `window [${w[0]+1}·${w[1]+1}·${w[2]+1}] = one two-axis gap<br>`+
+    `<span class="wit">witness: ${ATOMIC[win].n} / ${QUANTUM[win].n}</span> &nbsp;|&nbsp; `+
+    `<span class="gap">GAP: ${ATOMIC[win+1].n} / ${QUANTUM[win+1].n}</span> &nbsp;|&nbsp; `+
+    `<span class="sub">substrate: ${ATOMIC[win+2].n} / ${QUANTUM[win+2].n}</span>`+
+    (win===2?`<br><b style="color:var(--ochre)">↓ floor reached: FIELD = VACUUM — the veins merge. done.</b>`:'');
+}
+function setW(w,btn){win=w;document.querySelectorAll('[data-w]').forEach(b=>b.classList.remove('on'));btn.classList.add('on');draw();}
+draw();
+</script>
+</div>
+</body>
+</html>

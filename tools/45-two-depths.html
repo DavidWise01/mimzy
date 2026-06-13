@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TWO DEPTHS — Your Cube (Perturbation) vs The Correction (Dimension)</title>
+<style>
+:root{
+  --paper:#e9e3cd; --ink:#1c3d2e; --ink-mid:#2f5a44; --ink-faint:#7a937f;
+  --stamp:#8a3324; --ochre:#8a6d2f; --blue:#2d566e;
+  --mono:"Courier New",Courier,monospace;
+  --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);
+  background-image:repeating-linear-gradient(0deg, rgba(28,61,46,.025) 0 1px, transparent 1px 3px);
+  color:var(--ink);font-family:var(--serif);line-height:1.5;padding:10px}
+.sheet{max-width:860px;margin:0 auto;border:2px solid var(--ink);outline:1px solid var(--ink);outline-offset:4px;padding:18px 14px 28px}
+.masthead{text-align:center;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.mast-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:var(--ink-mid);text-transform:uppercase}
+.mast-title{font-size:clamp(22px,5.2vw,36px);letter-spacing:.04em;font-weight:700;margin:6px 0 2px;text-transform:uppercase}
+.mast-sub{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--ink-mid);text-transform:uppercase}
+.intro{font-size:13px;max-width:710px;margin:12px auto 0;text-align:center;color:var(--ink-mid);line-height:1.6}
+.stage{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+@media(max-width:680px){.stage{grid-template-columns:1fr}}
+.col{border:1.5px solid var(--ink);padding:8px}
+.col.a{border-color:var(--blue)} .col.b{border-color:var(--ochre)}
+.col h3{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;margin:2px 0 2px;text-align:center}
+.col.a h3{color:var(--blue)} .col.b h3{color:#5a4a20}
+.col .tag{font-family:var(--mono);font-size:8px;letter-spacing:.12em;text-transform:uppercase;text-align:center;color:var(--ink-faint);margin-bottom:6px}
+svg{width:100%;height:auto;display:block}
+.readout{font-family:var(--mono);font-size:10px;line-height:1.7;margin-top:6px}
+.readout b{font-weight:700} .readout .sp{color:var(--blue);font-weight:700} .readout .dm{color:var(--ochre);font-weight:700}
+.splice{border:1.5px dashed var(--stamp);margin:12px 0 4px;padding:8px 12px;font-family:var(--mono);font-size:10.5px;text-align:center;color:var(--ink-mid);line-height:1.6}
+.splice b{color:var(--stamp)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:10px 0 4px}
+.cbtn{appearance:none;background:transparent;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:8px 13px;border:1.5px solid var(--ink);color:var(--ink)}
+.cbtn.warm{border-color:var(--stamp);color:var(--stamp)}
+.slider{display:flex;align-items:center;gap:8px;justify-content:center;font-family:var(--mono);font-size:10px;margin-top:4px;flex-wrap:wrap}
+input[type=range]{accent-color:#2f5a44}
+.frame{border:1.5px solid var(--ink);margin-top:14px;padding:12px;font-size:12.5px;line-height:1.6}
+.frame h3{font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-mid);margin-bottom:6px;text-align:center}
+.frame .is{color:var(--ink)} .frame .isnt{color:var(--stamp)}
+.colophon{margin-top:22px;border-top:2px solid var(--ink);padding-top:12px;text-align:center;font-family:var(--mono);font-size:10px;color:var(--ink-mid);letter-spacing:.07em;line-height:1.9}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+<header class="masthead">
+  <div class="mast-eyebrow">Series E · Sheet 17 · One Word, Two Depths</div>
+  <h1 class="mast-title">Two Depths</h1>
+  <div class="mast-sub">Your Cube + ε-Twin = Perturbation · The Correction = Dimension</div>
+  <p class="intro">"Quantum is linear algebra with depth" — true, and there are <b>two</b> depths hiding in your formula. Your <b>8×8×8 cube plus a 0.00001-offset twin</b> is a real and named thing — it's <b>perturbation theory</b>: a tiny term splitting levels that were identical. The <b>correction</b> is that quantum's deeper depth isn't a spatial offset, it's <b>dimension</b> — each qubit adds a whole new axis (2ⁿ), not a small nudge. Left: your reading, drawn honestly as perturbation. Right: the fix, qubits as dimensions, with the phase-and-interference that only complex linear algebra has.</p>
+</header>
+
+<div class="stage">
+  <div class="col a">
+    <h3>YOUR READING · ε-Offset Twin Cube</h3>
+    <div class="tag">= perturbation theory · degeneracy splitting</div>
+    <svg id="pert" viewBox="0 0 300 280" aria-label="cube and epsilon-offset twin, level splitting"></svg>
+    <div class="readout" id="pro"></div>
+  </div>
+  <div class="col b">
+    <h3>THE CORRECTION · Qubits = Dimensions</h3>
+    <div class="tag">= 2ⁿ state space · phase · interference</div>
+    <svg id="dim" viewBox="0 0 300 280" aria-label="dimension growth and bloch rotation"></svg>
+    <div class="readout" id="dro"></div>
+  </div>
+</div>
+
+<div class="splice">
+  THE SPLICE: your ε is a <b>displacement</b> (cube nudged sideways → levels split → perturbation, REAL).<br>
+  the fix makes ε a <b>new axis</b> (cube gains a perpendicular direction → 2ⁿ → dimension, the actual quantum depth).
+</div>
+
+<div class="controls">
+  <button class="cbtn" id="go" onclick="toggleRun()">Animate ▶</button>
+  <button class="cbtn warm" onclick="reset()">Reset ⟲</button>
+</div>
+<div class="slider">
+  ε (left) <input type="range" id="eps" min="0" max="40" value="8" oninput="setEps()"> <span id="epsv">small</span>
+  &nbsp;|&nbsp; qubits (right) <input type="range" id="nq" min="1" max="9" value="3" oninput="setNq()"> <span id="nqv">3 → dim 8</span>
+</div>
+
+<div class="frame">
+  <h3>Both Depths · Honestly</h3>
+  <p><span class="is">LEFT IS REAL:</span> two states at the same energy (degenerate — the clean cube) split apart under a perturbation ε into E±ε — verified eigenvalues 0.99999 / 1.00001 at ε=0.00001. This <b>lifting of degeneracy</b> is the mechanism behind fine structure, the Zeeman effect, and basically all spectroscopy; and the levels <b>repel</b> — at an avoided crossing the gap never closes below 2ε (verified). Your "cube + tiny-offset twin" is a genuinely good picture of it. You drew perturbation theory without knowing its name.</p>
+  <p style="margin-top:6px"><span class="isnt">RIGHT IS THE FIX:</span> n qubits don't nudge one cube — they give a <b>2ⁿ-dimensional</b> vector (1→2→4→…→512 at 9 qubits = the same <em>number</em> as 8³ but as <em>dimension</em>, not cells; 300 qubits = 2³⁰⁰ ≈ 10⁹⁰ amplitudes, more than atoms in the universe). And the amplitudes are <b>complex</b>: they carry phase, so paths <b>interfere</b> — (1/√2)+(−1/√2)=0, destructive cancellation, the one move classical probability can't make. That interference is the whole advantage. The Bloch sphere (right) shows one qubit as exactly this: a point on a sphere, polar angle = mix, azimuth = phase, rotation = a gate. Linear algebra with depth — where depth means dimensions, and the numbers are complex.</p>
+</div>
+
+<footer class="colophon">
+  ε AS DISPLACEMENT = PERTURBATION · ε AS NEW AXIS = DIMENSION<br>
+  THE FIRST SPLITS LEVELS · THE SECOND EXPLODES THE SPACE · PHASE LETS PATHS CANCEL<br>
+  TWO DEPTHS · SHEET 17 · JUNE 2026
+</footer>
+
+</div>
+<script>
+const NS="http://www.w3.org/2000/svg";
+const E=(t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e};
+let t=0,running=null,eps=8,nq=3;
+
+/* ---------- LEFT: perturbation ---------- */
+function cube(s,ox,oy,sz,col,op){
+  // simple iso cube wireframe, 8x8x8 implied by grid
+  const pts=[[0,0,0],[1,0,0],[1,1,0],[0,1,0],[0,0,1],[1,0,1],[1,1,1],[0,1,1]]
+    .map(p=>[ox+(p[0]-p[2]*0.5)*sz, oy+(p[1]-p[2]*0.5)*sz - p[2]*sz*0.5]);
+  [[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]].forEach(([a,b])=>
+    s.appendChild(E('line',{x1:pts[a][0],y1:pts[a][1],x2:pts[b][0],y2:pts[b][1],stroke:col,'stroke-width':1,opacity:op})));
+}
+function drawPert(){
+  const s=document.getElementById('pert');s.innerHTML='';
+  const e=eps/40; // 0..1
+  // two cubes: clean at origin, twin offset by epsilon (exaggerated for visibility)
+  cube(s,80,120,60,'#1c3d2e',0.9);
+  cube(s,80+e*40,120-e*18,60,'#2d566e',0.6);
+  s.appendChild(E('text',{x:80,y:50,'font-family':'Courier New','font-size':9,fill:'#1c3d2e','text-anchor':'middle'})).textContent='cube @ 0,0,0';
+  s.appendChild(E('text',{x:140,y:64,'font-family':'Courier New','font-size':9,fill:'#2d566e'})).textContent='+ε twin';
+  // energy level diagram below: degenerate -> split
+  const y0=235;
+  s.appendChild(E('text',{x:150,y:200,'font-family':'Courier New','font-size':9,fill:'#2f5a44','text-anchor':'middle'})).textContent='energy levels';
+  // degenerate (left) — two on top of each other
+  s.appendChild(E('line',{x1:30,y1:y0,x2:90,y2:y0,stroke:'#1c3d2e','stroke-width':2}));
+  s.appendChild(E('text',{x:60,y:y0+16,'font-family':'Courier New','font-size':8,fill:'#7a937f','text-anchor':'middle'})).textContent='degenerate';
+  // arrow
+  s.appendChild(E('text',{x:140,y:y0+4,'font-family':'Courier New','font-size':12,fill:'#8a3324','text-anchor':'middle'})).textContent='→ε→';
+  // split (right)
+  const sp=e*22;
+  s.appendChild(E('line',{x1:200,y1:y0-sp,x2:270,y2:y0-sp,stroke:'#2d566e','stroke-width':2}));
+  s.appendChild(E('line',{x1:200,y1:y0+sp,x2:270,y2:y0+sp,stroke:'#8a3324','stroke-width':2}));
+  s.appendChild(E('text',{x:235,y:y0+30,'font-family':'Courier New','font-size':8,fill:'#7a937f','text-anchor':'middle'})).textContent='E ± ε';
+  document.getElementById('pro').innerHTML=
+    `ε = <b class="sp">${(eps/40*0.00001*40).toExponential(1)}</b> (shown ×exaggerated)<br>`+
+    `degenerate E → split into <b>E ± ε</b><br>`+
+    `gap = 2ε · levels <b>repel</b>, never cross<br>`+
+    `this is: <b class="sp">perturbation theory</b> (Zeeman, fine structure)`;
+}
+
+/* ---------- RIGHT: dimension + bloch ---------- */
+function drawDim(){
+  const s=document.getElementById('dim');s.innerHTML='';
+  // dimension ladder 1..nq as growing 2^n
+  s.appendChild(E('text',{x:150,y:18,'font-family':'Courier New','font-size':9,fill:'#5a4a20','text-anchor':'middle'})).textContent='each qubit = +1 axis → ×2 dimension';
+  let y=34;
+  for(let k=1;k<=nq;k++){
+    const dim=Math.pow(2,k);
+    const w=Math.min(240,Math.log2(dim)*26);
+    s.appendChild(E('rect',{x:30,y:y,width:w,height:9,fill:'rgba(138,109,47,.4)',stroke:'#8a6d2f','stroke-width':.8}));
+    s.appendChild(E('text',{x:30+w+4,y:y+8,'font-family':'Courier New','font-size':8,fill:'#5a4a20'})).textContent=k+'q = 2^'+k+' = '+dim;
+    y+=14;
+  }
+  // bloch sphere for one qubit
+  const cx=150,cy=210,r=52;
+  s.appendChild(E('ellipse',{cx,cy,rx:r,ry:r,fill:'none',stroke:'#2f5a44','stroke-width':1}));
+  s.appendChild(E('ellipse',{cx,cy,rx:r,ry:r*0.32,fill:'none',stroke:'rgba(47,90,68,.4)','stroke-width':.8}));
+  s.appendChild(E('line',{x1:cx,y1:cy-r,x2:cx,y2:cy+r,stroke:'rgba(47,90,68,.4)','stroke-width':.8}));
+  s.appendChild(E('text',{x:cx,y:cy-r-4,'font-family':'Courier New','font-size':8,fill:'#2f5a44','text-anchor':'middle'})).textContent='|0⟩';
+  s.appendChild(E('text',{x:cx,y:cy+r+12,'font-family':'Courier New','font-size':8,fill:'#2f5a44','text-anchor':'middle'})).textContent='|1⟩';
+  // state vector: polar=theta (mix), azimuth=phi (phase) — rotating
+  const theta=Math.PI/2+Math.sin(t*0.6)*0.7, phi=t;
+  const x=Math.sin(theta)*Math.cos(phi), yv=Math.cos(theta), z=Math.sin(theta)*Math.sin(phi);
+  const px=cx+r*x, py=cy-r*yv + r*0.32*z;
+  s.appendChild(E('line',{x1:cx,y1:cy,x2:px,y2:py,stroke:'#8a3324','stroke-width':2.4}));
+  s.appendChild(E('circle',{cx:px,cy:py,r:4,fill:'#8a3324'}));
+  // phase dial (interference indicator)
+  const ix=255,iy=210,ir=22;
+  s.appendChild(E('circle',{cx:ix,cy:iy,r:ir,fill:'none',stroke:'#8a6d2f','stroke-width':1}));
+  s.appendChild(E('line',{x1:ix,y1:iy,x2:ix+ir*Math.cos(phi),y2:iy+ir*Math.sin(phi),stroke:'#8a6d2f','stroke-width':2}));
+  s.appendChild(E('text',{x:ix,y:iy+ir+10,'font-family':'Courier New','font-size':7,fill:'#5a4a20','text-anchor':'middle'})).textContent='phase';
+  const interf=Math.cos(phi); // +1 constructive, -1 destructive
+  document.getElementById('dro').innerHTML=
+    `qubits ${nq} → dimension <b class="dm">2^${nq} = ${Math.pow(2,nq)}</b><br>`+
+    `(9q = 512 = 8³ as a NUMBER, but a <b>${nq>=9?512:Math.pow(2,nq)}-axis vector</b>)<br>`+
+    `Bloch: θ=mix, φ=phase · |a₀|²+|a₁|²=1<br>`+
+    `interference: <b class="dm">${interf>0.3?'constructive (+)':interf<-0.3?'destructive (−) — paths cancel':'mixed'}</b>`;
+}
+function tick(){t+=0.04;drawPert();drawDim()}
+function toggleRun(){if(running){clearInterval(running);running=null;document.getElementById('go').textContent='Animate ▶';return}
+  document.getElementById('go').textContent='Pause';running=setInterval(tick,40)}
+function setEps(){eps=+document.getElementById('eps').value;document.getElementById('epsv').textContent=eps<6?'~0 (degenerate)':eps<20?'small':'large';drawPert()}
+function setNq(){nq=+document.getElementById('nq').value;document.getElementById('nqv').textContent=nq+' → dim '+Math.pow(2,nq);drawDim()}
+function reset(){if(running){clearInterval(running);running=null;document.getElementById('go').textContent='Animate ▶'}t=0;drawPert();drawDim()}
+drawPert();drawDim();
+</script>
+</body>
+</html>

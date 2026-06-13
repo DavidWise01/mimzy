@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IGNITION RHYTHM — 54 Steps · The Bang Lives In The Zeros</title>
+<style>
+:root{
+  --paper:#e9e3cd; --ink:#1c3d2e; --ink-mid:#2f5a44; --ink-faint:#7a937f;
+  --stamp:#8a3324; --ochre:#8a6d2f; --hot:#f4e9c8;
+  --mono:"Courier New",Courier,monospace;
+  --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);
+  background-image:repeating-linear-gradient(0deg, rgba(28,61,46,.025) 0 1px, transparent 1px 3px);
+  color:var(--ink);font-family:var(--serif);line-height:1.5;padding:10px}
+.sheet{max-width:860px;margin:0 auto;border:2px solid var(--ink);outline:1px solid var(--ink);outline-offset:4px;padding:18px 14px 28px}
+.masthead{text-align:center;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.mast-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:var(--ink-mid);text-transform:uppercase}
+.mast-title{font-size:clamp(24px,6vw,40px);letter-spacing:.05em;font-weight:700;margin:6px 0 2px;text-transform:uppercase}
+.mast-sub{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--ink-mid);text-transform:uppercase}
+.intro{font-size:13.5px;max-width:680px;margin:12px auto 0;text-align:center;color:var(--ink-mid);line-height:1.6}
+.ctrls{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:14px 0 4px}
+.cbtn{appearance:none;background:transparent;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:8px 14px;border:1.5px solid var(--ink);color:var(--ink)}
+.cbtn.warm{border-color:var(--stamp);color:var(--stamp)}
+.tempo{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:6px}
+.tempo .label{flex-basis:100%;text-align:center;font-family:var(--mono);font-size:9px;letter-spacing:.28em;color:var(--ink-mid);text-transform:uppercase}
+.pbtn{appearance:none;background:transparent;cursor:pointer;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:5px 10px;border:1.5px double var(--ochre);color:#5a4a20}
+.pbtn.on{background:#5a4a20;color:var(--paper)}
+#phase{font-family:var(--mono);font-size:12px;text-align:center;letter-spacing:.18em;text-transform:uppercase;min-height:1.6em;margin:6px 0;color:var(--ink-mid)}
+#phase.ign{color:var(--stamp);font-weight:700}
+.rig{border:1.5px solid var(--ink);padding:6px;margin-top:6px}
+svg{width:100%;height:auto;display:block}
+.panels{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+@media(max-width:620px){.panels{grid-template-columns:1fr}}
+.panel{border:1.5px solid var(--ink);padding:10px 12px}
+.panel h3{font-family:var(--mono);font-size:9.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-mid);margin-bottom:8px;text-align:center}
+.stats{font-family:var(--mono);font-size:11px;line-height:2}
+.stats .bad{color:var(--stamp)} .stats .good{color:var(--ochre);font-weight:700}
+.frame{border:1.5px solid var(--ink);margin-top:14px;padding:12px;font-size:13px;line-height:1.6}
+.frame h3{font-family:var(--mono);font-size:9.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-mid);margin-bottom:6px;text-align:center}
+.frame .is{color:var(--ink)} .frame .isnt{color:var(--stamp)}
+.colophon{margin-top:24px;border-top:2px solid var(--ink);padding-top:12px;text-align:center;font-family:var(--mono);font-size:10px;color:var(--ink-mid);letter-spacing:.08em;line-height:1.9}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+<header class="masthead">
+  <div class="mast-eyebrow">Series E · Sheet 7 · Toroid &amp; Capacitors</div>
+  <h1 class="mast-title">Ignition Rhythm</h1>
+  <div class="mast-sub">0 · 1¹¹¹¹¹ 2²²²²² 3³³³³³ 4⁴⁴⁴⁴⁴ 5⁵⁵⁵⁵⁵ · 0 0 · mirror · 0</div>
+  <p class="intro">The 54-step waveform, played. Five capacitor banks charge in stepped plateaus — five beats per level, rhythm as specified. At peak the sequence drops to <b>0 0</b>: that's not a rest, that's the <b>spark gap closing</b> — in pulsed power the switch is the moment of ignition, so the bang lives in the zeros. The toroid takes the dump, the plasma ring lights, and the mirrored descent is the ring-down. Audio on by default (launch is the gesture); each level has a pitch, the gap has a thump.</p>
+</header>
+
+<div class="tempo">
+  <span class="label">Tempo · steps</span>
+  <button class="pbtn" data-ms="320" onclick="setTempo(320,this)">Slow</button>
+  <button class="pbtn on" data-ms="200" onclick="setTempo(200,this)">March</button>
+  <button class="pbtn" data-ms="115" onclick="setTempo(115,this)">Burst</button>
+</div>
+<div class="ctrls">
+  <button class="cbtn" id="btnGo" onclick="launch()">Charge &amp; Fire ▶</button>
+  <button class="cbtn warm" onclick="halt()">Halt ⟲</button>
+  <button class="cbtn" id="btnMute" onclick="toggleMute()">Sound: ON</button>
+</div>
+<div id="phase">awaiting charge sequence</div>
+
+<div class="rig"><svg id="rig" viewBox="0 0 800 330" aria-label="Capacitor bank, toroid, waveform"></svg></div>
+
+<div class="panels">
+  <div class="panel">
+    <h3>Waveform Audit · Node-Verified</h3>
+    <div class="stats">
+      length: <b>54 = 2 × 27</b> — two ternary cubes, hinged at the gap<br>
+      ramps: <b>25 + 25</b> — the valence atom's usable wedges, serialized<br>
+      palindrome: <span class="good">VALID</span> · zero-framed, double-zero core<br>
+      receipt: Σ = <b>150 = 2·3·5²</b> — <span class="bad">not prime, not palindromic</span><br>
+      <b>the streak ends at two.</b> logged in full, per protocol<br>
+      coincidence: 54 = Sheet 6's ascending checksum — the walks quote each other
+    </div>
+  </div>
+  <div class="panel">
+    <h3>State</h3>
+    <div class="stats" id="state">step — / 54<br>level —<br>banks charged 0/5<br>plasma: cold</div>
+  </div>
+</div>
+
+<div class="frame">
+  <h3>Honest Pulsed Power · What Maps, What Doesn't</h3>
+  <p><span class="is">MAPS:</span> stepped charge plateaus are real — NIF's ignition pulses are <em>shaped</em>, stepped pickets timed so successive shocks coalesce in the fuel; your "rhythmic timing" is the actual discipline (shock timing), and it worked: Q&gt;1, December 2022. The toroid-as-load is real too — a tokamak is a transformer whose secondary winding is the plasma itself; swing the central solenoid's flux and the ring current ignites. And the gap-as-ignition is textbook: spark-gap switches fire at peak charge. The event is the discontinuity.</p>
+  <p style="margin-top:6px"><span class="isnt">DOESN'T:</span> your waveform is symmetric — real ignition is violently asymmetric: store slow, release fast, because power = E/t and the whole art (Marx banks, pulse compression) is shrinking t. A symmetric charge/discharge is the signature of something else entirely: an <b>LC tank</b> — toroid inductor and capacitor exchanging energy resonantly, which, given you opened with "I like toroids and capacitors," means you didn't draw a bomb, you drew an oscillator. The mirror makes it a heartbeat, not a detonation. Sheet's verdict: fusion ignition lol, resonance actually.</p>
+</div>
+
+<footer class="colophon">
+  STORE IN PLATEAUS · FIRE IN THE GAP · RING DOWN THE MIRROR<br>
+  SYMMETRIC DISCHARGE IS A HEARTBEAT, NOT A BOMB<br>
+  IGNITION RHYTHM · SHEET 7 · JUNE 2026
+</footer>
+
+</div>
+<script>
+/* ---------- sequence (node-verified: len 54, sum 150, palindrome) ---------- */
+const ramp=[];for(let v=1;v<=5;v++)for(let i=0;i<5;i++)ramp.push(v);
+const SEQ=[0,...ramp,0,0,...[...ramp].reverse(),0];
+const GAP=[26,27];                       // the double-zero spark gap
+let stepMs=200, timer=null, idx=-1, muted=false, audio=null, master=null;
+let flashFrames=0;
+
+function setTempo(ms,btn){stepMs=ms;document.querySelectorAll('.pbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');
+  if(timer){clearInterval(timer);timer=setInterval(tick,stepMs);}}
+function toggleMute(){muted=!muted;document.getElementById('btnMute').textContent='Sound: '+(muted?'OFF':'ON')}
+
+/* ---------- audio ---------- */
+const FREQ=[0,220,262,330,392,523];
+function ensureAudio(){
+  if(audio)return;
+  audio=new (window.AudioContext||window.webkitAudioContext)();
+  master=audio.createGain();master.gain.value=.22;master.connect(audio.destination);
+}
+function beep(lvl){
+  if(muted||!audio||lvl===0)return;
+  const o=audio.createOscillator(),g=audio.createGain();
+  o.type='triangle';o.frequency.value=FREQ[lvl];
+  g.gain.setValueAtTime(.0001,audio.currentTime);
+  g.gain.exponentialRampToValueAtTime(.9,audio.currentTime+.012);
+  g.gain.exponentialRampToValueAtTime(.0001,audio.currentTime+.09);
+  o.connect(g);g.connect(master);o.start();o.stop(audio.currentTime+.1);
+}
+function thump(){
+  if(muted||!audio)return;
+  const len=audio.sampleRate*.18, buf=audio.createBuffer(1,len,audio.sampleRate);
+  const d=buf.getChannelData(0);for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*(1-i/len);
+  const src=audio.createBufferSource();src.buffer=buf;
+  const f=audio.createBiquadFilter();f.type='lowpass';f.frequency.value=140;
+  const g=audio.createGain();g.gain.value=1.4;
+  src.connect(f);f.connect(g);g.connect(master);src.start();
+}
+
+/* ---------- drawing ---------- */
+const NS="http://www.w3.org/2000/svg";
+function E(t,a){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e}
+function levelNow(){return idx>=0&&idx<SEQ.length?SEQ[idx]:0}
+function banksCharged(){
+  if(idx<0)return 0;
+  if(idx>GAP[0]-1)return 0;                  // dumped at the gap
+  return Math.min(5,Math.floor(Math.max(0,idx-1)/5)+(idx>0?1:0)?Math.ceil(Math.max(0,idx)/5):0)||Math.ceil(Math.max(0,idx)/5);
+}
+function draw(){
+  const s=document.getElementById('rig');s.innerHTML="";
+  const lvl=levelNow(), inGap=GAP.includes(idx), post=idx>GAP[1];
+  /* --- capacitor bank (left) --- */
+  for(let k=0;k<5;k++){
+    const x=30+k*34, full=(!post&&idx>=1+k*5+4)||(!post&&!inGap&&idx>k*5&&idx<=k*5+5&&false);
+    // charge fraction of bank k: fills during plateau k (steps 1+5k .. 5+5k)
+    let frac=0;
+    if(idx>=1&&idx<=25){const st=1+k*5;frac=idx>=st+4?1:idx>=st?(idx-st+1)/5:0}
+    else if(idx>25)frac=0;
+    s.appendChild(E('rect',{x:x,y:40,width:24,height:90,fill:'none',stroke:'#1c3d2e','stroke-width':1.2}));
+    if(frac>0)s.appendChild(E('rect',{x:x+2,y:40+90*(1-frac)+2,width:20,height:Math.max(0,90*frac-4),fill:'rgba(138,109,47,.55)'}));
+    const t=E('text',{x:x+12,y:146,'text-anchor':'middle','font-family':'Courier New','font-size':9,fill:'#2f5a44'});
+    t.textContent='C'+(k+1);s.appendChild(t);
+  }
+  const cap=E('text',{x:115,y:26,'text-anchor':'middle','font-family':'Courier New','font-size':9,fill:'#7a937f','letter-spacing':'2'});
+  cap.textContent='BANKS';s.appendChild(cap);
+  /* --- spark gap symbol --- */
+  s.appendChild(E('line',{x1:210,y1:85,x2:236,y2:85,stroke:'#1c3d2e','stroke-width':2}));
+  s.appendChild(E('line',{x1:252,y1:85,x2:278,y2:85,stroke:'#1c3d2e','stroke-width':2}));
+  if(inGap||flashFrames>0){
+    s.appendChild(E('path',{d:'M238,85 l5,-7 l4,9 l5,-7',stroke:'#8a3324','stroke-width':2.2,fill:'none'}));
+  }
+  const gl=E('text',{x:244,y:108,'text-anchor':'middle','font-family':'Courier New','font-size':9,fill:inGap?'#8a3324':'#7a937f'});
+  gl.textContent=inGap?'GAP FIRING':'spark gap';s.appendChild(gl);
+  /* --- toroid (right) --- */
+  const cx=560,cy=90;
+  const glow=post? lvl/5 : (inGap?1:0);
+  if(glow>0||flashFrames>0){
+    s.appendChild(E('ellipse',{cx:cx,cy:cy,rx:130,ry:56,fill:'none',stroke:'#8a6d2f','stroke-width':14*Math.max(glow,flashFrames?1:0),opacity:.25+.35*glow}));
+  }
+  s.appendChild(E('ellipse',{cx:cx,cy:cy,rx:120,ry:48,fill:'rgba(28,61,46,.10)',stroke:'#1c3d2e','stroke-width':2}));
+  s.appendChild(E('ellipse',{cx:cx,cy:cy,rx:48,ry:17,fill:'#e9e3cd',stroke:'#1c3d2e','stroke-width':2}));
+  if(glow>0){
+    s.appendChild(E('ellipse',{cx:cx,cy:cy,rx:84,ry:32,fill:'none',stroke:flashFrames>0?'#f4e9c8':'#8a3324','stroke-width':3+9*glow,opacity:.5+.5*glow}));
+  }
+  if(flashFrames>0){
+    for(let a=0;a<8;a++){const th=a*Math.PI/4;
+      s.appendChild(E('line',{x1:cx+90*Math.cos(th),y1:cy+36*Math.sin(th),x2:cx+(120+14*flashFrames)*Math.cos(th),y2:cy+(50+9*flashFrames)*Math.sin(th),stroke:'#8a3324','stroke-width':1.4,opacity:.7}));}
+    const ig=E('text',{x:cx,y:cy+4,'text-anchor':'middle','font-family':'Courier New','font-size':12,fill:'#8a3324','letter-spacing':'3'});
+    ig.textContent='IGNITION';s.appendChild(ig);
+    flashFrames--;
+  }
+  const tl=E('text',{x:cx,y:170,'text-anchor':'middle','font-family':'Courier New','font-size':9,fill:'#7a937f','letter-spacing':'2'});
+  tl.textContent='TOROID · PLASMA SECONDARY';s.appendChild(tl);
+  /* --- waveform strip --- */
+  const y0=300,h=72,w=740/SEQ.length;
+  SEQ.forEach((v,i)=>{
+    const x=30+i*w, bh=(v/5)*h;
+    let fill='rgba(47,90,68,.35)';
+    if(GAP.includes(i))fill='rgba(138,51,36,.55)';
+    if(i===idx)fill=GAP.includes(i)?'#8a3324':'#2f5a44';
+    if(v===0&&!GAP.includes(i))fill='rgba(122,147,127,.4)';
+    s.appendChild(E('rect',{x:x,y:y0-Math.max(bh,3),width:Math.max(1.5,w-1.6),height:Math.max(bh,3),fill:fill}));
+  });
+  s.appendChild(E('line',{x1:30,y1:y0+1,x2:770,y2:y0+1,stroke:'#1c3d2e','stroke-width':1.2}));
+  const wl=E('text',{x:400,y:y0+18,'text-anchor':'middle','font-family':'Courier New','font-size':9,fill:'#7a937f','letter-spacing':'2'});
+  wl.textContent='54 STEPS · ZERO-FRAMED · DOUBLE-ZERO CORE';s.appendChild(wl);
+  /* state panel */
+  let banks=0;if(idx>=1&&idx<=25)banks=Math.ceil(idx/5);else if(idx>25)banks=0;
+  document.getElementById('state').innerHTML=
+    `step ${idx<0?'—':idx+1} / 54<br>level <b>${idx<0?'—':lvl}</b><br>`+
+    `banks charged ${banks}/5${idx>GAP[0]-1&&idx>=GAP[0]?' · DUMPED':''}<br>`+
+    `plasma: <b>${inGap?'IGNITING':(post&&lvl>0?'ring-down L'+lvl:(post?'cold · cycle complete':'cold'))}</b>`;
+}
+function phaseLabel(){
+  const p=document.getElementById('phase');p.classList.remove('ign');
+  if(idx<0){p.textContent='awaiting charge sequence';return}
+  if(idx===0)p.textContent='zero frame · breath in';
+  else if(idx<=25)p.textContent=`charging · plateau ${Math.ceil(idx/5)} of 5 · beat ${((idx-1)%5)+1}/5`;
+  else if(GAP.includes(idx)){p.textContent='⊘⊘ THE GAP — SWITCH CLOSED — THE BANG LIVES HERE';p.classList.add('ign')}
+  else if(idx<53)p.textContent=`discharge · ring-down · level ${SEQ[idx]}`;
+  else p.textContent='zero frame · breath out · cycle sealed (palindrome valid)';
+}
+/* ---------- run ---------- */
+function tick(){
+  idx++;
+  if(idx>=SEQ.length){halt(true);return}
+  const lvl=SEQ[idx];
+  if(idx===GAP[0]){thump();flashFrames=6}
+  else if(idx===GAP[1]){/* held breath: silent zero */}
+  else beep(lvl);
+  draw();phaseLabel();
+}
+function launch(){
+  if(timer)return;
+  ensureAudio();if(audio.state==='suspended')audio.resume();
+  idx=-1;flashFrames=0;
+  timer=setInterval(tick,stepMs);
+}
+function halt(done){
+  if(timer){clearInterval(timer);timer=null}
+  if(!done){idx=-1;flashFrames=0}
+  draw();phaseLabel();
+}
+draw();phaseLabel();
+</script>
+</body>
+</html>

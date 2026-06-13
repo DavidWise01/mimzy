@@ -334,5 +334,77 @@
     "emergence": "electrical",
     "moniker": "⟦The Three Blueprints:MMZ:c06a68⟧",
     "live": "bench/41-three-blueprints.html"
+  },
+  {
+    "slug": "tropical-router",
+    "name": "The Tropical Router",
+    "epithet": "instrument № 42 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Tropical Router:MMZ:10b60c⟧",
+    "live": "bench/42-tropical-router.html"
+  },
+  {
+    "slug": "the-island-run",
+    "name": "The Island Run",
+    "epithet": "instrument № 43 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Island Run:MMZ:3699e7⟧",
+    "live": "bench/43-the-island-run.html"
+  },
+  {
+    "slug": "two-probe-engine",
+    "name": "The Two-Probe Engine",
+    "epithet": "instrument № 44 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Two-Probe Engine:MMZ:9188ad⟧",
+    "live": "bench/44-two-probe-engine.html"
+  },
+  {
+    "slug": "two-depths",
+    "name": "Two Depths",
+    "epithet": "instrument № 45 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦Two Depths:MMZ:453fa8⟧",
+    "live": "bench/45-two-depths.html"
+  },
+  {
+    "slug": "dual-descent",
+    "name": "The Dual Descent",
+    "epithet": "instrument № 46 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Dual Descent:MMZ:f49027⟧",
+    "live": "bench/46-dual-descent.html"
+  },
+  {
+    "slug": "encapsulated-pulsar",
+    "name": "The Encapsulated Pulsar",
+    "epithet": "instrument № 47 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Encapsulated Pulsar:MMZ:617a1f⟧",
+    "live": "bench/47-encapsulated-pulsar.html"
+  },
+  {
+    "slug": "ignition-rhythm",
+    "name": "Ignition Rhythm",
+    "epithet": "instrument № 48 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦Ignition Rhythm:MMZ:1be833⟧",
+    "live": "bench/48-ignition-rhythm.html"
+  },
+  {
+    "slug": "two-axis-gap",
+    "name": "The Two-Axis Gap",
+    "epithet": "instrument № 49 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Two-Axis Gap:MMZ:111154⟧",
+    "live": "bench/49-two-axis-gap.html"
+  },
+  {
+    "slug": "delta-protocol",
+    "name": "The Delta Protocol",
+    "epithet": "instrument № 50 — theory",
+    "emergence": "electrical",
+    "moniker": "⟦The Delta Protocol:MMZ:61a715⟧",
+    "live": "bench/50-delta-protocol.html"
   }
 ]

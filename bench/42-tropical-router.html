@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE TROPICAL ROUTER — Routing Table As Linear Algebra</title>
+<style>
+:root{
+  --paper:#e9e3cd; --ink:#1c3d2e; --ink-mid:#2f5a44; --ink-faint:#7a937f;
+  --stamp:#8a3324; --ochre:#8a6d2f; --pl:#2d566e;
+  --mono:"Courier New",Courier,monospace;
+  --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);
+  background-image:repeating-linear-gradient(0deg, rgba(28,61,46,.025) 0 1px, transparent 1px 3px);
+  color:var(--ink);font-family:var(--serif);line-height:1.5;padding:10px}
+.sheet{max-width:860px;margin:0 auto;border:2px solid var(--ink);outline:1px solid var(--ink);outline-offset:4px;padding:18px 14px 28px}
+.masthead{text-align:center;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.mast-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:var(--ink-mid);text-transform:uppercase}
+.mast-title{font-size:clamp(22px,5.2vw,36px);letter-spacing:.04em;font-weight:700;margin:6px 0 2px;text-transform:uppercase}
+.mast-sub{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--ink-mid);text-transform:uppercase}
+.intro{font-size:13px;max-width:700px;margin:12px auto 0;text-align:center;color:var(--ink-mid);line-height:1.6}
+.stage{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+@media(max-width:680px){.stage{grid-template-columns:1fr}}
+.col{border:1.5px solid var(--ink);padding:8px}
+.col h3{font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-mid);margin:2px 0 6px;text-align:center}
+svg{width:100%;height:auto;display:block}
+table{border-collapse:collapse;width:100%;font-family:var(--mono);font-size:11px;margin-top:4px}
+td,th{border:1px solid rgba(28,61,46,.3);padding:4px 2px;text-align:center;width:14%}
+th{font-size:9px;letter-spacing:.08em;background:rgba(28,61,46,.08)}
+td.diag{background:rgba(47,90,68,.12);font-weight:700}
+td.inf{color:var(--ink-faint)}
+td.upd{background:rgba(138,109,47,.4);font-weight:700;color:#4a3c18}
+td.path{background:rgba(45,86,110,.25)}
+.semiring{font-family:var(--mono);font-size:11px;text-align:center;margin:6px 0;letter-spacing:.04em}
+.semiring b{color:var(--ochre)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:12px 0 4px}
+.cbtn{appearance:none;background:transparent;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:8px 13px;border:1.5px solid var(--ink);color:var(--ink)}
+.cbtn.warm{border-color:var(--stamp);color:var(--stamp)}
+.cbtn.gold{border-color:var(--ochre);color:#5a4a20}
+.readout{font-family:var(--mono);font-size:10.5px;line-height:1.8;text-align:center;margin-top:6px}
+.readout b{font-weight:700} .readout .g{color:var(--ochre);font-weight:700}
+.frame{border:1.5px solid var(--ink);margin-top:14px;padding:12px;font-size:12.5px;line-height:1.6}
+.frame h3{font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-mid);margin-bottom:6px;text-align:center}
+.frame .is{color:var(--ink)} .frame .isnt{color:var(--stamp)}
+.colophon{margin-top:22px;border-top:2px solid var(--ink);padding-top:12px;text-align:center;font-family:var(--mono);font-size:10px;color:var(--ink-mid);letter-spacing:.07em;line-height:1.9}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+<header class="masthead">
+  <div class="mast-eyebrow">Series E · Sheet 16 · The Routing Table Is A Matrix</div>
+  <h1 class="mast-title">The Tropical Router</h1>
+  <div class="mast-sub">Adjacency = Matrix · Shortest Path = (min,+) Powers · Forward = Row Select</div>
+  <p class="intro">Routing is linear algebra — in the <b>tropical semiring</b>, where × becomes <b>+</b> and + becomes <b>min</b>. The network is an adjacency matrix; all-pairs shortest paths are that matrix raised to a power under (min,+); forwarding a packet is a one-hot vector selecting a row (the same embedding-lookup from the neural-net sheet); and a switch fabric is a permutation matrix. Step the multiplication and watch the distance matrix converge — the linear algebra literally computing the routes.</p>
+</header>
+
+<div class="semiring">
+  ordinary algebra: <b>(+, ×)</b> &nbsp;·&nbsp; routing algebra: <b>(min, +)</b> &nbsp;— same skeleton, swapped operations
+</div>
+
+<div class="stage">
+  <div class="col">
+    <h3>The Network · drag-free graph</h3>
+    <svg id="graph" viewBox="0 0 300 260" aria-label="weighted network graph"></svg>
+    <div class="readout" id="gro"></div>
+  </div>
+  <div class="col">
+    <h3>Distance Matrix D = W<sup>(min,+)</sup></h3>
+    <div id="mtx"></div>
+    <div class="readout" id="mro"></div>
+  </div>
+</div>
+
+<div class="controls">
+  <button class="cbtn" id="step" onclick="stepMul()">⊗ Step (min,+)</button>
+  <button class="cbtn gold" onclick="converge()">Converge All-Pairs</button>
+  <button class="cbtn" id="fwd" onclick="forward()">Forward Packet ▸</button>
+  <button class="cbtn warm" onclick="reset()">Reset ⟲</button>
+</div>
+
+<div class="frame">
+  <h3>The Mapping · Honestly</h3>
+  <p><span class="is">REAL &amp; VERIFIED:</span> the (min,+) matrix power gives exact all-pairs shortest paths — verified d(n0,n5)=9 via n0–n1–n4–n5. This is the algebraic-path method (Floyd–Warshall is its element-wise form); a crossbar switch <em>is</em> a permutation matrix (one 1 per row and column — a valid non-blocking switch config, verified); and packet forwarding is a one-hot destination vector selecting a row of the table — structurally identical to the embedding lookup in a neural net. The whole shortest-path layer of routing is genuinely linear algebra, just over the tropical semiring instead of the familiar one. Your in-head map was correct.</p>
+  <p style="margin-top:6px"><span class="isnt">FRAYS HERE:</span> real IP forwarding is <b>not</b> a clean matrix at the addressing layer — a destination doesn't select one row, it triggers <b>longest-prefix match</b> over CIDR blocks, which is a radix <b>trie</b> traversal, a tree operation, not linear. So the matrix view is exact for the graph/path/switch layers and must be <b>retired</b> at the prefix-matching layer rather than forced. (The "close but slightly off" feeling when mapping linear algebra onto routing is exactly the semiring swap at the path layer plus the trie break at the address layer — two different boundaries, both real.) And no quantum anywhere near the bit-space: this is classical tropical algebra, full stop.</p>
+</div>
+
+<footer class="colophon">
+  × BECOMES + · + BECOMES MIN · THE TABLE IS A MATRIX · THE ROUTE IS A POWER<br>
+  EXACT AT THE PATH LAYER · TRIE-SHAPED AT THE ADDRESS LAYER · RETIRE THE MAP THERE<br>
+  THE TROPICAL ROUTER · SHEET 16 · JUNE 2026
+</footer>
+
+</div>
+<script>
+const INF=Infinity, n=6;
+const NODES=[[60,40],[230,55],[260,160],[150,225],[55,170],[150,120]];
+const W=[
+[0,3,INF,7,INF,INF],
+[3,0,2,INF,4,INF],
+[INF,2,0,1,INF,6],
+[7,INF,1,0,3,INF],
+[INF,4,INF,3,0,2],
+[INF,INF,6,INF,2,0]];
+let D=W.map(r=>r.slice()), power=1, lastUpd=[], pktPath=[];
+
+function tmul(A,B){
+  const upd=[];
+  const C=A.map((row,i)=>B[0].map((_,j)=>{
+    let m=INF,arg=-1;for(let k=0;k<n;k++){if(A[i][k]+B[k][j]<m){m=A[i][k]+B[k][j];arg=k}}
+    if(m<A[i][j])upd.push(i+','+j);
+    return m;
+  }));
+  return {C,upd};
+}
+function stepMul(){
+  const {C,upd}=tmul(D,W);
+  D=C;power++;lastUpd=upd;
+  drawMatrix();drawGraph();
+  document.getElementById('mro').innerHTML=`computed <b>D ⊗ W</b> · path length ≤ <b class="g">${power}</b> hops · ${upd.length} cells improved`;
+}
+function converge(){
+  let it=0;while(it++<10){const {C,upd}=tmul(D,W);D=C;power++;if(!upd.length)break;lastUpd=upd}
+  drawMatrix();drawGraph();
+  document.getElementById('mro').innerHTML=`<b class="g">CONVERGED</b> · all-pairs shortest paths · stable under further ⊗`;
+}
+function drawMatrix(){
+  let h='<table><tr><th>D</th>';for(let j=0;j<n;j++)h+=`<th>n${j}</th>`;h+='</tr>';
+  for(let i=0;i<n;i++){h+=`<tr><th>n${i}</th>`;
+    for(let j=0;j<n;j++){
+      const v=D[i][j];const cls=i===j?'diag':v===INF?'inf':lastUpd.includes(i+','+j)?'upd':
+        (pktPath.length&&pktPath.includes(i)&&pktPath.includes(j))?'path':'';
+      h+=`<td class="${cls}">${v===INF?'∞':v}</td>`;
+    }h+='</tr>';
+  }h+='</table>';
+  document.getElementById('mtx').innerHTML=h;
+}
+function drawGraph(){
+  const s=document.getElementById('graph');s.innerHTML='';
+  const NS="http://www.w3.org/2000/svg";
+  const E=(t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e};
+  // edges
+  for(let i=0;i<n;i++)for(let j=i+1;j<n;j++)if(W[i][j]<INF){
+    const onPath=pktPath.length>1&&pktPath.some((p,idx)=>idx<pktPath.length-1&&((pktPath[idx]===i&&pktPath[idx+1]===j)||(pktPath[idx]===j&&pktPath[idx+1]===i)));
+    s.appendChild(E('line',{x1:NODES[i][0],y1:NODES[i][1],x2:NODES[j][0],y2:NODES[j][1],
+      stroke:onPath?'#8a6d2f':'rgba(47,90,68,.4)','stroke-width':onPath?3:1}));
+    const mx=(NODES[i][0]+NODES[j][0])/2,my=(NODES[i][1]+NODES[j][1])/2;
+    s.appendChild(E('text',{x:mx,y:my,'font-family':'Courier New','font-size':9,fill:'#8a3324','text-anchor':'middle'})).textContent=W[i][j];
+  }
+  // nodes
+  NODES.forEach((p,i)=>{
+    const onPath=pktPath.includes(i);
+    s.appendChild(E('circle',{cx:p[0],cy:p[1],r:13,fill:onPath?'#8a6d2f':'rgba(28,61,46,.85)',stroke:'#e9e3cd','stroke-width':1.5}));
+    s.appendChild(E('text',{x:p[0],y:p[1]+3,'font-family':'Courier New','font-size':9,fill:'#e9e3cd','text-anchor':'middle'})).textContent='n'+i;
+  });
+}
+function forward(){
+  // one-hot src n0, dest n5: reconstruct shortest path from D + W (greedy next-hop)
+  const src=0,dst=5;pktPath=[src];let cur=src,guard=0;
+  while(cur!==dst&&guard++<10){
+    let best=-1,bd=INF;
+    for(let k=0;k<n;k++)if(W[cur][k]<INF&&k!==cur){
+      if(W[cur][k]+D[k][dst]<bd){bd=W[cur][k]+D[k][dst];best=k}
+    }
+    if(best<0)break;pktPath.push(best);cur=best;
+  }
+  drawGraph();drawMatrix();
+  document.getElementById('gro').innerHTML=`one-hot e<sub>n0</sub> → select row → next hop · path <b class="g">${pktPath.map(p=>'n'+p).join('→')}</b> · cost <b>${D[0][5]===INF?'?':D[0][5]}</b>`;
+}
+function reset(){D=W.map(r=>r.slice());power=1;lastUpd=[];pktPath=[];drawMatrix();drawGraph();
+  document.getElementById('mro').innerHTML='D starts as W (1-hop edges). Step ⊗ to extend reach one hop per multiply.';
+  document.getElementById('gro').innerHTML='6 nodes · weighted edges · forward a packet to see row-select routing';
+}
+reset();
+</script>
+</body>
+</html>

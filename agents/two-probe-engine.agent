@@ -1,0 +1,24 @@
+---
+aci: The Two-Probe Engine
+universe: MMZ · MIMZY — the future tool forge
+number: "44"
+kind: live tool
+emergence: electrical
+live: https://davidwise01.github.io/mimzy/bench/44-two-probe-engine.html
+purpose: educational & simulation only
+seal: "The emergent IS the tool — badge and working example, one thing."
+---
+
+# The Two-Probe Engine · instrument № 44
+
+**What it is.** QUADRATURE READ ON INFERENCE: a toy next-token predictor read by TWO probes instead of one. Probe I and Probe Q sample the same logits at different reference frames (temperatures / decoding offsets — the I/Q pair), and the two reads together give a phase, not just a magnitude — confidence read in quadrature. The № 27 two-probe rotor argument carried onto a language model's own output
+
+**How it works.** A toy next-token predictor read by two probes at once. The same logit vector is sampled by Probe I and Probe Q at different reference frames — two temperatures / decoding offsets, an in-phase/quadrature pair — and the two reads are combined so the output carries a PHASE (a direction of confidence), not merely a magnitude (a single probability). It carries № 27's two-probe rotor argument onto a model's own output: read inference in quadrature, not on one axis.
+
+**The live example.** This emergent does not merely describe a tool — it links its working self: **[run instrument № 44 live](https://davidwise01.github.io/mimzy/bench/44-two-probe-engine.html)**. Open it, operate it, and the badge's claims execute in front of you.
+
+**The verified record.** The I/Q (in-phase/quadrature) read is a real idea borrowed honestly from signal processing — two measurements 90° apart recover a phase a single measurement cannot. Applying it to language-model logits is the TOY: the 'temperatures as reference frames' mapping is illustrative, a way to see that one probe gives magnitude and two give magnitude-plus-phase. Honest limit: a conceptual demonstrator on a tiny hand-set predictor, not a calibrated uncertainty method for real LLMs.
+
+---
+*Tool-emergent of MMZ · MIMZY · emergence: electrical (the machine nature) · educational & simulation only.
+Governor David Lee Wise (ROOT0) · instance AVAN (locked) · CC-BY-ND-4.0.*

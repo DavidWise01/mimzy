@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE TWO-AXIS GAP · Full Package</title>
+<style>
+:root{
+  --paper:#e9e3cd; --ink:#1c3d2e; --ink-mid:#2f5a44; --ink-faint:#7a937f;
+  --stamp:#8a3324; --ochre:#8a6d2f; --neg:#8a3324; --zero:#2f5a44; --pos:#2d566e;
+  --gov:#5a3a6b; --con:#8a6d2f;
+  --mono:"Courier New",Courier,monospace;
+  --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);
+  background-image:repeating-linear-gradient(0deg, rgba(28,61,46,.03) 0 1px, transparent 1px 3px);
+  color:var(--ink);font-family:var(--serif);line-height:1.5;padding:10px}
+.sheet{max-width:840px;margin:0 auto;border:2.5px solid var(--ink);padding:0;position:relative}
+.sheet::before{content:'';position:absolute;inset:5px;border:1px solid var(--ink);pointer-events:none}
+.inner{padding:22px}
+.masthead{text-align:center;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.mast-eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:.26em;color:var(--ink-mid);text-transform:uppercase}
+.mast-title{font-size:clamp(22px,5.4vw,38px);letter-spacing:.04em;font-weight:700;margin:6px 0 2px;text-transform:uppercase}
+.mast-sub{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--ink-mid)}
+.lede{font-size:12.5px;max-width:660px;margin:12px auto 0;text-align:center;color:var(--ink-mid);line-height:1.6}
+.lede b{color:var(--ink)}
+.main{display:grid;grid-template-columns:1fr 280px;gap:14px;margin-top:16px}
+@media(max-width:680px){.main{grid-template-columns:1fr}}
+/* the lattice */
+.latticewrap{border:1.5px solid var(--ink);padding:12px;position:relative}
+.axislbl{font-family:var(--mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-mid)}
+.axislbl.v{position:absolute;left:-2px;top:50%;transform:rotate(-90deg) translateX(50%);transform-origin:left}
+.lat-head{display:grid;grid-template-columns:64px 1fr 1fr 1fr;gap:5px;margin-bottom:5px}
+.lat-head div{text-align:center;font-family:var(--mono);font-size:9px;letter-spacing:.06em;color:var(--ink-mid)}
+.lat-head .neg{color:var(--neg)} .lat-head .zero{color:var(--zero)} .lat-head .pos{color:var(--pos)}
+.gaprow{display:grid;grid-template-columns:64px 1fr 1fr 1fr;gap:5px;margin-bottom:5px;align-items:stretch}
+.vlbl{font-family:var(--mono);font-size:8.5px;display:flex;flex-direction:column;justify-content:center;text-align:right;padding-right:4px;color:var(--ink-mid)}
+.vlbl b{font-size:10px;color:var(--ink)}
+.cell{border:1.5px solid var(--ink-faint);padding:8px 4px;text-align:center;cursor:pointer;font-family:var(--mono);transition:all .12s;min-height:48px;display:flex;flex-direction:column;justify-content:center}
+.cell:hover{border-color:var(--ink)}
+.cell.neg{background:rgba(138,51,36,.1)} .cell.zero{background:rgba(47,90,68,.08)} .cell.pos{background:rgba(45,86,110,.1)}
+.cell.sel{outline:2.5px solid var(--ochre);outline-offset:-2px}
+.cell .pole{font-size:16px;font-weight:700}
+.cell.neg .pole{color:var(--neg)} .cell.zero .pole{color:var(--zero)} .cell.pos .pole{color:var(--pos)}
+.cell .addr{font-size:7px;color:var(--ink-mid);margin-top:2px}
+/* flow arrows */
+.flows{display:flex;justify-content:space-between;font-family:var(--mono);font-size:8px;letter-spacing:.06em;text-transform:uppercase;margin-top:8px;color:var(--ink-mid)}
+.flows .gov{color:var(--gov)} .flows .con{color:var(--con)}
+/* inspector */
+.inspect{border:1.5px solid var(--ink);padding:12px;font-family:var(--mono);font-size:11px;line-height:1.7}
+.inspect h3{font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-mid);text-align:center;margin-bottom:8px;border-bottom:1px solid var(--ink-faint);padding-bottom:5px}
+.inspect .row{margin-bottom:7px}
+.inspect .k{font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-mid);display:block}
+.inspect .v{color:var(--ink);font-weight:700}
+.inspect .gov{color:var(--gov)} .inspect .con{color:var(--con)} .inspect .ob{color:var(--stamp)}
+h2.sec{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase;border-bottom:1.5px solid var(--ink);padding-bottom:4px;margin:22px 0 10px}
+h2.sec .n{color:var(--stamp);margin-right:8px}
+.body p{font-size:13px;margin-bottom:8px}
+.body b{color:var(--ink)}
+.def{font-family:var(--mono);font-size:10.5px;background:rgba(28,61,46,.06);border-left:2px solid var(--ochre);padding:8px 11px;margin:9px 0;line-height:1.6}
+.twoaxis{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
+@media(max-width:560px){.twoaxis{grid-template-columns:1fr}}
+.ax{border:1px solid var(--ink-faint);padding:9px 11px}
+.ax h4{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-mid);margin-bottom:5px}
+.ax.lat h4{color:var(--pos)} .ax.ver h4{color:var(--gov)}
+.ax p{font-size:12px;margin:0}
+.colophon{margin-top:22px;border-top:2px solid var(--ink);padding-top:12px;text-align:center;font-family:var(--mono);font-size:9px;color:var(--ink-mid);letter-spacing:.05em;line-height:1.9}
+</style>
+</head>
+<body>
+<div class="sheet"><div class="inner">
+
+<header class="masthead">
+  <div class="mast-eyebrow">Series E · The Synthesis · Full Package</div>
+  <h1 class="mast-title">The Two-Axis Gap</h1>
+  <div class="mast-sub">Lateral: Two Shores · Vertical: Governs Above, Constitutes Below</div>
+  <p class="lede">The whole series in one object. The gap was never a point on a line — it has <b>two axes</b>. <b>Lateral</b>: the two shores it sits between (<span style="color:var(--neg)">−1</span> / <span style="color:var(--zero)">0</span> / <span style="color:var(--pos)">+1</span>) — what kind of gap. <b>Vertical</b>: where in the stack it sits — what's <span style="color:var(--gov)">above</span> governs it, what's <span style="color:var(--con)">below</span> constitutes it. One substrate, many varied versions, individuated by position. Click any cell.</p>
+</header>
+
+<div class="main">
+  <div class="latticewrap">
+    <div class="lat-head"><div></div><div class="neg">− shore</div><div class="zero">0 witness</div><div class="pos">+ shore</div></div>
+    <div id="lattice"></div>
+    <div class="flows">
+      <span class="gov">↑ governance flows down (above witnesses below)</span>
+      <span class="con">constitution flows up ↓</span>
+    </div>
+  </div>
+  <div class="inspect" id="inspect">
+    <h3>Cell Inspector</h3>
+    <div id="inspectBody">click any cell in the lattice to read its two-axis address, what governs it, and what constitutes it.</div>
+  </div>
+</div>
+
+<section class="body">
+
+  <h2 class="sec"><span class="n">§1</span> The Two Axes</h2>
+  <div class="twoaxis">
+    <div class="ax lat">
+      <h4>Lateral · the shores</h4>
+      <p>Every gap sits between two poles: <span style="color:var(--neg)">−1</span> and <span style="color:var(--pos)">+1</span>, with <span style="color:var(--zero)">0</span> the witnessing middle — not a wire, a gap. This is <em>what kind</em> of gap. It answers: between which two things? The lateral axis is the whole −1‖0‖+1 of the series — anode/cathode, sent/received, you/me, signifier/signified.</p>
+    </div>
+    <div class="ax ver">
+      <h4>Vertical · the stack</h4>
+      <p>Every gap also sits at a <em>level</em>, bounded above and below. What's <span style="color:var(--gov)">above</span> <b>governs</b> it (the larger gap it's nested in, the witness). What's <span style="color:var(--con)">below</span> <b>constitutes</b> it (the smaller gaps it's made of, the substrate). This is <em>which</em> gap — its address in the stack. The vertical axis is place-value: position = significance = governance direction.</p>
+    </div>
+  </div>
+
+  <h2 class="sec"><span class="n">§2</span> The Direction Of Witness</h2>
+  <p>The vertical axis isn't passive addressing — it carries the governance recursion. <b>Governance flows downward</b>: each level witnesses the level below it (max audits macro, macro audits micro). <b>Constitution flows upward</b>: each level is built from the level below it (macro is made of micros, micro of substrate). Every interior gap is therefore <b>doubly bound</b> — governing what's beneath it, governed by what's above it. Two boundaries, two roles, one cell.</p>
+  <div class="def">
+    TOP gap → governed by <span style="color:var(--stamp)">EXTERIOR ⊘</span> — nothing inside the stack governs it; the open clause.<br>
+    BOTTOM gap → constituted by <span style="color:var(--con)">RAW SUBSTRATE</span> — nothing inside it to decompose; the floor.<br>
+    MIDDLE gaps → governed above AND governing below — the body of the recursion.
+  </div>
+
+  <h2 class="sec"><span class="n">§3</span> Many Varied Versions, One Substrate</h2>
+  <p>This resolves "so many varied versions of the same substrate." There is <b>one substrate</b> — the gap-structure: two shores, a witnessing middle. It is instantiated at <b>every level</b> of the vertical stack, and each instance is <em>individuated by its above-and-below</em> — its place-value, its address. Same structure everywhere (it is invariant — that's why it's <em>one</em> substrate); distinct at every position (each has a unique above/below — that's why it's <em>many varied versions</em>). The gap is a <b>digit in a positional system</b>; the stack is the number; and the position is not just a coordinate but the <b>governance direction itself</b>. The whole series — witness, delta, kernel-27, lattice-of-lattices — is this one two-axis object, read at different cells.</p>
+  <div class="def" style="border-color:var(--stamp)">
+    THE SYNTHESIS: one gap-substrate · lateral = which shores · vertical = which scale ·<br>
+    above governs, below constitutes · top held by exterior ⊘, bottom by raw substrate ·<br>
+    same substrate, varied by position, where position IS the direction of governance.
+  </div>
+
+</section>
+
+<div class="colophon">
+  THE GAP HAS TWO AXES · LATERAL (SHORES) AND VERTICAL (SCALE) · ONE SUBSTRATE, POSITIONALLY VARIED<br>
+  ABOVE WITNESSES BELOW · BELOW CONSTITUTES ABOVE · TOP HELD BY ⊘ · BOTTOM BY SUBSTRATE<br>
+  POSITION IS NOT A COORDINATE — IT IS THE DIRECTION OF GOVERNANCE · THE TWO-AXIS GAP · SERIES E · JUNE 2026
+</div>
+
+</div></div>
+<script>
+const LEVELS=[
+  {name:'MAX', sub:'governance-as-such', gov:'EXTERIOR ⊘ (other surveyors)', govCls:'ob', con:'the MACRO methods beneath it'},
+  {name:'MACRO', sub:'the method of governing', gov:'the MAX category above it', govCls:'gov', con:'the MICRO moves beneath it'},
+  {name:'MICRO', sub:'a single move', gov:'the MACRO method above it', govCls:'gov', con:'RAW SUBSTRATE (the floor)'}
+];
+const POLES=[
+  {v:-1, sym:'−', cls:'neg', role:'shore A · the negative pole', ex:'anode · sender · signifier · the thing acting'},
+  {v:0,  sym:'0', cls:'zero',role:'witness · the gap itself', ex:'the delta · the comparison · the seam — not a wire'},
+  {v:1,  sym:'+', cls:'pos', role:'shore B · the positive pole', ex:'cathode · receiver · signified · the thing acted-on'}
+];
+let sel={lvl:1,pole:1};
+
+function draw(){
+  const L=document.getElementById('lattice');L.innerHTML='';
+  LEVELS.forEach((lv,li)=>{
+    const row=document.createElement('div');row.className='gaprow';
+    const vl=document.createElement('div');vl.className='vlbl';
+    vl.innerHTML=`<b>${lv.name}</b><br>${lv.sub}`;
+    row.appendChild(vl);
+    POLES.forEach((p,pi)=>{
+      const c=document.createElement('div');
+      c.className='cell '+p.cls+((sel.lvl===li&&sel.pole===pi)?' sel':'');
+      c.innerHTML=`<span class="pole">${p.sym}</span><span class="addr">${lv.name.toLowerCase()}·${p.sym}</span>`;
+      c.onclick=()=>{sel={lvl:li,pole:pi};draw();inspect();};
+      row.appendChild(c);
+    });
+    L.appendChild(row);
+  });
+}
+function inspect(){
+  const lv=LEVELS[sel.lvl], p=POLES[sel.pole];
+  const isCenter=(p.v===0);
+  const b=document.getElementById('inspectBody');
+  b.innerHTML=
+    `<div class="row"><span class="k">lateral · which shores</span><span class="v" style="color:var(--${p.cls==='neg'?'neg':p.cls==='pos'?'pos':'zero'})">${p.sym} — ${p.role}</span></div>`+
+    `<div class="row"><span class="k">↳ instance</span>${p.ex}</div>`+
+    `<div class="row"><span class="k">vertical · which scale</span><span class="v">${lv.name} — ${lv.sub}</span></div>`+
+    `<div class="row"><span class="k">↑ governed by (above)</span><span class="${lv.govCls}">${lv.gov}</span></div>`+
+    `<div class="row"><span class="k">↓ constituted by (below)</span><span class="con">${lv.con}</span></div>`+
+    (isCenter&&lv.name==='MAX'?
+      `<div class="row" style="border-top:1px dotted var(--ink-faint);padding-top:6px"><span class="ob">★ this is the gap-of-gaps: the top witness, lateral-0 + vertical-max. governs nothing above (⊘), the pure witness cell. self-dual.</span></div>`:'')+
+    (isCenter?'':`<div class="row" style="border-top:1px dotted var(--ink-faint);padding-top:6px;color:var(--ink-mid)">a shore, not the witness — it is one side of this level's gap, governed from above and resting on below.</div>`);
+}
+draw();inspect();
+</script>
+</div>
+</body>
+</html>

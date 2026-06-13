@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE DELTA PROTOCOL · Pure Theory</title>
+<style>
+:root{
+  --paper:#e9e3cd; --ink:#1c3d2e; --ink-mid:#2f5a44; --ink-faint:#7a937f;
+  --stamp:#8a3324; --ochre:#8a6d2f; --a:#2d566e; --b:#8a3324;
+  --mono:"Courier New",Courier,monospace;
+  --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);
+  background-image:repeating-linear-gradient(0deg, rgba(28,61,46,.03) 0 1px, transparent 1px 3px);
+  color:var(--ink);font-family:var(--serif);line-height:1.55;padding:10px}
+.sheet{max-width:760px;margin:0 auto;border:2.5px solid var(--ink);padding:0;position:relative}
+.sheet::before{content:'';position:absolute;inset:5px;border:1px solid var(--ink);pointer-events:none}
+.inner{padding:24px}
+.head{border-bottom:2px solid var(--ink);padding-bottom:10px;display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px}
+.head .doc{font-family:var(--mono);font-size:9px;letter-spacing:.24em;color:var(--ink-mid);text-transform:uppercase}
+.head .ttl{font-size:clamp(22px,5vw,34px);font-weight:700;letter-spacing:.03em}
+.head .meta{font-family:var(--mono);font-size:9px;color:var(--ink-mid);text-align:right;line-height:1.6}
+.abstract{font-size:13px;margin:14px 0;padding:10px 12px;border-left:2px solid var(--ochre);background:rgba(28,61,46,.05);font-style:italic;color:var(--ink-mid)}
+.cl{margin:16px 0}
+.cl h2{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);margin-bottom:6px}
+.cl h2 .n{color:var(--stamp)}
+.cl p{font-size:13px;margin-bottom:7px}
+.cl b{color:var(--ink)}
+.formal{font-family:var(--mono);font-size:11.5px;background:rgba(28,61,46,.06);padding:8px 11px;margin:7px 0;line-height:1.7;border-left:2px solid var(--ink-faint)}
+.formal .a{color:var(--a);font-weight:700} .formal .b{color:var(--b);font-weight:700} .formal .d{color:var(--ochre);font-weight:700}
+.claim{border:1px solid var(--ink-faint);padding:9px 11px;margin:8px 0}
+.claim .ch{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--stamp);font-weight:700;margin-bottom:3px}
+.claim .st{font-size:13px;margin-bottom:4px}
+.claim .pf{font-family:var(--mono);font-size:10.5px;color:var(--ink-mid);line-height:1.6}
+.claim .pf b{color:var(--ink)}
+.limit{border:1.5px solid var(--stamp);padding:9px 12px;margin:12px 0;font-size:12.5px;line-height:1.6}
+.limit .lh{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--stamp);font-weight:700;margin-bottom:4px}
+.qed{font-family:var(--mono);font-size:10px;color:var(--ink-mid);text-align:right;margin-top:4px}
+.foot{margin-top:20px;border-top:2px solid var(--ink);padding-top:10px;font-family:var(--mono);font-size:9px;letter-spacing:.05em;color:var(--ink-mid);text-align:center;line-height:1.8}
+</style>
+</head>
+<body>
+<div class="sheet"><div class="inner">
+
+<div class="head">
+  <div>
+    <div class="doc">Series E · Theory · No Instrument</div>
+    <div class="ttl">The Delta Protocol</div>
+  </div>
+  <div class="meta">pure theory<br>governance primitive<br>rev. 2026-06</div>
+</div>
+
+<div class="abstract">
+  Two separate systems can govern jointly without either accessing the other's interior, by comparing what each <em>sends</em> against what each <em>receives</em> at the shared boundary. The discrepancy between the two endpoint-reports — the <b>delta</b> — is an error signal that neither party can forge alone. Interiors stay private; the delta does the witnessing. This is the formal core of "participate, don't witness each other."
+</div>
+
+<div class="cl">
+  <h2><span class="n">§0</span> Objects</h2>
+  <div class="formal">
+    two parties <span class="a">A</span>, <span class="b">B</span>, each holding:<br>
+    &nbsp;&nbsp;• <b>interior</b> Iₓ — private, never transmitted, unverifiable by the other<br>
+    &nbsp;&nbsp;• <b>endpoint-report</b> Eₓ — public: the party's honest account of its own end of the channel<br>
+    a <b>channel</b> with two ends; <span class="a">A</span> controls the send-end, <span class="b">B</span> the receive-end.<br>
+    <b>neither party controls both ends.</b> ← the load-bearing asymmetry
+  </div>
+</div>
+
+<div class="cl">
+  <h2><span class="n">§1</span> The Operation</h2>
+  <p>A message m is sent. <span class="a">A</span> reports what it sent (s); <span class="b">B</span> reports what it received (r). The protocol computes only one thing:</p>
+  <div class="formal">
+    <span class="d">δ = dist(s, r)</span> &nbsp; — the distance between sent-report and received-report<br><br>
+    δ = 0 → reports consistent (no detected error)<br>
+    δ &gt; 0 → discrepancy: an error exists in the channel or in one report
+  </div>
+  <p>No interior is ever compared. <b>Only the two endpoint-reports are.</b> The delta lives at the boundary — owned by neither party, computed from both.</p>
+</div>
+
+<div class="cl">
+  <h2><span class="n">§2</span> Claims</h2>
+
+  <div class="claim">
+    <div class="ch">Claim 1 · Unforgeability</div>
+    <div class="st">δ cannot be authored by either party unilaterally.</div>
+    <div class="pf"><b>Proof.</b> Suppose <span style="color:var(--a)">A</span> falsifies s. δ compares s to r, which <span style="color:var(--a)">A</span> does not control. The falsification surfaces as δ&gt;0 against the true r. Symmetric for <span style="color:var(--b)">B</span> falsifying r. ∴ neither party can unilaterally force δ=0 (fake agreement) nor hide δ&gt;0 (suppress a real error). The delta is unforgeable by one. <span class="qed">∎</span></div>
+  </div>
+
+  <div class="claim">
+    <div class="ch">Claim 2 · Collusion requires shared source</div>
+    <div class="st">Faking δ=0 when a real error exists requires A and B to lie consistently — i.e. to coordinate.</div>
+    <div class="pf"><b>Proof.</b> Consistent mutual falsification requires each party to know the other's false report in advance — a shared channel of coordination, i.e. a <b>common source</b>. Under the independence assumption (A, B independently sourced), no such channel exists. ∴ collusion is excluded by independence. <span class="qed">∎</span></div>
+  </div>
+
+  <div class="claim">
+    <div class="ch">Claim 3 · Privacy preservation</div>
+    <div class="st">Errors are detected without exposing either interior.</div>
+    <div class="pf"><b>Proof.</b> δ is a function of (s, r) only — endpoint-reports, not interiors. I_A and I_B never enter the computation. ∴ the protocol catches channel error while both interiors remain private. (A zero-knowledge-flavored property: verify the exchange without revealing the selves.) <span class="qed">∎</span></div>
+  </div>
+
+  <div class="claim">
+    <div class="ch">Claim 4 · Detect, not locate (the 2-body limit)</div>
+    <div class="st">With two parties, δ&gt;0 proves an error exists but cannot identify its source.</div>
+    <div class="pf"><b>Proof.</b> δ&gt;0 is consistent with three causes: (i) channel corrupted s→r, (ii) <span style="color:var(--a)">A</span> misreported s, (iii) <span style="color:var(--b)">B</span> misreported r. From δ alone these are indistinguishable. Locating the source requires a third independent endpoint C whose report breaks the tie by majority. ∴ <b>2 detects, 3 locates</b> — the same law as throughout. <span class="qed">∎</span></div>
+  </div>
+
+  <div class="claim">
+    <div class="ch">Claim 5 · Validity condition</div>
+    <div class="st">The protocol is a true witness iff the endpoint-reports are independently sourced.</div>
+    <div class="pf"><b>Proof.</b> From Claim 2, shared source enables undetectable collusion, making δ=0 meaningless. ∴ validity ⟺ independence. This condition is <b>not checkable from inside the protocol</b> — it concerns the origin of the parties, which the delta cannot inspect. <span class="qed">∎ (with ⊘)</span></div>
+  </div>
+
+  <div class="claim">
+    <div class="ch">Claim 6 · It is participation, not mutual witnessing</div>
+    <div class="st">Neither party witnesses the other; each witnesses only its own end and presents it.</div>
+    <div class="pf"><b>Proof.</b> Eₓ is a self-report of party x's own endpoint; no party computes a report about the other's interior or endpoint. The shared object (δ) is constructed jointly at the boundary, authored by neither. ∴ the operation is <b>two self-witnessings compared</b>, i.e. participation — not one party witnessing both. <span class="qed">∎</span></div>
+  </div>
+</div>
+
+<div class="limit">
+  <div class="lh">The Honest Limit (⊘)</div>
+  Claim 5 is the open clause. The protocol detects channel error, preserves privacy, and resists unilateral forgery — <b>but it cannot verify its own independence condition.</b> Whether A and B share a source is a fact about their <em>origin</em>, upstream of the channel, invisible to any computation on (s, r). ∴ the Delta Protocol is sound <em>given</em> independence, and silent <em>about</em> independence. The guarantee of independence must come from outside the protocol — the permanent exterior dependency, one final time.
+</div>
+
+<div class="cl">
+  <h2><span class="n">§3</span> Hypothesis</h2>
+  <p>If joint governance between two distinct systems is constrained to the Delta Protocol — <b>each presents its own endpoint, the delta is the only shared signal, independence is assumed and externally guaranteed</b> — then: (a) neither system can capture the governance, because neither authors the delta; (b) neither interior is exposed, so governance does not require mutual transparency, only mutual honesty <em>about one's own end</em>; (c) error is detected at the boundary in real time; and (d) the system inherits the 2-detect/3-locate law, so a third independent endpoint is required to attribute faults, not merely find them. <b>Conjecture:</b> this is the minimal honest protocol for governance between systems that cannot access each other's interiors — which is all systems, including the one reading this and the one who wrote it.</p>
+</div>
+
+<div class="foot">
+  TWO ENDS, ONE DELTA · NEITHER PARTY OWNS THE DISCREPANCY · INTERIORS STAY PRIVATE<br>
+  DETECT WITH TWO · LOCATE WITH THREE · VALID ⟺ INDEPENDENT · INDEPENDENCE UNVERIFIABLE FROM INSIDE<br>
+  THE DELTA PROTOCOL · PURE THEORY · SERIES E · JUNE 2026
+</div>
+
+</div></div>
+</body>
+</html>
