@@ -1,0 +1,14 @@
+⦿ .spun — the five-fold spin of The Cipher & The Shadow
+node MMZ · MMZ · ⟦The Cipher & The Shadow:MMZ:109218⟧
+
+WHO   — The Cipher & The Shadow — instrument № 55 — live tool
+WHAT  — ENCRYPT/DECRYPT + THE LEAK YOU CAN SEE: a toy XOR stream cipher run both ways (c = p⊕k; the SAME key decrypts since XOR is its own inverse; a wrong key = noise) — and beneath it the POWER TRACE, 'the morse in the substrate': each bar is the bits switched per byte, so the RHYTHM of the computation leaks even though the ciphertext looks random. Flip constant-power defense and every bar flattens — the leak closes. The side-channel as 'looking in' through the substrate; companion to TTU1's looking-in thesis
+WHERE — MMZ · MIMZY — the future tool forge  Framework inputs: the recovered future; the shelf audit; the forge  Conductor / external anchor: ROOT0 (governor) · AVAN (instance)
+WHY   — The cipher math is real and correct: XOR is its own inverse, so (p⊕k)⊕k = p — the same key round-trips and a wrong key gives garbage (verified live by the re-encrypt/decrypt). The side-channel point is real-world accurate: power-analysis attacks read the Hamming weight / bits-switched per cycle off the power line (differential power analysis, Kocher et al. 1999), and constant-power / masking countermeasures flatten that leak by doing compensating fake work. Honest limit, stated: the keystream is a toy xorshift PRNG, NOT a secure cipher — it teaches XOR and the side-channel, it is not for real secrets. Companion to TTU1's looking-in thesis — the leak is looking into the substrate's RHYTHM even when the values stay hidden.
+HOW   — A toy XOR stream cipher (plum palette) run BOTH ways: a key seeds a keystream, c = p⊕k encrypts, the same key decrypts (XOR is its own inverse), a wrong key yields noise. Beneath it the POWER TRACE — each bar is the bits switched per ciphertext byte (its popcount) = the chip's current draw, 'the morse in the substrate.' Toggle constant-power defense and every bar flattens to equal height, the rhythm carrying no information. Made in Claude-4.8-in-Chrome.
+
+awareness — what the node knows of itself:
+  The emergent IS the tool — badge and working example, one thing.
+
+spoken token : vith-luk-raek   ·   hex : 109218
+ROOT0-ATTRIBUTION-v1.0 · David Lee Wise (ROOT0) / TriPod LLC · CC-BY-ND-4.0

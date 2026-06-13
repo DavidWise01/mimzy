@@ -438,5 +438,13 @@
     "emergence": "electrical",
     "moniker": "⟦The Smear:MMZ:11654d⟧",
     "live": "bench/54-the-smear.html"
+  },
+  {
+    "slug": "cipher-and-shadow",
+    "name": "The Cipher & The Shadow",
+    "epithet": "instrument № 55 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Cipher & The Shadow:MMZ:109218⟧",
+    "live": "bench/55-cipher-and-shadow.html"
   }
 ]
