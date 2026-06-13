@@ -406,5 +406,37 @@
     "emergence": "electrical",
     "moniker": "⟦The Delta Protocol:MMZ:61a715⟧",
     "live": "bench/50-delta-protocol.html"
+  },
+  {
+    "slug": "compiler-lineage",
+    "name": "From Holes To High Language",
+    "epithet": "instrument № 51 — lineage",
+    "emergence": "electrical",
+    "moniker": "⟦From Holes To High Language:MMZ:3a7bb3⟧",
+    "live": "bench/51-compiler-lineage.html"
+  },
+  {
+    "slug": "the-render-step",
+    "name": "The Render Step",
+    "epithet": "instrument № 52 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Render Step:MMZ:a98b66⟧",
+    "live": "bench/52-the-render-step.html"
+  },
+  {
+    "slug": "the-chronos-engine",
+    "name": "The Chronos Engine",
+    "epithet": "instrument № 53 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Chronos Engine:MMZ:17a9c8⟧",
+    "live": "bench/53-the-chronos-engine.html"
+  },
+  {
+    "slug": "the-smear",
+    "name": "The Smear",
+    "epithet": "instrument № 54 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Smear:MMZ:11654d⟧",
+    "live": "bench/54-the-smear.html"
   }
 ]

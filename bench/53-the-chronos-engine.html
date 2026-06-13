@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE CHRONOS ENGINE · Positional Execution Clock</title>
+<style>
+:root{
+  --paper:#e9e3cd; --ink:#1c3d2e; --ink-mid:#2f5a44; --ink-faint:#7a937f;
+  --stamp:#8a3324; --ochre:#8a6d2f;
+  --l0:#1c3d2e; --l1:#2f5a44; --l2:#2d566e; --l3:#8a6d2f; --l4:#8a3324;
+  --mono:"Courier New",Courier,monospace;
+  --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);
+  background-image:repeating-linear-gradient(0deg, rgba(28,61,46,.03) 0 1px, transparent 1px 3px);
+  color:var(--ink);font-family:var(--serif);line-height:1.5;padding:10px}
+.sheet{max-width:840px;margin:0 auto;border:2.5px solid var(--ink);padding:0;position:relative}
+.sheet::before{content:'';position:absolute;inset:5px;border:1px solid var(--ink);pointer-events:none}
+.inner{padding:22px}
+.masthead{text-align:center;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.mast-eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:.24em;color:var(--ink-mid);text-transform:uppercase}
+.mast-title{font-size:clamp(21px,5vw,36px);letter-spacing:.03em;font-weight:700;margin:6px 0 2px;text-transform:uppercase}
+.mast-sub{font-family:var(--mono);font-size:10px;letter-spacing:.07em;color:var(--ink-mid)}
+.lede{font-size:12.5px;max-width:680px;margin:12px auto 0;text-align:center;color:var(--ink-mid);line-height:1.6}
+.lede b{color:var(--ink)}
+/* the odometer */
+.odo{border:1.5px solid var(--ink);padding:16px;margin:16px 0;text-align:center}
+.addr{font-family:var(--mono);font-size:clamp(28px,8vw,52px);font-weight:700;letter-spacing:.04em;margin-bottom:4px}
+.addr .d0{color:var(--l0)} .addr .dot{color:var(--ink-faint)} .addr .d1{color:var(--l1)} .addr .d2{color:var(--l2)} .addr .d3{color:var(--l3)} .addr .d4{color:var(--l4)}
+.addr .active{text-decoration:underline;text-underline-offset:6px}
+.levels{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:12px}
+.lev{border:1px solid var(--ink-faint);padding:6px 4px;font-family:var(--mono);font-size:9px;line-height:1.4}
+.lev.active{border-width:2px}
+.lev.l0{border-color:var(--l0)} .lev.l1{border-color:var(--l1)} .lev.l2{border-color:var(--l2)} .lev.l3{border-color:var(--l3)} .lev.l4{border-color:var(--l4)}
+.lev .nm{font-weight:700;font-size:11px}
+.lev.l0 .nm{color:var(--l0)} .lev.l1 .nm{color:var(--l1)} .lev.l2 .nm{color:var(--l2)} .lev.l3 .nm{color:var(--l3)} .lev.l4 .nm{color:var(--l4)}
+.lev .place{color:var(--ink-mid);font-size:8px}
+.lev .val{font-size:16px;font-weight:700;margin-top:3px}
+.lev .froze{color:var(--stamp);font-size:8px;margin-top:2px;height:10px}
+.controls{display:flex;gap:8px;justify-content:center;margin:12px 0;flex-wrap:wrap;align-items:center}
+.cbtn{appearance:none;background:transparent;cursor:pointer;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;padding:8px 13px;border:1.5px solid var(--ink);color:var(--ink)}
+.cbtn.gold{border-color:var(--ochre);color:#5a4a20}
+.cbtn.warm{border-color:var(--stamp);color:var(--stamp)}
+.radixctl{font-family:var(--mono);font-size:10px;color:var(--ink-mid);display:flex;align-items:center;gap:6px}
+.log{border:1px solid var(--ink-faint);padding:8px;margin-top:10px;font-family:var(--mono);font-size:11px;line-height:1.7;max-height:90px;overflow:hidden;color:var(--ink-mid)}
+.log .latest{color:var(--ink);font-weight:700}
+h2.sec{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;border-bottom:1.5px solid var(--ink);padding-bottom:4px;margin:22px 0 10px}
+h2.sec .num{color:var(--stamp);margin-right:8px}
+.body p{font-size:13px;margin-bottom:8px}
+.body b{color:var(--ink)}
+.def{font-family:var(--mono);font-size:10.5px;background:rgba(28,61,46,.06);border-left:2px solid var(--ochre);padding:8px 11px;margin:9px 0;line-height:1.6}
+.colophon{margin-top:20px;border-top:2px solid var(--ink);padding-top:12px;text-align:center;font-family:var(--mono);font-size:9px;color:var(--ink-mid);letter-spacing:.05em;line-height:1.9}
+</style>
+</head>
+<body>
+<div class="sheet"><div class="inner">
+
+<header class="masthead">
+  <div class="mast-eyebrow">Series E · Execution Control · The Clock With Levels</div>
+  <h1 class="mast-title">The Chronos Engine</h1>
+  <div class="mast-sub">A Positional Clock For Nested Execution · Freeze &amp; Carry</div>
+  <p class="lede">Not stopping time — <b>addressing</b> it, by nesting level. Each decimal place is a depth: <span style="color:var(--l4)">.0001 = L4</span> (finest) up through <span style="color:var(--l0)">units = L0</span> (the floor). Advance the finest level — .0001, .0002, .0003 — until it <b>freezes</b> (rolls over), then <b>carry up</b>: resume from the frozen level and tick the next coarser one. Every execution state gets a unique address. <b>3.1234</b> and <b>3.1233</b> are different snapshots. Go as fine as you need.</p>
+</header>
+
+<div class="odo">
+  <div class="addr" id="addr"></div>
+  <div style="font-family:var(--mono);font-size:9px;color:var(--ink-mid)" id="depthlbl"></div>
+  <div class="levels" id="levels"></div>
+</div>
+
+<div class="controls">
+  <button class="cbtn gold" onclick="tick()">Tick Finest ▸</button>
+  <button class="cbtn" id="runBtn" onclick="toggleRun()">Run</button>
+  <button class="cbtn warm" onclick="reset()">Reset</button>
+  <span class="radixctl">freeze-at (radix): 
+    <button class="cbtn" style="padding:4px 8px" onclick="setR(-1)">−</button>
+    <b id="rval">4</b>
+    <button class="cbtn" style="padding:4px 8px" onclick="setR(1)">+</button>
+  </span>
+</div>
+<div class="log" id="log"></div>
+
+<section class="body">
+
+  <h2 class="sec"><span class="num">§1</span> What Each Place Means</h2>
+  <div class="def">
+    <span style="color:var(--l0)">L0 · units (0)</span> — the floor. coarsest. the whole program / outermost loop.<br>
+    <span style="color:var(--l1)">L1 · .1</span> — one level in.<br>
+    <span style="color:var(--l2)">L2 · .01</span> — two levels in.<br>
+    <span style="color:var(--l3)">L3 · .001</span> — three levels in.<br>
+    <span style="color:var(--l4)">L4 · .0001</span> — finest. the innermost step you control.
+  </div>
+  <p>A full address — <b>3.1234</b> — reads as: L0=3, L1=.1, L2=.02, L3=.003, L4=.0004. It's a <b>coordinate</b> for exactly one execution state, at every level simultaneously. The two-axis gap, made into a clock: vertical depth is the decimal place, the value at each place is how far that level has advanced.</p>
+
+  <h2 class="sec"><span class="num">§2</span> Freeze &amp; Carry · the odometer rule</h2>
+  <p>You drive the <b>finest</b> level: .0001, .0002, .0003… When it reaches its <b>freeze point</b> (the radix — the loop completes / the level settles), it <b>rolls over to 0 and carries up</b>: the next coarser level ticks by one, and the fine level <b>resumes from frozen</b>. Exactly your walk — advance L4 till frozen, include into L3, start from frozen L3, advance, and so on up to L0. It's a <b>mixed-radix odometer</b>: each level a digit, freeze = rollover = carry.</p>
+  <div class="def">advance Ln until frozen (= radix) → reset Ln to 0, increment Ln−1 → resume.<br>the carry propagates upward exactly as far as the freezes cascade — a clean, ordered, unique address per state.</div>
+
+  <h2 class="sec"><span class="num">§3</span> Why It's A Real Structure</h2>
+  <p>This is a <b>hierarchical timestamp</b> — kin to a vector clock, where each component tracks a different level of the system, and the composite orders every state uniquely. It gives you <b>finer-than-step control</b>: you can hold L0–L2 frozen and sweep only L4, inspecting the innermost behavior while the outer structure stays fixed — the stop-sign-at-the-junction, asking "what am I doing" at exactly the depth you choose. And it's <b>unbounded</b>: need finer? add a place (.00001 = L5). The addressing never breaks; it just gets more precise. 3.1234 and 3.1233 are neighbors at the finest grain — distinct, ordered, addressable.</p>
+
+</section>
+
+<div class="colophon">
+  EACH DECIMAL PLACE IS A NESTING LEVEL · .0001=L4 FINEST · UNITS=L0 FLOOR<br>
+  ADVANCE FINEST UNTIL FROZEN · CARRY UP · RESUME FROM FROZEN · A MIXED-RADIX ODOMETER<br>
+  EVERY EXECUTION STATE A UNIQUE ADDRESS · 3.1234 ≠ 3.1233 · GO AS FINE AS YOU NEED<br>
+  THE CHRONOS ENGINE · SERIES E · JUNE 2026
+</div>
+
+</div></div>
+<script>
+let R=4;                 // radix / freeze point per level
+let d=[0,0,0,0,0];       // L0..L4
+let names=['L0','L1','L2','L3','L4'];
+let places=['units','.1','.01','.001','.0001'];
+let cls=['l0','l1','l2','l3','l4'];
+let froze=[false,false,false,false,false];
+let activeLevel=4;
+let run=null;
+let history=[];
+
+function addrStr(){ return d[0]+'.'+d[1]+d[2]+d[3]+d[4]; }
+
+function tick(){
+  froze=[false,false,false,false,false];
+  d[4]++;
+  activeLevel=4;
+  for(let lvl=4; lvl>0; lvl--){
+    if(d[lvl]>=R){ d[lvl]=0; froze[lvl]=true; d[lvl-1]++; activeLevel=lvl-1; }
+  }
+  if(d[0]>=R) d[0]=0; // wrap floor too (optional)
+  history.unshift(addrStr());
+  if(history.length>6) history.pop();
+  draw();
+}
+function draw(){
+  // address with active digit underlined
+  const a=document.getElementById('addr');
+  a.innerHTML=`<span class="d0${activeLevel===0?' active':''}">${d[0]}</span><span class="dot">.</span>`+
+    `<span class="d1${activeLevel===1?' active':''}">${d[1]}</span>`+
+    `<span class="d2${activeLevel===2?' active':''}">${d[2]}</span>`+
+    `<span class="d3${activeLevel===3?' active':''}">${d[3]}</span>`+
+    `<span class="d4${activeLevel===4?' active':''}">${d[4]}</span>`;
+  document.getElementById('depthlbl').textContent='L0 . L1 L2 L3 L4   (freeze at '+R+')';
+  // levels
+  const L=document.getElementById('levels');L.innerHTML='';
+  for(let i=0;i<5;i++){
+    const cell=document.createElement('div');
+    cell.className='lev '+cls[i]+(activeLevel===i?' active':'');
+    cell.innerHTML=`<div class="nm">${names[i]}</div><div class="place">${places[i]}</div>`+
+      `<div class="val">${d[i]}</div>`+
+      `<div class="froze">${froze[i]?'▲ froze→carry':''}</div>`;
+    L.appendChild(cell);
+  }
+  // log
+  const lg=document.getElementById('log');
+  lg.innerHTML=history.map((h,i)=>`<span class="${i===0?'latest':''}">${i===0?'▸ ':'  '}${h}</span>`).join('<br>');
+}
+function toggleRun(){
+  if(run){clearInterval(run);run=null;document.getElementById('runBtn').textContent='Run';return;}
+  document.getElementById('runBtn').textContent='Pause';
+  run=setInterval(tick,260);
+}
+function reset(){ if(run){clearInterval(run);run=null;document.getElementById('runBtn').textContent='Run';} d=[0,0,0,0,0];froze=[false,false,false,false,false];activeLevel=4;history=[];draw(); }
+function setR(delta){ R=Math.max(2,Math.min(9,R+delta)); document.getElementById('rval').textContent=R; reset(); }
+draw();
+</script>
+</div>
+</body>
+</html>

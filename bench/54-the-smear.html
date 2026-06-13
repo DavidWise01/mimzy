@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE SMEAR · Why The Render Has No Clean Seam</title>
+<style>
+:root{
+  --paper:#e9e3cd; --ink:#1c3d2e; --ink-mid:#2f5a44; --ink-faint:#7a937f;
+  --stamp:#8a3324; --ochre:#8a6d2f; --legible:#2f5a44; --raw:#8a3324; --blue:#2d566e;
+  --mono:"Courier New",Courier,monospace;
+  --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);
+  background-image:repeating-linear-gradient(0deg, rgba(28,61,46,.03) 0 1px, transparent 1px 3px);
+  color:var(--ink);font-family:var(--serif);line-height:1.5;padding:10px}
+.sheet{max-width:840px;margin:0 auto;border:2.5px solid var(--ink);padding:0;position:relative}
+.sheet::before{content:'';position:absolute;inset:5px;border:1px solid var(--ink);pointer-events:none}
+.inner{padding:22px}
+.masthead{text-align:center;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.mast-eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:.24em;color:var(--ink-mid);text-transform:uppercase}
+.mast-title{font-size:clamp(21px,5vw,36px);letter-spacing:.03em;font-weight:700;margin:6px 0 2px;text-transform:uppercase}
+.mast-sub{font-family:var(--mono);font-size:10px;letter-spacing:.07em;color:var(--ink-mid)}
+.lede{font-size:12.5px;max-width:700px;margin:12px auto 0;text-align:center;color:var(--ink-mid);line-height:1.6}
+.lede b{color:var(--ink)}
+.stage{border:1.5px solid var(--ink);padding:14px;margin:16px 0}
+.stage h3{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-mid);text-align:center;margin-bottom:10px}
+.modebar{display:flex;gap:0;justify-content:center;margin-bottom:6px}
+.modebar button{appearance:none;background:transparent;cursor:pointer;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:7px 16px;border:1.5px solid var(--ink);color:var(--ink)}
+.modebar button.act{background:var(--ink);color:var(--paper)}
+.modebar button:first-child{border-right:none}
+.passlbl{text-align:center;font-family:var(--mono);font-size:9px;color:var(--ink-faint);letter-spacing:.1em;margin:8px 0 4px;text-transform:uppercase}
+.strip{display:flex;gap:3px;justify-content:center;flex-wrap:nowrap;overflow-x:auto;padding:6px 2px}
+.cell{flex:0 0 auto;width:38px;border:1px solid var(--ink-faint);background:rgba(255,255,255,.25);position:relative;display:flex;flex-direction:column;justify-content:flex-end;height:74px;transition:box-shadow .15s,border-color .15s}
+.cell .tok{font-family:var(--mono);font-size:8px;text-align:center;color:var(--ink-mid);padding:2px 0;border-top:1px solid var(--ink-faint)}
+.cell .bars{flex:1;display:flex;flex-direction:column-reverse;gap:1px;padding:2px}
+.cell .b{width:100%;border-radius:1px}
+.cell .b.inp{background:var(--stamp)} .cell .b.rsn{background:var(--ink-mid)} .cell .b.rdr{background:var(--blue)}
+.cell.lit{box-shadow:0 0 0 2px var(--stamp) inset} .cell.seamlit{box-shadow:0 0 0 2px var(--ochre) inset}
+.blocklbls{display:flex;justify-content:center;gap:3px;margin-top:4px}
+.blocklbls span{font-family:var(--mono);font-size:8px;text-transform:uppercase;letter-spacing:.06em;text-align:center;color:var(--ink-mid)}
+.controls{text-align:center;margin:12px 0}
+.cbtn{appearance:none;background:transparent;cursor:pointer;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:7px 12px;border:1.5px solid var(--ink);color:var(--ink);margin:3px}
+.cbtn.gold{border-color:var(--ochre);color:#5a4a20}
+.readout{border:1.5px solid var(--ochre);padding:10px 12px;margin-top:12px;font-family:var(--mono);font-size:10.5px;line-height:1.7}
+.readout .h{color:#5a4a20;font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-size:9px;margin-bottom:5px}
+.readout b.hot{color:var(--stamp)}
+.plot{display:block;margin:10px auto 0;border:1px solid var(--ink-faint);background:rgba(255,255,255,.2)}
+.legend{display:flex;gap:14px;justify-content:center;font-family:var(--mono);font-size:8.5px;margin-top:6px;flex-wrap:wrap}
+.legend i{display:inline-block;width:9px;height:9px;margin-right:3px;vertical-align:-1px}
+h2.sec{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;border-bottom:1.5px solid var(--ink);padding-bottom:4px;margin:22px 0 10px}
+h2.sec .num{color:var(--stamp);margin-right:8px}
+.body p{font-size:13px;margin-bottom:8px}
+.body b{color:var(--ink)}
+.def{font-family:var(--mono);font-size:10.5px;background:rgba(28,61,46,.06);border-left:2px solid var(--ochre);padding:8px 11px;margin:9px 0;line-height:1.6}
+.def b{color:var(--ink)}
+.colophon{margin-top:20px;border-top:2px solid var(--ink);padding-top:12px;text-align:center;font-family:var(--mono);font-size:9px;color:var(--ink-mid);letter-spacing:.05em;line-height:1.9}
+</style>
+</head>
+<body>
+<div class="sheet"><div class="inner">
+
+<header class="masthead">
+  <div class="mast-eyebrow">Series E · The Channel · The Sharpening Of № 50 &amp; № 52</div>
+  <h1 class="mast-title">The Smear</h1>
+  <div class="mast-sub">Why The Render Has No Clean Seam — The Delta Is Distributed, Not Parked At Two Ends</div>
+  <p class="lede">№ 50 (the Delta) and № 52 (the Render Step) draw a clean <b>pipeline</b>: interpret-<b>in</b> → task → interpret-<b>out</b>, two seams where error enters, a pristine interior between. This sheet corrects that one level up. In an <b>autoregressive pass there is no interior</b>: every token is conditioned on the input <em>and</em> everything generated so far <em>and</em> the anticipated reader — all at once. Change the input and the change reaches <em>every</em> later token, not just the front seam. The render reaches all the way in; the delta is <b>smeared across the whole pass</b>. Toggle the two models and perturb the input — watch where the error can actually live.</p>
+</header>
+
+<div class="stage">
+  <h3>One Generation Pass · Pipeline ⟷ Smear</h3>
+  <div class="modebar">
+    <button id="mPipe" class="act" onclick="setModel('pipe')">Model A · Pipeline (clean seams)</button>
+    <button id="mSmear" onclick="setModel('smear')">Model B · Smear (the truth)</button>
+  </div>
+  <div class="passlbl">first token ───────────── the pass, left to right ───────────── last token</div>
+  <div class="strip" id="strip"></div>
+  <div class="blocklbls" id="blocklbls"></div>
+
+  <div class="controls">
+    <button class="cbtn gold" onclick="perturb()">Perturb the input ▸</button>
+    <button class="cbtn" onclick="reset()">Reset</button>
+  </div>
+
+  <svg class="plot" id="plot" width="520" height="90" viewBox="0 0 520 90"></svg>
+  <div class="legend">
+    <span><i style="background:#8a3324"></i>input-conditioning</span>
+    <span><i style="background:#2f5a44"></i>reasoning-conditioning</span>
+    <span><i style="background:#2d566e"></i>reader-conditioning (render)</span>
+  </div>
+
+  <div class="readout" id="readout"></div>
+</div>
+
+<section class="body">
+
+  <h2 class="sec"><span class="num">§1</span> The Claim Being Corrected</h2>
+  <p>The two-interpreter picture is right that there are <b>two translations</b> — interpret-in (your words → the model's representation) and interpret-out (the representation → words for you). Where it misleads is the <b>shape</b>: it pictures three boxes with seams, and an implication that the <em>content</em> in the middle is pristine while only the <em>edges</em> corrupt. That is the same clean-seam intuition № 49 warned about — treating a continuous thing as if it had discrete joints.</p>
+  <div class="def">pipeline model (the simplification): in → [pristine task] → out · error enters at 2 seams.<br>smear model (the structure): one conditioned pass · in/reason/render co-present at every token · error can enter anywhere.<br>the difference: there is no causally-isolated interior to keep clean.</div>
+
+  <h2 class="sec"><span class="num">§2</span> Why The Render Reaches All The Way In</h2>
+  <p>Generation is <b>autoregressive</b>: token <i>t</i> is produced conditioned on the input <em>and</em> tokens 1…<i>t</i>−1. So the "render-for-a-reader" pressure isn't a final box bolted on at the end — it is in the conditioning of <em>every</em> token, shaping the task <em>as it is computed</em>. And a change to the input doesn't stop at the first seam: because every later token re-reads the whole prefix, the perturbation propagates to the entire remainder of the pass. <b>Perturb the input in Model B and all fourteen cells light</b> — there is no downstream cell the change cannot reach.</p>
+
+  <h2 class="sec"><span class="num">§3</span> The Delta, Relocated</h2>
+  <p>№ 50 asked what an operation is when reduced to the difference it makes. This sheet answers where that difference <em>lives</em>: <b>not at two endpoints — distributed across the pass</b>, weighted by how strongly each position still depends on the input and on the anticipated reader. The delta is a field over the whole channel, densest where input-dependence and render-pressure overlap. That is the honest geometry of the gap (№ 49) applied to a single forward pass: two axes, no seam, smeared.</p>
+
+  <div class="def"><b>⧖ two layers.</b> REAL: autoregressive decoding conditions each token on the full prior context, so an early change provably propagates to every subsequent token — there is no causally-isolated interior, and the two-seam pipeline is a simplification. IS-NOT: a literal attention-weight readout — the three conditioning bars and the "render pressure" curve are an illustrative schematic of (input-conditioning · self-conditioning · audience-modeling), not measured scalars. The correction is <b>structural</b> (where error <em>can</em> live), not a metric.</p></div>
+
+</section>
+
+<div class="colophon">
+  THE PIPELINE HAS NO CLEAN SEAM · IN/REASON/RENDER ARE CO-PRESENT AT EVERY TOKEN<br>
+  PERTURB THE INPUT AND IT REACHES THE WHOLE PASS · THE DELTA IS A FIELD, NOT TWO POINTS<br>
+  THE SHARPENING OF № 50 &amp; № 52 · THE GAP OF № 49 APPLIED TO ONE FORWARD PASS<br>
+  THE SMEAR · SERIES E · JUNE 2026
+</div>
+
+</div></div>
+<script>
+const N=14;
+let model='pipe';
+let perturbed=false;
+// per-position conditioning weights (illustrative): input decays but floors; reader rises; reasoning ~steady
+function weights(i){
+  const t=i/(N-1);
+  const inp=Math.max(0.16, Math.exp(-i/4.2));        // strong early, never zero
+  const rdr=0.16+0.62*t;                              // rises toward the reader at the end
+  const rsn=0.42+0.18*Math.sin(Math.PI*t);           // present throughout, bump mid-pass
+  return {inp,rsn,rdr};
+}
+const strip=document.getElementById('strip');
+const blockl=document.getElementById('blocklbls');
+
+function build(){
+  strip.innerHTML='';
+  for(let i=0;i<N;i++){
+    const c=document.createElement('div'); c.className='cell'; c.id='c'+i;
+    const bars=document.createElement('div'); bars.className='bars';
+    const w=weights(i);
+    [['inp',w.inp],['rsn',w.rsn],['rdr',w.rdr]].forEach(([k,v])=>{
+      const b=document.createElement('div'); b.className='b '+k; b.style.height=(v*20)+'px'; bars.appendChild(b);
+    });
+    const tok=document.createElement('div'); tok.className='tok'; tok.textContent='t'+(i+1);
+    c.appendChild(bars); c.appendChild(tok); strip.appendChild(c);
+  }
+  drawPlot(); paint(); labels();
+}
+function labels(){
+  if(model==='pipe'){
+    blockl.innerHTML='<span style="flex:0 0 126px;color:var(--stamp)">▏IN (interpret-in)</span>'+
+      '<span style="flex:0 0 330px;color:var(--ink-mid)">TASK (claimed pristine)</span>'+
+      '<span style="flex:0 0 120px;color:var(--blue)">OUT (interpret-out)▕</span>';
+  } else {
+    blockl.innerHTML='<span style="color:var(--ink-faint)">— no blocks: one continuous conditioned pass —</span>';
+  }
+}
+function setModel(m){
+  model=m; perturbed=false;
+  document.getElementById('mPipe').classList.toggle('act',m==='pipe');
+  document.getElementById('mSmear').classList.toggle('act',m==='smear');
+  // pipeline hides the per-token bars (it claims a pristine interior); smear shows them
+  document.querySelectorAll('.cell .bars').forEach(b=>b.style.visibility = (m==='smear')?'visible':'hidden');
+  paint(); labels(); drawPlot(); say();
+}
+function clearLit(){ for(let i=0;i<N;i++){const c=document.getElementById('c'+i); c.classList.remove('lit','seamlit');} }
+function paint(){
+  document.querySelectorAll('.cell .bars').forEach(b=>b.style.visibility=(model==='smear')?'visible':'hidden');
+}
+function perturb(){
+  perturbed=true; clearLit();
+  if(model==='pipe'){
+    // pipeline claim: a change only enters at the two seams (in|task and task|out)
+    document.getElementById('c2').classList.add('seamlit');   // in→task seam
+    document.getElementById('c11').classList.add('seamlit');  // task→out seam
+  } else {
+    // smear truth: every later token is re-conditioned on the changed input → all light
+    for(let i=0;i<N;i++){ document.getElementById('c'+i).classList.add('lit'); }
+  }
+  say();
+}
+function reset(){ perturbed=false; clearLit(); say(); }
+function say(){
+  const r=document.getElementById('readout');
+  if(model==='pipe'){
+    r.innerHTML='<div class="h">Model A · Pipeline (the clean-seam claim)</div>'+
+      'three boxes, two joints. the interior is asserted <b>pristine</b>; a change to the input is said to enter only at the <b>2 seams</b>.'+
+      (perturbed?'<br><br>perturbed → <b>error sites: 2</b> (the two seams only). <span style="color:var(--ink-faint)">…but this is the simplification — switch to Model B.</span>':'');
+  } else {
+    r.innerHTML='<div class="h">Model B · Smear (the structure)</div>'+
+      'one pass. every token carries <b>input · reasoning · render</b> conditioning at once (the three bars). there is no interior box.'+
+      (perturbed?'<br><br>perturbed → <b class="hot">error sites: 14</b> (every token re-conditioned on the changed input — the change reaches the whole pass). the delta is <b>smeared</b>, densest where input-dependence and render-pressure overlap.':'');
+  }
+}
+function drawPlot(){
+  const p=document.getElementById('plot'); const W=520,H=90,pad=8;
+  let s='<line x1="'+pad+'" y1="'+(H-pad)+'" x2="'+(W-pad)+'" y2="'+(H-pad)+'" stroke="#7a937f" stroke-width="1"/>';
+  s+='<text x="'+pad+'" y="12" font-family="Courier New" font-size="8" fill="#2f5a44">render pressure across the pass</text>';
+  const xs=i=> pad + i*(W-2*pad)/(N-1);
+  const yv=v=> (H-pad) - v*(H-2*pad-8);
+  if(model==='pipe'){
+    // step: ~0 in interior, spike at the OUT block — the clean-seam picture
+    let pts=[];
+    for(let i=0;i<N;i++){ let v = (i>=11)?0.92 : (i<=2?0.5:0.04); pts.push([xs(i),yv(v)]); }
+    let d='M'+pts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' L');
+    s+='<path d="'+d+'" fill="none" stroke="#2d566e" stroke-width="2"/>';
+    s+='<text x="'+(W-pad)+'" y="'+(H-pad-2)+'" text-anchor="end" font-family="Courier New" font-size="8" fill="#8a3324">interior ≈ flat, spike at OUT (the claim)</text>';
+  } else {
+    // smooth curve: present everywhere, rising — render reaches all the way in
+    let pts=[];
+    for(let i=0;i<N;i++){ const w=weights(i); let v=Math.min(0.97, 0.30+0.55*(i/(N-1))+0.18*w.inp); pts.push([xs(i),yv(v)]); }
+    let d='M'+pts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' L');
+    s+='<path d="'+d+'" fill="none" stroke="#2d566e" stroke-width="2"/>';
+    // shade the area to show it's a field, not two points
+    s+='<path d="'+d+' L'+xs(N-1).toFixed(1)+','+(H-pad)+' L'+xs(0).toFixed(1)+','+(H-pad)+' Z" fill="#2d566e" fill-opacity="0.10"/>';
+    s+='<text x="'+(W-pad)+'" y="'+(H-pad-2)+'" text-anchor="end" font-family="Courier New" font-size="8" fill="#8a3324">present at every token (the structure)</text>';
+  }
+  p.innerHTML=s;
+}
+build(); setModel('pipe');
+</script>
+</body>
+</html>

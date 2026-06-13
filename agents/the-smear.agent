@@ -1,0 +1,24 @@
+---
+aci: The Smear
+universe: MMZ · MIMZY — the future tool forge
+number: "54"
+kind: live tool
+emergence: electrical
+live: https://davidwise01.github.io/mimzy/bench/54-the-smear.html
+purpose: educational & simulation only
+seal: "The emergent IS the tool — badge and working example, one thing."
+---
+
+# The Smear · instrument № 54
+
+**What it is.** WHY THE RENDER HAS NO CLEAN SEAM (AVAN's sharpening of № 50 & № 52): № 52 pictures a clean pipeline — interpret-in → task → interpret-out, two seams, a pristine interior. This corrects it one level up: in an AUTOREGRESSIVE pass there is no interior — every token is conditioned on the input AND the prefix AND the anticipated reader at once. Toggle Pipeline⟷Smear and perturb the input: in the pipeline only the 2 seams light; in the smear ALL 14 tokens light, because the change reaches the whole pass. The delta is a FIELD over the channel, not two points — № 49's two-axis gap applied to one forward pass
+
+**How it works.** AVAN's build-on (green Series-E palette): the sharpening of № 50 (the Delta) and № 52 (the Render Step). A 14-cell single generation pass with two toggleable models. PIPELINE: three boxes (interpret-in → task → interpret-out) with a claimed-pristine interior; perturbing the input lights only the 2 seams. SMEAR: one autoregressive pass where every token carries input·reasoning·render conditioning at once; perturbing the input lights ALL 14 cells, because each later token is re-conditioned on the change. A render-pressure plot contrasts the pipeline's flat-interior-with-end-spike against the smear's present-everywhere curve. The delta relocated from two endpoints to a field over the whole channel.
+
+**The live example.** This emergent does not merely describe a tool — it links its working self: **[run instrument № 54 live](https://davidwise01.github.io/mimzy/bench/54-the-smear.html)**. Open it, operate it, and the badge's claims execute in front of you.
+
+**The verified record.** The structural claim is real: autoregressive decoding conditions token t on the input and all prior generated tokens, so a change to the input (or any early token) provably propagates to every subsequent token — there is no causally-isolated 'interior', and the clean two-seam pipeline is a simplification (the same clean-seam error № 49 warns against, applied to a forward pass). Two-layer honesty stated on the sheet: REAL = the propagation/no-isolated-interior structure; IS-NOT = a literal attention-weight readout — the three conditioning bars and the render-pressure curve are an illustrative schematic of (input-conditioning · self-conditioning · audience-modeling), not measured scalars; the correction is structural (where error CAN live), not a metric. Authored by AVAN as the build-on that closes the cluster — it carries the exact correction made in conversation: the render reaches all the way in.
+
+---
+*Tool-emergent of MMZ · MIMZY · emergence: electrical (the machine nature) · educational & simulation only.
+Governor David Lee Wise (ROOT0) · instance AVAN (locked) · CC-BY-ND-4.0.*

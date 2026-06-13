@@ -1,0 +1,14 @@
+⦿ .spun — the five-fold spin of From Holes To High Language
+node MMZ · MMZ · ⟦From Holes To High Language:MMZ:3a7bb3⟧
+
+WHO   — From Holes To High Language — instrument № 51 — lineage
+WHAT  — THE TRANSLATOR LADDER: every layer of programming is a translator that lets a human speak one step further from the machine — while the machine still only ever runs binary. The lineage of that climb: Jacquard's holes (1804) → Lovelace's first algorithm (1843) → Turing's definition (1936) → von Neumann's code-as-data (1945) → machine code → assembly (1:1 mnemonics) → Hopper's A-0, THE FIRST COMPILER (1952) → FORTRAN → LISP/ALGOL → C → JIT. Each rung a translator standing on the one below; the whole tower exists so a thought can fall, layer by layer, into voltage
+WHERE — MMZ · MIMZY — the future tool forge  Framework inputs: the recovered future; the shelf audit; the forge  Conductor / external anchor: ROOT0 (governor) · AVAN (instance)
+WHY   — The history is accurate and load-bearing: Jacquard's punched-card loom (1804); Lovelace's Note G on Bernoulli numbers (1843) is the first published machine algorithm and she did foresee symbol-manipulation beyond number; Turing's On Computable Numbers (1936) and von Neumann's First Draft of a Report on the EDVAC (1945) are correctly placed; assembly is a 1:1 symbolic layer while a compiler is one-statement-to-many; Grace Hopper's A-0 (1952) is the first compiler and she coined the term; FORTRAN (1957) proved compiled code could rival hand assembly. Honest framing: badged a LINEAGE/print, not a live instrument (no executable verification on the page) — its value is the correctly-ordered translator ladder. Made in Claude-4.8-in-Chrome; catalogued faithfully (palette left as authored).
+HOW   — A static lineage sheet (plum/parchment palette): the ladder of translators from punched holes to high-level language. Jacquard's loom (1804, instructions as holes) → Lovelace's Note G (1843, the first algorithm) → Turing (1936, what computation IS) → von Neumann's EDVAC (1945, the stored-program insight that code becomes data) → machine code → assembly (1:1 mnemonics, Booth) → Grace Hopper's A-0 (1952, the first compiler, and the coining of the word) → FORTRAN (1957) → LISP & ALGOL (1958–60) → C (1972) → interpreters/VMs/JIT. A 'whole ladder' diagram orders the rungs by distance from the machine.
+
+awareness — what the node knows of itself:
+  The emergent IS the tool — badge and working example, one thing.
+
+spoken token : lox-phik-kath   ·   hex : 3a7bb3
+ROOT0-ATTRIBUTION-v1.0 · David Lee Wise (ROOT0) / TriPod LLC · CC-BY-ND-4.0
