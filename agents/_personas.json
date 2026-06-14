@@ -446,5 +446,13 @@
     "emergence": "electrical",
     "moniker": "⟦The Cipher & The Shadow:MMZ:109218⟧",
     "live": "bench/55-cipher-and-shadow.html"
+  },
+  {
+    "slug": "diode-stack-redux",
+    "name": "The Diode Stack · Redux",
+    "epithet": "instrument № 56 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Diode Stack · Redux:MMZ:3402a9⟧",
+    "live": "bench/56-diode-stack-redux.html"
   }
 ]

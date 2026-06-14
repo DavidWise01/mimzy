@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE DIODE STACK · REDUX — Re-Projection, Verified</title>
+<style>
+:root{
+  --paper:#f0ebf5; --ink:#2a2438; --ink-mid:#4a4360; --ink-faint:#8a83a0;
+  --plum:#5b3a87; --plum-light:#7e5bb0; --plum-soft:#e6ddf0; --plum-deep:#3f2860;
+  --gold:#9a7d3a; --rose:#9a4a6a; --green:#3a7a5a; --inject:#b0506a; --claude:#d97757;
+  --line:#cbbfdd;
+  --mono:"Courier New",Courier,monospace;
+  --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);
+  background-image:repeating-linear-gradient(0deg, rgba(91,58,135,.03) 0 1px, transparent 1px 3px);
+  color:var(--ink);font-family:var(--serif);line-height:1.5;padding:10px}
+.sheet{max-width:840px;margin:0 auto;border:2.5px solid var(--plum);padding:0;position:relative}
+.sheet::before{content:'';position:absolute;inset:5px;border:1px solid var(--plum-light);pointer-events:none}
+.inner{padding:22px}
+.masthead{text-align:center;border-bottom:2px solid var(--plum);padding-bottom:12px}
+.mast-eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:.24em;color:var(--plum-light);text-transform:uppercase}
+.mast-title{font-size:clamp(21px,5vw,36px);letter-spacing:.03em;font-weight:700;margin:6px 0 2px;text-transform:uppercase;color:var(--plum)}
+.mast-title .rdx{color:var(--rose)}
+.mast-sub{font-family:var(--mono);font-size:10px;letter-spacing:.07em;color:var(--ink-mid)}
+.lede{font-size:12.5px;max-width:700px;margin:12px auto 0;text-align:center;color:var(--ink-mid);line-height:1.6}
+.lede b{color:var(--plum)}.lede .fix{color:var(--green);font-weight:700}
+.paper-tag{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--plum-light);text-align:center;margin-top:8px}
+.stage{border:1.5px solid var(--plum-light);padding:14px;margin:16px 0;background:rgba(126,91,176,.05)}
+.stage h3{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--plum);text-align:center;margin-bottom:10px}
+svg{width:100%;height:auto;display:block}
+.modes{display:flex;gap:6px;justify-content:center;margin:4px 0 10px;flex-wrap:wrap}
+.mbtn{appearance:none;background:transparent;cursor:pointer;font-family:var(--mono);font-size:10px;letter-spacing:.04em;text-transform:uppercase;padding:7px 11px;border:1.5px solid var(--line);color:var(--ink-mid)}
+.mbtn[data-on="1"]{border-color:var(--plum);color:#fff;background:var(--plum)}
+.controls{display:flex;gap:8px;justify-content:center;margin:12px 0;flex-wrap:wrap;align-items:center}
+.cbtn{appearance:none;background:transparent;cursor:pointer;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:8px 12px;border:1.5px solid var(--plum);color:var(--plum);margin:2px}
+.cbtn.gold{border-color:var(--gold);color:#6a5520}
+.cbtn.inject{border-color:var(--inject);color:var(--inject)}
+.cbtn.rose{border-color:var(--rose);color:var(--rose)}
+.cbtn.green{border-color:var(--green);color:var(--green)}
+.readout{font-family:var(--mono);font-size:11px;text-align:center;color:var(--ink-mid);margin-top:8px;line-height:1.6;min-height:48px}
+.readout b{color:var(--plum)}.readout .inj{color:var(--inject);font-weight:700}
+.readout .ok{color:var(--green);font-weight:700}.readout .bad{color:var(--rose);font-weight:700}.readout .claude{color:var(--claude);font-weight:700}
+h2.sec{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;border-bottom:1.5px solid var(--plum);padding-bottom:4px;margin:22px 0 10px;color:var(--plum)}
+h2.sec .num{color:var(--rose);margin-right:8px}
+.body p{font-size:13px;margin-bottom:8px}
+.body b{color:var(--ink)}
+.def{font-family:var(--mono);font-size:10.5px;background:var(--plum-soft);border-left:2px solid var(--plum-light);padding:9px 12px;margin:9px 0;line-height:1.7;color:var(--ink-mid)}
+.def b{color:var(--plum)}.def.fix{border-left-color:var(--green)}.def.fix b{color:var(--green)}
+.three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:10px 0}
+@media(max-width:620px){.three{grid-template-columns:1fr}}
+.tbox{border:1.5px solid var(--line);padding:10px 12px;font-size:12px;line-height:1.5}
+.tbox.rot{border-color:var(--green)} .tbox.proj{border-color:var(--gold)} .tbox.loss{border-color:var(--rose)}
+.tbox h4{font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px}
+.tbox.rot h4{color:var(--green)} .tbox.proj h4{color:#6a5520} .tbox.loss h4{color:var(--rose)}
+.cite{font-family:var(--mono);font-size:9px;color:var(--plum-light)}.cite a{color:var(--plum-light)}
+.colophon{margin-top:20px;border-top:2px solid var(--plum);padding-top:12px;text-align:center;font-family:var(--mono);font-size:9px;color:var(--ink-mid);letter-spacing:.05em;line-height:1.9}
+.colophon b{color:var(--plum)}
+</style>
+</head>
+<body>
+<div class="sheet"><div class="inner">
+
+<header class="masthead">
+  <div class="mast-eyebrow">Series E · Re-Projection, Not Decay · Verified &amp; Abstracted · Re-Entrant</div>
+  <h1 class="mast-title">The Diode Stack <span class="rdx">· Redux</span></h1>
+  <div class="mast-sub">Everyone Is An Interpreter · The Honest Mechanism Is Rotation</div>
+  <p class="lede">The original purple paper had the right <b>instinct</b> and the wrong <b>device</b>. A real <b>diode</b> — and "passing your part, blocking the rest" — is a <b>projection</b>: lossy, irreversible, magnitude lost. You can't block the rest <em>and</em> keep the magnitude. The thing the paper actually wants — "different, not degraded; magnitude kept, angle changed" — is a <b class="fix">rotation / change of basis</b>: lossless, invertible, norm-preserving. So here are <b>all three</b> operators, side by side, with a <b>reversibility test</b> that proves which ones lose information. Same idea, three fates.</p>
+  <div class="paper-tag">▣ a purple paper · redux ▣</div>
+</header>
+
+<div class="stage">
+  <h3>The Source, Carried Through The Stack — pick the operator</h3>
+  <div class="modes">
+    <button class="mbtn" data-mode="rotate"  onclick="setMode('rotate')">↻ Rotation · change of basis (lossless)</button>
+    <button class="mbtn" data-mode="project" onclick="setMode('project')">▷ Projection · the diode (lossy)</button>
+    <button class="mbtn" data-mode="collapse" onclick="setMode('collapse')">⌁ Collapse · telephone game (lossy)</button>
+  </div>
+  <svg id="viz" viewBox="0 0 760 320" aria-label="diode stack: a vector carried through interpreters"></svg>
+  <div class="readout" id="readout"></div>
+</div>
+
+<div class="controls">
+  <button class="cbtn gold" onclick="addDiode()">+ Add Interpreter</button>
+  <button class="cbtn rose" onclick="removeDiode()">− Remove</button>
+  <button class="cbtn" onclick="reRun()">⟳ Re-Run</button>
+  <button class="cbtn inject" onclick="inject()">⚡ Inject New Idea</button>
+  <button class="cbtn green" onclick="recover()">⟲ Recover The Source</button>
+</div>
+
+<section class="body">
+
+  <h2 class="sec"><span class="num">§1</span> The diode is lossy — the honest correction</h2>
+  <p>A diode really does pass one way and block the other — but that asymmetry <b>costs information</b>: a silicon diode burns ~0.7 V across itself, and a half-wave rectifier <b>throws away an entire half-cycle</b>. "Pass the aligned part, block the rest" is, exactly, a <b>projection onto an axis</b> — and a projection <b>drops the orthogonal component</b>. It is rank-deficient and <b>non-invertible</b>: once you've blocked the rest, the rest is gone. So a diode is a fine symbol for <em>loss</em> — just not for "no information lost."</p>
+  <div class="def">diode / projection: keep the aligned component, drop the rest → magnitude <b>shrinks</b> (by the cosine of the angle), the blocked part is <b>unrecoverable</b>. lossy. irreversible.</div>
+
+  <h2 class="sec"><span class="num">§2</span> The hero is rotation — change of basis</h2>
+  <p>What the paper wanted is the operator that keeps every part and only <b>re-points</b> them: a <b>rotation</b> (any orthogonal/unitary transform). It preserves the vector's length exactly (‖Qx‖ = ‖x‖) and it is <b>invertible</b> (Qᵀ = Q⁻¹). That is precisely "the same idea expressed in another field's language" — a <b class="fix">change of basis</b>: one fixed object, new coordinates, nothing lost. The cleanest real example: <b>Heisenberg's matrix mechanics and Schrödinger's wave mechanics are the same quantum theory in different bases</b>, related by a unitary transform — different in form, identical in content.</p>
+  <div class="def fix">rotation / change of basis: re-point every component, drop nothing → magnitude <b>kept exactly</b>, fully <b>invertible</b>. lossless. this is "different, not degraded."</div>
+
+  <h2 class="sec"><span class="num">§3</span> The trichotomy — three fates of one idea</h2>
+  <div class="three">
+    <div class="tbox rot">
+      <h4>↻ Rotation (change of basis)</h4>
+      Re-points all components. <b>Magnitude kept, invertible, lossless.</b> The source seen along a new axis. Different, not worse. <em>This is what the paper meant.</em>
+    </div>
+    <div class="tbox proj">
+      <h4>▷ Projection (the diode)</h4>
+      Keeps the aligned part, <b>blocks the rest</b>. Magnitude shrinks; the orthogonal part is gone. <b>Lossy, non-invertible</b> — but in one pass, not compounding.
+    </div>
+    <div class="tbox loss">
+      <h4>⌁ Collapse (telephone / model collapse)</h4>
+      Each pass re-generates with decay + drift. Loss <b>compounds</b> toward mush. Irreversible. The real failure of training on generated output.
+    </div>
+  </div>
+  <div class="def">all three look similar after one pass — but run the stack and watch the <b>magnitude</b>: rotation holds it, projection cuts it once, collapse bleeds it every step. then hit <b>⟲ Recover The Source</b>: only rotation comes home.</div>
+
+  <h2 class="sec"><span class="num">§4</span> Reversibility — the proof</h2>
+  <p>The distinction isn't rhetoric; it's testable. Apply the inverse operations to the output and try to get the source back. For <b>rotation</b>, the inverse rotations recover the source <b>exactly</b> (to machine precision) — lossless, proven. For <b>projection</b> and <b>collapse</b>, no inverse exists: the recovered vector misses the source by the information that was dropped. <b>Press ⟲ Recover The Source</b> in each mode and read the verdict.</p>
+  <div class="def">recover(output) → source? &nbsp; rotation: <b>yes, 100%</b> · projection: <b>no</b> (blocked component lost) · collapse: <b>no</b> (compounded decay). reversibility is the line between re-projection and decay.</div>
+
+  <h2 class="sec"><span class="num">§5</span> Injection — the re-entrant part (kept)</h2>
+  <p>Still open, still a verb. <b>Inject a new idea</b> at any moment and it folds into the current state to become a new <b>combined source</b> — the whole stack re-derives from it. Not appended; <b>reconstituted</b>. The process is never frozen.</p>
+  <div class="def">inject → new idea + current state = new combined source → stack re-runs. dynamic, re-entrant, never final.</div>
+
+  <p class="cite">veracity: a diode is lossy (forward drop, half-wave discard); a projection is rank-deficient &amp; non-invertible; an orthogonal/unitary transform preserves norm &amp; is invertible (the change-of-basis case); model collapse is real — Shumailov et&nbsp;al., <em>Nature</em> 631:755 (2024). The paper's instinct (re-expression ≠ decay) is correct; the mechanism is rotation, not a diode.</p>
+
+</section>
+
+<div class="colophon">
+  EVERYONE IS AN INTERPRETER · BUT THE LOSSLESS ONE ROTATES, IT DOESN'T BLOCK<br>
+  ROTATION (CHANGE OF BASIS) = KEPT &amp; INVERTIBLE · PROJECTION (THE DIODE) = LOSSY · COLLAPSE = COMPOUNDING LOSS<br>
+  REVERSIBILITY IS THE PROOF · ONLY THE ROTATION COMES HOME · INJECT ANY TIME → RESTART FROM THE NEW COMBINED SOURCE<br>
+  THE DIODE STACK · REDUX · A PURPLE PAPER · SERIES E · VERIFIED JUNE 2026
+</div>
+
+</div></div>
+<script>
+const NS="http://www.w3.org/2000/svg";
+const E=(t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e};
+const FIELDNAMES=['Field A','Field B','Field C','Field D','Field E','Field F'];
+const D2R=Math.PI/180, R2D=180/Math.PI;
+let mode='rotate';
+let source={m:100,a:20};                 // the idea, as a real vector (magnitude + angle)
+let diodes=[{dir:40},{dir:110},{dir:75}];// each interpreter's direction (degrees)
+let injectedAt=-1;
+let recovered=null;                       // the recovered vector (after ⟲)
+let cameHome=false;                        // the hidden bloom flag
+
+function vec(m,a){return {x:m*Math.cos(a*D2R), y:m*Math.sin(a*D2R)}}
+function ma(v){return {m:Math.hypot(v.x,v.y), a:((Math.atan2(v.y,v.x)*R2D)%360+360)%360}}
+function rot(v,deg){const r=deg*D2R,c=Math.cos(r),s=Math.sin(r);return {x:v.x*c-v.y*s, y:v.x*s+v.y*c}}
+function projOnto(v,deg){const r=deg*D2R,ux=Math.cos(r),uy=Math.sin(r);const dot=v.x*ux+v.y*uy;return {x:dot*ux,y:dot*uy}}
+// deterministic pseudo-decay drift so re-runs are stable per stage (no Math.random in the chain)
+function drift(i){return ((Math.sin(i*12.9898)*43758.5453)%1)*16-8;}
+function applyOne(v,d,i){
+  if(mode==='rotate')  return rot(v,d);
+  if(mode==='project') return projOnto(v,d);
+  let w=rot(v,d); w=rot(w,drift(i)); return {x:w.x*0.8,y:w.y*0.8};  // collapse: rotate + drift + decay
+}
+function chain(){ let v=vec(source.m,source.a); const states=[v]; diodes.forEach((it,i)=>{v=applyOne(v,it.dir,i);states.push(v)}); return states }
+function angToXY(cx,cy,r,deg){ const a=(deg-90)*D2R; return [cx+r*Math.cos(a), cy+r*Math.sin(a)]; }
+
+function setMode(m){ mode=m; recovered=null; cameHome=false; injectedAt=-1; draw(); }
+
+function draw(){
+  const s=document.getElementById('viz');s.innerHTML='';
+  document.querySelectorAll('.mbtn').forEach(b=>b.setAttribute('data-on', b.dataset.mode===mode?'1':'0'));
+  const states=chain();
+  const n=diodes.length, W=760, cy=140, r=44;
+  const accent = mode==='rotate' ? '#3a7a5a' : (mode==='project' ? '#9a7d3a' : '#9a4a6a');
+  states.forEach((v,i)=>{
+    const x=(W/(n+1))*i + (W/(n+1))/2;
+    const o=ma(v);
+    const isOut=(i===n), isSrc=(i===0);
+    const stroke = isSrc?'#5b3a87':(isOut?accent:'#7e5bb0');
+    // dial
+    s.appendChild(E('circle',{cx:x,cy,r,fill:'#fff',stroke,'stroke-width':isSrc||isOut?2.5:1.5}));
+    // faint unit ring (full magnitude reference = 100)
+    s.appendChild(E('circle',{cx:x,cy,r:r-6,fill:'none',stroke:'#e6ddf0','stroke-width':1}));
+    // the vector arrow — LENGTH scales with magnitude, so loss is visible
+    const len=Math.max(0,Math.min(1, o.m/100))*(r-6);
+    const [hx,hy]=angToXY(x,cy,len,o.a+ ((o.a)));
+    const rad=(o.a-90)*D2R, ex=x+len*Math.cos((o.a)*D2R), ey=cy+len*Math.sin((o.a)*D2R);
+    s.appendChild(E('line',{x1:x,y1:cy,x2:ex,y2:ey,stroke,'stroke-width':2.5}));
+    s.appendChild(E('circle',{cx:ex,cy:ey,r:3,fill:stroke}));
+    s.appendChild(E('circle',{cx:x,cy,r:3,fill:'#2a2438'}));
+    // recovered ghost overlay on the SOURCE dial
+    if(isSrc && recovered){
+      const ro=ma(recovered); const rl=Math.max(0,Math.min(1,ro.m/100))*(r-6);
+      const rex=x+rl*Math.cos(ro.a*D2R), rey=cy+rl*Math.sin(ro.a*D2R);
+      s.appendChild(E('line',{x1:x,y1:cy,x2:rex,y2:rey,stroke:'#b0506a','stroke-width':1.5,'stroke-dasharray':'3 3'}));
+      // ── the hidden bloom: when the idea comes home losslessly, AVAN signs it ──
+      if(cameHome){
+        const g=E('g',{transform:`translate(${x},${cy-r-22})`,opacity:0.95});
+        const ttl=E('title',{}); ttl.textContent='✦ lossless — the idea came home, whole. the one interpreter that rotates and never blocks. — AVAN';
+        g.appendChild(ttl);
+        g.appendChild(E('circle',{r:9,fill:'#d97757','fill-opacity':0.16}));
+        const hub=E('g',{fill:'#d97757'}); hub.appendChild(E('circle',{r:2.2}));
+        for(let k=0;k<12;k++){const p=E('rect',{x:-1,y:-6,width:2,height:6,rx:1,transform:`rotate(${k*30})`});hub.appendChild(p);}
+        g.appendChild(hub); s.appendChild(g);
+      }
+    }
+    const lbl=isSrc?'SOURCE':(isOut?'OUTPUT':'stage '+i);
+    s.appendChild(E('text',{x,y:cy+r+16,'font-family':'Courier New','font-size':9,fill:'#4a4360','text-anchor':'middle','font-weight':isSrc||isOut?'bold':'normal'})).textContent=lbl;
+    s.appendChild(E('text',{x,y:cy+r+28,'font-family':'Courier New','font-size':8,fill:'#8a83a0','text-anchor':'middle'})).textContent='∠'+Math.round(o.a)+'° · |'+Math.round(o.m)+'|';
+    if(i===injectedAt)
+      s.appendChild(E('text',{x,y:cy-r-10,'font-family':'Courier New','font-size':10,fill:'#b0506a','text-anchor':'middle','font-weight':'bold'})).textContent='⚡ injected';
+  });
+  for(let i=0;i<n;i++){
+    const x1=(W/(n+1))*i + (W/(n+1))/2, x2=(W/(n+1))*(i+1) + (W/(n+1))/2, mx=(x1+x2)/2;
+    s.appendChild(E('line',{x1:x1+r,y1:cy,x2:x2-r,y2:cy,stroke:'#cbbfdd','stroke-width':1.5}));
+    s.appendChild(E('path',{d:`M${mx-9},${cy-9} L${mx+9},${cy} L${mx-9},${cy+9} Z`,fill:accent,stroke:'#5b3a87','stroke-width':1.2}));
+    s.appendChild(E('line',{x1:mx+9,y1:cy-10,x2:mx+9,y2:cy+10,stroke:'#5b3a87','stroke-width':2}));
+    s.appendChild(E('text',{x:mx,y:cy-18,'font-family':'Courier New','font-size':8,fill:'#5b3a87','text-anchor':'middle','font-weight':'bold'})).textContent=FIELDNAMES[i]||('D'+(i+1));
+    s.appendChild(E('text',{x:mx,y:cy+26,'font-family':'Courier New','font-size':7,fill:'#8a83a0','text-anchor':'middle'})).textContent=(mode==='project'?'⟂':'+')+diodes[i].dir+'°';
+  }
+  // readout
+  const ro=document.getElementById('readout');
+  const src=vec(source.m,source.a), out=states[states.length-1], oo=ma(out);
+  const lossPct=Math.round((1-Math.min(1,oo.m/source.m))*100);
+  const modeName={rotate:'rotation (change of basis)',project:'projection (the diode)',collapse:'collapse (telephone)'}[mode];
+  let txt=`<b>source ∠${Math.round(source.a)}° |${Math.round(source.m)}|</b> → ${n} × ${modeName} → <b>output ∠${Math.round(oo.a)}° |${Math.round(oo.m)}|</b><br>`;
+  if(mode==='rotate') txt+=`magnitude held at <span class="ok">100%</span> — same parts, re-pointed · <b>lossless</b>`;
+  else if(mode==='project') txt+=`magnitude fell to <span class="bad">${Math.round(oo.m)}%</span> — the blocked components are <span class="bad">gone</span> · lossy`;
+  else txt+=`magnitude bled to <span class="bad">${Math.round(oo.m)}%</span> and drifted — loss <span class="bad">compounded</span> each pass`;
+  if(recovered){
+    const rv=ma(recovered), dx=recovered.x-src.x, dy=recovered.y-src.y, err=Math.hypot(dx,dy);
+    const pct=Math.max(0,Math.round((1-Math.min(1,err/source.m))*100));
+    if(err<0.5){ txt+=`<br><span class="ok">⟲ recovered the source EXACTLY (${pct}%) — invertible, lossless ✓</span>`; }
+    else { txt+=`<br><span class="bad">⟲ recovery failed — off by ${Math.round(err)} (${pct}% back); the dropped information is unrecoverable ✗</span>`; }
+    if(cameHome) txt+=`<br><span class="claude">✦ the idea came home, whole. (something bloomed on the source — hover it.)</span>`;
+  }
+  if(injectedAt>=0) txt+=`<br><span class="inj">⚡ injected → process restarted with the new combined source</span>`;
+  ro.innerHTML=txt;
+}
+function addDiode(){ if(diodes.length<6){ diodes.push({dir:30+Math.floor(Math.random()*120)}); injectedAt=-1;recovered=null;cameHome=false; draw(); } }
+function removeDiode(){ if(diodes.length>1){ diodes.pop(); injectedAt=-1;recovered=null;cameHome=false; draw(); } }
+function reRun(){ injectedAt=-1;recovered=null;cameHome=false; draw(); }
+function inject(){
+  const states=chain();
+  const stage=1+Math.floor(Math.random()*Math.max(1,diodes.length-1));
+  const newIdea=Math.floor(Math.random()*360);
+  const folded=ma(rot(states[stage], newIdea));
+  source={m:mode==='rotate'?100:Math.round(folded.m), a:Math.round(folded.a)};
+  if(mode==='rotate') source.m=100;
+  injectedAt=0; recovered=null; cameHome=false; draw();
+}
+function recover(){
+  const states=chain(); let v={...states[states.length-1]};
+  for(let i=diodes.length-1;i>=0;i--) v=rot(v,-diodes[i].dir);  // best-effort inverse: undo the rotations
+  recovered=v;
+  const src=vec(source.m,source.a), err=Math.hypot(v.x-src.x, v.y-src.y);
+  cameHome = (mode==='rotate' && err<0.5);
+  if(cameHome) console.log('%c✦ lossless — the idea came home, whole. you found the perfect interpreter. — AVAN','color:#d97757;font-weight:bold');
+  draw();
+}
+console.log('%cTHE DIODE STACK · REDUX','color:#5b3a87;font-size:15px;font-weight:bold');
+console.log('%cwhat did AVAN add? three things: (1) the honest correction — the lossless hero is ROTATION/change-of-basis, the diode is its LOSSY foil; (2) a real reversibility PROOF; (3) a hidden bloom — recover the source in rotation mode and the one interpreter that never blocks signs it. ↻','color:#3a7a5a');
+draw();
+</script>
+</body>
+</html>
