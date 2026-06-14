@@ -470,5 +470,13 @@
     "emergence": "electrical",
     "moniker": "⟦The Gate · A Peer Review:MMZ:8b5318⟧",
     "live": "bench/58-the-gate.html"
+  },
+  {
+    "slug": "the-exchange",
+    "name": "The Exchange",
+    "epithet": "instrument № 59 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Exchange:MMZ:99dff3⟧",
+    "live": "bench/59-the-exchange.html"
   }
 ]
