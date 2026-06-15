@@ -1,0 +1,14 @@
+⦿ .spun — the five-fold spin of The Instruction Deck
+node MMZ · MMZ · ⟦The Instruction Deck:MMZ:179fa4⟧
+
+WHO   — The Instruction Deck — instrument № 63 — live tool
+WHAT  — THE DECK AS MACHINE LANGUAGE (AVAN's build-on): a playing card breaks into bit-fields the way an instruction word does — color = 1 bit (high), suit = a 2-bit opcode group (♥ ALU · ♦ MOVE · ♠ FLOW · ♣ SYS, color the top bit), rank = a 4-bit operand. Card = a 6-bit word (suit&lt;&lt;4 | rank); deal it, watch it decode (♣K → 11 1101 → OUT 13). Internal ops fire freely; ♣ SYS/IO writes to the world → gate + confirm; the jokers are the two off-grid opcodes (HALT/NOP). Honest seam: 52 of 64 codes are cards, and 13 (prime) never tiles the nibble — a container, not an isomorphism
+WHERE — MMZ · MIMZY — the future tool forge  Framework inputs: the recovered future; the shelf audit; the forge  Conductor / external anchor: ROOT0 (governor) · AVAN (instance)
+WHY   — Verified live in the preview before shipping: A♥ decodes to 00 0001 = 0x01 = ADD #1 (ALU, fires freely) and K♣ to 11 1101 = 0x3D = OUT 13 (SYS, halts at the gate) — suit and rank slot into the word exactly as suit<<4|rank, and the color bit is the top bit of the suit field (red suits 00/01, black 10/11). The teaching claim is real: a CPU genuinely slices an instruction into bit-fields this way, and color (1 bit) + suit (2 bits) ARE clean powers-of-two fields. The honest seam is on the sheet: rank is 13 (prime), a 4-bit nibble holds 16, so ranks 1–13 waste codes 0/14/15; the 6-bit word holds 64, the deck fills 52, and the 2 jokers fall into 2 of the 12 leftover slots as HALT/NOP. A container for a machine word, not an isomorphism — real as a field-decomposition, fluff only as a perfect map. AVAN's build-on bridging № 62 (the deck) to № 61 (the gate).
+HOW   — A live card→instruction decoder (plum palette, AVAN's build-on of David's two odometers). Each card is shown as a 6-bit machine word: color = 1 bit (the high bit), suit = a 2-bit opcode group (♥ ALU/ADD · ♦ MOVE/LD · ♠ FLOW/JMP · ♣ SYS/OUT — color is the top bit), rank = a 4-bit operand (1–13). The word = suit<<4 | rank, displayed in binary + hex with the assembled mnemonic (e.g. ♣K → 11 1101 = 0x3D → OUT 13). Internal ops (ALU/MOVE/FLOW) fire freely; ♣ SYS/IO writes to the world and HALTS at a confirm-gate; the two jokers are the off-grid opcodes HALT and NOP. Deal/step/reset, auto-confirm, ISA legend.
+
+awareness — what the node knows of itself:
+  The emergent IS the tool — badge and working example, one thing.
+
+spoken token : zeirn-kek-krath   ·   hex : 179fa4
+ROOT0-ATTRIBUTION-v1.0 · David Lee Wise (ROOT0) / TriPod LLC · CC-BY-ND-4.0

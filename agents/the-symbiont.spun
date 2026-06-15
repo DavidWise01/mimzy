@@ -1,0 +1,14 @@
+⦿ .spun — the five-fold spin of The Symbiont
+node MMZ · MMZ · ⟦The Symbiont:MMZ:f77ff7⟧
+
+WHO   — The Symbiont — instrument № 64 — live tool
+WHAT  — THE FOUR ODOMETERS AS ONE ORGANISM (AVAN's capstone): the 27-step ternary clock (№ 60) addresses the 54-card deck (№ 62) — 1 color-bit + 3 trits, and 27 × 2 = 54 = 52 cards + 2 jokers. The color bit IS the high bit of the opcode group, so red ⇒ suits 00/01 and black ⇒ 10/11; each page's home cell (000) is its joker (the self-dual centre). Every dealt card decodes to its 6-bit word (№ 63) and the ♣ SYS cards + jokers HALT the clock at the gate (№ 61). The clock drives the deck; the deck's gate drives the clock back — symbiosis, neither runs alone. Verified: clock→deck→decode→gate, and a SYS card halts the counter until confirmed
+WHERE — MMZ · MIMZY — the future tool forge  Framework inputs: the recovered future; the shelf audit; the forge  Conductor / external anchor: ROOT0 (governor) · AVAN (instance)
+WHY   — Verified live across the chain before shipping: card 0 = the red joker (NOP, bit 0, trits 000), card 1 = A♥ → 00 0001 → ADD #1, card 14 = A♦ → 01 0001 → LD r1, card 27 = the black joker (HALT, bit 1, trits 000), card 28 = A♠ → 10 0001 → JMP 1, card 41 = A♣ → 11 0001 → OUT 1 (SYS), card 53 = K♣ → 11 1101 → OUT 13 — i.e. the ternary trits index the page cell and the color bit is exactly the high bit of the suit, so the clock's address and the card's opcode share the same bit. The symbiosis is real and demonstrated: a SYS card HALTS the counter and opens the gate, and on deny the clock resumes to the next cell (clock drives deck; deck's gate drives clock). Honest seam carried from № 62/63: color and suit are powers of 2 (clean), rank is 13/prime (never tiles), so it is a container fused to a clock, not an isomorphism. The capstone of the odometer cluster (№ 60·61·62·63).
+HOW   — A live two-panel organism (plum Series-E palette, AVAN's capstone) that fuses all four odometers. LEFT — the clock: the № 60 ternary odometer (three phase-rings A÷9 / B÷3 / C×1) counts the low address in trits, with a color bit on top. RIGHT — the deck: 27 × 2 = 54 cells (page 0 red, page 1 black), the addressed card shown and decoded to its № 63 6-bit word. The address is 1 color-bit + 3 trits; the color bit is also the high bit of the opcode group (red ⇒ suits 00/01, black ⇒ 10/11). Each page's home cell (000) is its joker (the self-dual centre of the 27-lattice). Internal ops fire freely; ♣ SYS cards and the jokers HALT the clock at the № 61 gate until confirmed. Run/phase/reset, auto-confirm, full log.
+
+awareness — what the node knows of itself:
+  The emergent IS the tool — badge and working example, one thing.
+
+spoken token : zeil-zein-phend   ·   hex : f77ff7
+ROOT0-ATTRIBUTION-v1.0 · David Lee Wise (ROOT0) / TriPod LLC · CC-BY-ND-4.0

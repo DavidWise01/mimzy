@@ -1,0 +1,14 @@
+⦿ .spun — the five-fold spin of The 54-Card Odometer
+node MMZ · MMZ · ⟦The 54-Card Odometer:MMZ:e47539⟧
+
+WHO   — The 54-Card Odometer — instrument № 62 — live tool
+WHAT  — THE DECK IN THE DUAL-27 LATTICE (David, Claude-in-Chrome): 2 × 27 = 54 = the full deck with both jokers. Color is the high bit (red page / black page), each page 26 cards + 1 joker = 27 = 3 trits, so the address is 1 color-bit + 3 trits. Number cards fire freely; A/J/Q/K gate + witness + confirm; the jokers are special (HALT/wild). Honest: the deck is STORED IN the ternary lattice — color maps clean to the bit, but suit×rank (4×13) doesn't factor into ternary (13 is prime), so it's a container, not an isomorphism
+WHERE — MMZ · MIMZY — the future tool forge  Framework inputs: the recovered future; the shelf audit; the forge  Conductor / external anchor: ROOT0 (governor) · AVAN (instance)
+WHY   — The mapping is honestly two-layered and the sheet says so: the CLEAN part is real — color is a perfect 1-bit field (red/black), and 2 pages × 27 cells = 54 exactly accommodates 52 + 2 jokers, with each page's 27 = 3 balanced trits. The SEAM is stated outright: suit × rank = 4 × 13 does NOT factor into powers of 3 (13 is prime), so the deck is STORED IN the 27-lattice as a container, not mapped onto it by isomorphism. The gating of the power cards is the same verify-first interlock as № 61. The deck half of № 64 — its address is exactly the 1-bit+3-trit word the symbiont drives.
+HOW   — A live 54-slot dealer (plum palette) that stores the full playing deck in the dual-27 ternary lattice. 2 × 27 = 54 = 52 cards + 2 jokers; color is the high bit (page 0 red = ♥♦, page 1 black = ♠♣), each page 26 cards + 1 joker = 27 = 3 trits, so each card's address is 1 color-bit + 3 trits. Deal through all 54: number cards 2–10 fire freely, the power cards A/J/Q/K halt at a witness-gate for confirm, the jokers are special (HALT/wild). 54-cell grid, deal log, auto-confirm. Made in Claude-4.8-in-Chrome.
+
+awareness — what the node knows of itself:
+  The emergent IS the tool — badge and working example, one thing.
+
+spoken token : saeth-vax-thy   ·   hex : e47539
+ROOT0-ATTRIBUTION-v1.0 · David Lee Wise (ROOT0) / TriPod LLC · CC-BY-ND-4.0

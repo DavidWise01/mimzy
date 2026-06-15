@@ -1,0 +1,14 @@
+⦿ .spun — the five-fold spin of The Ternary Odometer
+node MMZ · MMZ · ⟦The Ternary Odometer:MMZ:cdea79⟧
+
+WHO   — The Ternary Odometer — instrument № 60 — live tool
+WHAT  — THE CLOCK, IN BASE 3 (David, Claude-in-Chrome): three 555 timers, each made ternary by one diode (3 phases per cycle instead of 2), nested 1:3:9 — C the low trit (×1), B the mid (÷3), A the high (÷9). The three interleave into a base-3 odometer that walks all 27 states and comes home to 000 after 27 ticks. Raw binary 555s give 2³=8; the diodes make it 3³=27 — the 27-lattice driven from hardware
+WHERE — MMZ · MIMZY — the future tool forge  Framework inputs: the recovered future; the shelf audit; the forge  Conductor / external anchor: ROOT0 (governor) · AVAN (instance)
+WHY   — The arithmetic is exactly right: a raw 555 astable is a two-state (binary) oscillator, so three give only 2³=8 states; splitting each cycle into 3 phases makes each timer ternary, and nesting them at 1:3:9 yields a genuine base-3 odometer where C is the low trit, B the mid, A the high — value = 9a+3b+c, period 27, home at 000. The grid and phase-rings track value live and the wrap is correct (27 ticks = one full A cycle). Honest framing: 'diode makes a 555 ternary' is the schematic conceit of the piece — a real 3-phase split needs more than a lone diode (comparators/level-thresholds) — but the COUNTING it depicts (nested mod-3 stages → base 3) is sound and is the load-bearing idea. The clock half of № 64.
+HOW   — A live base-3 odometer (plum Series-E palette) built as three 555 timers, each turned ternary by a single diode that carves its cycle into 3 phases. Nested 1:3:9 (C ×1 low trit, B ÷3 mid, A ÷9 high), the three phase-rings light in step and interleave into a 27-state count that walks 000→222 and comes home to 000 every 27 ticks; a 27-cell grid fills as it goes. Run/step/reset. Made in Claude-4.8-in-Chrome.
+
+awareness — what the node knows of itself:
+  The emergent IS the tool — badge and working example, one thing.
+
+spoken token : stin-raem-vynd   ·   hex : cdea79
+ROOT0-ATTRIBUTION-v1.0 · David Lee Wise (ROOT0) / TriPod LLC · CC-BY-ND-4.0

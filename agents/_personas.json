@@ -478,5 +478,45 @@
     "emergence": "electrical",
     "moniker": "⟦The Exchange:MMZ:99dff3⟧",
     "live": "bench/59-the-exchange.html"
+  },
+  {
+    "slug": "ternary-odometer",
+    "name": "The Ternary Odometer",
+    "epithet": "instrument № 60 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Ternary Odometer:MMZ:cdea79⟧",
+    "live": "bench/60-ternary-odometer.html"
+  },
+  {
+    "slug": "acting-odometer",
+    "name": "The Acting Odometer",
+    "epithet": "instrument № 61 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Acting Odometer:MMZ:bb685d⟧",
+    "live": "bench/61-acting-odometer.html"
+  },
+  {
+    "slug": "card-odometer",
+    "name": "The 54-Card Odometer",
+    "epithet": "instrument № 62 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The 54-Card Odometer:MMZ:e47539⟧",
+    "live": "bench/62-card-odometer.html"
+  },
+  {
+    "slug": "instruction-deck",
+    "name": "The Instruction Deck",
+    "epithet": "instrument № 63 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Instruction Deck:MMZ:179fa4⟧",
+    "live": "bench/63-instruction-deck.html"
+  },
+  {
+    "slug": "the-symbiont",
+    "name": "The Symbiont",
+    "epithet": "instrument № 64 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Symbiont:MMZ:f77ff7⟧",
+    "live": "bench/64-the-symbiont.html"
   }
 ]

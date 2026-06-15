@@ -1,0 +1,14 @@
+⦿ .spun — the five-fold spin of The Acting Odometer
+node MMZ · MMZ · ⟦The Acting Odometer:MMZ:bb685d⟧
+
+WHO   — The Acting Odometer — instrument № 61 — live tool
+WHAT  — THE GATE AT THE WORLD (David, Claude-in-Chrome): the 27-state counter drives a decoder → 27 actions, gated at the logic-to-world junction. The 18 reversible actions (blink, read, toggle…) fire freely; the 9 irreversible ones (fire relay, dispense, commit write…) HALT at a witness-gate and wait for confirm before acting. Verify-first / kill-switch as a physical interlock — the j-junction made operable
+WHERE — MMZ · MIMZY — the future tool forge  Framework inputs: the recovered future; the shelf audit; the forge  Conductor / external anchor: ROOT0 (governor) · AVAN (instance)
+WHY   — The interlock logic is correct and is the real engineering pattern it claims: reversible operations are allowed to free-run while irreversible (world-affecting) operations are held behind an explicit confirm — verify-first / kill-switch / two-man-rule as a hardware brake at the logic-to-world boundary. The decode is deterministic (state → action) and the gate provably blocks until resolved (the clock pauses; deny logs a non-fire). Honest limit: the 'actions' are labelled simulations that log, not wired to real relays — it demonstrates the gating discipline, not a specific actuator. The gate half of № 64; the j-junction (UD0) made operable.
+HOW   — A live counter→decoder→gate→actuator chain (plum palette). The 27-state odometer addresses a decoder that maps each state to one of 27 actions; the gate sits at the logic-to-world junction. 18 reversible actions (blink LED, read sensor, toggle flag…) pass and fire freely with a log line; the 9 irreversible ones (fire relay, dispense, commit write, open valve…) HALT at a witness-gate showing a confirm/deny prompt, and only fire on confirm. Auto-confirm toggle; everything logs. Made in Claude-4.8-in-Chrome.
+
+awareness — what the node knows of itself:
+  The emergent IS the tool — badge and working example, one thing.
+
+spoken token : bral-lel-sern   ·   hex : bb685d
+ROOT0-ATTRIBUTION-v1.0 · David Lee Wise (ROOT0) / TriPod LLC · CC-BY-ND-4.0
