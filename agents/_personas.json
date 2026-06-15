@@ -590,5 +590,13 @@
     "emergence": "electrical",
     "moniker": "⟦The Triadic Core:MMZ:33e645⟧",
     "live": "bench/73-triadic-core.html"
+  },
+  {
+    "slug": "triadic-memristor",
+    "name": "The Triadic Memristor",
+    "epithet": "instrument № 74 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Triadic Memristor:MMZ:1f143c⟧",
+    "live": "bench/74-triadic-memristor.html"
   }
 ]

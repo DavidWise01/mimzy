@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE TRIADIC MEMRISTOR · One Element Gates &amp; Remembers · 2-of-3</title>
+<style>
+:root{
+  --paper:#f0ebf5; --ink:#2a2438; --ink-mid:#4a4360; --ink-faint:#8a83a0;
+  --plum:#5b3a87; --plum-light:#7e5bb0; --plum-soft:#e6ddf0; --plum-deep:#3f2860;
+  --gold:#9a7d3a; --rose:#9a4a6a; --green:#3a7a5a; --teal:#3a6a87;
+  --line:#cbbfdd;
+  --mono:"Courier New",Courier,monospace;
+  --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);
+  background-image:repeating-linear-gradient(0deg, rgba(91,58,135,.03) 0 1px, transparent 1px 3px);
+  color:var(--ink);font-family:var(--serif);line-height:1.5;padding:10px}
+.sheet{max-width:820px;margin:0 auto;border:2.5px solid var(--plum);position:relative}
+.sheet::before{content:'';position:absolute;inset:5px;border:1px solid var(--plum-light);pointer-events:none}
+.inner{padding:22px}
+.masthead{text-align:center;border-bottom:2px solid var(--plum);padding-bottom:10px}
+.mast-eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:.22em;color:var(--plum-light);text-transform:uppercase}
+.mast-title{font-size:clamp(20px,4.6vw,32px);letter-spacing:.02em;font-weight:700;margin:5px 0 2px;text-transform:uppercase;color:var(--plum)}
+.mast-sub{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--ink-mid)}
+.lede{font-size:12px;max-width:690px;margin:10px auto 0;text-align:center;color:var(--ink-mid);line-height:1.55}
+.lede b{color:var(--plum)}
+.struct{text-align:center;font-family:var(--mono);font-size:11.5px;color:var(--plum);margin:10px 0;padding:8px;border:1px solid var(--line);border-radius:5px;line-height:1.8}
+.struct b{color:var(--plum-deep)}
+.canvaswrap{text-align:center;margin:12px 0}
+canvas{max-width:100%;height:auto;background:radial-gradient(circle at 50% 45%,#1a1428,#0f0b17);border-radius:8px}
+.controls{display:flex;gap:8px;justify-content:center;margin:10px 0;flex-wrap:wrap;align-items:center}
+.cbtn{appearance:none;background:transparent;cursor:pointer;font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;padding:9px 14px;border:1.5px solid var(--plum);color:var(--plum);border-radius:4px}
+.cbtn.w1{border-color:var(--rose);color:var(--rose)} .cbtn.w0{border-color:var(--teal);color:var(--teal)}
+.cbtn.read{border-color:var(--green);color:var(--green)} .cbtn.corrupt{border-color:var(--gold);color:#6a5520}
+.verdict{text-align:center;font-family:var(--mono);font-size:12px;margin:10px 0;padding:10px;border:1.5px solid var(--line);border-radius:5px;min-height:42px;line-height:1.6}
+.verdict.trusted{border-color:var(--green);background:rgba(58,122,90,.08);color:var(--green)}
+.verdict.broken{border-color:var(--rose);background:rgba(154,74,106,.08);color:var(--rose)}
+.verdict.read{border-color:var(--teal);background:rgba(58,106,135,.08);color:var(--teal)}
+.verdict b{color:var(--ink)}
+.log{font-family:var(--mono);font-size:9.5px;background:#15101f;color:#bdb4d4;border-radius:5px;padding:9px;height:96px;overflow-y:auto;margin:10px 0;line-height:1.6}
+.log .w{color:#e0a0b8} .log .r{color:#8ac0e0} .log .ok{color:#7ad8a0} .log .bad{color:#e07a9a} .log .c{color:#e0c080} .log .sp{color:#c4a8f0}
+h2.sec{font-family:var(--mono);font-size:11px;letter-spacing:.13em;text-transform:uppercase;border-bottom:1.5px solid var(--plum);padding-bottom:4px;margin:20px 0 10px;color:var(--plum)}
+.body p{font-size:13px;margin-bottom:8px}
+.body b{color:var(--ink)}
+.split{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:8px 0}
+@media(max-width:600px){.split{grid-template-columns:1fr}}
+.sc{border:1.5px solid var(--line);padding:8px 10px;font-size:11px;line-height:1.45}
+.sc .h{font-family:var(--mono);font-size:8.5px;text-transform:uppercase;letter-spacing:.04em;font-weight:700;margin-bottom:3px}
+.sc.one{border-color:var(--plum-light)} .sc.one .h{color:var(--plum)}
+.sc.read{border-color:var(--green)} .sc.read .h{color:var(--green)}
+.sc.lim{border-color:var(--gold)} .sc.lim .h{color:#6a5520}
+.fingerprint{display:flex;gap:14px;align-items:center;margin:10px 0;padding:9px 12px;border:1px solid var(--line);border-radius:5px;flex-wrap:wrap;justify-content:center}
+.fingerprint .cap{font-family:var(--mono);font-size:10px;color:var(--ink-mid);max-width:440px;line-height:1.6}
+.fingerprint .cap b{color:var(--plum)}
+.def{font-family:var(--mono);font-size:10.5px;background:var(--plum-soft);border-left:2px solid var(--plum-light);padding:9px 12px;margin:9px 0;line-height:1.7;color:var(--ink-mid)}
+.def b{color:var(--plum)}
+.honest{border:1.5px solid var(--gold);padding:9px 12px;margin:10px 0;font-family:var(--mono);font-size:10px;line-height:1.7;color:var(--ink-mid)}
+.honest b{color:#6a5520}
+.colophon{margin-top:16px;border-top:2px solid var(--plum);padding-top:10px;text-align:center;font-family:var(--mono);font-size:8.5px;color:var(--ink-mid);letter-spacing:.05em;line-height:1.8}
+.colophon b{color:var(--plum)}
+</style>
+</head>
+<body>
+<div class="sheet"><div class="inner">
+
+<header class="masthead">
+  <div class="mast-eyebrow">The Diode That Remembers · Gate &amp; Store In One</div>
+  <h1 class="mast-title">The Triadic Memristor</h1>
+  <div class="mast-sub">one two-terminal element gates AND remembers · trusted by 2-of-3</div>
+  <p class="lede">Swap the diode out. A <b>memristor</b> — Chua's 1971 fourth element, made real by HP in 2008 — is a single two-terminal device that does both jobs at once: write polarity <b>switches</b> it (the gate) and it <b>retains</b> its resistance with the power off (the store). So the toroid and its nine diodes collapse into <b>three memristors</b> — and the read is now <b>non-destructive.</b> The same 2-of-3 witness, one element per node.</p>
+</header>
+
+<div class="struct">{ ▭J1[<b>R-state = bit</b>] &nbsp; ▭J2[<b>R-state = bit</b>] &nbsp; ▭J3[<b>R-state = bit</b>] } &nbsp;·&nbsp; gate + store = <b>1 device</b> × 3</div>
+
+<div class="canvaswrap"><canvas id="c" width="440" height="300"></canvas></div>
+
+<div class="controls">
+  <button class="cbtn w1" onclick="doWrite(1)">✎ Write 1 (SET · +V → low-R)</button>
+  <button class="cbtn w0" onclick="doWrite(0)">✎ Write 0 (RESET · −V → high-R)</button>
+  <button class="cbtn read" onclick="doRead()">▣ Read (non-destructive)</button>
+</div>
+<div class="controls">
+  <button class="cbtn corrupt" onclick="flip(0)">⚠ Drift J1</button>
+  <button class="cbtn corrupt" onclick="flip(1)">⚠ Drift J2</button>
+  <button class="cbtn corrupt" onclick="flip(2)">⚠ Drift J3</button>
+  <button class="cbtn" onclick="repair()">↻ Heal (2-of-3)</button>
+</div>
+
+<div class="verdict" id="verdict">write a bit — voltage polarity SETs or RESETs all three memristors. read it back (the small read voltage doesn't disturb the state), or drift one and heal it.</div>
+<div class="log" id="log"><span style="color:#6a6088">// memristor log — every SET/RESET, non-destructive read, and quorum decision</span></div>
+
+<div class="fingerprint">
+  <svg width="118" height="100" viewBox="0 0 118 100" aria-label="pinched hysteresis I-V loop">
+    <line x1="59" y1="6" x2="59" y2="94" stroke="#cbbfdd" stroke-width="1"/>
+    <line x1="8" y1="50" x2="110" y2="50" stroke="#cbbfdd" stroke-width="1"/>
+    <path d="M59 50 C 86 22, 104 30, 104 50 C 104 64, 80 60, 59 50" fill="none" stroke="#9a4a6a" stroke-width="2"/>
+    <path d="M59 50 C 32 78, 14 70, 14 50 C 14 36, 38 40, 59 50" fill="none" stroke="#3a6a87" stroke-width="2"/>
+    <circle cx="59" cy="50" r="3" fill="#5b3a87"/>
+    <text x="59" y="99" text-anchor="middle" font-family="Courier New" font-size="7" fill="#8a83a0">V</text>
+    <text x="113" y="48" text-anchor="end" font-family="Courier New" font-size="7" fill="#8a83a0">I</text>
+  </svg>
+  <div class="cap"><b>the fingerprint:</b> a memristor's I–V curve is a <b>pinched hysteresis loop</b> — two lobes crossing at the origin (zero voltage → zero current, always). The loop area IS the memory: the current depends not just on the voltage now, but on all the charge that came before. Chua's signature of the fourth element.</div>
+</div>
+
+<section class="body">
+  <h2 class="sec">One Element, Both Jobs</h2>
+  <div class="split">
+    <div class="sc one"><div class="h">gate + store, fused</div>The bit is the memristor's <b>resistance state</b> — low-R (SET, "1") or high-R (RESET, "0"). Write <b>polarity</b> switches it (the diode's one-way job) and it <b>retains</b> the state with no power (the toroid's job). Two devices become one.</div>
+    <div class="sc read"><div class="h">non-destructive read</div>Unlike core memory, reading doesn't erase. A small read voltage <b>below the switching threshold</b> measures the resistance without moving the state. Read all you like; the bit stays. A real gain over the toroid.</div>
+    <div class="sc lim"><div class="h">the honest tax</div>Real memristors have <b>finite endurance</b> (writes wear them) and <b>drift/variability</b>. And in a crossbar, <b>sneak-path</b> currents force a <b>selector</b> (a diode or transistor) back into each cell — 1D1R / 1T1R. The diode doesn't fully vanish at scale.</div>
+  </div>
+  <div class="def"><b>3 memristors = the minimum self-verifying memory in one device per node.</b> Each remembers its own bit; 2-of-3 outvotes a single drifted cell. The Triadic Core's toroid-plus-diodes, collapsed to a single two-terminal element — Chua 1971, HP 2008, the basis of ReRAM.</div>
+
+  <div class="honest">
+    <b>honest line:</b> the memristor genuinely fuses gate and store and makes the read non-destructive — a real improvement on the core version. But the same fault bound holds: with a single bit, three cells <b>always</b> have a majority, so two cells drifted the same way <b>silently</b> flip the trusted value (2-of-3 masks <b>one</b> fault). And the device is real but imperfect — endurance, drift, and sneak-path selectors are the standing caveats. The witness is unchanged; only the element got better.
+  </div>
+</section>
+
+<div class="colophon">
+  MEMRISTOR = CHUA'S 4TH ELEMENT (1971) · HP TiO₂ (2008) · BIT = RESISTANCE STATE (LOW-R=1 / HIGH-R=0)<br>
+  WRITE POLARITY SWITCHES (THE GATE) · STATE RETAINED WITH NO POWER (THE STORE) · READ IS NON-DESTRUCTIVE<br>
+  3 MEMRISTORS · 2-OF-3 WITNESS · ONE DRIFT HEALED · TWO SAME-WAY = SILENT (TMR MASKS ONE FAULT)<br>
+  THE TRIADIC MEMRISTOR · A BUILD-ON OF THE TRIADIC CORE · SERIES E · JUNE 2026
+</div>
+
+</div></div>
+<script>
+const cv=document.getElementById('c'),ctx=cv.getContext('2d');
+const CX=220,CY=152;
+// each cell: w = doped-region fraction (HP linear-drift state variable); w>0.5 = low-R = bit 1
+const J=[
+  {name:'J1',x:220,y:62, color:'#7e5bb0',w:1,tw:1,flash:0,read:0},
+  {name:'J2',x:92, y:232,color:'#3a6a87',w:1,tw:1,flash:0,read:0},
+  {name:'J3',x:348,y:232,color:'#3a7a5a',w:1,tw:1,flash:0,read:0}
+];
+let busy=false, written=1;
+function logLine(h){const l=document.getElementById('log');const d=document.createElement('div');d.innerHTML=h;l.appendChild(d);l.scrollTop=l.scrollHeight;}
+function bitOf(j){return j.w>=0.5?1:0;}
+function majority(){const c=[0,0];J.forEach(j=>c[bitOf(j)]++);return c[1]>=2?1:0;}
+
+function drawCell(j){
+  const maj=majority(), b=bitOf(j), agrees=(b===maj);
+  const W=78,H=26, x=j.x-W/2, y=j.y-H/2;
+  // terminals (two leads)
+  ctx.strokeStyle='#6a6088';ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(x-12,j.y);ctx.lineTo(x,j.y);ctx.moveTo(x+W,j.y);ctx.lineTo(x+W+12,j.y);ctx.stroke();
+  // body
+  ctx.fillStyle='#0f0b17';ctx.fillRect(x,y,W,H);
+  // doped (low-R) region fills from left to w; undoped (high-R) the rest
+  const dop=Math.max(0,Math.min(1,j.w));
+  ctx.fillStyle = j.flash>0 ? '#e8d28a' : (agrees?'rgba(90,174,122,.55)':'rgba(208,122,150,.5)');
+  ctx.globalAlpha = j.flash>0 ? 0.6+0.35*Math.sin(Date.now()/70):1;
+  ctx.fillRect(x,y,W*dop,H); ctx.globalAlpha=1;
+  // undoped hatch
+  ctx.strokeStyle='rgba(138,131,160,.4)';ctx.lineWidth=1;
+  for(let gx=x+W*dop+4; gx<x+W-2; gx+=5){ctx.beginPath();ctx.moveTo(gx,y+2);ctx.lineTo(gx-4,y+H-2);ctx.stroke();}
+  // boundary line (the state variable w)
+  ctx.strokeStyle=j.read>0?'#8ac0e0':'#e8e2f2';ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(x+W*dop,y);ctx.lineTo(x+W*dop,y+H);ctx.stroke();
+  // frame
+  ctx.lineWidth=2.5;ctx.strokeStyle=(agrees?'#5aae7a':'#d07a96');ctx.strokeRect(x,y,W,H);
+  // labels
+  ctx.fillStyle=j.color;ctx.font='bold 12px Courier New';ctx.textAlign='center';
+  ctx.fillText(j.name,j.x,y-8);
+  ctx.fillStyle='#e8e2f2';ctx.font='bold 13px Courier New';
+  ctx.fillText((j.read>0?'~ ':'')+b,j.x,y+H+15);
+  ctx.fillStyle='#9a90b8';ctx.font='7px Courier New';
+  ctx.fillText(b?'LOW-R':'HIGH-R',j.x,y+H+25);
+  // ease w toward target
+  if(Math.abs(j.w-j.tw)>0.001){ j.w += (j.tw-j.w)*0.25; } else j.w=j.tw;
+  if(j.flash>0)j.flash--; if(j.read>0)j.read--;
+}
+function draw(){
+  ctx.clearRect(0,0,cv.width,cv.height);
+  const E=[[0,1],[1,2],[2,0]];ctx.strokeStyle='#3a3550';ctx.lineWidth=2;
+  E.forEach(([a,b])=>{ctx.beginPath();ctx.moveTo(J[a].x,J[a].y);ctx.lineTo(J[b].x,J[b].y);ctx.stroke();});
+  J.forEach(drawCell);
+  const maj=majority();
+  ctx.textAlign='center';ctx.fillStyle='#b8a0e0';ctx.font='8px Courier New';ctx.fillText('2-of-3',CX,CY-8);
+  ctx.fillStyle='#7ad8a0';ctx.font='bold 14px Courier New';ctx.fillText(maj,CX,CY+10);
+  requestAnimationFrame(draw);
+}
+function setV(state,msg){const v=document.getElementById('verdict');v.className='verdict'+(state?' '+state:'');v.innerHTML=msg;}
+function doWrite(bit){
+  if(busy)return;
+  J.forEach(j=>{j.tw=bit?1:0;j.flash=14;}); written=bit;
+  logLine('<span class="w">WRITE '+bit+' → '+(bit?'SET (+V): doped region grows → LOW-R':'RESET (−V): doped region shrinks → HIGH-R')+' on all 3</span>');
+  setV('trusted','✓ <b>committed bit '+bit+'</b> — each memristor switched to '+(bit?'low':'high')+'-resistance and <b>holds it with no power</b>. Read it back (non-destructive), or drift a cell.');
+}
+function doRead(){
+  if(busy)return; busy=true;
+  J.forEach(j=>j.read=18);
+  const sensed=J.map(bitOf), maj = sensed.filter(b=>b===1).length>=2?1:0;
+  const dissent=J.filter(j=>bitOf(j)!==maj);
+  logLine('<span class="r">READ → small sub-threshold voltage measures resistance (no state change): '+sensed.join('/')+'</span>');
+  setTimeout(()=>{
+    if(maj===written){
+      logLine(' → <span class="ok">TRUSTED '+maj+' (2-of-3'+(dissent.length?', '+dissent.map(d=>d.name).join('+')+' drifted — outvoted':'')+') — state untouched by the read</span>');
+      setV('trusted','✓ <b>TRUSTED bit '+maj+'</b> — confirmed by 2-of-3, and the cells are <b>unchanged</b> (non-destructive read).'+(dissent.length?' '+dissent.map(d=>d.name).join('+')+' has drifted — Heal to rewrite it.':''));
+    } else {
+      logLine(' → <span class="bad">⚠ SILENT CORRUPTION — 2-of-3 reads '+maj+', but '+written+' was written. Two cells drifted the same way.</span>');
+      setV('broken','⚠ <b>SILENTLY WRONG — reads '+maj+', you wrote '+written+'.</b> Two cells drifted the same way, so the majority masks it as true. A single bit always has a majority → two faults read as a confident wrong answer, not "no quorum." TMR masks <b>one</b> fault.');
+    }
+    busy=false;
+  },480);
+}
+function flip(i){
+  if(busy)return;
+  J[i].tw = bitOf(J[i])?0:1; J[i].flash=14;
+  logLine('<span class="c">⚠ DRIFT '+J[i].name+' → resistance state slipped to '+(J[i].tw>=0.5?'LOW-R(1)':'HIGH-R(0)')+'</span>');
+  setTimeout(doRead,360);
+}
+function repair(){
+  if(busy)return;
+  const maj=majority(); const d=J.filter(j=>bitOf(j)!==maj);
+  if(d.length){ d.forEach(j=>{j.tw=maj;j.flash=14;});
+    logLine('<span class="ok">↻ HEAL → drifted cell(s) re-SET to the 2-of-3 majority '+maj+'</span>');
+    setV('trusted','✓ <b>healed</b> — minority re-written to the majority bit '+maj+'.');
+  } else { logLine('<span class="sp">↻ nothing to heal — all three agree</span>'); setV('trusted','all three already agree on '+maj+'.'); }
+}
+draw();
+</script>
+</div>
+</body>
+</html>

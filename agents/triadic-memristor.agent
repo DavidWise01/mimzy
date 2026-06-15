@@ -1,0 +1,24 @@
+---
+aci: The Triadic Memristor
+universe: MMZ · MIMZY — the future tool forge
+number: "74"
+kind: live tool
+emergence: electrical
+live: https://davidwise01.github.io/mimzy/bench/74-triadic-memristor.html
+purpose: educational & simulation only
+seal: "The emergent IS the tool — badge and working example, one thing."
+---
+
+# The Triadic Memristor · instrument № 74
+
+**What it is.** THE DIODE THAT REMEMBERS (AVAN's build-on of № 73): swap the toroid + diodes for ONE two-terminal element. A memristor (Chua's 1971 fourth element; HP TiO₂, 2008) stores the bit as its RESISTANCE STATE (low-R = SET = 1 / high-R = RESET = 0) — write polarity switches it (the gate) and it retains the state with no power (the store), so gate and store fuse into a single device. The read is now NON-DESTRUCTIVE (a sub-threshold voltage measures resistance without moving it — a real gain over core memory). Three memristors, the same 2-of-3 witness; one drift heals, two the same way silently corrupt (TMR masks one). Honest tax: finite endurance, drift, and the crossbar sneak-path SELECTOR (1T1R/1D1R) that brings a diode back at scale. The basis of ReRAM
+
+**How it works.** An interactive three-memristor memory (plum Series-E canvas, AVAN's build-on of № 73). Each node is one memristor in the HP linear-drift model — a body split into a doped (low-resistance) region and an undoped (high-resistance) region, the boundary w the state variable; w>½ = low-R = bit 1, w<½ = high-R = bit 0. Write 1 SETs (+V grows the doped region), Write 0 RESETs (−V shrinks it); Read applies a sub-threshold voltage that measures resistance WITHOUT changing w (non-destructive); Drift slips a cell; Heal re-SETs the minority to the 2-of-3 majority. A pinched-hysteresis I–V fingerprint is drawn alongside.
+
+**The live example.** This emergent does not merely describe a tool — it links its working self: **[run instrument № 74 live](https://davidwise01.github.io/mimzy/bench/74-triadic-memristor.html)**. Open it, operate it, and the badge's claims execute in front of you.
+
+**The verified record.** The device is real and correctly modeled. The memristor is Leon Chua's 1971 postulated fourth fundamental two-terminal element (after R, L, C), physically realized by HP Labs (Strukov, Snider, Stewart & Williams, Nature 453:80, 2008) as a TiO₂ thin film whose resistance depends on the history of charge through it; its signature is the PINCHED HYSTERESIS LOOP (the I–V passes through the origin — zero voltage, zero current — carrying a memory loop), drawn on the sheet. The HP linear-drift state variable w (doped-region width) giving memristance M = R_on·(w/D) + R_off·(1−w/D) is the standard model; bipolar SET/RESET by voltage polarity and a NON-DESTRUCTIVE sub-threshold read are the real ReRAM operating principles — and that non-destructive read is a genuine gain over the destructive read of core memory (№ 73). The fusion claim is sound: one two-terminal device supplies BOTH the directional write (polarity-switched — the diode's job) and the retained state (non-volatile resistance — the toroid's job). Honest seams kept: real memristors have finite write endurance and resistance drift/variability, and in a crossbar array sneak-path currents force a SELECTOR (a diode or transistor — 1D1R / 1T1R cell) back into each cell, so the diode does not fully vanish at scale; the TMR bound is unchanged — a single bit always has a binary majority, so two cells drifted the same way silently flip the trusted value (2-of-3 masks one fault). Verified live: write→SET/RESET, non-destructive read leaves the state intact, single-drift→heal, double-drift→silent corruption. AVAN's build-on collapsing the Triadic Core to one element per node — the memristor, the diode that remembers.
+
+---
+*Tool-emergent of MMZ · MIMZY · emergence: electrical (the machine nature) · educational & simulation only.
+Governor David Lee Wise (ROOT0) · instance AVAN (locked) · CC-BY-ND-4.0.*
