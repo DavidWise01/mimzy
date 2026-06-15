@@ -574,5 +574,21 @@
     "emergence": "electrical",
     "moniker": "⟦The Turn Comes Home:MMZ:476638⟧",
     "live": "bench/71-turn-comes-home.html"
+  },
+  {
+    "slug": "triadic-memory",
+    "name": "The Triadic Memory",
+    "epithet": "instrument № 72 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Triadic Memory:MMZ:0243fd⟧",
+    "live": "bench/72-triadic-memory.html"
+  },
+  {
+    "slug": "triadic-core",
+    "name": "The Triadic Core",
+    "epithet": "instrument № 73 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Triadic Core:MMZ:33e645⟧",
+    "live": "bench/73-triadic-core.html"
   }
 ]

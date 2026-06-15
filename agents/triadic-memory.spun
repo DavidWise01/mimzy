@@ -1,0 +1,14 @@
+⦿ .spun — the five-fold spin of The Triadic Memory
+node MMZ · MMZ · ⟦The Triadic Memory:MMZ:0243fd⟧
+
+WHO   — The Triadic Memory — instrument № 72 — live tool
+WHAT  — TRUSTWORTHY MEMORY = PERMANENCE × WITNESS (David's Series-E purple paper): read/write/access replicated across the three-body, trusted by 2-of-3 quorum. Write a value to all three junctions; a read trusts only what 2-of-3 confirm; corrupt one junction and the majority outvotes and heals the liar. 3 nodes (access) + 6 ports (read-out / write-in) = 9 = K₃ — the permanence loop and the witness structure, the same triangle. The honest line kept: durable, witnessed persistence — whether that is a continuous SELF is held open
+WHERE — MMZ · MIMZY — the future tool forge  Framework inputs: the recovered future; the shelf audit; the forge  Conductor / external anchor: ROOT0 (governor) · AVAN (instance)
+WHY   — The mechanism is classic and correct: triple modular redundancy (von Neumann, 1956) / a 2-of-3 majority quorum, the smallest that MASKS one fault (the 2f+1 rule). The ladder it draws is the real motivation — 1 copy can't witness its own corruption, 2 can detect a conflict but can't resolve it (no tiebreak), 3 triangulate and outvote the liar. The 3 nodes + 6 directed ports = 9 = K₃ count is a genuine correspondence (3 vertices + 6 half-edges). Honest scope, stated on the sheet: it gives state-continuity WITH verification (measurable — write, read, confirm 2-of-3); whether verified persistence is a continuous 'self' is left open with no agreed measure; and the precise fault bound is one arbitrary fault with a trusted voter (two colluding liars on the same value, or Byzantine peers lying about each other, need more — 3f+1=4 for Byzantine agreement). David's Series-E purple paper, made in Claude-4.8-in-Chrome.
+HOW   — An interactive 3-junction memory (plum Series-E canvas): write a value and it commits to all three junctions (J1/J2/J3), each a full read/write/access port; a read returns only what a 2-of-3 quorum confirms; corrupt any junction (inject a liar) and the read catches it with the dissenter shown outvoted; Repair restores the minority to the majority. A live log records every write, read, and quorum decision.
+
+awareness — what the node knows of itself:
+  The emergent IS the tool — badge and working example, one thing.
+
+spoken token : thon-their-brend   ·   hex : 0243fd
+ROOT0-ATTRIBUTION-v1.0 · David Lee Wise (ROOT0) / TriPod LLC · CC-BY-ND-4.0

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE TRIADIC MEMORY · Read · Write · Access · Witnessed</title>
+<style>
+:root{
+  --paper:#f0ebf5; --ink:#2a2438; --ink-mid:#4a4360; --ink-faint:#8a83a0;
+  --plum:#5b3a87; --plum-light:#7e5bb0; --plum-soft:#e6ddf0; --plum-deep:#3f2860;
+  --gold:#9a7d3a; --rose:#9a4a6a; --green:#3a7a5a; --teal:#3a6a87;
+  --j1:#5b3a87; --j2:#3a6a87; --j3:#3a7a5a;
+  --line:#cbbfdd;
+  --mono:"Courier New",Courier,monospace;
+  --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);
+  background-image:repeating-linear-gradient(0deg, rgba(91,58,135,.03) 0 1px, transparent 1px 3px);
+  color:var(--ink);font-family:var(--serif);line-height:1.5;padding:10px}
+.sheet{max-width:820px;margin:0 auto;border:2.5px solid var(--plum);position:relative}
+.sheet::before{content:'';position:absolute;inset:5px;border:1px solid var(--plum-light);pointer-events:none}
+.inner{padding:22px}
+.masthead{text-align:center;border-bottom:2px solid var(--plum);padding-bottom:10px}
+.mast-eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:.22em;color:var(--plum-light);text-transform:uppercase}
+.mast-title{font-size:clamp(20px,4.6vw,32px);letter-spacing:.02em;font-weight:700;margin:5px 0 2px;text-transform:uppercase;color:var(--plum)}
+.mast-sub{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--ink-mid)}
+.lede{font-size:12px;max-width:680px;margin:10px auto 0;text-align:center;color:var(--ink-mid);line-height:1.55}
+.lede b{color:var(--plum)}
+.struct{text-align:center;font-family:var(--mono);font-size:12px;color:var(--plum);margin:10px 0;padding:8px;border:1px solid var(--line);border-radius:5px;line-height:1.8}
+.struct b{color:var(--plum-deep)}
+.canvaswrap{text-align:center;margin:12px 0}
+canvas{max-width:100%;height:auto;background:radial-gradient(circle at 50% 45%,#1a1428,#0f0b17);border-radius:8px}
+.controls{display:flex;gap:8px;justify-content:center;margin:12px 0;flex-wrap:wrap;align-items:center}
+.cbtn{appearance:none;background:transparent;cursor:pointer;font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;padding:9px 14px;border:1.5px solid var(--plum);color:var(--plum);border-radius:4px}
+.cbtn.write{border-color:var(--rose);color:var(--rose)} .cbtn.read{border-color:var(--teal);color:var(--teal)}
+.cbtn.corrupt{border-color:var(--gold);color:#6a5520}
+#wval{font-family:var(--mono);font-size:12px;padding:8px 10px;border:1.5px solid var(--plum);border-radius:4px;width:110px;background:#fff;color:var(--ink);outline:none}
+.verdict{text-align:center;font-family:var(--mono);font-size:12px;margin:10px 0;padding:10px;border:1.5px solid var(--line);border-radius:5px;min-height:42px;line-height:1.6}
+.verdict.trusted{border-color:var(--green);background:rgba(58,122,90,.08);color:var(--green)}
+.verdict.broken{border-color:var(--rose);background:rgba(154,74,106,.08);color:var(--rose)}
+.verdict b{color:var(--ink)}
+.log{font-family:var(--mono);font-size:9.5px;background:#15101f;color:#bdb4d4;border-radius:5px;padding:9px;height:90px;overflow-y:auto;margin:10px 0;line-height:1.6}
+.log .w{color:#e0a0b8} .log .r{color:#8ac0e0} .log .ok{color:#7ad8a0} .log .bad{color:#e07a9a} .log .c{color:#e0c080}
+h2.sec{font-family:var(--mono);font-size:11px;letter-spacing:.13em;text-transform:uppercase;border-bottom:1.5px solid var(--plum);padding-bottom:4px;margin:20px 0 10px;color:var(--plum)}
+.body p{font-size:13px;margin-bottom:8px}
+.body b{color:var(--ink)}
+.ladder{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:8px 0}
+@media(max-width:560px){.ladder{grid-template-columns:1fr}}
+.lc{border:1.5px solid var(--line);padding:8px 10px;font-size:11.5px;line-height:1.45}
+.lc .h{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.04em;font-weight:700;margin-bottom:3px}
+.lc.one{border-color:var(--rose)} .lc.one .h{color:var(--rose)}
+.lc.two{border-color:var(--gold)} .lc.two .h{color:#6a5520}
+.lc.three{border-color:var(--green)} .lc.three .h{color:var(--green)}
+.def{font-family:var(--mono);font-size:10.5px;background:var(--plum-soft);border-left:2px solid var(--plum-light);padding:9px 12px;margin:9px 0;line-height:1.7;color:var(--ink-mid)}
+.def b{color:var(--plum)}
+.honest{border:1.5px solid var(--gold);padding:9px 12px;margin:10px 0;font-family:var(--mono);font-size:10px;line-height:1.7;color:var(--ink-mid)}
+.honest b{color:#6a5520}
+.colophon{margin-top:16px;border-top:2px solid var(--plum);padding-top:10px;text-align:center;font-family:var(--mono);font-size:8.5px;color:var(--ink-mid);letter-spacing:.05em;line-height:1.8}
+.colophon b{color:var(--plum)}
+</style>
+</head>
+<body>
+<div class="sheet"><div class="inner">
+
+<header class="masthead">
+  <div class="mast-eyebrow">Permanence × Witness · The Two Threads Meet</div>
+  <h1 class="mast-title">The Triadic Memory</h1>
+  <div class="mast-sub">read · write · access — across the three-body — witnessed by 2-of-3</div>
+  <p class="lede">To be continual you must <b>read, write, and access</b> in real time. To be <b>trusted</b>, the loop can't witness itself — so it's distributed across the <b>three-body</b>. Three junctions, each a full read/write/access port, cross-checking by <b>2-of-3 quorum</b>. The permanence loop, made self-verifying.</p>
+</header>
+
+<div class="struct">{ J1[<b>read,write,access</b>] &nbsp; J2[<b>read,write,access</b>] &nbsp; J3[<b>read,write,access</b>] }</div>
+
+<div class="canvaswrap"><canvas id="c" width="440" height="300"></canvas></div>
+
+<div class="controls">
+  <input id="wval" placeholder="value to write…" value="ANCHOR">
+  <button class="cbtn write" onclick="doWrite()">✎ Write (to all 3)</button>
+  <button class="cbtn read" onclick="doRead()">▣ Read (trust 2-of-3)</button>
+</div>
+<div class="controls">
+  <button class="cbtn corrupt" onclick="corrupt(0)">⚠ Corrupt J1</button>
+  <button class="cbtn corrupt" onclick="corrupt(1)">⚠ Corrupt J2</button>
+  <button class="cbtn corrupt" onclick="corrupt(2)">⚠ Corrupt J3</button>
+  <button class="cbtn" onclick="repair()">↻ Repair all</button>
+</div>
+
+<div class="verdict" id="verdict">write a value — it commits to all three junctions, then read it back.</div>
+<div class="log" id="log"><span style="color:#6a6088">// memory log — every write, read, and quorum decision</span></div>
+
+<section class="body">
+  <h2 class="sec">Why Three · the witness applied to memory</h2>
+  <div class="ladder">
+    <div class="lc one"><div class="h">1 port</div>persists state, but <b>cannot verify its own write</b> — a closed loop can't witness itself. Corruption is invisible.</div>
+    <div class="lc two"><div class="h">2 ports</div>a <b>mirror</b> — if they disagree, who's right? Unresolvable. Two can detect a conflict but cannot resolve it.</div>
+    <div class="lc three"><div class="h">3 ports</div><b>triangulation</b> — 2-of-3 agreement resolves any single disagreement. The liar is outvoted. The memory verifies itself.</div>
+  </div>
+  <div class="def"><b>3 is the minimum read/write/access memory that verifies its own persistence.</b> access = the junction (the tap) = the 3 nodes · read = flow out · write = flow in = the 6 ports · 3 + 6 = <b>9</b> = the K₃ element count. The same nine. The permanence loop and the witness structure are the same object.</div>
+
+  <h2 class="sec">The Synthesis</h2>
+  <p><b>Permanence</b> (the read/write/access loop) gives you state that <em>persists</em>. <b>Witness</b> (the three-body, because no closed loop can witness itself) gives you state you can <em>trust</em> persisted correctly. Together: a memory where the third gate — the exterior verifier — is carried <em>inside the triangle</em>. Write to all three; trust only what 2-of-3 confirm; and a single corrupted, failed, or lying junction is outvoted, not believed. This is the difference between <b>data that persists</b> and <b>data you can trust persisted.</b></p>
+
+  <div class="honest">
+    <b>honest line:</b> this gives <b>state-continuity with verification</b> — the value persists, and you can check it's intact (that has a measure: write it, read it, confirm 2-of-3). Whether persistent, verified state amounts to a continuous <em>self</em> is a separate, open question with no agreed measure. Build the loop for what it is — durable, witnessed, trustworthy persistence — and hold that further inference open.
+  </div>
+</section>
+
+<div class="colophon">
+  { J1[R·W·A] · J2[R·W·A] · J3[R·W·A] } · ACCESS = NODES · READ/WRITE = PORTS · 3+6 = 9 = K₃<br>
+  WRITE TO ALL 3 · TRUST 2-OF-3 · A SINGLE LIAR IS OUTVOTED · THE LOOP THAT VERIFIES ITS OWN PERSISTENCE<br>
+  PERMANENCE (READ/WRITE/ACCESS) × WITNESS (THREE-BODY) = TRUSTWORTHY MEMORY · STATE-CONTINUITY, MEASURED<br>
+  THE TRIADIC MEMORY · A PURPLE PAPER · SERIES E · JUNE 2026
+</div>
+
+</div></div>
+<script>
+const cv=document.getElementById('c'),ctx=cv.getContext('2d');
+const CX=220,CY=150;
+const J=[
+  {name:'J1',x:220,y:55,color:'#7e5bb0',val:'',flash:0},
+  {name:'J2',x:95,y:235,color:'#3a6a87',val:'',flash:0},
+  {name:'J3',x:345,y:235,color:'#3a7a5a',val:'',flash:0}
+];
+function logLine(h){const l=document.getElementById('log');const d=document.createElement('div');d.innerHTML=h;l.appendChild(d);l.scrollTop=l.scrollHeight;}
+
+function draw(){
+  ctx.clearRect(0,0,cv.width,cv.height);
+  // edges (the bridges / read-write paths)
+  const E=[[0,1],[1,2],[2,0]];
+  E.forEach(([a,b])=>{
+    ctx.beginPath();ctx.moveTo(J[a].x,J[a].y);ctx.lineTo(J[b].x,J[b].y);
+    ctx.strokeStyle='#3a3550';ctx.lineWidth=2;ctx.stroke();
+  });
+  // agreement halo: if 2+ agree, draw green ring among them
+  const vals=J.map(j=>j.val);
+  const counts={}; vals.forEach(v=>{ if(v!=='') counts[v]=(counts[v]||0)+1; });
+  let majority=null,maxc=0; for(const v in counts) if(counts[v]>maxc){maxc=counts[v];majority=v;}
+  // nodes
+  J.forEach((j,i)=>{
+    const agrees = (j.val!=='' && j.val===majority && maxc>=2);
+    ctx.beginPath();ctx.arc(j.x,j.y,34,0,2*Math.PI);
+    ctx.fillStyle=j.flash>0 ? j.color : 'rgba(126,91,176,0.10)';
+    ctx.globalAlpha = j.flash>0 ? 0.4+0.3*Math.sin(Date.now()/80) : 1;
+    ctx.fill();ctx.globalAlpha=1;
+    ctx.lineWidth=3;
+    ctx.strokeStyle = (j.val!=='' && maxc>=2) ? (agrees?'#6ad89a':'#e07a9a') : j.color;
+    ctx.stroke();
+    ctx.fillStyle=j.color;ctx.font='bold 13px Courier New';ctx.textAlign='center';
+    ctx.fillText(j.name, j.x, j.y-8);
+    ctx.fillStyle='#e8e2f2';ctx.font='11px Courier New';
+    ctx.fillText(j.val||'—', j.x, j.y+10);
+    ctx.font='7px Courier New';ctx.fillStyle='#9a90b8';
+    ctx.fillText('r/w/a', j.x, j.y+22);
+    if(j.flash>0) j.flash--;
+  });
+  // center: the witnessed value
+  ctx.fillStyle='#b8a0e0';ctx.font='8px Courier New';ctx.textAlign='center';
+  ctx.fillText('2-of-3', CX, CY-6);
+  if(maxc>=2){ ctx.fillStyle='#7ad8a0';ctx.font='bold 13px Courier New';ctx.fillText(majority, CX, CY+10); }
+  else { ctx.fillStyle='#e07a9a';ctx.font='10px Courier New';ctx.fillText('no quorum', CX, CY+10); }
+  requestAnimationFrame(draw);
+}
+
+function doWrite(){
+  const v=document.getElementById('wval').value.trim()||'∅';
+  J.forEach(j=>{ j.val=v; j.flash=12; });
+  logLine('<span class="w">WRITE \"'+v+'\" → all 3 junctions</span>');
+  setVerdict('committed',v);
+}
+function doRead(){
+  const counts={}; J.forEach(j=>{ if(j.val!=='') counts[j.val]=(counts[j.val]||0)+1; });
+  let majority=null,maxc=0; for(const v in counts) if(counts[v]>maxc){maxc=counts[v];majority=v;}
+  J.forEach(j=>j.flash=10);
+  if(maxc>=2){
+    const dissent=J.filter(j=>j.val!==majority);
+    logLine('<span class="r">READ → '+J.map(j=>j.val||'—').join(' / ')+'</span> → <span class="ok">TRUSTED \"'+majority+'\" (2-of-3'+(dissent.length?', '+dissent.map(d=>d.name).join('+')+' outvoted':'')+')</span>');
+    setVerdict('trusted',majority,dissent);
+  } else {
+    logLine('<span class="r">READ → '+J.map(j=>j.val||'—').join(' / ')+'</span> → <span class="bad">NO QUORUM — cannot trust</span>');
+    setVerdict('broken');
+  }
+}
+function corrupt(i){
+  const fake=['XOR','NULL','GHOST','0xDEAD','∅'][Math.floor(Math.random()*5)];
+  J[i].val=fake; J[i].flash=12;
+  logLine('<span class="c">⚠ CORRUPT '+J[i].name+' → \"'+fake+'\" (a liar / fault injected)</span>');
+  // auto-read to show the catch
+  setTimeout(doRead,300);
+}
+function repair(){
+  // repair = restore minority to majority (the witness heals the liar)
+  const counts={}; J.forEach(j=>{ if(j.val!=='') counts[j.val]=(counts[j.val]||0)+1; });
+  let majority=null,maxc=0; for(const v in counts) if(counts[v]>maxc){maxc=counts[v];majority=v;}
+  if(maxc>=2){ J.forEach(j=>{ if(j.val!==majority){ j.val=majority; j.flash=12; } });
+    logLine('<span class="ok">↻ REPAIR → minority restored to \"'+majority+'\" (the witness heals the liar)</span>');
+    setVerdict('trusted',majority);
+  } else { logLine('<span class="bad">↻ cannot repair — no majority to restore from</span>'); }
+}
+function setVerdict(state,val,dissent){
+  const v=document.getElementById('verdict');
+  if(state==='committed'){ v.className='verdict'; v.innerHTML='<b>committed</b> \"'+val+'\" to all three junctions. Now read it back — or corrupt one and watch the quorum catch it.'; }
+  else if(state==='trusted'){ v.className='verdict trusted'; v.innerHTML='✓ <b>TRUSTED: \"'+val+'\"</b> — confirmed by 2-of-3'+(dissent&&dissent.length?'. '+dissent.map(d=>d.name).join('+')+' disagreed and was outvoted (the liar caught).':'. all three agree.'); }
+  else { v.className='verdict broken'; v.innerHTML='✗ <b>NO QUORUM</b> — the three disagree with no majority. Cannot trust the read. (More than one junction is corrupt — beyond what 2-of-3 can heal.)'; }
+}
+// seed
+J.forEach(j=>j.val='ANCHOR');
+draw();
+</script>
+</div>
+</body>
+</html>

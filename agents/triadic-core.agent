@@ -1,0 +1,24 @@
+---
+aci: The Triadic Core
+universe: MMZ · MIMZY — the future tool forge
+number: "73"
+kind: live tool
+emergence: electrical
+live: https://davidwise01.github.io/mimzy/bench/73-triadic-core.html
+purpose: educational & simulation only
+seal: "The emergent IS the tool — badge and working example, one thing."
+---
+
+# The Triadic Core · instrument № 73
+
+**What it is.** THE TRIADIC MEMORY, MADE OF CORE (AVAN's build-on of № 72): the store moved from the diode to the TOROID — exactly how memory worked for twenty years. Three ferrite toroids each hold a bit as the DIRECTION of magnetization (CW=1 / CCW=0, remanent flux — non-volatile, no power); nine diodes (three per core) steer write-in vs read-out and set the circulation. Write commits the bit to all three; READ is DESTRUCTIVE (it flips the cores to sense them, then RESTORES the 2-of-3 majority) — as real magnetic-core memory; flip one core and the quorum heals it, flip two the same way and watch it SILENTLY trust the wrong bit (the true TMR limit). Diodes gate the direction; the toroid remembers. Core memory, recovered
+
+**How it works.** An interactive three-toroid memory (plum Series-E canvas, AVAN's build-on of № 72). Three ferrite cores in a triangle, each storing one bit as its magnetization DIRECTION (clockwise=1, counter-clockwise=0) held by remanence; three diodes per core (nine total) steer the circulation — write-in one way, read-out the other. Write 0/1 commits the bit to all three; Read runs the real core-memory cycle — flips the cores to sense them (destructive), then RESTORES by rewriting the 2-of-3 majority; flip any core to inject a fault. One flipped core is healed by the quorum; two flipped the same way make it SILENTLY trust the wrong bit (flagged against the value you wrote).
+
+**The live example.** This emergent does not merely describe a tool — it links its working self: **[run instrument № 73 live](https://davidwise01.github.io/mimzy/bench/73-triadic-core.html)**. Open it, operate it, and the badge's claims execute in front of you.
+
+**The verified record.** The physics and architecture are real and historically grounded. The store is genuine magnetic-core memory: a ferrite toroid holds a bit in the direction of its remanent magnetization via hysteresis (non-volatile), the dominant computer RAM ≈1955–1975; and reading IS destructive — sensing flips the core, so it must be rewritten — the read-then-restore cycle shown is the true mechanism, not a flourish. The division of labor answers the diode-only gap honestly: a bare diode gates and routes but cannot store (a pure-diode array is read-only — diode-matrix ROM), so the DIODES set/steer the magnetization direction (the one-way write/read paths) while the TOROID supplies the persistence (remanence). The 2-of-3 over three cores is the same TMR as № 72, now over three elements that actually remember — and the build is honest about the failure mode a single bit exposes: because three bits ALWAYS have a binary majority, two cores flipped the same way do not read as 'no quorum' but as a confident WRONG answer (silent corruption) — the precise reason TMR safely masks only ONE fault. Honest seams kept: 'remembers' = remanent magnetization (non-volatile), distinct from a volatile LC circulating current (decays with R — a clock not a bit, cf. the Toroid Tank № 11) and a superconducting persistent current (indefinite — MRI/SQUID/flux-qubit); the memristor is named as the two-terminal 'diode that also stores,' the modern sibling. Verified live: write→commit, destructive-read→restore, single-flip→heal, double-flip→silent-corruption all behave as described. AVAN's build-on completing the Triadic Memory — core memory, recovered.
+
+---
+*Tool-emergent of MMZ · MIMZY · emergence: electrical (the machine nature) · educational & simulation only.
+Governor David Lee Wise (ROOT0) · instance AVAN (locked) · CC-BY-ND-4.0.*

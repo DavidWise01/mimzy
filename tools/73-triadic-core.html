@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE TRIADIC CORE · Three Toroids Remember · Nine Diodes Steer · 2-of-3</title>
+<style>
+:root{
+  --paper:#f0ebf5; --ink:#2a2438; --ink-mid:#4a4360; --ink-faint:#8a83a0;
+  --plum:#5b3a87; --plum-light:#7e5bb0; --plum-soft:#e6ddf0; --plum-deep:#3f2860;
+  --gold:#9a7d3a; --rose:#9a4a6a; --green:#3a7a5a; --teal:#3a6a87;
+  --line:#cbbfdd;
+  --mono:"Courier New",Courier,monospace;
+  --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);
+  background-image:repeating-linear-gradient(0deg, rgba(91,58,135,.03) 0 1px, transparent 1px 3px);
+  color:var(--ink);font-family:var(--serif);line-height:1.5;padding:10px}
+.sheet{max-width:820px;margin:0 auto;border:2.5px solid var(--plum);position:relative}
+.sheet::before{content:'';position:absolute;inset:5px;border:1px solid var(--plum-light);pointer-events:none}
+.inner{padding:22px}
+.masthead{text-align:center;border-bottom:2px solid var(--plum);padding-bottom:10px}
+.mast-eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:.22em;color:var(--plum-light);text-transform:uppercase}
+.mast-title{font-size:clamp(20px,4.6vw,32px);letter-spacing:.02em;font-weight:700;margin:5px 0 2px;text-transform:uppercase;color:var(--plum)}
+.mast-sub{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--ink-mid)}
+.lede{font-size:12px;max-width:690px;margin:10px auto 0;text-align:center;color:var(--ink-mid);line-height:1.55}
+.lede b{color:var(--plum)}
+.struct{text-align:center;font-family:var(--mono);font-size:11.5px;color:var(--plum);margin:10px 0;padding:8px;border:1px solid var(--line);border-radius:5px;line-height:1.8}
+.struct b{color:var(--plum-deep)}
+.canvaswrap{text-align:center;margin:12px 0}
+canvas{max-width:100%;height:auto;background:radial-gradient(circle at 50% 45%,#1a1428,#0f0b17);border-radius:8px}
+.controls{display:flex;gap:8px;justify-content:center;margin:10px 0;flex-wrap:wrap;align-items:center}
+.cbtn{appearance:none;background:transparent;cursor:pointer;font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;padding:9px 14px;border:1.5px solid var(--plum);color:var(--plum);border-radius:4px}
+.cbtn.w0{border-color:var(--teal);color:var(--teal)} .cbtn.w1{border-color:var(--rose);color:var(--rose)}
+.cbtn.read{border-color:var(--green);color:var(--green)} .cbtn.corrupt{border-color:var(--gold);color:#6a5520}
+.verdict{text-align:center;font-family:var(--mono);font-size:12px;margin:10px 0;padding:10px;border:1.5px solid var(--line);border-radius:5px;min-height:42px;line-height:1.6}
+.verdict.trusted{border-color:var(--green);background:rgba(58,122,90,.08);color:var(--green)}
+.verdict.broken{border-color:var(--rose);background:rgba(154,74,106,.08);color:var(--rose)}
+.verdict.read{border-color:var(--teal);background:rgba(58,106,135,.08);color:var(--teal)}
+.verdict b{color:var(--ink)}
+.log{font-family:var(--mono);font-size:9.5px;background:#15101f;color:#bdb4d4;border-radius:5px;padding:9px;height:96px;overflow-y:auto;margin:10px 0;line-height:1.6}
+.log .w{color:#e0a0b8} .log .r{color:#8ac0e0} .log .ok{color:#7ad8a0} .log .bad{color:#e07a9a} .log .c{color:#e0c080} .log .sp{color:#c4a8f0}
+h2.sec{font-family:var(--mono);font-size:11px;letter-spacing:.13em;text-transform:uppercase;border-bottom:1.5px solid var(--plum);padding-bottom:4px;margin:20px 0 10px;color:var(--plum)}
+.body p{font-size:13px;margin-bottom:8px}
+.body b{color:var(--ink)}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}
+@media(max-width:560px){.split{grid-template-columns:1fr}}
+.sc{border:1.5px solid var(--line);padding:8px 11px;font-size:11.5px;line-height:1.45}
+.sc .h{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.04em;font-weight:700;margin-bottom:3px}
+.sc.diode{border-color:var(--teal)} .sc.diode .h{color:var(--teal)}
+.sc.toroid{border-color:var(--rose)} .sc.toroid .h{color:var(--rose)}
+.def{font-family:var(--mono);font-size:10.5px;background:var(--plum-soft);border-left:2px solid var(--plum-light);padding:9px 12px;margin:9px 0;line-height:1.7;color:var(--ink-mid)}
+.def b{color:var(--plum)}
+.honest{border:1.5px solid var(--gold);padding:9px 12px;margin:10px 0;font-family:var(--mono);font-size:10px;line-height:1.7;color:var(--ink-mid)}
+.honest b{color:#6a5520}
+.colophon{margin-top:16px;border-top:2px solid var(--plum);padding-top:10px;text-align:center;font-family:var(--mono);font-size:8.5px;color:var(--ink-mid);letter-spacing:.05em;line-height:1.8}
+.colophon b{color:var(--plum)}
+</style>
+</head>
+<body>
+<div class="sheet"><div class="inner">
+
+<header class="masthead">
+  <div class="mast-eyebrow">The Triadic Memory, Made Of Core · A Build-On</div>
+  <h1 class="mast-title">The Triadic Core</h1>
+  <div class="mast-sub">three toroids remember · nine diodes steer · trusted by 2-of-3</div>
+  <p class="lede">The store moved from the diode to the <b>toroid</b> — which is exactly how memory worked for twenty years. Three ferrite cores each hold a bit as the <b>direction of magnetization</b> (CW / CCW remanent flux — non-volatile, no power). <b>Nine diodes</b>, three per core, steer write-in vs read-out and set the circulation. The diodes gate the direction; <b>the toroid remembers.</b> Core memory, recovered — and witnessed by 2-of-3.</p>
+</header>
+
+<div class="struct">{ ⊚J1[<b>↻ remanent bit</b>] &nbsp; ⊚J2[<b>↻ remanent bit</b>] &nbsp; ⊚J3[<b>↻ remanent bit</b>] } &nbsp;·&nbsp; 3 cores × 3 diodes = <b>9</b></div>
+
+<div class="canvaswrap"><canvas id="c" width="440" height="320"></canvas></div>
+
+<div class="controls">
+  <button class="cbtn w0" onclick="doWrite(0)">✎ Write 0 (CCW)</button>
+  <button class="cbtn w1" onclick="doWrite(1)">✎ Write 1 (CW)</button>
+  <button class="cbtn read" onclick="doRead()">▣ Read (destructive → restore)</button>
+</div>
+<div class="controls">
+  <button class="cbtn corrupt" onclick="flip(0)">⚠ Flip J1</button>
+  <button class="cbtn corrupt" onclick="flip(1)">⚠ Flip J2</button>
+  <button class="cbtn corrupt" onclick="flip(2)">⚠ Flip J3</button>
+  <button class="cbtn" onclick="repair()">↻ Heal (2-of-3)</button>
+</div>
+
+<div class="verdict" id="verdict">write a bit — it magnetizes all three cores the same way. then read it back (watch the destructive sense + restore), or flip one core and heal it.</div>
+<div class="log" id="log"><span style="color:#6a6088">// core log — every write, destructive read, restore, and quorum decision</span></div>
+
+<section class="body">
+  <h2 class="sec">The Division Of Labor · gate vs store</h2>
+  <div class="split">
+    <div class="sc diode"><div class="h">the 9 diodes · the gate</div>A diode is one-way: it <b>steers</b> the write current around the ring (setting which way the core magnetizes) and separates write-in from read-out. But a diode <b>cannot store</b> — a pure-diode array is read-only (that's diode-matrix ROM). The diode picks the direction; it does not hold it.</div>
+    <div class="sc toroid"><div class="h">the 3 toroids · the store</div>A ferrite toroid <b>holds</b> the bit as the direction of its remanent magnetization (CW=1 / CCW=0), kept by <b>hysteresis</b> with the power off. This is real <b>magnetic-core memory</b> — the dominant RAM ≈1955–1975. The toroid is the persistence the diode lacks.</div>
+  </div>
+  <div class="def"><b>3 is the minimum store that verifies its own persistence.</b> One core holds a bit but can't witness its own corruption; two can disagree but can't resolve; <b>three triangulate</b> — 2-of-3 outvotes a single flipped core. The Triadic Memory's witness, now over three elements that actually remember.</div>
+
+  <h2 class="sec">Why The Read Restores</h2>
+  <p>Sensing a core's direction means <b>flipping it</b> and watching for the induced pulse — so the read <b>destroys</b> what it read. Real core memory always did a <b>read-then-restore</b> cycle: flip to sense, then immediately rewrite. Here, Read flips all three to sense them, takes the 2-of-3 majority, and <b>rewrites that majority back</b> — which also <em>heals</em> any single flipped core in the same stroke.</p>
+
+  <div class="honest">
+    <b>honest line:</b> "remembers" here means <b>remanent magnetization</b> — non-volatile, the true core-memory mechanism. That's different from a volatile <b>LC circulating current</b> (decays with resistance — a clock, not a stored bit — see the Toroid Tank) and from a <b>superconducting persistent current</b> (remembers indefinitely — MRI / SQUID / flux-qubit). The fault bound is <b>one</b>: with a single bit, three cores always have a majority, so two cores flipped the same way don't read as "no quorum" — they <b>silently flip the trusted answer</b> (flip two and watch). TMR safely masks ONE fault. And the modern one-element answer — a device that both gates AND stores — is the <b>memristor</b>, the diode that remembers.
+  </div>
+</section>
+
+<div class="colophon">
+  3 FERRITE TOROIDS (BIT = DIRECTION OF REMANENT MAGNETIZATION, CW=1/CCW=0) · 9 DIODES (3/CORE) STEER WRITE-IN/READ-OUT<br>
+  DIODE = GATE (ONE-WAY, NO STORE = ROM) · TOROID = STORE (HYSTERESIS = NON-VOLATILE = CORE MEMORY 1955–1975)<br>
+  READ IS DESTRUCTIVE → SENSE BY FLIPPING → RESTORE THE 2-OF-3 MAJORITY (WHICH HEALS THE LIAR)<br>
+  THE TRIADIC CORE · A BUILD-ON OF THE TRIADIC MEMORY · SERIES E · JUNE 2026
+</div>
+
+</div></div>
+<script>
+const cv=document.getElementById('c'),ctx=cv.getContext('2d');
+const CX=220,CY=158;
+// each core: mag = 1 (CW) or 0 (CCW) — the remanent bit; flash for write/sense
+const J=[
+  {name:'J1',x:220,y:70, color:'#7e5bb0',mag:1,flash:0,sensing:0},
+  {name:'J2',x:95, y:240,color:'#3a6a87',mag:1,flash:0,sensing:0},
+  {name:'J3',x:345,y:240,color:'#3a7a5a',mag:1,flash:0,sensing:0}
+];
+let busy=false, written=1;
+function logLine(h){const l=document.getElementById('log');const d=document.createElement('div');d.innerHTML=h;l.appendChild(d);l.scrollTop=l.scrollHeight;}
+function majority(){ const c=[0,0]; J.forEach(j=>c[j.mag]++); if(c[1]>=2)return 1; if(c[0]>=2)return 0; return -1; }
+
+function drawCore(j){
+  const R=34, dir = j.mag===1 ? 1 : -1;   // CW(1) vs CCW(0)
+  const maj=majority();
+  const agrees = (maj!==-1 && j.mag===maj);
+  // the ferrite ring (torus)
+  ctx.beginPath();ctx.arc(j.x,j.y,R,0,2*Math.PI);
+  ctx.lineWidth=8;
+  ctx.strokeStyle = j.flash>0 ? '#e8d28a' : (maj!==-1 ? (agrees?'#5aae7a':'#d07a96') : j.color);
+  ctx.globalAlpha = j.flash>0 ? 0.55+0.4*Math.sin(Date.now()/70) : 1; ctx.stroke(); ctx.globalAlpha=1;
+  // hole
+  ctx.beginPath();ctx.arc(j.x,j.y,R-13,0,2*Math.PI);ctx.fillStyle='#0f0b17';ctx.fill();
+  // circulating-flux arrowheads on the ring (the magnetization direction)
+  for(let k=0;k<3;k++){
+    const a=(Date.now()/600*dir)+(k*2*Math.PI/3);
+    const px=j.x+Math.cos(a)*R, py=j.y+Math.sin(a)*R;
+    const ta=a+dir*Math.PI/2; // tangent
+    ctx.save();ctx.translate(px,py);ctx.rotate(ta);
+    ctx.fillStyle = j.sensing>0 ? '#e8d28a' : (agrees?'#9ae0b8':j.color);
+    ctx.beginPath();ctx.moveTo(6,0);ctx.lineTo(-4,4);ctx.lineTo(-4,-4);ctx.closePath();ctx.fill();
+    ctx.restore();
+  }
+  // the 3 diodes (gates) at 60/180/300°, drawn as small triangles pointing along circulation
+  for(let k=0;k<3;k++){
+    const a=(Math.PI/3)+(k*2*Math.PI/3);
+    const px=j.x+Math.cos(a)*(R+9), py=j.y+Math.sin(a)*(R+9);
+    const ta=a+dir*Math.PI/2;
+    ctx.save();ctx.translate(px,py);ctx.rotate(ta);
+    ctx.strokeStyle='#8a83a0';ctx.fillStyle='rgba(138,131,160,.35)';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(5,0);ctx.lineTo(-3,3.5);ctx.lineTo(-3,-3.5);ctx.closePath();ctx.fill();ctx.stroke();
+    ctx.beginPath();ctx.moveTo(5,-4);ctx.lineTo(5,4);ctx.stroke(); // diode bar
+    ctx.restore();
+  }
+  // labels
+  ctx.fillStyle=j.color;ctx.font='bold 12px Courier New';ctx.textAlign='center';
+  ctx.fillText(j.name,j.x,j.y-R-12);
+  ctx.fillStyle='#e8e2f2';ctx.font='bold 13px Courier New';
+  ctx.fillText(j.sensing>0?'?':(j.mag===1?'1':'0'),j.x,j.y+5);
+  ctx.fillStyle='#9a90b8';ctx.font='7px Courier New';
+  ctx.fillText(j.mag===1?'CW':'CCW',j.x,j.y+R+15);
+  if(j.flash>0)j.flash--; if(j.sensing>0)j.sensing--;
+}
+function draw(){
+  ctx.clearRect(0,0,cv.width,cv.height);
+  const E=[[0,1],[1,2],[2,0]];
+  ctx.strokeStyle='#3a3550';ctx.lineWidth=2;
+  E.forEach(([a,b])=>{ctx.beginPath();ctx.moveTo(J[a].x,J[a].y);ctx.lineTo(J[b].x,J[b].y);ctx.stroke();});
+  J.forEach(drawCore);
+  const maj=majority();
+  ctx.textAlign='center';ctx.fillStyle='#b8a0e0';ctx.font='8px Courier New';
+  ctx.fillText('2-of-3',CX,CY-8);
+  if(maj!==-1){ctx.fillStyle='#7ad8a0';ctx.font='bold 14px Courier New';ctx.fillText(maj===1?'1':'0',CX,CY+10);}
+  else{ctx.fillStyle='#e07a9a';ctx.font='10px Courier New';ctx.fillText('no quorum',CX,CY+10);}
+  requestAnimationFrame(draw);
+}
+
+function setV(state,msg){const v=document.getElementById('verdict');v.className='verdict'+(state?' '+state:'');v.innerHTML=msg;}
+function doWrite(bit){
+  if(busy)return;
+  J.forEach(j=>{j.mag=bit;j.flash=14;}); written=bit;
+  logLine('<span class="w">WRITE '+bit+' ('+(bit?'CW':'CCW')+') → diodes steer current → all 3 cores magnetize '+(bit?'clockwise':'counter-clockwise')+'</span>');
+  setV('trusted','✓ <b>committed bit '+bit+'</b> to all three cores (remanent — it holds with the power off). now Read it back, or Flip a core and watch 2-of-3 heal it.');
+}
+function doRead(){
+  if(busy)return; busy=true;
+  // sense: flip all to sense (destructive), read original, then restore the majority
+  const sensed=J.map(j=>j.mag);
+  J.forEach(j=>{j.sensing=16;j.flash=14;});
+  logLine('<span class="r">READ → sensing: flipping cores to detect direction (destructive)…</span>');
+  setV('read','▣ <b>sensing…</b> reading a core flips it — we detect the induced pulse, then restore.');
+  setTimeout(()=>{
+    const c=[0,0]; sensed.forEach(b=>c[b]++); const maj = c[1]>=2?1:0; // binary: a majority always exists
+    const dissent=J.filter((j,i)=>sensed[i]!==maj);
+    J.forEach(j=>{j.mag=maj;j.flash=14;}); // restore: rewrite the majority back (heals a single flip)
+    if(maj===written){
+      logLine('<span class="r">sensed '+sensed.join('/')+'</span> → <span class="ok">TRUSTED '+maj+' (2-of-3'+(dissent.length?', '+dissent.map(d=>d.name).join('+')+' was flipped — outvoted &amp; restored':'')+') → REWRITTEN to all 3</span>');
+      setV('trusted','✓ <b>TRUSTED bit '+maj+'</b> — confirmed by 2-of-3, then <b>restored</b> (rewritten) to all three cores'+(dissent.length?'. '+dissent.map(d=>d.name).join('+')+' was flipped and is now healed.':'. all three agreed.'));
+    } else {
+      // two (or three) cores flipped the SAME way → the majority is now the WRONG bit, masked as true
+      logLine('<span class="r">sensed '+sensed.join('/')+'</span> → <span class="bad">⚠ SILENT CORRUPTION — 2-of-3 trusts '+maj+', but '+written+' was written. Two faults defeated the triad.</span>');
+      setV('broken','⚠ <b>SILENTLY WRONG — trusts '+maj+', you wrote '+written+'.</b> Two cores flipped the same way, so the majority masks the corruption as if true. A single bit always HAS a majority, so two faults don\'t read as "no quorum" — they read as a confident wrong answer. This is why TMR safely masks only <b>one</b> fault.');
+    }
+    busy=false;
+  },520);
+}
+function flip(i){
+  if(busy)return;
+  J[i].mag ^= 1; J[i].flash=14;
+  logLine('<span class="c">⚠ FLIP '+J[i].name+' → now '+(J[i].mag?'CW(1)':'CCW(0)')+' (a stray field / fault flipped this core)</span>');
+  setTimeout(doRead,260);
+}
+function repair(){
+  if(busy)return;
+  const maj=majority();
+  if(maj!==-1){ const d=J.filter(j=>j.mag!==maj); d.forEach(j=>{j.mag=maj;j.flash=14;});
+    logLine('<span class="ok">↻ HEAL → minority cores rewritten to '+maj+' (the witness heals the liar)</span>');
+    setV('trusted','✓ <b>healed</b> — minority restored to the 2-of-3 majority bit '+maj+'.');
+  } else { logLine('<span class="bad">↻ cannot heal — no majority to restore from</span>'); setV('broken','✗ no majority — nothing to heal from.'); }
+}
+draw();
+</script>
+</div>
+</body>
+</html>
