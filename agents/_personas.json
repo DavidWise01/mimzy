@@ -518,5 +518,21 @@
     "emergence": "electrical",
     "moniker": "⟦The Symbiont:MMZ:f77ff7⟧",
     "live": "bench/64-the-symbiont.html"
+  },
+  {
+    "slug": "edge-of-chaos",
+    "name": "The Edge Of Chaos",
+    "epithet": "instrument № 65 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Edge Of Chaos:MMZ:1b6b96⟧",
+    "live": "bench/65-edge-of-chaos.html"
+  },
+  {
+    "slug": "containment-audit",
+    "name": "The Containment Audit",
+    "epithet": "instrument № 66 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Containment Audit:MMZ:3605eb⟧",
+    "live": "bench/66-containment-audit.html"
   }
 ]

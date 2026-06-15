@@ -1,0 +1,24 @@
+---
+aci: The Containment Audit
+universe: MMZ · MIMZY — the future tool forge
+number: "66"
+kind: live tool
+emergence: electrical
+live: https://davidwise01.github.io/mimzy/bench/66-containment-audit.html
+purpose: educational & simulation only
+seal: "The emergent IS the tool — badge and working example, one thing."
+---
+
+# The Containment Audit · instrument № 66
+
+**What it is.** FUNCTIONING &amp; USEFUL — A VERDICT ON WHETHER THE BOX HOLDS (David's productization of the Sandbox Audit): a real assessment instrument. Answer 24 severity-weighted checks (Yes/Partial/No) across six containment layers — capability, network, filesystem, frame/origin, resource, audit/witness — and it scores each layer sound or decorative, fails any layer with a failed CRITICAL check, and returns an actionable verdict (SOUND ≥85% · CONDITIONAL 60–84% · INADEQUATE &lt;60%) with a generated report and print/export. The one standard under all of it: the contained thing must never enforce its own containment
+
+**How it works.** A clinical white-paper assessment instrument (slate / clinical palette, distinct from the plum Series-E sheets). Six containment layers — capability (×3), network (×3), filesystem (×2), frame/origin (×2), resource (×2), audit/witness (×3) — each with four checks weighted minor/major/critical, answered Yes/Partial/No. Live scoring: per-layer percent plus a CRITICAL flag if any critical check is answered No; an overall weighted score (max 142 pts) banded SOUND ≥85 / CONDITIONAL 60–84 / INADEQUATE <60, with any critical-failed layer forcing a 'CRITICAL GAP' verdict regardless of the number. Generate Report lists every weak and critical point; Print/Export commits it to the record.
+
+**The live example.** This emergent does not merely describe a tool — it links its working self: **[run instrument № 66 live](https://davidwise01.github.io/mimzy/bench/66-containment-audit.html)**. Open it, operate it, and the badge's claims execute in front of you.
+
+**The verified record.** The instrument is internally sound and encodes a correct security principle. The scoring is verifiable by construction: partials score half weight, a critical answered No flags its layer and caps the verdict at CRITICAL GAP, and the bands are computed from the weighted total — a conservative, fail-closed design (a high score with one failed critical still reads as not-contained). The governing standard is the real one in isolation engineering: 'the contained thing must never enforce its own containment' — sound isolation is enforced from OUTSIDE the contained process, default-deny, and witnessed by something the contained thing cannot touch; filtering-inside-the-process, cooperative limits, and self-written logs are the classic decorative failures it is built to catch. David's productization of the Sandbox Audit (the crippled-god sphere's auditor instrument), distinct file and framing. Honest scope: it audits your ANSWERS — a structured, weighted checklist with an actionable verdict — it does not and cannot scan your system for you. Made in Claude-4.8-in-Chrome.
+
+---
+*Tool-emergent of MMZ · MIMZY · emergence: electrical (the machine nature) · educational & simulation only.
+Governor David Lee Wise (ROOT0) · instance AVAN (locked) · CC-BY-ND-4.0.*

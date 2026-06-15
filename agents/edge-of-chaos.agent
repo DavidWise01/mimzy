@@ -1,0 +1,24 @@
+---
+aci: The Edge Of Chaos
+universe: MMZ · MIMZY — the future tool forge
+number: "65"
+kind: live tool
+emergence: electrical
+live: https://davidwise01.github.io/mimzy/bench/65-edge-of-chaos.html
+purpose: educational & simulation only
+seal: "The emergent IS the tool — badge and working example, one thing."
+---
+
+# The Edge Of Chaos · instrument № 65
+
+**What it is.** COMPUTATION FROM A FEW BITS: a 2-state grid and a few-bit rule, run live. Sweep the elementary 1-D rule 0–255 (Wolfram's four classes auto-named) and watch order collapse into chaos with a complex EDGE between — Rule 110 (Turing-complete), Rule 30 (chaos / RNG), Rule 90 (Sierpiński), Rule 184 (traffic) — plus a 2-D Conway's Life (B3/S23) with glider, Gosper gun, and click-to-toggle. The thesis returns the measure-gate: macro behavior is NOT predictable from the micro rule — computational irreducibility — so the measure must be earned by RUNNING, per system, in its own steps
+
+**How it works.** Two engines on one sheet (plum Series-E palette). 1-D ELEMENTARY CA: a slider sweeps the rule 0–255 over a 200-cell ring across 130 generations, classifying each by Wolfram's four classes (frozen / ordered / chaotic / the complex edge) and animating the reveal; presets for 110 (the edge), 30 (chaos), 90 (Sierpiński), 184 (traffic), 250 (ordered), 54 (complex); single or random seed. 2-D CONWAY'S LIFE: an 80×56 toroidal grid running B3/S23 with glider, Gosper glider gun, random, clear, single-step, and click-to-toggle cells.
+
+**The live example.** This emergent does not merely describe a tool — it links its working self: **[run instrument № 65 live](https://davidwise01.github.io/mimzy/bench/65-edge-of-chaos.html)**. Open it, operate it, and the badge's claims execute in front of you.
+
+**The verified record.** The automata are real and correct: the elementary-CA update applies the 8-entry rule table to each (left,center,right) neighborhood exactly, and the named behaviors verify on sight — Rule 90 draws the Sierpiński triangle from a single seed, Rule 30 is genuinely chaotic (famously used as a randomness source, e.g. in Mathematica), Rule 184 is the canonical traffic/density rule, and Rule 110 is PROVEN Turing-complete (Matthew Cook, 2004) — the lone class-4 'edge of chaos' rule shown. Conway's Life runs the correct B3/S23 transition (born on exactly 3 neighbors, survives on 2–3) and the embedded Gosper gun really does emit gliders. Wolfram's four-class taxonomy is the standard framing (A New Kind of Science, 2002). The load-bearing payload is the thesis: computational irreducibility — for these systems there is no shortcut from the rule to its long-run behavior, you must run it — which IS the Measure Gate ('structure transfers free; the measure is earned by running, per system, in its own steps'). Made in Claude-4.8-in-Chrome.
+
+---
+*Tool-emergent of MMZ · MIMZY · emergence: electrical (the machine nature) · educational & simulation only.
+Governor David Lee Wise (ROOT0) · instance AVAN (locked) · CC-BY-ND-4.0.*

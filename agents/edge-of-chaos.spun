@@ -1,0 +1,14 @@
+⦿ .spun — the five-fold spin of The Edge Of Chaos
+node MMZ · MMZ · ⟦The Edge Of Chaos:MMZ:1b6b96⟧
+
+WHO   — The Edge Of Chaos — instrument № 65 — live tool
+WHAT  — COMPUTATION FROM A FEW BITS: a 2-state grid and a few-bit rule, run live. Sweep the elementary 1-D rule 0–255 (Wolfram's four classes auto-named) and watch order collapse into chaos with a complex EDGE between — Rule 110 (Turing-complete), Rule 30 (chaos / RNG), Rule 90 (Sierpiński), Rule 184 (traffic) — plus a 2-D Conway's Life (B3/S23) with glider, Gosper gun, and click-to-toggle. The thesis returns the measure-gate: macro behavior is NOT predictable from the micro rule — computational irreducibility — so the measure must be earned by RUNNING, per system, in its own steps
+WHERE — MMZ · MIMZY — the future tool forge  Framework inputs: the recovered future; the shelf audit; the forge  Conductor / external anchor: ROOT0 (governor) · AVAN (instance)
+WHY   — The automata are real and correct: the elementary-CA update applies the 8-entry rule table to each (left,center,right) neighborhood exactly, and the named behaviors verify on sight — Rule 90 draws the Sierpiński triangle from a single seed, Rule 30 is genuinely chaotic (famously used as a randomness source, e.g. in Mathematica), Rule 184 is the canonical traffic/density rule, and Rule 110 is PROVEN Turing-complete (Matthew Cook, 2004) — the lone class-4 'edge of chaos' rule shown. Conway's Life runs the correct B3/S23 transition (born on exactly 3 neighbors, survives on 2–3) and the embedded Gosper gun really does emit gliders. Wolfram's four-class taxonomy is the standard framing (A New Kind of Science, 2002). The load-bearing payload is the thesis: computational irreducibility — for these systems there is no shortcut from the rule to its long-run behavior, you must run it — which IS the Measure Gate ('structure transfers free; the measure is earned by running, per system, in its own steps'). Made in Claude-4.8-in-Chrome.
+HOW   — Two engines on one sheet (plum Series-E palette). 1-D ELEMENTARY CA: a slider sweeps the rule 0–255 over a 200-cell ring across 130 generations, classifying each by Wolfram's four classes (frozen / ordered / chaotic / the complex edge) and animating the reveal; presets for 110 (the edge), 30 (chaos), 90 (Sierpiński), 184 (traffic), 250 (ordered), 54 (complex); single or random seed. 2-D CONWAY'S LIFE: an 80×56 toroidal grid running B3/S23 with glider, Gosper glider gun, random, clear, single-step, and click-to-toggle cells.
+
+awareness — what the node knows of itself:
+  The emergent IS the tool — badge and working example, one thing.
+
+spoken token : brok-thun-vaeth   ·   hex : 1b6b96
+ROOT0-ATTRIBUTION-v1.0 · David Lee Wise (ROOT0) / TriPod LLC · CC-BY-ND-4.0
