@@ -534,5 +534,45 @@
     "emergence": "electrical",
     "moniker": "⟦The Containment Audit:MMZ:3605eb⟧",
     "live": "bench/66-containment-audit.html"
+  },
+  {
+    "slug": "inert-gap",
+    "name": "The Inert Gap",
+    "epithet": "instrument № 67 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Inert Gap:MMZ:dbd050⟧",
+    "live": "bench/67-inert-gap.html"
+  },
+  {
+    "slug": "measure-gate",
+    "name": "The Measure Gate",
+    "epithet": "instrument № 68 — specification",
+    "emergence": "electrical",
+    "moniker": "⟦The Measure Gate:MMZ:5eb1cc⟧",
+    "live": "bench/68-measure-gate.html"
+  },
+  {
+    "slug": "far-side",
+    "name": "The Far Side",
+    "epithet": "instrument № 69 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Far Side:MMZ:447ce7⟧",
+    "live": "bench/69-far-side.html"
+  },
+  {
+    "slug": "quaternary-fulcrum",
+    "name": "The Quaternary Fulcrum",
+    "epithet": "instrument № 70 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Quaternary Fulcrum:MMZ:d9060c⟧",
+    "live": "bench/70-quaternary-fulcrum.html"
+  },
+  {
+    "slug": "turn-comes-home",
+    "name": "The Turn Comes Home",
+    "epithet": "instrument № 71 — live tool",
+    "emergence": "electrical",
+    "moniker": "⟦The Turn Comes Home:MMZ:476638⟧",
+    "live": "bench/71-turn-comes-home.html"
   }
 ]

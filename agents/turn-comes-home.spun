@@ -1,0 +1,14 @@
+⦿ .spun — the five-fold spin of The Turn Comes Home
+node MMZ · MMZ · ⟦The Turn Comes Home:MMZ:476638⟧
+
+WHO   — The Turn Comes Home — instrument № 71 — live tool
+WHAT  — THE DUTY-CYCLE CLOCK OVER A TERNARY LATTICE: a clocked 27-cell lattice where 9 are lit per phase, 3 phases, period 3 — the turn comes home every third tick. The HIGH trit picks the phase; the LOW two trits address the nine; 3 (tick) × 9 (width) = 27 (cycle): time-division over 3³, the lattice as a clock
+WHERE — MMZ · MIMZY — the future tool forge  Framework inputs: the recovered future; the shelf audit; the forge  Conductor / external anchor: ROOT0 (governor) · AVAN (instance)
+WHY   — The arithmetic is exact: 3³ = 27 factored as 3 phases × 9 cells, with the high trit as the phase selector and the low two trits (3²=9) addressing the cells — genuine time-division multiplexing over a ternary lattice, returning to the start every 3 ticks. It is the duty-cycle/clock reading of the same 27-lattice the odometer cluster builds in hardware (№ 60) and fuses with the deck (№ 64); 'the turn comes home' is the period-3 closure. Honest scope: a clean TDM clock demonstration over 3³, not a physical device. Made in Claude-4.8-in-Chrome.
+HOW   — An interactive clocked lattice (plum Series-E): a 27-cell ternary lattice (3³) where only 9 cells are lit per phase, cycling through 3 phases with period 3 — home every third tick. The HIGH trit selects the phase; the LOW two trits address the nine; 3 (tick) × 9 (width) = 27 (cycle).
+
+awareness — what the node knows of itself:
+  The emergent IS the tool — badge and working example, one thing.
+
+spoken token : zyr-sok-kas   ·   hex : 476638
+ROOT0-ATTRIBUTION-v1.0 · David Lee Wise (ROOT0) / TriPod LLC · CC-BY-ND-4.0

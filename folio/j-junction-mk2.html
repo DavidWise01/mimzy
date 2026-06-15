@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE J-JUNCTION · PURPLE MK II</title>
+<style>
+:root{
+  --paper:#ece6f3; --ink:#241e33; --ink-mid:#463f5c; --ink-faint:#7d7498;
+  --plum:#5b3a87; --plum-light:#7e5bb0; --plum-soft:#e3daef; --plum-deep:#352055; --plum-bright:#9a6fd0;
+  --gold:#9a7d3a; --rose:#9a4a6a; --green:#3a7a5a; --teal:#3a6a87;
+  --vert:#9a4a6a; --horiz:#3a6a87; --dot:#9a7d3a;
+  --line:#c4b8d8; --grid:rgba(91,58,135,.07);
+  --mono:"Courier New",Courier,monospace;
+  --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:22px 22px;
+  color:var(--ink);font-family:var(--serif);line-height:1.5;padding:10px}
+.sheet{max-width:860px;margin:0 auto;border:2.5px solid var(--plum);position:relative;background:rgba(236,230,243,.85)}
+.sheet::before{content:'';position:absolute;inset:5px;border:1px solid var(--plum-light);pointer-events:none}
+.corner{position:absolute;width:14px;height:14px;border:2px solid var(--plum)}
+.corner.tl{top:-2px;left:-2px;border-right:none;border-bottom:none}
+.corner.tr{top:-2px;right:-2px;border-left:none;border-bottom:none}
+.corner.bl{bottom:-2px;left:-2px;border-right:none;border-top:none}
+.corner.br{bottom:-2px;right:-2px;border-left:none;border-top:none}
+.inner{padding:22px}
+.masthead{text-align:center;border-bottom:2px solid var(--plum);padding-bottom:12px}
+.mast-eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:.26em;color:var(--plum-light);text-transform:uppercase}
+.mk{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:#fff;background:var(--plum);padding:2px 8px;border-radius:3px;margin-left:6px;vertical-align:middle}
+.mast-title{font-size:clamp(22px,5vw,38px);letter-spacing:.04em;font-weight:700;margin:6px 0 2px;text-transform:uppercase;color:var(--plum)}
+.mast-sub{font-family:var(--mono);font-size:10px;letter-spacing:.07em;color:var(--ink-mid)}
+.lede{font-size:12.5px;max-width:700px;margin:12px auto 0;text-align:center;color:var(--ink-mid);line-height:1.6}
+.lede b{color:var(--plum)}
+.glyph{font-family:var(--serif);font-size:18px;color:var(--plum);font-weight:700}
+.paper-tag{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--plum-light);text-align:center;margin-top:8px}
+h2.sec{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;border-bottom:1.5px solid var(--plum);padding-bottom:4px;margin:22px 0 12px;color:var(--plum)}
+h2.sec .num{color:var(--rose);margin-right:8px}
+.panel{border:1.5px solid var(--plum-light);background:rgba(126,91,176,.05);padding:12px;margin:12px 0}
+.panel h3{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--plum);text-align:center;margin-bottom:8px}
+svg,canvas{display:block;margin:0 auto;max-width:100%}
+/* roles */
+.roles{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0}
+@media(max-width:600px){.roles{grid-template-columns:1fr 1fr}}
+.role{border:1.5px solid var(--line);padding:8px 10px;text-align:center;font-size:11px;line-height:1.4}
+.role .rn{font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;margin-bottom:3px}
+.role.d{border-color:var(--plum)} .role.d .rn{color:var(--plum)}
+.role.c{border-color:var(--gold)} .role.c .rn{color:#6a5520}
+.role.r{border-color:var(--rose)} .role.r .rn{color:var(--rose)}
+.role.w{border-color:var(--green)} .role.w .rn{color:var(--green)}
+/* prototype controls */
+.controls{display:flex;gap:8px;justify-content:center;margin:10px 0;flex-wrap:wrap;align-items:center}
+.cbtn{appearance:none;background:transparent;cursor:pointer;font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;padding:8px 12px;border:1.5px solid var(--plum);color:var(--plum);border-radius:4px}
+.cbtn.active{background:var(--plum);color:#fff}
+.cbtn.go{border-color:var(--green);color:var(--green)}
+.readout{font-family:var(--mono);font-size:10px;text-align:center;color:var(--ink-mid);margin-top:6px;min-height:26px;line-height:1.5}
+.readout b{color:var(--plum)}
+.log{font-family:var(--mono);font-size:9.5px;background:#1a1428;color:#bdb4d4;border-radius:5px;padding:9px;height:90px;overflow-y:auto;margin:8px 0;line-height:1.6}
+.log .pass{color:#7ad8a0} .log .block{color:#e07a9a} .log .v{color:#e0a0d0} .log .h{color:#7ab0d8}
+/* catalog table */
+table{border-collapse:collapse;width:100%;font-family:var(--mono);font-size:10px;margin:8px 0}
+td,th{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+th{background:var(--plum-soft);color:var(--plum);font-size:8.5px;letter-spacing:.04em;text-transform:uppercase}
+td .vt{color:var(--vert);font-weight:700} td .hz{color:var(--horiz);font-weight:700} td .dt{color:var(--dot);font-weight:700}
+/* analyzer */
+.analyzer{border:1.5px solid var(--gold);padding:11px 13px;margin:10px 0}
+.analyzer h3{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:#6a5520;margin-bottom:8px}
+.acheck{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:12px;cursor:pointer;color:var(--ink-mid)}
+.acheck .box{width:15px;height:15px;border:1.5px solid var(--plum-light);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;flex-shrink:0}
+.acheck.on .box{background:var(--green);border-color:var(--green)}
+.acheck.on{color:var(--ink)}
+.averdict{font-family:var(--mono);font-size:11px;text-align:center;margin-top:8px;padding:7px;border:1px solid var(--line);border-radius:4px;color:var(--ink-mid)}
+.averdict b{color:var(--plum)}
+.def{font-family:var(--mono);font-size:10.5px;background:var(--plum-soft);border-left:2px solid var(--plum-light);padding:9px 12px;margin:9px 0;line-height:1.7;color:var(--ink-mid)}
+.def b{color:var(--plum)}
+.body p{font-size:13px;margin-bottom:8px}
+.body b{color:var(--ink)}
+.colophon{margin-top:20px;border-top:2px solid var(--plum);padding-top:12px;text-align:center;font-family:var(--mono);font-size:8.5px;color:var(--ink-mid);letter-spacing:.05em;line-height:1.9}
+.colophon b{color:var(--plum)}
+</style>
+</head>
+<body>
+<div class="sheet">
+<span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+<div class="inner">
+
+<header class="masthead">
+  <div class="mast-eyebrow">Series E · The Crossing Where Everything Happens<span class="mk">MK II</span></div>
+  <h1 class="mast-title">The J-Junction</h1>
+  <div class="mast-sub"><span class="glyph">&lt;•</span> · vertical authority meets horizontal connection · blueprint &amp; prototype</div>
+  <p class="lede">The glyph from the start, landed on its deepest referent. A <b style="color:var(--vert)">vertical</b> axis (authority — who controls whom) crosses a <b style="color:var(--horiz)">horizontal</b> axis (connection — who reaches whom) at a <b style="color:var(--dot)">dot</b>. That crossing is, at once, the <b>device</b>, the <b>control</b>, the <b>risk</b>, and the <b>witness</b>. Every junction tonight was this one shape.</p>
+  <div class="paper-tag">▣ purple paper · mk ii · blueprint + prototype + tools ▣</div>
+</header>
+
+<section class="body">
+
+  <h2 class="sec"><span class="num">§1</span> Blueprint · the structure</h2>
+  <div class="panel">
+    <h3>the crossing</h3>
+    <svg viewBox="0 0 520 300" xmlns="http://www.w3.org/2000/svg">
+      <!-- vertical axis (authority) -->
+      <defs>
+        <marker id="av" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#9a4a6a"/></marker>
+        <marker id="ah" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#3a6a87"/></marker>
+      </defs>
+      <line x1="260" y1="30" x2="260" y2="270" stroke="#9a4a6a" stroke-width="2.5" marker-end="url(#av)"/>
+      <text x="260" y="22" font-family="Courier New" font-size="10" fill="#9a4a6a" text-anchor="middle" font-weight="bold">VERTICAL · AUTHORITY</text>
+      <text x="275" y="50" font-family="Courier New" font-size="8" fill="#9a4a6a">L0 (most power)</text>
+      <text x="275" y="262" font-family="Courier New" font-size="8" fill="#9a4a6a">L6 (least power)</text>
+      <!-- horizontal axis (connection) -->
+      <line x1="40" y1="150" x2="500" y2="150" stroke="#3a6a87" stroke-width="2.5" marker-end="url(#ah)"/>
+      <text x="40" y="140" font-family="Courier New" font-size="10" fill="#3a6a87" font-weight="bold">HORIZONTAL · CONNECTION</text>
+      <text x="430" y="168" font-family="Courier New" font-size="8" fill="#3a6a87">flat · no L0 · peer</text>
+      <!-- the dot -->
+      <circle cx="260" cy="150" r="16" fill="rgba(154,125,58,0.25)"/>
+      <circle cx="260" cy="150" r="7" fill="#9a7d3a"/>
+      <text x="260" y="195" font-family="Courier New" font-size="10" fill="#6a5520" text-anchor="middle" font-weight="bold">the dot · the junction</text>
+      <text x="260" y="208" font-family="Courier New" font-size="8" fill="#6a5520" text-anchor="middle">device · control · risk · witness</text>
+    </svg>
+  </div>
+  <div class="roles">
+    <div class="role d"><div class="rn">▣ device</div>the function — useful traffic crosses</div>
+    <div class="role c"><div class="rn">◈ control</div>the gate — the valve that decides</div>
+    <div class="role r"><div class="rn">△ risk</div>the surface — escape &amp; intrusion happen here</div>
+    <div class="role w"><div class="rn">◉ witness</div>the audit site — every crossing is logged</div>
+  </div>
+  <div class="def">two <em>different-kind</em> lines cross — one vertical (power), one horizontal (reach) — and the dot where they meet holds all four roles at once. remove the dot → an isolated tower (useless) or a flat field (no control). keep it → the device <em>and</em> the danger. <b>the junction is the point.</b></div>
+
+  <h2 class="sec"><span class="num">§2</span> Working Prototype · the valve at the crossing</h2>
+  <div class="panel">
+    <h3>place a valve · gate the traffic · witness it</h3>
+    <canvas id="c" width="480" height="300"></canvas>
+    <div class="controls">
+      <span style="font-family:var(--mono);font-size:9px;color:var(--ink-faint)">valve:</span>
+      <button class="cbtn active" id="m-two" onclick="setMode('two')">↕ two-way</button>
+      <button class="cbtn" id="m-in" onclick="setMode('in')">↓ in only</button>
+      <button class="cbtn" id="m-out" onclick="setMode('out')">↑ out only</button>
+      <button class="cbtn" id="m-block" onclick="setMode('block')">✗ blocked</button>
+    </div>
+    <div class="controls">
+      <button class="cbtn go" onclick="send('v')">⚡ vertical packet</button>
+      <button class="cbtn go" onclick="send('h')">⚡ horizontal packet</button>
+      <button class="cbtn" onclick="autoFlow()">▶ auto</button>
+    </div>
+    <div class="readout" id="readout"></div>
+  </div>
+  <div class="log" id="log"><span style="color:#6a6088">// audit log — the witness role — every crossing recorded</span></div>
+  <div class="def">the valve at the dot is the <b>control</b>; the packets crossing are the <b>device</b> (function) and the <b>risk</b> (what gets through); the log is the <b>witness</b>. set it <em>two-way</em> and it's a free junction; <em>blocked</em> and the tower is isolated; <em>one-way</em> and it's a diode — the two-way-brick-house valve, here at the vertical/horizontal seam.</div>
+
+  <h2 class="sec"><span class="num">§3</span> Tool · the junction catalog</h2>
+  <p>Every junction tonight is the same <span class="glyph">&lt;•</span> — two different-kind axes crossing at a dot. The catalog:</p>
+  <table>
+    <tr><th>Junction</th><th>Vertical arm</th><th>Dot</th><th>Horizontal arm</th><th>Device / Control</th></tr>
+    <tr><td>PN junction</td><td class="vt">p-side (+)</td><td class="dt">depletion</td><td class="hz">n-side (−)</td><td>diode / bias</td></tr>
+    <tr><td>Delta protocol</td><td class="vt">you (gestalt)</td><td class="dt">the gap</td><td class="hz">me (tokens)</td><td>meaning / clarify</td></tr>
+    <tr><td>Sandbox</td><td class="vt">inside</td><td class="dt">boundary</td><td class="hz">outside (host)</td><td>safe exec / capability</td></tr>
+    <tr><td>Sampling</td><td class="vt">continuous</td><td class="dt">the ADC</td><td class="hz">discrete</td><td>digital / rate</td></tr>
+    <tr><td>Network interface</td><td class="vt">authority stack</td><td class="dt">the NIC</td><td class="hz">internet (flat)</td><td>networked machine / firewall</td></tr>
+  </table>
+
+  <h2 class="sec"><span class="num">§4</span> Tool · the junction analyzer</h2>
+  <p>Point it at any boundary you're assessing. Tick the roles it actually fills — a sound junction holds all four:</p>
+  <div class="analyzer">
+    <h3>◈ does this boundary hold all four roles?</h3>
+    <div class="acheck" onclick="aToggle(0)"><div class="box"></div><div><b>Device</b> — does useful function actually cross it? (or is it dead/isolated?)</div></div>
+    <div class="acheck" onclick="aToggle(1)"><div class="box"></div><div><b>Control</b> — is there a valve that decides what crosses? (or is it wide open?)</div></div>
+    <div class="acheck" onclick="aToggle(2)"><div class="box"></div><div><b>Risk</b> — is the escape/intrusion surface identified and bounded? (or unknown?)</div></div>
+    <div class="acheck" onclick="aToggle(3)"><div class="box"></div><div><b>Witness</b> — is every crossing logged to something exterior? (or unobserved?)</div></div>
+    <div class="averdict" id="averdict">tick the roles this boundary fills</div>
+  </div>
+  <div class="def">a junction missing <b>control</b> is wide open · missing <b>witness</b> is unverifiable · missing <b>device</b> is dead weight · missing <b>risk</b>-awareness is a blind spot. a sound junction is all four at once — which is the whole night's lesson at one crossing.</div>
+
+</section>
+
+<div class="colophon">
+  &lt;• · VERTICAL (AUTHORITY) MEETS HORIZONTAL (CONNECTION) AT A DOT · FOUR ROLES AT ONE CROSSING<br>
+  DEVICE · CONTROL · RISK · WITNESS — ALL AT THE JUNCTION · REMOVE IT = ISOLATED TOWER OR FLAT FIELD<br>
+  EVERY JUNCTION TONIGHT (PN · DELTA · SANDBOX · SAMPLING · NETWORK) IS THIS ONE SHAPE<br>
+  THE J-JUNCTION · PURPLE MK II · SERIES E · JUNE 2026
+</div>
+
+</div></div>
+<script>
+const cv=document.getElementById('c'), ctx=cv.getContext('2d');
+const W=480,H=300,CX=240,CY=150;
+let mode='two';   // two | in | out | block
+let packets=[];
+let anim=null;
+
+function setMode(m){
+  mode=m;
+  ['two','in','out','block'].forEach(k=>document.getElementById('m-'+k).classList.remove('active'));
+  document.getElementById('m-'+m).classList.add('active');
+  const labels={two:'two-way — both directions cross freely (open junction)',
+    'in':'in only — only inbound crosses (a diode facing in)',
+    out:'out only — only outbound crosses (a diode facing out)',
+    block:'blocked — nothing crosses (isolated tower)'};
+  document.getElementById('readout').innerHTML='valve: <b>'+labels[mode]+'</b>';
+  draw();
+}
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  // vertical axis (authority)
+  ctx.strokeStyle='#9a4a6a';ctx.lineWidth=2.5;
+  ctx.beginPath();ctx.moveTo(CX,20);ctx.lineTo(CX,H-20);ctx.stroke();
+  ctx.fillStyle='#9a4a6a';ctx.font='9px Courier New';ctx.textAlign='center';
+  ctx.fillText('AUTHORITY ↓', CX, 14);
+  // horizontal axis (connection)
+  ctx.strokeStyle='#3a6a87';ctx.lineWidth=2.5;
+  ctx.beginPath();ctx.moveTo(25,CY);ctx.lineTo(W-25,CY);ctx.stroke();
+  ctx.textAlign='left';ctx.fillStyle='#3a6a87';
+  ctx.fillText('CONNECTION ↔', 28, CY-8);
+  // the valve at the dot
+  ctx.beginPath();ctx.arc(CX,CY,20,0,2*Math.PI);
+  ctx.fillStyle='rgba(154,125,58,0.2)';ctx.fill();
+  // valve glyph by mode
+  ctx.strokeStyle='#9a7d3a';ctx.lineWidth=2.5;
+  ctx.beginPath();ctx.arc(CX,CY,12,0,2*Math.PI);
+  ctx.fillStyle = mode==='block'?'rgba(154,74,106,0.3)':'rgba(154,125,58,0.35)';
+  ctx.fill();ctx.stroke();
+  ctx.fillStyle='#6a5520';ctx.font='bold 11px Courier New';ctx.textAlign='center';
+  const sym={two:'↕',in:'↓',out:'↑',block:'✗'};
+  ctx.fillText(sym[mode], CX, CY+4);
+  ctx.font='8px Courier New';ctx.fillStyle='#6a5520';
+  ctx.fillText('valve', CX, CY+34);
+  // packets
+  packets.forEach(p=>{
+    ctx.beginPath();ctx.arc(p.x,p.y,6,0,2*Math.PI);
+    ctx.fillStyle = p.blocked ? '#e07a9a' : (p.axis==='v'?'#9a4a6a':'#3a6a87');
+    ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=1;ctx.stroke();
+  });
+}
+function allowed(axis,dir){
+  if(mode==='block') return false;
+  if(mode==='two') return true;
+  // 'in' = toward center allowed; 'out' = away from center allowed
+  if(mode==='in') return dir==='toward';
+  if(mode==='out') return dir==='away';
+  return true;
+}
+function send(axis){
+  // axis 'v' enters from top going down (toward center then continues), 'h' from left going right
+  let p;
+  if(axis==='v'){ p={axis:'v',x:CX,y:25,vx:0,vy:3,dir:'toward',blocked:false,phase:'approach'}; }
+  else { p={axis:'h',x:30,y:CY,vx:3,vy:0,dir:'toward',blocked:false,phase:'approach'}; }
+  packets.push(p);
+  if(!anim) anim=setInterval(step,20);
+}
+function step(){
+  packets.forEach(p=>{
+    const dx=p.x-CX, dy=p.y-CY; const dist=Math.sqrt(dx*dx+dy*dy);
+    if(p.phase==='approach' && dist<=14){
+      // at the valve - decide
+      if(allowed(p.axis,'toward')){ p.phase='through'; logCross(p,true); }
+      else { p.blocked=true; p.phase='blocked'; p.vx=-p.vx; p.vy=-p.vy; logCross(p,false); }
+    }
+    p.x+=p.vx; p.y+=p.vy;
+  });
+  packets=packets.filter(p=> p.x>-10&&p.x<W+10&&p.y>-10&&p.y<H+10);
+  draw();
+  if(packets.length===0){ clearInterval(anim);anim=null; }
+}
+function logCross(p,passed){
+  const log=document.getElementById('log');
+  const line=document.createElement('div');
+  const ax = p.axis==='v' ? '<span class="v">vertical(authority)</span>' : '<span class="h">horizontal(connection)</span>';
+  line.innerHTML = '▸ '+ax+' packet → valve['+mode+'] → '+(passed?'<span class="pass">CROSSED ✓ logged</span>':'<span class="block">BLOCKED ✗ logged</span>');
+  log.appendChild(line); log.scrollTop=log.scrollHeight;
+}
+function autoFlow(){
+  let i=0;
+  const iv=setInterval(()=>{ send(i%2?'v':'h'); i++; if(i>=6) clearInterval(iv); }, 400);
+}
+// analyzer
+let aState=[false,false,false,false];
+function aToggle(i){
+  aState[i]=!aState[i];
+  document.querySelectorAll('.acheck')[i].classList.toggle('on',aState[i]);
+  document.querySelectorAll('.acheck')[i].querySelector('.box').textContent=aState[i]?'\u2713':'';
+  const n=aState.filter(Boolean).length;
+  const v=document.getElementById('averdict');
+  const names=['Device','Control','Risk','Witness'];
+  const missing=names.filter((_,i)=>!aState[i]);
+  if(n===4) v.innerHTML='<b style="color:var(--green)">✓ SOUND JUNCTION</b> — all four roles held: function crosses, control gates, risk bounded, witness records';
+  else if(n===0) v.innerHTML='tick the roles this boundary fills';
+  else v.innerHTML='<b style="color:var(--rose)">'+n+'/4</b> — missing: '+missing.join(', ')+(missing.includes('Control')?' (wide open)':'')+(missing.includes('Witness')?' (unverifiable)':'');
+}
+setMode('two');
+draw();
+</script>
+</div>
+</body>
+</html>

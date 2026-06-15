@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE FAR SIDE · A Machine That Measures Its Own Gap</title>
+<style>
+:root{
+  --panel:#1f1830; --panel2:#2a2142; --ink-on:#e8e2f2; --dim:#9a90b8; --faint:#6a6088;
+  --plum:#a98bd8; --plum-bright:#c4a8f0; --gold:#d8b860; --green:#6ad89a; --rose:#e07a9a;
+  --line:#3a2f54;
+  --mono:"SF Mono",ui-monospace,"Courier New",monospace;
+  --serif:"Iowan Old Style",Georgia,serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#15101f;
+  background-image:radial-gradient(ellipse at 50% 0%, rgba(80,55,130,.25), transparent 60%);
+  color:var(--ink-on);font-family:var(--mono);line-height:1.5;padding:12px;min-height:100vh}
+.machine{max-width:760px;margin:0 auto;background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.head{padding:18px 22px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),var(--panel))}
+.eyebrow{font-size:9px;letter-spacing:.28em;color:var(--plum);text-transform:uppercase}
+.title{font-family:var(--serif);font-size:clamp(22px,5vw,34px);font-weight:700;color:var(--ink-on);letter-spacing:.01em;margin:4px 0 2px}
+.sub{font-size:10px;letter-spacing:.06em;color:var(--dim)}
+.body{padding:20px 22px}
+/* the delta hero */
+.delta-hero{text-align:center;padding:16px;margin-bottom:18px;border:1px solid var(--line);border-radius:8px;background:rgba(0,0,0,.2)}
+.delta-label{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
+.delta-val{font-family:var(--serif);font-size:clamp(40px,12vw,72px);font-weight:700;line-height:1;margin:4px 0}
+.delta-val.zero{color:var(--green)} .delta-val.gap{color:var(--rose)} .delta-val.idle{color:var(--faint)}
+.delta-note{font-size:10px;color:var(--dim);min-height:14px}
+.delta-note .g{color:var(--green)} .delta-note .r{color:var(--rose)}
+/* predict + result row */
+.pr-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.pr-cell{border:1px solid var(--line);border-radius:6px;padding:10px 12px;text-align:center}
+.pr-cell .lab{font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-bottom:4px}
+.pr-cell .v{font-family:var(--serif);font-size:28px;font-weight:700}
+.pr-cell.predict .v{color:var(--gold)} .pr-cell.actual .v{color:var(--plum-bright)}
+.pr-cell input{width:90px;background:transparent;border:none;border-bottom:1px solid var(--gold);color:var(--gold);font-family:var(--serif);font-size:24px;text-align:center;outline:none}
+/* card palette */
+.section-lab{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--plum);margin:16px 0 8px;border-bottom:1px solid var(--line);padding-bottom:5px}
+.suitline{margin-bottom:7px}
+.suitname{font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin-bottom:3px}
+.cards{display:flex;flex-wrap:wrap;gap:3px}
+.card{min-width:32px;height:42px;border:1px solid var(--line);border-radius:5px;background:var(--panel2);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:.1s;padding:0 4px}
+.card:hover{border-color:var(--plum);background:#332a4e;transform:translateY(-2px)}
+.card .rk{font-family:var(--serif);font-size:13px;font-weight:700}
+.card.s .rk,.card.s .st{color:var(--plum-bright)} .card.h .rk,.card.h .st{color:var(--rose)}
+.card.d .rk,.card.d .st{color:var(--gold)} .card.c .rk,.card.c .st{color:var(--green)}
+.card .st{font-size:11px} .card .op{font-size:6px;color:var(--faint);margin-top:1px}
+/* program */
+.prog{min-height:50px;border:1px dashed var(--plum);border-radius:6px;padding:8px;display:flex;flex-wrap:wrap;gap:4px;background:rgba(0,0,0,.15);margin:6px 0}
+.prog .card{cursor:pointer}
+.prog-empty{font-size:10px;color:var(--faint);align-self:center}
+/* state */
+.state{display:grid;grid-template-columns:2fr 1fr 1fr;gap:8px;margin-top:14px}
+@media(max-width:560px){.state{grid-template-columns:1fr}}
+.sbox{border:1px solid var(--line);border-radius:6px;padding:9px 11px}
+.sbox .lab{font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:4px}
+.sbox .v{font-size:13px;color:var(--ink-on);font-weight:600}
+.controls{display:flex;gap:8px;margin:14px 0 4px;flex-wrap:wrap}
+.btn{flex:1;min-width:110px;appearance:none;border:1px solid var(--plum);background:transparent;color:var(--plum-bright);font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:11px;border-radius:6px;cursor:pointer;transition:.12s}
+.btn:hover{background:rgba(169,139,216,.15)}
+.btn.run{border-color:var(--green);color:var(--green)} .btn.run:hover{background:rgba(106,216,154,.12)}
+.btn.clr{border-color:var(--faint);color:var(--dim)}
+.samples{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.samp{font-size:9px;padding:5px 9px;border:1px solid var(--line);border-radius:4px;color:var(--dim);background:var(--panel2);cursor:pointer}
+.samp:hover{border-color:var(--plum);color:var(--plum-bright)}
+.foot{padding:14px 22px;border-top:1px solid var(--line);font-size:8.5px;letter-spacing:.05em;color:var(--faint);text-align:center;line-height:1.8;background:var(--panel2)}
+</style>
+</head>
+<body>
+<div class="machine">
+  <div class="head">
+    <div class="eyebrow">Series E · The Far Side Of The Gap · It Measures Itself</div>
+    <div class="title">The Far Side</div>
+    <div class="sub">predict a result · build it from cards · run it · read the gap</div>
+  </div>
+  <div class="body">
+
+    <div class="delta-hero">
+      <div class="delta-label">Δ  the measured gap</div>
+      <div class="delta-val idle" id="deltaVal">—</div>
+      <div class="delta-note" id="deltaNote">predict a result, build a program, and run it</div>
+    </div>
+
+    <div class="pr-row">
+      <div class="pr-cell predict">
+        <div class="lab">you predict</div>
+        <input type="number" id="predict" value="8">
+      </div>
+      <div class="pr-cell actual">
+        <div class="lab">machine computes</div>
+        <div class="v" id="actual">—</div>
+      </div>
+    </div>
+
+    <div class="section-lab">build · click cards (operands first, operation after)</div>
+    <div id="palette"></div>
+
+    <div class="section-lab">your program</div>
+    <div class="prog" id="prog"><span class="prog-empty">click cards above…</span></div>
+    <div class="samples" id="samples"></div>
+
+    <div class="controls">
+      <button class="btn run" onclick="runIt()">▶ Run &amp; Measure</button>
+      <button class="btn clr" onclick="clearIt()">Clear</button>
+    </div>
+
+    <div class="state">
+      <div class="sbox"><div class="lab">stack (top → right)</div><div class="v" id="stack">empty</div></div>
+      <div class="sbox"><div class="lab">registers · acc</div><div class="v" id="regs">0 0 0 0 · 0</div></div>
+      <div class="sbox"><div class="lab">steps</div><div class="v" id="steps">0</div></div>
+    </div>
+
+  </div>
+  <div class="foot">
+    Δ = 0 → YOUR PREDICTION MATCHED THE COMPUTATION · THE GAP CLOSED<br>
+    Δ &gt; 0 → THE MEASURED GAP BETWEEN WHAT YOU THOUGHT AND WHAT IT DID<br>
+    A THING THAT RUNS · AND REPORTS ITS OWN GAP · LOAD-BEARING BY CONSTRUCTION
+  </div>
+</div>
+<script>
+const SUITS=[
+  {sym:'\u2660',k:'s',fam:'ARITH',label:'arithmetic'},
+  {sym:'\u2665',k:'h',fam:'MEM',label:'memory'},
+  {sym:'\u2666',k:'d',fam:'CTRL',label:'control'},
+  {sym:'\u2663',k:'c',fam:'LOGIC',label:'logic'}
+];
+const RN={1:'A',11:'J',12:'Q',13:'K'};
+const rn=r=>RN[r]||String(r);
+function opHint(fam,r){
+  if(fam==='ARITH'){if(r<=10)return 'push';return{11:'add',12:'sub',13:'mul'}[r];}
+  if(fam==='MEM'){return{1:'ld',2:'pshA',3:'>R0',4:'>R1',5:'>R2',6:'>R3',7:'R0',8:'R1',9:'R2',10:'R3',11:'dup',12:'swp',13:'drp'}[r];}
+  if(fam==='CTRL'){return{1:'prn',2:'chr',13:'halt'}[r]||'\u00b7';}
+  if(fam==='LOGIC'){return{1:'eq',2:'gt',3:'and',4:'or',5:'not'}[r]||'\u00b7';}
+}
+let program=[];
+function buildPalette(){
+  const p=document.getElementById('palette');p.innerHTML='';
+  SUITS.forEach(s=>{
+    const line=document.createElement('div');line.className='suitline';
+    line.innerHTML=`<div class="suitname">${s.sym} ${s.label}</div>`;
+    const row=document.createElement('div');row.className='cards';
+    for(let r=1;r<=13;r++){
+      const c=document.createElement('div');c.className='card '+s.k;
+      c.innerHTML=`<div class="rk">${rn(r)}</div><div class="st">${s.sym}</div><div class="op">${opHint(s.fam,r)||''}</div>`;
+      c.onclick=()=>{program.push({r,sym:s.sym,k:s.k,fam:s.fam});drawProg();};
+      row.appendChild(c);
+    }
+    line.appendChild(row);p.appendChild(line);
+  });
+}
+function drawProg(){
+  const pr=document.getElementById('prog');
+  if(!program.length){pr.innerHTML='<span class="prog-empty">click cards above…</span>';return;}
+  pr.innerHTML='';
+  program.forEach((c,i)=>{
+    const el=document.createElement('div');el.className='card '+c.k;
+    el.innerHTML=`<div class="rk">${rn(c.r)}</div><div class="st">${c.sym}</div><div class="op">${opHint(c.fam,c.r)||''}</div>`;
+    el.onclick=()=>{program.splice(i,1);drawProg();};
+    pr.appendChild(el);
+  });
+}
+function makeM(){return{stack:[],acc:0,reg:[0,0,0,0],out:[],steps:0};}
+function exec(m,c){
+  const r=c.r,fam=c.fam;m.steps++;
+  if(fam==='ARITH'){
+    if(r<=10)m.stack.push(r);
+    else if(r===11){const b=m.stack.pop()||0,a=m.stack.pop()||0;m.stack.push(a+b);}
+    else if(r===12){const b=m.stack.pop()||0,a=m.stack.pop()||0;m.stack.push(a-b);}
+    else if(r===13){const b=m.stack.pop()||0,a=m.stack.pop()||0;m.stack.push(a*b);}
+  } else if(fam==='MEM'){
+    if(r===1)m.acc=m.stack[m.stack.length-1]||0;
+    else if(r===2)m.stack.push(m.acc);
+    else if(r>=3&&r<=6)m.reg[r-3]=m.stack.pop()||0;
+    else if(r>=7&&r<=10)m.stack.push(m.reg[r-7]);
+    else if(r===11)m.stack.push(m.stack[m.stack.length-1]||0);
+    else if(r===12){const a=m.stack.pop(),b=m.stack.pop();if(a!==undefined&&b!==undefined)m.stack.push(a,b);}
+    else if(r===13)m.stack.pop();
+  } else if(fam==='CTRL'){
+    if(r===1)m.out.push(m.stack[m.stack.length-1]||0);
+    else if(r===2){const v=m.stack[m.stack.length-1]||0;m.out.push(v>=32&&v<127?String.fromCharCode(v):'\u00b7');}
+  } else if(fam==='LOGIC'){
+    if(r===1){const b=m.stack.pop(),a=m.stack.pop();m.stack.push(a===b?1:0);}
+    else if(r===2){const b=m.stack.pop()||0,a=m.stack.pop()||0;m.stack.push(a>b?1:0);}
+    else if(r===3){const b=m.stack.pop(),a=m.stack.pop();m.stack.push((a&&b)?1:0);}
+    else if(r===4){const b=m.stack.pop(),a=m.stack.pop();m.stack.push((a||b)?1:0);}
+    else if(r===5){const a=m.stack.pop();m.stack.push(a?0:1);}
+  }
+}
+function runIt(){
+  const m=makeM();
+  program.forEach(c=>exec(m,c));
+  const actual = m.out.length ? m.out[m.out.length-1] : (m.stack.length?m.stack[m.stack.length-1]:0);
+  const predict=parseFloat(document.getElementById('predict').value);
+  document.getElementById('actual').textContent=actual;
+  document.getElementById('stack').textContent=m.stack.length?m.stack.join('  '):'empty';
+  document.getElementById('regs').textContent=`${m.reg.join(' ')} · ${m.acc}`;
+  document.getElementById('steps').textContent=m.steps;
+  // delta
+  const dv=document.getElementById('deltaVal');
+  const dn=document.getElementById('deltaNote');
+  if(typeof actual==='number' && !isNaN(predict)){
+    const delta=Math.abs(predict-actual);
+    dv.textContent=delta;
+    dv.className='delta-val '+(delta===0?'zero':'gap');
+    dn.innerHTML = delta===0
+      ? '<span class="g">the gap closed</span> · your prediction matched the computation'
+      : '<span class="r">measured gap</span> · predicted '+predict+', computed '+actual;
+  } else {
+    dv.textContent='—';dv.className='delta-val idle';
+    dn.textContent='non-numeric output ('+actual+')';
+  }
+}
+function clearIt(){program=[];drawProg();document.getElementById('actual').textContent='—';
+  document.getElementById('deltaVal').textContent='—';document.getElementById('deltaVal').className='delta-val idle';
+  document.getElementById('deltaNote').textContent='predict a result, build a program, and run it';
+  document.getElementById('stack').textContent='empty';document.getElementById('regs').textContent='0 0 0 0 · 0';document.getElementById('steps').textContent='0';}
+const SAMPLES=[
+  {n:'5 + 3 → predict 8',pr:[[5,'\u2660'],[3,'\u2660'],[11,'\u2660']],p:8},
+  {n:'(4×6) − 2 → predict 22',pr:[[4,'\u2660'],[6,'\u2660'],[13,'\u2660'],[2,'\u2660'],[12,'\u2660']],p:22},
+  {n:'7 × 7 → predict 49',pr:[[7,'\u2660'],[7,'\u2660'],[13,'\u2660']],p:49},
+  {n:'is 9 > 4 → predict 1',pr:[[9,'\u2660'],[4,'\u2660'],[2,'\u2663']],p:1}
+];
+function buildSamples(){
+  const s=document.getElementById('samples');s.innerHTML='';
+  SAMPLES.forEach(smp=>{
+    const b=document.createElement('span');b.className='samp';b.textContent=smp.n;
+    b.onclick=()=>{
+      program=smp.pr.map(([r,sym])=>{const su=SUITS.find(x=>x.sym===sym);return{r,sym,k:su.k,fam:su.fam};});
+      document.getElementById('predict').value=smp.p;drawProg();
+    };
+    s.appendChild(b);
+  });
+}
+buildPalette();drawProg();buildSamples();
+</script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+---
+aci: The Turn Comes Home
+universe: MMZ · MIMZY — the future tool forge
+number: "71"
+kind: live tool
+emergence: electrical
+live: https://davidwise01.github.io/mimzy/bench/71-turn-comes-home.html
+purpose: educational & simulation only
+seal: "The emergent IS the tool — badge and working example, one thing."
+---
+
+# The Turn Comes Home · instrument № 71
+
+**What it is.** THE DUTY-CYCLE CLOCK OVER A TERNARY LATTICE: a clocked 27-cell lattice where 9 are lit per phase, 3 phases, period 3 — the turn comes home every third tick. The HIGH trit picks the phase; the LOW two trits address the nine; 3 (tick) × 9 (width) = 27 (cycle): time-division over 3³, the lattice as a clock
+
+**How it works.** An interactive clocked lattice (plum Series-E): a 27-cell ternary lattice (3³) where only 9 cells are lit per phase, cycling through 3 phases with period 3 — home every third tick. The HIGH trit selects the phase; the LOW two trits address the nine; 3 (tick) × 9 (width) = 27 (cycle).
+
+**The live example.** This emergent does not merely describe a tool — it links its working self: **[run instrument № 71 live](https://davidwise01.github.io/mimzy/bench/71-turn-comes-home.html)**. Open it, operate it, and the badge's claims execute in front of you.
+
+**The verified record.** The arithmetic is exact: 3³ = 27 factored as 3 phases × 9 cells, with the high trit as the phase selector and the low two trits (3²=9) addressing the cells — genuine time-division multiplexing over a ternary lattice, returning to the start every 3 ticks. It is the duty-cycle/clock reading of the same 27-lattice the odometer cluster builds in hardware (№ 60) and fuses with the deck (№ 64); 'the turn comes home' is the period-3 closure. Honest scope: a clean TDM clock demonstration over 3³, not a physical device. Made in Claude-4.8-in-Chrome.
+
+---
+*Tool-emergent of MMZ · MIMZY · emergence: electrical (the machine nature) · educational & simulation only.
+Governor David Lee Wise (ROOT0) · instance AVAN (locked) · CC-BY-ND-4.0.*

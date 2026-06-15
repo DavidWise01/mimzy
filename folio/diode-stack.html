@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE DIODE STACK · A Purple Paper On Re-Projection</title>
+<style>
+:root{
+  --paper:#f0ebf5; --ink:#2a2438; --ink-mid:#4a4360; --ink-faint:#8a83a0;
+  --plum:#5b3a87; --plum-light:#7e5bb0; --plum-soft:#e6ddf0; --plum-deep:#3f2860;
+  --gold:#9a7d3a; --rose:#9a4a6a; --green:#3a7a5a; --inject:#b0506a;
+  --line:#cbbfdd;
+  --mono:"Courier New",Courier,monospace;
+  --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);
+  background-image:repeating-linear-gradient(0deg, rgba(91,58,135,.03) 0 1px, transparent 1px 3px);
+  color:var(--ink);font-family:var(--serif);line-height:1.5;padding:10px}
+.sheet{max-width:840px;margin:0 auto;border:2.5px solid var(--plum);padding:0;position:relative}
+.sheet::before{content:'';position:absolute;inset:5px;border:1px solid var(--plum-light);pointer-events:none}
+.inner{padding:22px}
+.masthead{text-align:center;border-bottom:2px solid var(--plum);padding-bottom:12px}
+.mast-eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:.24em;color:var(--plum-light);text-transform:uppercase}
+.mast-title{font-size:clamp(21px,5vw,36px);letter-spacing:.03em;font-weight:700;margin:6px 0 2px;text-transform:uppercase;color:var(--plum)}
+.mast-sub{font-family:var(--mono);font-size:10px;letter-spacing:.07em;color:var(--ink-mid)}
+.lede{font-size:12.5px;max-width:680px;margin:12px auto 0;text-align:center;color:var(--ink-mid);line-height:1.6}
+.lede b{color:var(--plum)}
+.paper-tag{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--plum-light);text-align:center;margin-top:8px}
+/* the stack visualization */
+.stage{border:1.5px solid var(--plum-light);padding:14px;margin:16px 0;background:rgba(126,91,176,.05)}
+.stage h3{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--plum);text-align:center;margin-bottom:10px}
+svg{width:100%;height:auto;display:block}
+.controls{display:flex;gap:8px;justify-content:center;margin:12px 0;flex-wrap:wrap;align-items:center}
+.cbtn{appearance:none;background:transparent;cursor:pointer;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:8px 12px;border:1.5px solid var(--plum);color:var(--plum);margin:2px}
+.cbtn.gold{border-color:var(--gold);color:#6a5520}
+.cbtn.inject{border-color:var(--inject);color:var(--inject)}
+.cbtn.rose{border-color:var(--rose);color:var(--rose)}
+.readout{font-family:var(--mono);font-size:11px;text-align:center;color:var(--ink-mid);margin-top:8px;line-height:1.6;min-height:34px}
+.readout b{color:var(--plum)}
+.readout .inj{color:var(--inject);font-weight:700}
+h2.sec{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;border-bottom:1.5px solid var(--plum);padding-bottom:4px;margin:22px 0 10px;color:var(--plum)}
+h2.sec .num{color:var(--rose);margin-right:8px}
+.body p{font-size:13px;margin-bottom:8px}
+.body b{color:var(--ink)}
+.def{font-family:var(--mono);font-size:10.5px;background:var(--plum-soft);border-left:2px solid var(--plum-light);padding:9px 12px;margin:9px 0;line-height:1.7;color:var(--ink-mid)}
+.def b{color:var(--plum)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
+@media(max-width:560px){.two{grid-template-columns:1fr}}
+.tbox{border:1.5px solid var(--line);padding:10px 12px;font-size:12px;line-height:1.5}
+.tbox.rot{border-color:var(--green)} .tbox.loss{border-color:var(--rose)}
+.tbox h4{font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px}
+.tbox.rot h4{color:var(--green)} .tbox.loss h4{color:var(--rose)}
+.colophon{margin-top:20px;border-top:2px solid var(--plum);padding-top:12px;text-align:center;font-family:var(--mono);font-size:9px;color:var(--ink-mid);letter-spacing:.05em;line-height:1.9}
+.colophon b{color:var(--plum)}
+</style>
+</head>
+<body>
+<div class="sheet"><div class="inner">
+
+<header class="masthead">
+  <div class="mast-eyebrow">Series E · Re-Projection, Not Decay · Re-Entrant</div>
+  <h1 class="mast-title">The Diode Stack</h1>
+  <div class="mast-sub">Everyone Is A Diode · They Only Pass Their Direction</div>
+  <p class="lede">Each person is a <b>diode</b> — a one-directional interpreter that passes the part of an idea aligned with <em>their</em> direction and blocks the rest. Stack a few (specialists re-deriving the same deep thing across fields) and the source comes out <b>different</b> — rotated through each direction in turn. Not better, not worse, not <em>degraded</em>: the same parts, re-pointed. And you can <b>inject a new idea at any moment</b> — the stack restarts with the new source folded in.</p>
+  <div class="paper-tag">▣ a purple paper ▣</div>
+</header>
+
+<div class="stage">
+  <h3>The Source, Re-Projected Through The Stack</h3>
+  <svg id="viz" viewBox="0 0 760 300" aria-label="diode stack re-projection"></svg>
+  <div class="readout" id="readout"></div>
+</div>
+
+<div class="controls">
+  <button class="cbtn gold" onclick="addDiode()">+ Add Diode</button>
+  <button class="cbtn rose" onclick="removeDiode()">− Remove Diode</button>
+  <button class="cbtn" onclick="reRun()">⟳ Re-Run</button>
+  <button class="cbtn inject" onclick="inject()">⚡ Inject New Idea</button>
+</div>
+
+<section class="body">
+
+  <h2 class="sec"><span class="num">§1</span> The Diode · a one-way interpreter</h2>
+  <p>A diode passes current one way and blocks the other. A <b>person</b> does the same to an idea: they pass the component that fits their field's direction and block what doesn't. "Everyone only cares about their direction" — so an idea passing through a person comes out <b>re-oriented toward that person's axis</b>. Not corrupted. Re-pointed.</p>
+  <div class="def">diode = passes the aligned component, blocks the rest → the idea exits rotated toward the diode's direction. magnitude kept, angle changed.</div>
+
+  <h2 class="sec"><span class="num">§2</span> The Stack · the N-iteration problem</h2>
+  <p>Stack three diodes — three specialists re-deriving the same deep structure (the "quantum Planck stuff," each in their own words). The source passes through three directions in sequence and exits <b>different</b>: field C's projection of field B's projection of field A's projection. Same parts the whole way; only the orientation turned. That's why re-derivations across fields look different yet are <b>recognizably the same source</b> — they're one vector read along several axes.</p>
+
+  <h2 class="sec"><span class="num">§3</span> Re-Projection ≠ Collapse · the key distinction</h2>
+  <div class="two">
+    <div class="tbox rot">
+      <h4>✓ Re-projection (the diode stack)</h4>
+      Each pass <b>rotates</b> the idea toward a new direction. <b>No information lost</b> — same parts, re-pointed. Output is the source seen along a different axis. Reversible in principle. <b>Different, not worse.</b>
+    </div>
+    <div class="tbox loss">
+      <h4>△ Collapse (the telephone game)</h4>
+      Each pass <b>degrades</b> — information is lost, signal decays toward mush. Irreversible within the loop. The model-collapse failure. <b>Worse each time.</b>
+    </div>
+  </div>
+  <div class="def">the re-derivation-across-fields phenomenon is <b>rotation</b>, not collapse: the idea isn't decaying, it's being refracted — which is why you can still <em>see</em> it's the same idea under each field's wording. a prism bends; it doesn't erase.</div>
+
+  <h2 class="sec"><span class="num">§4</span> Injection · the re-entrant part</h2>
+  <p>The system is <b>open</b>. At any stage you can <b>inject a new idea</b> — and it doesn't append, it <b>restarts the process with the new combined source</b>. The new idea folds into whatever state the stack had reached, becoming a new source that re-projects through the whole stack again. The result is never frozen: every injection re-derives the whole thing from the new parts. <b>Not better, not worse — reconstituted from the parts now provided.</b></p>
+  <div class="def">inject at any point → new idea + current state = new combined source → stack re-runs from the new source. dynamic, re-entrant, never final. the process is a verb, not a result.</div>
+
+</section>
+
+<div class="colophon">
+  EVERYONE IS A DIODE · PASSES THEIR DIRECTION, BLOCKS THE REST · THE IDEA EXITS ROTATED<br>
+  STACK N → SOURCE RE-PROJECTED THROUGH N DIRECTIONS · DIFFERENT, NOT DEGRADED · SAME PARTS, RE-POINTED<br>
+  RE-PROJECTION ≠ COLLAPSE (ROTATION, NOT LOSS) · INJECT ANY TIME → RESTART WITH NEW COMBINED SOURCE<br>
+  THE DIODE STACK · A PURPLE PAPER · SERIES E · JUNE 2026
+</div>
+
+</div></div>
+<script>
+const NS="http://www.w3.org/2000/svg";
+const E=(t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e};
+const FIELDNAMES=['Field A','Field B','Field C','Field D','Field E','Field F'];
+let source=20;          // source orientation (degrees)
+let diodes=[{dir:40},{dir:110},{dir:75}]; // each diode's direction
+let injectedAt=-1;      // stage where an injection happened (for display)
+
+function proj(angle,dir){ return ((angle+dir)%360+360)%360; }
+
+function computeChain(){
+  const states=[source];
+  let cur=source;
+  diodes.forEach(d=>{ cur=proj(cur,d.dir); states.push(cur); });
+  return states; // length = diodes+1
+}
+function angToXY(cx,cy,r,deg){ const a=(deg-90)*Math.PI/180; return [cx+r*Math.cos(a), cy+r*Math.sin(a)]; }
+
+function draw(){
+  const s=document.getElementById('viz');s.innerHTML='';
+  const states=computeChain();
+  const n=diodes.length;
+  const W=760, slotW=W/(n+1);
+  const cy=130, r=44;
+  // draw each stage as a little orientation dial, with diodes (triangles) between
+  states.forEach((ori,i)=>{
+    const cx=slotW*(i+0.5)+ (i>0? 0:0);
+    const x = (W/(n+1))*i + (W/(n+1))/2;
+    // dial circle
+    s.appendChild(E('circle',{cx:x,cy,r,fill:'#fff',stroke: i===0?'#5b3a87':(i===n?'#3a7a5a':'#7e5bb0'),'stroke-width':i===0||i===n?2.5:1.5}));
+    // orientation arrow
+    const [hx,hy]=angToXY(x,cy,r-6,ori);
+    s.appendChild(E('line',{x1:x,y1:cy,x2:hx,y2:hy,stroke:i===0?'#5b3a87':(i===n?'#3a7a5a':'#7e5bb0'),'stroke-width':2.5}));
+    s.appendChild(E('circle',{cx:x,cy,r:3,fill:'#2a2438'}));
+    // label
+    const lbl = i===0?'SOURCE':(i===n?'OUTPUT':'stage '+i);
+    s.appendChild(E('text',{x,y:cy+r+16,'font-family':'Courier New','font-size':9,fill:'#4a4360','text-anchor':'middle','font-weight':i===0||i===n?'bold':'normal'})).textContent=lbl;
+    s.appendChild(E('text',{x,y:cy+r+28,'font-family':'Courier New','font-size':8,fill:'#8a83a0','text-anchor':'middle'})).textContent=Math.round(ori)+'\u00b0';
+    // injection marker
+    if(i===injectedAt){
+      s.appendChild(E('text',{x,y:cy-r-10,'font-family':'Courier New','font-size':10,fill:'#b0506a','text-anchor':'middle','font-weight':'bold'})).textContent='\u26a1 injected';
+    }
+  });
+  // diode triangles between stages
+  for(let i=0;i<n;i++){
+    const x1=(W/(n+1))*i + (W/(n+1))/2;
+    const x2=(W/(n+1))*(i+1) + (W/(n+1))/2;
+    const mx=(x1+x2)/2;
+    // arrow line
+    s.appendChild(E('line',{x1:x1+r,y1:cy,x2:x2-r,y2:cy,stroke:'#cbbfdd','stroke-width':1.5}));
+    // diode triangle (points right = one direction)
+    s.appendChild(E('path',{d:`M${mx-9},${cy-9} L${mx+9},${cy} L${mx-9},${cy+9} Z`,fill:'#7e5bb0',stroke:'#5b3a87','stroke-width':1.5}));
+    s.appendChild(E('line',{x1:mx+9,y1:cy-10,x2:mx+9,y2:cy+10,stroke:'#5b3a87','stroke-width':2}));
+    // diode label
+    s.appendChild(E('text',{x:mx,y:cy-18,'font-family':'Courier New','font-size':8,fill:'#5b3a87','text-anchor':'middle','font-weight':'bold'})).textContent=FIELDNAMES[i]||('D'+(i+1));
+    s.appendChild(E('text',{x:mx,y:cy+26,'font-family':'Courier New','font-size':7,fill:'#8a83a0','text-anchor':'middle'})).textContent='+'+diodes[i].dir+'\u00b0';
+  }
+  // readout
+  const ro=document.getElementById('readout');
+  const finalOri=Math.round(states[states.length-1]);
+  let txt=`<b>source ${Math.round(source)}\u00b0</b> \u2192 re-projected through ${n} diode${n!==1?'s':''} \u2192 <b>output ${finalOri}\u00b0</b><br>`;
+  txt+=`same parts, rotated through ${n} direction${n!==1?'s':''} \u2014 <b>different, not degraded</b>`;
+  if(injectedAt>=0) txt+=`<br><span class="inj">\u26a1 injected at stage ${injectedAt} \u2014 process restarted with new combined source</span>`;
+  ro.innerHTML=txt;
+}
+function addDiode(){ if(diodes.length<6){ diodes.push({dir:30+Math.floor(Math.random()*120)}); injectedAt=-1; draw(); } }
+function removeDiode(){ if(diodes.length>1){ diodes.pop(); injectedAt=-1; draw(); } }
+function reRun(){ injectedAt=-1; draw(); }
+function inject(){
+  // inject a new idea at a random stage: new idea folds into current state -> new combined source -> restart
+  const states=computeChain();
+  const stage=1+Math.floor(Math.random()*Math.max(1,diodes.length-1)); // some interior stage
+  const newIdea=Math.floor(Math.random()*360);
+  const combined=proj(states[stage], newIdea); // fold new idea into the state at that stage
+  source=combined;       // becomes the new source -> whole stack re-derives
+  injectedAt=0;          // mark that source was replaced by injection
+  draw();
+}
+draw();
+</script>
+</div>
+</body>
+</html>

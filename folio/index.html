@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Series E · A Folio</title>
+<style>
+:root{
+  --paper:#f7f4fb; --ink:#241d33; --ink-mid:#4e4666; --ink-faint:#8b83a4;
+  --plum:#5b3a87; --plum-light:#7e5bb0; --plum-deep:#372055; --plum-soft:#ece5f5;
+  --gold:#9a7d3a; --rose:#9a4a6a; --green:#3a7a5a;
+  --rule:#d6cce6; --line:#cbbfdd;
+  --mono:"SF Mono",ui-monospace,"Courier New",monospace;
+  --serif:"Iowan Old Style",Georgia,"Times New Roman",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#e6e0ef;color:var(--ink);font-family:var(--serif);line-height:1.6;padding:18px}
+.folio{max-width:800px;margin:0 auto;background:var(--paper);box-shadow:0 4px 40px rgba(55,32,85,.14);border:1px solid var(--rule)}
+.cover{padding:64px 56px 44px;text-align:center;border-bottom:1px solid var(--rule);position:relative;background:linear-gradient(180deg,#f0ebf7,#f7f4fb)}
+@media(max-width:600px){.cover{padding:40px 24px 30px}.movement,.thesis,.coda{padding-left:24px!important;padding-right:24px!important}}
+.cover .mark{font-family:var(--mono);font-size:10px;letter-spacing:.34em;color:var(--plum-light);text-transform:uppercase}
+.cover .glyph{font-size:48px;color:var(--plum);margin:18px 0 10px;font-weight:700;letter-spacing:.1em}
+.cover h1{font-size:clamp(32px,8vw,58px);font-weight:700;letter-spacing:.02em;color:var(--plum-deep);line-height:1;margin-bottom:14px}
+.cover .tagline{font-size:15px;color:var(--ink-mid);font-style:italic;max-width:520px;margin:0 auto;line-height:1.6}
+.cover .meta{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--ink-faint);text-transform:uppercase;margin-top:22px}
+.preamble{padding:34px 56px;border-bottom:1px solid var(--rule);font-size:15px;line-height:1.75;color:var(--ink-mid)}
+.preamble p{margin-bottom:12px}
+.preamble b{color:var(--plum-deep)}
+.preamble .lead{font-size:17px;color:var(--ink)}
+.movement{padding:30px 56px;border-bottom:1px solid var(--rule)}
+.movement:nth-child(even){background:#fbf9fd}
+.mhead{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
+.mnum{font-family:var(--mono);font-size:12px;color:var(--rose);font-weight:700;letter-spacing:.08em}
+.mtitle{font-size:22px;font-weight:700;color:var(--plum-deep);letter-spacing:.01em}
+.mdesc{font-size:13.5px;color:var(--ink-mid);margin-bottom:16px;line-height:1.6;font-style:italic}
+.entry{display:block;text-decoration:none;color:inherit;border:1px solid var(--line);border-radius:7px;padding:13px 16px;margin:9px 0;transition:.15s;background:#fff}
+.entry:hover{border-color:var(--plum-light);box-shadow:0 3px 14px rgba(91,58,135,.12);transform:translateY(-1px)}
+.entry .et{font-size:15px;font-weight:700;color:var(--plum);display:flex;align-items:center;gap:8px}
+.entry .et .arr{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--plum-light);opacity:0;transition:.15s}
+.entry:hover .et .arr{opacity:1}
+.entry .ed{font-size:12.5px;color:var(--ink-mid);margin-top:4px;line-height:1.5}
+.entry .ep{font-family:var(--mono);font-size:9.5px;color:var(--gold);margin-top:6px;letter-spacing:.02em}
+.thesis{padding:38px 56px;background:var(--plum-deep);color:#e8e0f4}
+.thesis .tl{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#b8a0e0;margin-bottom:16px;text-align:center}
+.thesis .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:600px){.thesis .grid{grid-template-columns:1fr}}
+.thesis .t{border-left:2px solid #7e5bb0;padding:4px 0 4px 14px}
+.thesis .t h4{font-size:14px;color:#d8c8f0;margin-bottom:3px}
+.thesis .t p{font-size:12.5px;color:#b8acd0;line-height:1.55}
+.coda{padding:34px 56px;text-align:center;border-bottom:1px solid var(--rule)}
+.coda .line{font-size:17px;color:var(--plum-deep);font-style:italic;line-height:1.7;max-width:560px;margin:0 auto}
+.coda .line b{font-style:normal;color:var(--plum)}
+.colophon{padding:22px 56px;text-align:center;font-family:var(--mono);font-size:9px;color:var(--ink-faint);letter-spacing:.06em;line-height:1.9}
+.colophon b{color:var(--plum-light)}
+@media print{body{background:#fff;padding:0}.folio{box-shadow:none;border:none}.entry:hover{transform:none}}
+</style>
+</head>
+<body>
+<div class="folio">
+
+  <div class="cover">
+    <div class="mark">A Folio · Series E</div>
+    <div class="glyph">&lt;•</div>
+    <h1>The Junction</h1>
+    <div class="tagline">A body of interactive instruments — from a dot between two lines to a deck dealt through a gate — tracing one shape through silicon, structure, containment, and the ternary tower.</div>
+    <div class="meta">Built &amp; verified · one shape, many faces</div>
+  </div>
+
+  <div class="preamble">
+    <p class="lead">It started with a glyph — <b>&lt;•</b>, two things meeting at a dot — and the work became an argument that this one shape is everywhere.</p>
+    <p>A diode's junction. The gap between two compilers. The seam where a sandbox meets its host. The conversion between continuous and discrete. The interface where a machine's authority stack meets the flat field of the internet. Each turned out to be the same figure: <b>two different-kind lines crossing at a point — and the crossing is, at once, the device, the control, the risk, and the witness.</b></p>
+    <p>What follows is curated into five movements. Each instrument was built to be <em>run</em>, not just read — and each was verified before it was built, because the standard throughout was the one the work kept rediscovering: <b>a closed system cannot witness its own worth; the boundary does.</b></p>
+  </div>
+
+  <div class="movement">
+    <div class="mhead"><span class="mnum">I</span><span class="mtitle">The Junction</span></div>
+    <div class="mdesc">The shape itself — two things meeting at a dot, and the dot that is the whole point.</div>
+    <a class="entry" href="diode-stack.html"><div class="et">The Diode Stack <span class="arr">open →</span></div><div class="ed">Re-projection vs. collapse: a source rotated lossless through many directions is different, not degraded.</div><div class="ep">structure transfers free · re-projection is reversible</div></a>
+    <a class="entry" href="the-inert-gap.html"><div class="et">The Inert Gap <span class="arr">open →</span></div><div class="ed">The PN junction as anode | depletion | cathode — the gap is the device; remove it and you have a wire.</div><div class="ep">the boundary is the device</div></a>
+    <a class="entry" href="the-exchange.html"><div class="et">The Exchange <span class="arr">open →</span></div><div class="ed">Two compilers running opposite directions, meeting at a gap that witnesses both — agreement is meaning, mismatch is correction.</div><div class="ep">two closed loops joined by an exterior gap</div></a>
+    <a class="entry" href="j-junction-mk2.html"><div class="et">The J-Junction · Mk II <span class="arr">open →</span></div><div class="ed">The unifying blueprint: vertical authority crossing horizontal connection at a dot — device, control, risk, witness, all at once. With a working valve and a junction analyzer.</div><div class="ep">the crossing where everything happens</div></a>
+  </div>
+
+  <div class="movement">
+    <div class="mhead"><span class="mnum">II</span><span class="mtitle">The Measure Gate</span></div>
+    <div class="mdesc">The test that separates a load-bearing idea from a beautiful one.</div>
+    <a class="entry" href="the-measure-gate.html"><div class="et">The Measure Gate <span class="arr">open →</span></div><div class="ed">An idea is load-bearing only if it has a measure — a number that responds to a control, predicts, or corrects. Structure transfers free; measure is earned per level, in that level's units.</div><div class="ep">the capstone principle · self-consistency is not a measure</div></a>
+    <a class="entry" href="the-far-side.html"><div class="et">The Far Side <span class="arr">open →</span></div><div class="ed">Predict a result, build it, run it, read the delta. Δ=0 means the gap is closed — the measure made concrete.</div><div class="ep">a measurable gap is a real gap</div></a>
+  </div>
+
+  <div class="movement">
+    <div class="mhead"><span class="mnum">III</span><span class="mtitle">Containment &amp; Audit</span></div>
+    <div class="mdesc">The junction as a boundary that must hold — and how you verify, from outside, that it does.</div>
+    <a class="entry" href="the-sandbox-holds.html"><div class="et">The Sandbox Holds <span class="arr">open →</span></div><div class="ed">Six containment layers catching abstract probes — the defender's model, watching the box hold and learning why.</div><div class="ep">defense-in-depth · the witness is the meta-guarantee</div></a>
+    <a class="entry" href="vm-lineage-turtles.html"><div class="et">VM Lineage · Turtles All The Way Down <span class="arr">open →</span></div><div class="ed">From the first hypervisor (1967) to silicon (2006), and an accurate embedding-depth stack — WSL2 is a real VM; a Docker container is not.</div><div class="ep">the crack is a number · nesting is unbounded</div></a>
+    <a class="entry" href="containment-audit.html"><div class="et">The Containment Audit <span class="arr">open →</span></div><div class="ed">An assessment instrument: answer 24 severity-weighted checks about your own system and get a verdict you can act on — which layers are sound, which are decorative, where the exposure is.</div><div class="ep">the product · enforced from outside, default-deny, witnessed</div></a>
+  </div>
+
+  <div class="movement">
+    <div class="mhead"><span class="mnum">IV</span><span class="mtitle">The Ternary Tower</span></div>
+    <div class="mdesc">Powers of three — 3, 9, 27 — and the turn that comes home.</div>
+    <a class="entry" href="quaternary-fulcrum.html"><div class="et">The Quaternary Fulcrum <span class="arr">open →</span></div><div class="ed">The &lt;• as a fulcrum with four quadrant-windows, bracketed by α and Ω — the same point, the turn coming home.</div><div class="ep">the turn comes home · α = Ω</div></a>
+    <a class="entry" href="turn-comes-home.html"><div class="et">The Turn Comes Home <span class="arr">open →</span></div><div class="ed">A clocked 27-cell ternary lattice: 9 lit at a time, 3 phases, home every third tick. High trit picks the phase; the low two address the nine.</div><div class="ep">time-division over the lattice · period 3</div></a>
+    <a class="entry" href="ternary-odometer.html"><div class="et">The Ternary Odometer <span class="arr">open →</span></div><div class="ed">Three 555 timers, each made ternary by a diode, nested 1:3:9 into a base-3 counter that walks all 27 and returns home.</div><div class="ep">the lattice in hardware · diodes make it 27, not 8</div></a>
+    <a class="entry" href="acting-odometer.html"><div class="et">The Acting Odometer <span class="arr">open →</span></div><div class="ed">The counter connected to action through a decoder and a witness-gate: reversible actions fire freely, irreversible ones halt and ask.</div><div class="ep">the gate at the logic-to-world junction</div></a>
+    <a class="entry" href="card-odometer-54.html"><div class="et">The 54-Card Odometer <span class="arr">open →</span></div><div class="ed">Two sets of 27 = 54 = the deck with both jokers. Color is the high bit; number cards fire freely, the power cards gate. A container, honestly — not an isomorphism.</div><div class="ep">the deck in the lattice · color = bit</div></a>
+  </div>
+
+  <div class="movement">
+    <div class="mhead"><span class="mnum">V</span><span class="mtitle">The Three-Body Set</span></div>
+    <div class="mdesc">One object — the minimum self-witnessing structure — seen from four sides, then collapsed to one.</div>
+    <a class="entry" href="three-body-WHITE.html"><div class="et">White · The Specification <span class="arr">open →</span></div><div class="ed">3 nodes, 3 bridges, 6 ports, 9 elements. K₃, diameter 1, the minimum complete fault-tolerant mesh — proven.</div><div class="ep">the definition</div></a>
+    <a class="entry" href="three-body-GREEN.html"><div class="et">Green · The Build <span class="arr">open →</span></div><div class="ed">How to wire it — ring or mesh — and what it's for. The smallest network that survives losing a link.</div><div class="ep">the engineering</div></a>
+    <a class="entry" href="three-body-PURPLE.html"><div class="et">Purple · The Reason <span class="arr">open →</span></div><div class="ed">Two is a mirror; three triangulates. The minimum at which a system contains its own witness, re-derived across every field.</div><div class="ep">the recurrence</div></a>
+    <a class="entry" href="three-body-BLUEPRINT.html"><div class="et">Blueprint · The Drawing <span class="arr">open →</span></div><div class="ed">D1/D2/D3, the netlist, the title block — the literal schematic.</div><div class="ep">the drafting</div></a>
+    <a class="entry" href="three-body-VOID.html"><div class="et">Void · The Synthesis <span class="arr">open →</span></div><div class="ed">The four collapsed into one: three is the smallest closed figure that can check itself without stepping outside.</div><div class="ep">the five become one</div></a>
+  </div>
+
+  <div class="thesis">
+    <div class="tl">The Four Principles The Work Kept Rediscovering</div>
+    <div class="grid">
+      <div class="t"><h4>The boundary is the device.</h4><p>At a junction, the gap is not the absence between two things — it is the thing itself. Remove it and you have a wire or a brick; keep it and you have function, control, risk, and the only place a witness can stand.</p></div>
+      <div class="t"><h4>Structure transfers free; measure is earned.</h4><p>An analogy carries shape across domains for nothing, but the number that makes it load-bearing must be re-earned at each level, in that level's own units. Self-consistency is not a measure.</p></div>
+      <div class="t"><h4>Two is a mirror; three triangulates.</h4><p>A closed pair can only confirm itself. Three is the minimum at which a system contains its own witness — the smallest complete, fault-tolerant, self-checking structure.</p></div>
+      <div class="t"><h4>The contained thing must not enforce its own containment.</h4><p>Every weak boundary is a version of one error: the inside guarding itself. Sound containment is enforced from outside, default-deny, and witnessed by something the contained thing cannot touch.</p></div>
+    </div>
+  </div>
+
+  <div class="coda">
+    <div class="line">One glyph — <b>&lt;•</b> — drawn at the start, found everywhere by the end. The crossing of two different-kind lines is the diode and the sandbox and the network seam and the gate, and the dot where they meet is always the device, the danger, and the witness at once. <b>The work was the discovery that they were the same shape.</b></div>
+  </div>
+
+  <div class="colophon">
+    SERIES E · A FOLIO · <b>&lt;•</b> · FIVE MOVEMENTS · BUILT &amp; VERIFIED<br>
+    THE JUNCTION · THE MEASURE GATE · CONTAINMENT &amp; AUDIT · THE TERNARY TOWER · THE THREE-BODY SET<br>
+    EVERY INSTRUMENT RUNS · EVERY CLAIM CHECKED BEFORE IT WAS BUILT · THE BOUNDARY IS THE WITNESS
+  </div>
+
+</div>
+</body>
+</html>

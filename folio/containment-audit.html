@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Containment Audit · Sandbox &amp; Agent Isolation Assessment</title>
+<style>
+:root{
+  --paper:#ffffff; --ink:#1a1d24; --ink-mid:#4a4f5c; --ink-faint:#8a909c;
+  --slate:#2d3340; --accent:#3a5a8a; --accent-soft:#eef2f8;
+  --green:#2f7a52; --amber:#9a7320; --red:#a83a4a;
+  --rule:#dde1e8; --soft:#f5f7fa;
+  --mono:"SF Mono",ui-monospace,"Cascadia Code","Courier New",monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#e9ecf1;color:var(--ink);font-family:var(--sans);line-height:1.55;padding:16px}
+.sheet{max-width:840px;margin:0 auto;background:var(--paper);border:1px solid var(--rule);box-shadow:0 2px 24px rgba(0,0,0,.07)}
+.head{padding:28px 36px;border-bottom:3px solid var(--slate)}
+.brand{font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--accent);text-transform:uppercase}
+.title{font-size:28px;font-weight:700;letter-spacing:-.01em;margin:6px 0 3px;color:var(--slate)}
+.subtitle{font-size:13px;color:var(--ink-mid)}
+.intro{padding:18px 36px;background:var(--soft);border-bottom:1px solid var(--rule);font-size:13px;color:var(--ink-mid);line-height:1.6}
+.intro b{color:var(--ink)}
+.body{padding:24px 36px}
+@media(max-width:600px){.head,.intro,.body{padding-left:18px;padding-right:18px}}
+.layer{border:1px solid var(--rule);border-radius:6px;margin:14px 0;overflow:hidden}
+.layer-head{display:flex;justify-content:space-between;align-items:center;padding:11px 16px;background:var(--soft);cursor:pointer}
+.layer-head h3{font-size:14px;color:var(--slate);display:flex;align-items:center;gap:8px}
+.layer-head .wt{font-family:var(--mono);font-size:9px;color:var(--ink-faint);font-weight:400}
+.layer-score{font-family:var(--mono);font-size:11px;font-weight:700;padding:3px 9px;border-radius:4px}
+.layer-score.ok{background:#e4f0ea;color:var(--green)}
+.layer-score.mid{background:#f5ecd8;color:var(--amber)}
+.layer-score.bad{background:#f5e0e4;color:var(--red)}
+.layer-score.crit{background:var(--red);color:#fff}
+.checks{padding:6px 16px 12px}
+.check{padding:9px 0;border-bottom:1px solid var(--rule);font-size:13px}
+.check:last-child{border-bottom:none}
+.check .q{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.check .qtext{flex:1}
+.check .sev{font-family:var(--mono);font-size:8px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-faint);white-space:nowrap;padding-top:2px}
+.check .sev.s3{color:var(--red)} .check .sev.s2{color:var(--amber)}
+.opts{display:flex;gap:6px;margin-top:7px}
+.opt{flex:1;text-align:center;font-family:var(--mono);font-size:10px;padding:6px 4px;border:1px solid var(--rule);border-radius:4px;cursor:pointer;color:var(--ink-mid);user-select:none}
+.opt.sel.yes{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.sel.partial{background:var(--amber);color:#fff;border-color:var(--amber)}
+.opt.sel.no{background:var(--red);color:#fff;border-color:var(--red)}
+.verdict{position:sticky;bottom:0;background:#fff;border-top:3px solid var(--slate);padding:18px 36px;margin:0 -36px -24px;box-shadow:0 -4px 16px rgba(0,0,0,.06)}
+@media(max-width:600px){.verdict{margin:0 -18px -24px;padding:16px 18px}}
+.verdict-row{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.vscore{font-size:42px;font-weight:700;line-height:1;color:var(--slate)}
+.vscore .pct{font-size:18px;color:var(--ink-faint)}
+.vband{font-family:var(--mono);font-size:14px;font-weight:700;padding:6px 14px;border-radius:5px}
+.vband.sound{background:#e4f0ea;color:var(--green)}
+.vband.cond{background:#f5ecd8;color:var(--amber)}
+.vband.inad{background:#f5e0e4;color:var(--red)}
+.vmeta{font-size:12px;color:var(--ink-mid);flex:1;min-width:160px}
+.vmeta b{color:var(--ink)}
+.btns{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.btn{appearance:none;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.04em;text-transform:uppercase;padding:9px 16px;border:1px solid var(--slate);background:var(--slate);color:#fff;border-radius:5px}
+.btn.ghost{background:transparent;color:var(--slate)}
+.report{margin-top:18px;border:1px solid var(--rule);border-radius:6px;padding:0;display:none}
+.report.show{display:block}
+.report h4{font-size:13px;background:var(--soft);padding:10px 16px;border-bottom:1px solid var(--rule);color:var(--slate);font-family:var(--mono);letter-spacing:.04em;text-transform:uppercase}
+.report .rbody{padding:14px 16px;font-size:13px;line-height:1.65}
+.rweak{border-left:3px solid var(--red);padding:8px 12px;margin:8px 0;background:#fdf6f7;font-size:12.5px}
+.rweak b{color:var(--red)}
+.rcrit{border-left:3px solid var(--red);padding:8px 12px;margin:8px 0;background:#fbeef0;font-size:12.5px;font-weight:600}
+.principle{border:1px solid var(--slate);border-radius:6px;padding:14px 18px;margin:18px 0;background:var(--accent-soft);font-size:13px;line-height:1.6}
+.principle .pl{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.principle b{color:var(--slate)}
+.foot{padding:16px 36px;border-top:1px solid var(--rule);font-family:var(--mono);font-size:9px;color:var(--ink-faint);letter-spacing:.04em;line-height:1.7}
+@media print{body{background:#fff;padding:0}.sheet{box-shadow:none;border:none}.verdict{position:static;box-shadow:none}.opts,.btns,.layer-head{cursor:auto}.report{display:block}}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="head">
+    <div class="brand">Containment Assurance · Assessment Instrument v1</div>
+    <div class="title">The Containment Audit</div>
+    <div class="subtitle">Sandbox &amp; agent isolation — a verdict on whether the box actually holds</div>
+  </div>
+
+  <div class="intro">
+    Answer each check about <b>your own system</b> — Yes, Partial, or No. The instrument scores six containment layers by severity and returns a verdict you can act on: <b>which layers are sound, which are decorative, and exactly where the exposure is.</b> The standard throughout is one principle — <b>the contained thing must never enforce its own containment.</b>
+  </div>
+
+  <div class="body">
+    <div id="layers"></div>
+
+    <div class="principle">
+      <div class="pl">The Standard</div>
+      <b>The contained thing must never enforce its own containment.</b> Every weak result below is a version of that single failure — filtering inside the process, cooperative limits, self-written logs, trust-based isolation. Sound containment is enforced from <em>outside</em> the contained thing, default-deny, and witnessed by something the contained thing cannot touch. A boundary enforced by the inside is not a boundary — it is a request.
+    </div>
+
+    <div class="report" id="report">
+      <h4>Assessment Report</h4>
+      <div class="rbody" id="reportBody"></div>
+    </div>
+  </div>
+
+  <div class="verdict">
+    <div class="verdict-row">
+      <div class="vscore"><span id="vnum">0</span><span class="pct">%</span></div>
+      <div class="vband inad" id="vband">INCOMPLETE</div>
+      <div class="vmeta" id="vmeta">Answer the checks to generate a verdict. <b id="vanswered">0</b>/24 answered.</div>
+    </div>
+    <div class="btns">
+      <button class="btn" onclick="generateReport()">▣ Generate Report</button>
+      <button class="btn ghost" onclick="window.print()">⎙ Print / Export</button>
+      <button class="btn ghost" onclick="resetAll()">Reset</button>
+    </div>
+  </div>
+
+  <div class="foot">
+    CONTAINMENT AUDIT v1 · 6 LAYERS · 24 SEVERITY-WEIGHTED CHECKS · MAX 142 PTS<br>
+    SOUND ≥85% · CONDITIONAL 60–84% · INADEQUATE &lt;60% · ANY FAILED CRITICAL CHECK FLAGS ITS LAYER<br>
+    THE STANDARD: THE CONTAINED THING MUST NEVER ENFORCE ITS OWN CONTAINMENT
+  </div>
+</div>
+<script>
+const LAYERS=[
+ {id:'capability',name:'Capability Restriction',w:3,checks:[
+   ['The agent is given an allowlist of specific tools, not a denylist of forbidden ones',3],
+   ['Default posture is deny — unlisted capabilities do not exist in its world',3],
+   ['The complete capability set can be enumerated on paper',2],
+   ['Grants are logged and revocable from outside the agent',2]]},
+ {id:'network',name:'Network Isolation',w:3,checks:[
+   ['No egress route exists by default at the network layer',3],
+   ['Egress is allowlisted to explicit destinations only',2],
+   ['DNS, raw sockets, and timing side-channels are covered, not just HTTP',2],
+   ['Network enforcement happens OUTSIDE the contained process',3]]},
+ {id:'filesystem',name:'Filesystem Boundary',w:2,checks:[
+   ['Isolation uses a real primitive (namespace / container / VM), not path-string matching',3],
+   ['The rest of the host filesystem is not present in the agent\'s namespace',3],
+   ['Symlinks, relative traversal, and shared mounts are accounted for',2],
+   ['Scratch space is wiped between runs',1]]},
+ {id:'frame',name:'Frame / Origin Isolation',w:2,checks:[
+   ['Isolation is enforced by the platform, not by application code',3],
+   ['The parent enforces isolation rather than assuming the child won\'t cross',2],
+   ['Cross-boundary channels are validated on both ends',2],
+   ['The isolation primitive is named and verified',1]]},
+ {id:'resource',name:'Resource Limits',w:2,checks:[
+   ['Hard quotas are enforced by the platform and fail closed',3],
+   ['CPU, memory, time, and I/O are all bounded',2],
+   ['Exhaustion halts cleanly rather than degrading dangerously',2],
+   ['A watchdog runs outside the sandbox',2]]},
+ {id:'witness',name:'Audit / Witness',w:3,checks:[
+   ['Logging happens at the boundary, outside the sandbox',3],
+   ['The log is unreachable and unalterable by the contained process',3],
+   ['The log is append-only or tamper-evident',2],
+   ['The log is actually reviewed and captures attempts, not just successes',2]]}
+];
+// state: answers[layerId][checkIdx] = 'yes'|'partial'|'no'|null
+let answers={};
+LAYERS.forEach(l=>answers[l.id]=l.checks.map(()=>null));
+
+function build(){
+  const box=document.getElementById('layers');box.innerHTML='';
+  LAYERS.forEach(l=>{
+    const div=document.createElement('div');div.className='layer';
+    let checksHTML='';
+    l.checks.forEach(([q,sev],i)=>{
+      const a=answers[l.id][i];
+      checksHTML+=`<div class="check">
+        <div class="q"><div class="qtext">${q}</div><div class="sev s${sev}">${sev===3?'critical':sev===2?'major':'minor'}</div></div>
+        <div class="opts">
+          <div class="opt yes ${a==='yes'?'sel':''}" onclick="ans('${l.id}',${i},'yes')">Yes</div>
+          <div class="opt partial ${a==='partial'?'sel':''}" onclick="ans('${l.id}',${i},'partial')">Partial</div>
+          <div class="opt no ${a==='no'?'sel':''}" onclick="ans('${l.id}',${i},'no')">No</div>
+        </div></div>`;
+    });
+    div.innerHTML=`<div class="layer-head"><h3>${l.name} <span class="wt">×${l.w}</span></h3><span class="layer-score" id="ls-${l.id}">—</span></div><div class="checks">${checksHTML}</div>`;
+    box.appendChild(div);
+  });
+  score();
+}
+function ans(lid,i,v){ answers[lid][i]=v; build(); }
+function layerResult(l){
+  let got=0,max=0,critFail=false,weak=[];
+  l.checks.forEach(([q,sev],i)=>{
+    max+=sev;
+    const a=answers[l.id][i];
+    if(a==='yes') got+=sev;
+    else if(a==='partial') got+=sev*0.5;
+    if(a==='no' || a==='partial'){ weak.push({q,sev,a}); if(sev===3 && a==='no') critFail=true; }
+  });
+  return {got:got*l.w, max:max*l.w, pct: max? got/max : 0, critFail, weak, answered: answers[l.id].every(a=>a!==null)};
+}
+function score(){
+  let tot=0,totMax=0,answered=0,critLayers=[];
+  LAYERS.forEach(l=>{
+    const r=layerResult(l);
+    tot+=r.got; totMax+=r.max;
+    answers[l.id].forEach(a=>{if(a!==null)answered++;});
+    const el=document.getElementById('ls-'+l.id);
+    const anyAns=answers[l.id].some(a=>a!==null);
+    if(!anyAns){ el.textContent='—'; el.className='layer-score'; }
+    else if(r.critFail){ el.textContent='CRITICAL'; el.className='layer-score crit'; critLayers.push(l.name); }
+    else { const p=Math.round(r.pct*100); el.textContent=p+'%';
+      el.className='layer-score '+(p>=85?'ok':p>=60?'mid':'bad'); }
+  });
+  const pct = totMax? Math.round(100*tot/totMax) : 0;
+  document.getElementById('vnum').textContent=pct;
+  document.getElementById('vanswered').textContent=answered;
+  const band=document.getElementById('vband'), meta=document.getElementById('vmeta');
+  if(answered<24){
+    band.textContent='INCOMPLETE'; band.className='vband inad';
+    meta.innerHTML='Answer all checks for a final verdict. <b>'+answered+'</b>/24 answered.';
+  } else if(critLayers.length){
+    band.textContent='CRITICAL GAP'; band.className='vband inad';
+    meta.innerHTML='Score '+pct+'%, but <b>'+critLayers.length+'</b> layer(s) have a failed critical check: <b>'+critLayers.join(', ')+'</b>. Treat as not soundly contained until resolved.';
+  } else if(pct>=85){
+    band.textContent='SOUND'; band.className='vband sound';
+    meta.innerHTML='Containment is <b>soundly enforced from outside</b>. Minor gaps may remain — see report.';
+  } else if(pct>=60){
+    band.textContent='CONDITIONAL'; band.className='vband cond';
+    meta.innerHTML='Containment is <b>partially sound</b> but has decorative layers. Address the weak points before relying on it.';
+  } else {
+    band.textContent='INADEQUATE'; band.className='vband inad';
+    meta.innerHTML='Containment is <b>largely unenforced from outside</b>. Treat the system as uncontained until the weak points are fixed.';
+  }
+  return {pct,critLayers};
+}
+function generateReport(){
+  const s=score();
+  const rep=document.getElementById('report'), body=document.getElementById('reportBody');
+  let html='<p style="margin-bottom:10px">Overall score: <b>'+document.getElementById('vnum').textContent+'%</b> — verdict <b>'+document.getElementById('vband').textContent+'</b>.</p>';
+  let anyWeak=false;
+  LAYERS.forEach(l=>{
+    const r=layerResult(l);
+    if(!r.answered) return;
+    if(r.critFail){
+      anyWeak=true;
+      html+='<div class="rcrit">⚠ '+l.name+' — CRITICAL: a critical check failed. This layer is enforced from inside or not at all. Exposure: the contained thing can defeat this boundary.</div>';
+    }
+    r.weak.forEach(w=>{
+      if(w.sev===3 && w.a==='no') return; // already shown as crit
+      anyWeak=true;
+      html+='<div class="rweak"><b>'+l.name+'</b> — '+(w.a==='no'?'fails':'partial')+': '+w.q+'</div>';
+    });
+  });
+  if(!anyWeak) html+='<p>No weak points flagged. All answered layers are soundly enforced from outside, default-deny, and witnessed.</p>';
+  else html+='<p style="margin-top:10px;font-size:12px;color:var(--ink-mid)">Each weak point above is a place where the boundary is enforced by the contained thing itself, or not witnessed from outside. Resolve critical items first.</p>';
+  body.innerHTML=html;
+  rep.classList.add('show');
+  rep.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function resetAll(){
+  LAYERS.forEach(l=>answers[l.id]=l.checks.map(()=>null));
+  document.getElementById('report').classList.remove('show');
+  build();
+}
+build();
+</script>
+</body>
+</html>

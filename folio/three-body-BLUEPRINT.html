@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BLUEPRINT · The Three-Body Mesh · Schematic</title>
+<style>
+:root{
+  --blue:#0a2540; --blue2:#0d2e4d; --cyan:#7fdfff; --cyan-br:#aaf0ff; --dim:#5a8ab0; --faint:#3a5a78;
+  --white:#e8f4ff; --line:#1d4068; --grid:rgba(127,223,255,.08);
+  --mono:"SF Mono",ui-monospace,"Courier New",monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#061a2e;color:var(--white);font-family:var(--mono);line-height:1.6;padding:14px;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:20px 20px}
+.sheet{max-width:800px;margin:0 auto;border:2px solid var(--cyan);background:var(--blue);position:relative}
+.sheet::before{content:'';position:absolute;inset:4px;border:1px solid var(--line);pointer-events:none}
+.inner{padding:20px 24px}
+.head{border-bottom:1.5px solid var(--cyan);padding-bottom:10px;margin-bottom:8px}
+.tag{font-size:9px;letter-spacing:.22em;color:var(--dim);text-transform:uppercase}
+.title{font-size:24px;font-weight:700;color:var(--cyan-br);margin:5px 0 2px;letter-spacing:.05em}
+.sub{font-size:10px;color:var(--dim);letter-spacing:.06em}
+.schematic{text-align:center;margin:16px 0;border:1px solid var(--line);padding:14px;background:rgba(127,223,255,.03)}
+.schematic .lbl{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:8px}
+svg{max-width:100%;width:100%;height:auto}
+h2{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan);margin:20px 0 8px;border-bottom:1px solid var(--line);padding-bottom:4px}
+table{border-collapse:collapse;width:100%;font-size:10.5px;margin:8px 0}
+td,th{border:1px solid var(--line);padding:5px 8px;text-align:left}
+th{background:rgba(127,223,255,.08);color:var(--cyan);font-size:8.5px;letter-spacing:.04em;text-transform:uppercase}
+td{color:var(--white)}
+.titleblock{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;border:1.5px solid var(--cyan);margin-top:20px;font-size:9px}
+.tb{border:1px solid var(--line);padding:7px 9px}
+.tb .k{color:var(--dim);font-size:8px;letter-spacing:.06em;text-transform:uppercase}
+.tb .v{color:var(--cyan-br);margin-top:2px}
+.note{font-size:10px;color:var(--dim);font-style:italic;margin:8px 0;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="sheet"><div class="inner">
+
+  <div class="head">
+    <div class="tag">BLUEPRINT · BP-01 · SCHEMATIC / NETLIST</div>
+    <div class="title">THREE-BODY MESH</div>
+    <div class="sub">drawing no. TBM-K3 · rev E · 3 diodes · K₃ topology</div>
+  </div>
+
+  <div class="schematic">
+    <div class="lbl">▢ schematic · D1 D2 D3 · nodes A B C</div>
+    <svg viewBox="0 0 460 320" xmlns="http://www.w3.org/2000/svg">
+      <!-- node positions -->
+      <!-- A top, B bottom-left, C bottom-right -->
+      <!-- bridges as lines with diode symbols -->
+      <!-- AB -->
+      <line x1="230" y1="60" x2="110" y2="250" stroke="#7fdfff" stroke-width="1.5"/>
+      <!-- AC -->
+      <line x1="230" y1="60" x2="350" y2="250" stroke="#7fdfff" stroke-width="1.5"/>
+      <!-- BC -->
+      <line x1="110" y1="250" x2="350" y2="250" stroke="#7fdfff" stroke-width="1.5"/>
+
+      <!-- diode symbol on AB (D1) -->
+      <g transform="translate(170,155) rotate(122)">
+        <polygon points="-8,-7 8,0 -8,7" fill="none" stroke="#aaf0ff" stroke-width="1.5"/>
+        <line x1="8" y1="-7" x2="8" y2="7" stroke="#aaf0ff" stroke-width="1.5"/>
+      </g>
+      <text x="150" y="150" font-size="10" fill="#aaf0ff" font-family="monospace">D1</text>
+      <!-- diode on AC (D2) -->
+      <g transform="translate(290,155) rotate(58)">
+        <polygon points="-8,-7 8,0 -8,7" fill="none" stroke="#aaf0ff" stroke-width="1.5"/>
+        <line x1="8" y1="-7" x2="8" y2="7" stroke="#aaf0ff" stroke-width="1.5"/>
+      </g>
+      <text x="298" y="150" font-size="10" fill="#aaf0ff" font-family="monospace">D2</text>
+      <!-- diode on BC (D3) -->
+      <g transform="translate(230,250) rotate(0)">
+        <polygon points="-8,-7 8,0 -8,7" fill="none" stroke="#aaf0ff" stroke-width="1.5"/>
+        <line x1="8" y1="-7" x2="8" y2="7" stroke="#aaf0ff" stroke-width="1.5"/>
+      </g>
+      <text x="224" y="240" font-size="10" fill="#aaf0ff" font-family="monospace">D3</text>
+
+      <!-- nodes -->
+      <circle cx="230" cy="60" r="16" fill="#0a2540" stroke="#7fdfff" stroke-width="2"/>
+      <circle cx="110" cy="250" r="16" fill="#0a2540" stroke="#7fdfff" stroke-width="2"/>
+      <circle cx="350" cy="250" r="16" fill="#0a2540" stroke="#7fdfff" stroke-width="2"/>
+      <text x="230" y="65" font-size="14" fill="#aaf0ff" text-anchor="middle" font-family="monospace" font-weight="bold">A</text>
+      <text x="110" y="255" font-size="14" fill="#aaf0ff" text-anchor="middle" font-family="monospace" font-weight="bold">B</text>
+      <text x="350" y="255" font-size="14" fill="#aaf0ff" text-anchor="middle" font-family="monospace" font-weight="bold">C</text>
+
+      <!-- port stubs (in/out) -->
+      <line x1="230" y1="44" x2="230" y2="24" stroke="#5a8ab0" stroke-width="1"/>
+      <text x="238" y="30" font-size="8" fill="#5a8ab0" font-family="monospace">A.io</text>
+      <line x1="94" y1="250" x2="74" y2="250" stroke="#5a8ab0" stroke-width="1"/>
+      <text x="40" y="245" font-size="8" fill="#5a8ab0" font-family="monospace">B.io</text>
+      <line x1="366" y1="250" x2="386" y2="250" stroke="#5a8ab0" stroke-width="1"/>
+      <text x="388" y="245" font-size="8" fill="#5a8ab0" font-family="monospace">C.io</text>
+    </svg>
+  </div>
+
+  <h2>Node table</h2>
+  <table>
+    <tr><th>Node</th><th>Bridges to</th><th>Degree</th><th>Ports (in/out)</th></tr>
+    <tr><td>A</td><td>B (D1), C (D2)</td><td>2</td><td>A.in / A.out</td></tr>
+    <tr><td>B</td><td>A (D1), C (D3)</td><td>2</td><td>B.in / B.out</td></tr>
+    <tr><td>C</td><td>A (D2), B (D3)</td><td>2</td><td>C.in / C.out</td></tr>
+  </table>
+
+  <h2>Netlist</h2>
+  <table>
+    <tr><th>Ref</th><th>Device</th><th>Anode</th><th>Cathode</th><th>Bridge</th></tr>
+    <tr><td>D1</td><td>diode</td><td>A</td><td>B</td><td>AB</td></tr>
+    <tr><td>D2</td><td>diode</td><td>A</td><td>C</td><td>AC</td></tr>
+    <tr><td>D3</td><td>diode</td><td>B</td><td>C</td><td>BC</td></tr>
+  </table>
+
+  <h2>Bill of elements</h2>
+  <table>
+    <tr><th>Item</th><th>Qty</th><th>Note</th></tr>
+    <tr><td>Nodes (A/B/C)</td><td>3</td><td>connection points, degree 2 each</td></tr>
+    <tr><td>Bridges (AB/AC/BC)</td><td>3</td><td>edges · K₃ · n(n−1)/2</td></tr>
+    <tr><td>Ports</td><td>6</td><td>3 in + 3 out (2 per bridge)</td></tr>
+    <tr><td><b>Total elements</b></td><td><b>9</b></td><td>3 nodes + 6 ports</td></tr>
+  </table>
+
+  <div class="note">NOTE: orientation per netlist gives directed cycle A→B→C→A (one-way ring). For bidirectional mesh, populate anti-parallel pair on each bridge (6 diodes). Diameter = 1; single-bridge failure does not partition.</div>
+
+  <div class="titleblock">
+    <div class="tb"><div class="k">drawing</div><div class="v">TBM-K3</div></div>
+    <div class="tb"><div class="k">rev</div><div class="v">E</div></div>
+    <div class="tb"><div class="k">topology</div><div class="v">K₃ complete</div></div>
+    <div class="tb"><div class="k">nodes</div><div class="v">3 (A/B/C)</div></div>
+    <div class="tb"><div class="k">elements</div><div class="v">9</div></div>
+    <div class="tb"><div class="k">series</div><div class="v">E · blueprint</div></div>
+  </div>
+
+</div></div>
+</body>
+</html>

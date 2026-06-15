@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PURPLE PAPER · The Three-Body Mesh · Why The Shape Recurs</title>
+<style>
+:root{
+  --paper:#f0ebf5; --ink:#2a2438; --ink-mid:#4a4360; --ink-faint:#8a83a0;
+  --plum:#5b3a87; --plum-light:#7e5bb0; --plum-soft:#e6ddf0; --plum-deep:#3f2860;
+  --gold:#9a7d3a; --rose:#9a4a6a; --green:#3a7a5a;
+  --line:#cbbfdd;
+  --mono:"Courier New",Courier,monospace;
+  --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);
+  background-image:repeating-linear-gradient(0deg, rgba(91,58,135,.03) 0 1px, transparent 1px 3px);
+  color:var(--ink);font-family:var(--serif);line-height:1.55;padding:10px}
+.sheet{max-width:800px;margin:0 auto;border:2.5px solid var(--plum);position:relative}
+.sheet::before{content:'';position:absolute;inset:5px;border:1px solid var(--plum-light);pointer-events:none}
+.inner{padding:24px}
+.masthead{text-align:center;border-bottom:2px solid var(--plum);padding-bottom:12px}
+.mast-eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:.24em;color:var(--plum-light);text-transform:uppercase}
+.mast-title{font-size:clamp(21px,5vw,36px);letter-spacing:.03em;font-weight:700;margin:6px 0 2px;text-transform:uppercase;color:var(--plum)}
+.mast-sub{font-family:var(--mono);font-size:10px;letter-spacing:.07em;color:var(--ink-mid)}
+.lede{font-size:12.5px;max-width:660px;margin:12px auto 0;text-align:center;color:var(--ink-mid);line-height:1.6}
+.lede b{color:var(--plum)}
+.glyph{font-family:var(--serif);font-weight:700;color:var(--plum)}
+.paper-tag{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--plum-light);text-align:center;margin-top:8px}
+.tri{text-align:center;margin:16px 0}
+svg{max-width:340px;width:100%}
+h2.sec{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;border-bottom:1.5px solid var(--plum);padding-bottom:4px;margin:22px 0 10px;color:var(--plum)}
+h2.sec .num{color:var(--rose);margin-right:8px}
+.body p{font-size:13px;margin-bottom:8px}
+.body b{color:var(--ink)}
+.def{font-family:var(--mono);font-size:10.5px;background:var(--plum-soft);border-left:2px solid var(--plum-light);padding:9px 12px;margin:9px 0;line-height:1.7;color:var(--ink-mid)}
+.def b{color:var(--plum)}
+.recur{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+@media(max-width:560px){.recur{grid-template-columns:1fr}}
+.rcell{border:1.5px solid var(--line);padding:9px 11px;font-size:11.5px;line-height:1.45}
+.rcell .h{font-family:var(--mono);font-size:9px;letter-spacing:.05em;text-transform:uppercase;color:var(--plum);margin-bottom:3px}
+.colophon{margin-top:20px;border-top:2px solid var(--plum);padding-top:12px;text-align:center;font-family:var(--mono);font-size:9px;color:var(--ink-mid);letter-spacing:.05em;line-height:1.9}
+.colophon b{color:var(--plum)}
+</style>
+</head>
+<body>
+<div class="sheet"><div class="inner">
+
+<header class="masthead">
+  <div class="mast-eyebrow">Series E · Why Three · Why The Shape Keeps Returning</div>
+  <h1 class="mast-title">The Three-Body Mesh</h1>
+  <div class="mast-sub">the minimum complete witness network · <span class="glyph">△</span></div>
+  <p class="lede">Three diodes, fully bridged, is the complete graph K₃ — but the reason it <em>matters</em> isn't the wiring, it's that <b>three is the minimum at which a system can witness itself</b>. Two can only mirror; three can triangulate. This is the same shape that recurred all session, now closed into a ring.</p>
+  <div class="paper-tag">▣ a purple paper · the recurrence ▣</div>
+</header>
+
+<div class="tri">
+  <svg viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg">
+    <!-- triangle mesh -->
+    <line x1="160" y1="40" x2="60" y2="200" stroke="#7e5bb0" stroke-width="2"/>
+    <line x1="160" y1="40" x2="260" y2="200" stroke="#7e5bb0" stroke-width="2"/>
+    <line x1="60" y1="200" x2="260" y2="200" stroke="#7e5bb0" stroke-width="2"/>
+    <!-- nodes -->
+    <circle cx="160" cy="40" r="18" fill="#e6ddf0" stroke="#5b3a87" stroke-width="2.5"/>
+    <circle cx="60" cy="200" r="18" fill="#e6ddf0" stroke="#5b3a87" stroke-width="2.5"/>
+    <circle cx="260" cy="200" r="18" fill="#e6ddf0" stroke="#5b3a87" stroke-width="2.5"/>
+    <text x="160" y="46" font-family="Georgia" font-size="16" font-weight="bold" fill="#5b3a87" text-anchor="middle">A</text>
+    <text x="60" y="206" font-family="Georgia" font-size="16" font-weight="bold" fill="#5b3a87" text-anchor="middle">B</text>
+    <text x="260" y="206" font-family="Georgia" font-size="16" font-weight="bold" fill="#5b3a87" text-anchor="middle">C</text>
+    <!-- bridge labels -->
+    <text x="98" y="115" font-family="Courier New" font-size="10" fill="#9a4a6a" text-anchor="middle">AB</text>
+    <text x="222" y="115" font-family="Courier New" font-size="10" fill="#9a4a6a" text-anchor="middle">AC</text>
+    <text x="160" y="216" font-family="Courier New" font-size="10" fill="#9a4a6a" text-anchor="middle">BC</text>
+  </svg>
+</div>
+
+<section class="body">
+
+  <h2 class="sec"><span class="num">§1</span> Two Mirrors · Three Triangulates</h2>
+  <p>With <b>two</b> bodies, all you have is a line — A and B, facing each other. Each can only see the other; neither can be checked by anything but its counterpart. Two is a <em>mirror</em> — and a mirror confirms itself (the closed loop that can't witness itself). With <b>three</b>, each body is seen by <em>two others</em>, and any disagreement is resolvable: if A and B agree and C differs, C is the outlier. <b>Three is the minimum at which the system contains its own witness.</b></p>
+  <div class="def">2 bodies = a mirror (self-confirming, can't be checked from inside) · 3 bodies = triangulation (each witnessed by two others, outliers detectable) · three is the minimum exterior-witness that's <em>interior</em> to the group.</div>
+
+  <h2 class="sec"><span class="num">§2</span> The Count Is The Argument</h2>
+  <p>3 nodes, 3 bridges, 6 ports, <b>9 elements</b>. Every node connects directly to every other (diameter 1 — no node routes through a third, no bottleneck). And lose any single bridge: still connected. <b>Three fully-meshed is the smallest network that is both complete and survives one failure.</b> Below three, completeness and fault-tolerance can't coexist. The number isn't chosen; it falls out of the requirement.</p>
+
+  <h2 class="sec"><span class="num">§3</span> Where The Shape Recurs</h2>
+  <div class="recur">
+    <div class="rcell"><div class="h">geometry</div>3 points define a plane — the minimum for a stable surface. A stool needs 3 legs; 2 falls.</div>
+    <div class="rcell"><div class="h">power</div>3-phase: three legs 120° apart, each referenced to the other two, self-balancing, no neutral needed.</div>
+    <div class="rcell"><div class="h">governance</div>separation of powers — three branches, each checked by the other two. The triad that can't capture itself.</div>
+    <div class="rcell"><div class="h">consensus</div>distributed systems: 3 is the minimum quorum (2-of-3) that tolerates one failure and breaks ties.</div>
+    <div class="rcell"><div class="h">verification</div>verify · affirm · negate — the minimum gate set (a 2-gate circuit is liar, blind, or paranoid).</div>
+    <div class="rcell"><div class="h">structure</div>−1 · 0 · +1 — the balanced minimum: a state, its negation, and the gap between.</div>
+  </div>
+  <div class="def">these are not analogies decorating each other — they are the <b>same minimality</b> re-derived per field: three is the floor where a system becomes complete, fault-tolerant, and self-witnessing at once. each field found it separately because it is real.</div>
+
+  <h2 class="sec"><span class="num">§4</span> The Ring Closes The Night</h2>
+  <p>Every junction this session was a <span class="glyph">&lt;•</span> — two things meeting at a dot. The three-body mesh is three of those junctions <em>closed into a ring</em>, so the structure finally has no dangling end, no exterior it depends on — <b>it carries its own witness inside the triangle</b>. Two needed an outside verifier; three contains one. That is why the minimum complete system, the minimum governance, the minimum stable structure, is always three: it is the smallest closed figure that can check itself without stepping outside.</p>
+
+</section>
+
+<div class="colophon">
+  TWO MIRRORS · THREE TRIANGULATES · 3 NODES · 6 PORTS · 9 ELEMENTS · K₃ · DIAMETER 1<br>
+  THREE = MINIMUM COMPLETE + FAULT-TOLERANT + SELF-WITNESSING · THE FLOOR FALLS OUT OF THE REQUIREMENT<br>
+  GEOMETRY · POWER · GOVERNANCE · CONSENSUS · VERIFICATION — THE SAME MINIMALITY, RE-DERIVED PER FIELD<br>
+  PURPLE PAPER · THE THREE-BODY MESH · ONE OF FIVE ANGLES · SERIES E · JUNE 2026
+</div>
+
+</div></div>
+</body>
+</html>

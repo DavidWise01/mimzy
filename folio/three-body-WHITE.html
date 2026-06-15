@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WHITE PAPER · The Three-Body Mesh · Formal Specification</title>
+<style>
+:root{
+  --paper:#fbfbfd; --ink:#1a1a22; --ink-mid:#44444e; --ink-faint:#86868f;
+  --accent:#2a2a35; --rule:#d8d8de; --soft:#f0f0f3; --mark:#3a5a8a;
+  --mono:"SF Mono",ui-monospace,"Courier New",monospace;
+  --serif:"Times New Roman",Georgia,serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#e8e8ec;color:var(--ink);font-family:var(--serif);line-height:1.6;padding:16px}
+.sheet{max-width:760px;margin:0 auto;background:var(--paper);border:1px solid var(--rule);box-shadow:0 2px 20px rgba(0,0,0,.08);padding:48px 56px}
+@media(max-width:600px){.sheet{padding:28px 24px}}
+.docnum{font-family:var(--mono);font-size:9px;letter-spacing:.2em;color:var(--ink-faint);text-transform:uppercase;border-bottom:2px solid var(--accent);padding-bottom:8px;display:flex;justify-content:space-between}
+.title{font-size:30px;font-weight:700;margin:26px 0 4px;letter-spacing:-.01em;color:var(--accent)}
+.subtitle{font-size:15px;color:var(--ink-mid);font-style:italic;margin-bottom:6px}
+.meta{font-family:var(--mono);font-size:10px;color:var(--ink-faint);letter-spacing:.04em;margin:14px 0 28px;line-height:1.8}
+.abstract{background:var(--soft);border-left:3px solid var(--accent);padding:14px 18px;margin:20px 0;font-size:13px;line-height:1.65}
+.abstract .lbl{font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:5px}
+h2{font-size:14px;font-family:var(--mono);letter-spacing:.04em;text-transform:uppercase;margin:28px 0 10px;color:var(--accent);border-bottom:1px solid var(--rule);padding-bottom:5px}
+h2 .n{color:var(--mark);margin-right:10px}
+p{font-size:13.5px;margin-bottom:11px;text-align:justify}
+.def{border:1px solid var(--rule);padding:12px 16px;margin:12px 0;background:#fdfdfe}
+.def .dn{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mark);margin-bottom:5px}
+.mono-block{font-family:var(--mono);font-size:11px;background:var(--soft);padding:12px 16px;margin:12px 0;line-height:1.7;white-space:pre;overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:12px;margin:12px 0}
+td,th{border:1px solid var(--rule);padding:7px 10px;text-align:left}
+th{background:var(--soft);font-family:var(--mono);font-size:9px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-mid)}
+.claim{font-family:var(--mono);font-size:11.5px;border:1px solid var(--mark);padding:10px 14px;margin:12px 0;line-height:1.7}
+.claim .ct{color:var(--mark);font-weight:700}
+.foot{margin-top:34px;border-top:2px solid var(--accent);padding-top:12px;font-family:var(--mono);font-size:9px;color:var(--ink-faint);letter-spacing:.04em;line-height:1.8}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="docnum"><span>WHITE PAPER · WP-01</span><span>SPEC / TRIAD-MESH / K₃</span></div>
+  <h1 class="title">The Three-Body Mesh</h1>
+  <div class="subtitle">A Formal Specification of the Minimum Complete Junction Network</div>
+  <div class="meta">CLASSIFICATION: formal specification · normative reference<br>SUBJECT: three diodes, end-to-end, fully bridged · K₃ topology<br>SERIES E · June 2026</div>
+
+  <div class="abstract">
+    <div class="lbl">Abstract</div>
+    This document specifies the <b>three-body mesh</b>: three directional elements (diodes) connected pairwise such that every node is bridged to every other. The resulting structure is the complete graph K₃ — the minimum fully-connected network in which every node reaches every other node directly, with no intermediary. The specification defines its element count (3 nodes, 3 bridges, 6 ports, 9 total elements), its graph-theoretic properties (diameter 1, uniform degree 2), and its two canonical configurations (the directed cycle and the bidirectional mesh).
+  </div>
+
+  <h2><span class="n">1</span> Scope</h2>
+  <p>This specification defines the topology, element inventory, and configurations of a network of three directional two-terminal elements connected end-to-end with complete pairwise bridging. It is normative with respect to counts and properties; it is descriptive with respect to applications.</p>
+
+  <h2><span class="n">2</span> Definitions</h2>
+  <div class="def"><div class="dn">2.1 Node</div>A connection point at which two or more elements meet. The mesh has three nodes, designated A, B, C.</div>
+  <div class="def"><div class="dn">2.2 Bridge</div>An undirected connection between an ordered pair of nodes. The mesh has three bridges: AB, AC, BC.</div>
+  <div class="def"><div class="dn">2.3 Port</div>A directional terminal of a bridge. Each bridge possesses two ports (an inbound and an outbound). The mesh has six ports.</div>
+  <div class="def"><div class="dn">2.4 Element</div>Any node or port. The total element count is the sum of nodes and ports: 3 + 6 = 9.</div>
+
+  <h2><span class="n">3</span> Element Inventory</h2>
+  <table>
+    <tr><th>Quantity</th><th>Class</th><th>Members</th><th>Count</th></tr>
+    <tr><td>Nodes</td><td>connection points</td><td>A, B, C</td><td>3</td></tr>
+    <tr><td>Bridges</td><td>undirected edges</td><td>AB, AC, BC</td><td>3</td></tr>
+    <tr><td>Ports</td><td>directional terminals</td><td>2 per bridge</td><td>6</td></tr>
+    <tr><td><b>Total elements</b></td><td>nodes + ports</td><td>—</td><td><b>9</b></td></tr>
+  </table>
+  <p>The figure <b>9</b> is the ported element count: three nodes plus six directional ports (three inbound, three outbound). It is distinct from the undirected edge count (3) and the port count (6); all three figures describe the same object at different granularities.</p>
+
+  <h2><span class="n">4</span> Graph-Theoretic Properties</h2>
+  <div class="mono-block">  Topology         : K₃ (complete graph on 3 nodes)
+  Edges            : n(n−1)/2 = 3(2)/2 = 3
+  Degree (each)    : n−1 = 2
+  Diameter         : 1  (every node reaches every other directly)
+  Bottleneck node  : none (no traffic routes through a third)
+  Minimality       : the smallest complete mesh</div>
+  <p>K₃ is the minimum complete mesh. At two nodes, a network has a single link and no redundancy; the failure of that link partitions the network. At three nodes fully bridged, the network is the smallest in which every node retains a direct path to every other, and in which the loss of any single bridge does not partition the whole. Three is therefore the minimum node count at which a network is both complete and fault-tolerant.</p>
+
+  <h2><span class="n">5</span> Canonical Configurations</h2>
+  <div class="def"><div class="dn">5.1 Directed Cycle</div>All three elements oriented in the same rotational sense (A→B→C→A). Current circulates in one direction. The structure is a directed 3-cycle: three nodes, three one-way edges, unidirectional circulation.</div>
+  <div class="def"><div class="dn">5.2 Bidirectional Mesh</div>Each bridge provides both an inbound and an outbound port. Every node communicates with every other in both directions. This configuration realizes the full nine-element inventory and is the minimum complete two-way mesh.</div>
+
+  <h2><span class="n">6</span> Normative Claims</h2>
+  <div class="claim"><span class="ct">CLAIM 6.1.</span> A three-node complete mesh contains exactly three undirected bridges. <em>Proof:</em> edges of Kₙ = n(n−1)/2; for n=3, this is 3. ∎</div>
+  <div class="claim"><span class="ct">CLAIM 6.2.</span> The ported element count of the bidirectional three-body mesh is nine. <em>Proof:</em> 3 nodes + (3 bridges × 2 ports) = 3 + 6 = 9. ∎</div>
+  <div class="claim"><span class="ct">CLAIM 6.3.</span> Three is the minimum node count for a complete fault-tolerant mesh. <em>Proof:</em> at n=2 a single edge is a cut-edge; its removal partitions the graph. At n=3 complete, each pair retains a direct edge and a two-hop alternate, so no single edge is a cut-edge. ∎</div>
+
+  <div class="foot">
+    WHITE PAPER WP-01 · THE THREE-BODY MESH · FORMAL SPECIFICATION<br>
+    3 NODES · 3 BRIDGES · 6 PORTS · 9 ELEMENTS · K₃ · DIAMETER 1 · MINIMUM COMPLETE FAULT-TOLERANT MESH<br>
+    SERIES E · ONE OF FIVE ANGLES (WHITE · GREEN · PURPLE · BLUEPRINT · VOID)
+  </div>
+</div>
+</body>
+</html>

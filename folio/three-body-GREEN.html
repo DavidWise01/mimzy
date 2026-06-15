@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GREEN PAPER · The Three-Body Mesh · Build &amp; Wiring</title>
+<style>
+:root{
+  --bg:#0d130f; --panel:#131b15; --ink:#cfe8d4; --dim:#7a9a82; --faint:#4a5e50;
+  --green:#4ad88a; --green-br:#6affa0; --amber:#d8b84a; --line:#26382c;
+  --mono:"SF Mono",ui-monospace,"Courier New",monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--mono);line-height:1.6;padding:14px;
+  background-image:radial-gradient(circle at 50% 0%,rgba(74,216,138,.06),transparent 60%)}
+.sheet{max-width:780px;margin:0 auto;border:1px solid var(--line);background:var(--panel);border-radius:8px;overflow:hidden}
+.head{padding:18px 24px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#16201a,#131b15)}
+.tag{font-size:9px;letter-spacing:.22em;color:var(--green);text-transform:uppercase}
+.title{font-size:26px;font-weight:700;color:var(--green-br);margin:6px 0 2px;letter-spacing:.01em}
+.sub{font-size:11px;color:var(--dim);letter-spacing:.04em}
+.body{padding:22px 24px}
+h2{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin:22px 0 10px;border-bottom:1px solid var(--line);padding-bottom:5px}
+h2 .n{color:var(--amber);margin-right:8px}
+p{font-size:13px;color:var(--ink);margin-bottom:10px;font-family:Georgia,serif;line-height:1.6}
+p b{color:var(--green-br)}
+.block{font-size:11px;background:#0a100c;border:1px solid var(--line);border-radius:5px;padding:12px 14px;margin:11px 0;line-height:1.7;white-space:pre;overflow-x:auto;color:var(--dim)}
+.block .g{color:var(--green-br)} .block .a{color:var(--amber)}
+.canvaswrap{text-align:center;margin:14px 0;border:1px solid var(--line);border-radius:6px;padding:12px;background:#0a100c}
+canvas{max-width:100%;height:auto}
+.controls{display:flex;gap:8px;justify-content:center;margin:10px 0;flex-wrap:wrap}
+.cbtn{appearance:none;background:transparent;cursor:pointer;font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;padding:8px 13px;border:1px solid var(--green);color:var(--green);border-radius:4px}
+.cbtn.active{background:var(--green);color:#0a100c}
+.readout{font-size:10px;color:var(--dim);text-align:center;margin-top:6px;min-height:16px}
+.readout b{color:var(--green-br)}
+.usecase{border:1px solid var(--line);border-radius:5px;padding:10px 13px;margin:8px 0;font-size:12px;font-family:Georgia,serif;line-height:1.5}
+.usecase .h{font-family:var(--mono);font-size:10px;color:var(--green-br);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+.foot{margin-top:24px;border-top:1px solid var(--line);padding-top:12px;font-size:9px;color:var(--faint);letter-spacing:.04em;line-height:1.8}
+.foot b{color:var(--green)}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="head">
+    <div class="tag">GREEN PAPER · GP-01 · BUILD &amp; WIRING</div>
+    <div class="title">The Three-Body Mesh</div>
+    <div class="sub">how to wire three diodes into a fault-tolerant 3-node network</div>
+  </div>
+  <div class="body">
+
+    <h2><span class="n">1</span> What you're building</h2>
+    <p>Three diodes, three nodes (<b>A, B, C</b>), every node bridged to every other (<b>AB, AC, BC</b>). Depending on diode orientation you get one of two useful machines: a <b>one-way ring</b> (circulation) or a <b>full two-way mesh</b> (every node talks to every node directly). Both are built from the same three parts; the orientation decides the behavior.</p>
+
+    <div class="canvaswrap">
+      <canvas id="c" width="420" height="320"></canvas>
+      <div class="controls">
+        <button class="cbtn active" id="m-ring" onclick="setMode('ring')">↻ one-way ring</button>
+        <button class="cbtn" id="m-mesh" onclick="setMode('mesh')">⇄ two-way mesh</button>
+      </div>
+      <div class="readout" id="readout"></div>
+    </div>
+
+    <h2><span class="n">2</span> Wiring notes</h2>
+    <div class="block"><span class="g">RING (circulation):</span>
+  all 3 diodes same direction
+  A --|>-- B --|>-- C --|>-- A
+  current goes ONE WAY around the loop
+  -> a token ring: signal circulates, taps at A/B/C
+
+<span class="g">MESH (full two-way):</span>
+  each bridge = a diode pair (anti-parallel) OR a 2-way link
+  A <=> B,  A <=> C,  B <=> C
+  every node reaches every other DIRECTLY
+  -> no node is a bottleneck; lose one bridge, still connected
+
+<span class="a">COUNT:</span> 3 nodes + 3 bridges x 2 ports = <span class="g">9 elements</span></div>
+
+    <h2><span class="n">3</span> Why three (the engineering reason)</h2>
+    <p>Two nodes is one link — lose it and you're partitioned, no backup. <b>Three fully-meshed is the minimum fault-tolerant network</b>: every pair has a direct line AND a two-hop backup through the third node. Lose any one bridge and everyone can still reach everyone. That's why 3 is the floor for any network that has to survive a single failure — it's the smallest ring with redundancy, the smallest mesh with no bottleneck.</p>
+
+    <h2><span class="n">4</span> What it's good for</h2>
+    <div class="usecase"><div class="h">▸ Token ring (one-way)</div>Signal circulates one direction; each node taps in/out as it passes. Classic ring-bus topology — the diodes enforce direction, no backflow between stations.</div>
+    <div class="usecase"><div class="h">▸ Fault-tolerant 3-node cluster (mesh)</div>Three peers, each directly connected to both others. Minimum quorum for consensus (2 of 3), minimum mesh that survives one link loss. The shape of a 3-node distributed system.</div>
+    <div class="usecase"><div class="h">▸ Three-phase analogue</div>Three elements, 120° apart, balanced — the topology echoes 3-phase power: three legs, each referenced to the other two, no neutral needed. Three is the minimum for self-balancing rotation.</div>
+    <div class="usecase"><div class="h">▸ Tap router</div>One-way circulation with A/B/C as on/off ramps — signal enters at any node, rides the ring, exits at any other. A 3-way directional router.</div>
+
+    <h2><span class="n">5</span> Build checklist</h2>
+    <div class="block">[ ] 3 diodes (or 6 for full anti-parallel mesh)
+[ ] decide: <span class="g">ring</span> (all same dir) or <span class="g">mesh</span> (anti-parallel pairs)
+[ ] 3 nodes A/B/C, each a tap point
+[ ] verify: every node reaches every other (diameter 1)
+[ ] verify: lose any 1 bridge -> still connected (fault tolerance)
+[ ] label ports: 3 in, 3 out = 6 ports
+[ ] total element check: 3 + 6 = <span class="a">9</span></div>
+
+    <div class="foot">
+      <b>GREEN PAPER GP-01</b> · BUILD &amp; WIRING · THE THREE-BODY MESH<br>
+      RING = ONE-WAY CIRCULATION · MESH = FULL TWO-WAY · 3 = MINIMUM FAULT-TOLERANT NETWORK<br>
+      SERIES E · ONE OF FIVE ANGLES (WHITE · GREEN · PURPLE · BLUEPRINT · VOID)
+    </div>
+  </div>
+</div>
+<script>
+const cv=document.getElementById('c'),ctx=cv.getContext('2d');
+const W=420,H=320;
+const N={A:{x:210,y:70},B:{x:90,y:250},C:{x:330,y:250}};
+let mode='ring',t=0,anim=null;
+function setMode(m){
+  mode=m;
+  document.getElementById('m-ring').classList.toggle('active',m==='ring');
+  document.getElementById('m-mesh').classList.toggle('active',m==='mesh');
+  document.getElementById('readout').innerHTML = m==='ring'
+    ? 'one-way ring · current circulates <b>A→B→C→A</b> · diodes block backflow'
+    : 'two-way mesh · every node ↔ every node · <b>diameter 1, no bottleneck</b>';
+}
+function diode(x1,y1,x2,y2,dir){
+  ctx.strokeStyle='#26382c';ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();
+  // diode triangle at midpoint
+  const mx=(x1+y1*0+x2)/2, my=(y1+y2)/2;
+  const cx=(x1+x2)/2, cy=(y1+y2)/2;
+  const ang=Math.atan2(y2-y1,x2-x1);
+  ctx.save();ctx.translate(cx,cy);ctx.rotate(ang + (dir>0?0:Math.PI));
+  ctx.fillStyle='#4ad88a';
+  ctx.beginPath();ctx.moveTo(-7,-6);ctx.lineTo(7,0);ctx.lineTo(-7,6);ctx.closePath();ctx.fill();
+  ctx.strokeStyle='#4ad88a';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(7,-7);ctx.lineTo(7,7);ctx.stroke();
+  ctx.restore();
+}
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  const edges=[['A','B'],['B','C'],['C','A']];
+  edges.forEach(([a,b])=>{ diode(N[a].x,N[a].y,N[b].x,N[b].y,1);
+    if(mode==='mesh') diode(N[b].x,N[b].y,N[a].x,N[a].y,1); });
+  // nodes
+  for(const k in N){
+    ctx.beginPath();ctx.arc(N[k].x,N[k].y,16,0,2*Math.PI);
+    ctx.fillStyle='#131b15';ctx.fill();ctx.strokeStyle='#6affa0';ctx.lineWidth=2;ctx.stroke();
+    ctx.fillStyle='#6affa0';ctx.font='bold 14px "SF Mono",monospace';ctx.textAlign='center';
+    ctx.fillText(k,N[k].x,N[k].y+5);
+  }
+  // flowing packet
+  const edge=edges[Math.floor(t/100)%3];
+  const f=(t%100)/100;
+  const a=N[edge[0]],b=N[edge[1]];
+  const px=a.x+(b.x-a.x)*f, py=a.y+(b.y-a.y)*f;
+  ctx.beginPath();ctx.arc(px,py,5,0,2*Math.PI);ctx.fillStyle='#d8b84a';ctx.fill();
+  if(mode==='mesh'){
+    const f2=1-f; const px2=a.x+(b.x-a.x)*f2, py2=a.y+(b.y-a.y)*f2;
+    ctx.beginPath();ctx.arc(px2,py2,4,0,2*Math.PI);ctx.fillStyle='#4ad88a';ctx.fill();
+  }
+}
+function loop(){ t+=1.4; draw(); anim=requestAnimationFrame(loop); }
+setMode('ring'); loop();
+</script>
+</body>
+</html>

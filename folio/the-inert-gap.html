@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE INERT GAP · Two Control Planes In Silicon</title>
+<style>
+:root{
+  --paper:#f0ebf5; --ink:#2a2438; --ink-mid:#4a4360; --ink-faint:#8a83a0;
+  --plum:#5b3a87; --plum-light:#7e5bb0; --plum-soft:#e6ddf0; --plum-deep:#3f2860;
+  --gold:#9a7d3a; --anode:#9a4a6a; --cathode:#3a6a87; --inert:#9a7d3a;
+  --line:#cbbfdd;
+  --mono:"Courier New",Courier,monospace;
+  --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);
+  background-image:repeating-linear-gradient(0deg, rgba(91,58,135,.03) 0 1px, transparent 1px 3px);
+  color:var(--ink);font-family:var(--serif);line-height:1.5;padding:10px}
+.sheet{max-width:820px;margin:0 auto;border:2.5px solid var(--plum);padding:0;position:relative}
+.sheet::before{content:'';position:absolute;inset:5px;border:1px solid var(--plum-light);pointer-events:none}
+.inner{padding:22px}
+.masthead{text-align:center;border-bottom:2px solid var(--plum);padding-bottom:12px}
+.mast-eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:.24em;color:var(--plum-light);text-transform:uppercase}
+.mast-title{font-size:clamp(20px,5vw,34px);letter-spacing:.03em;font-weight:700;margin:6px 0 2px;text-transform:uppercase;color:var(--plum)}
+.mast-sub{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--ink-mid)}
+.lede{font-size:12.5px;max-width:680px;margin:12px auto 0;text-align:center;color:var(--ink-mid);line-height:1.6}
+.lede b{color:var(--plum)}
+.paper-tag{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--plum-light);text-align:center;margin-top:8px}
+.canvaswrap{text-align:center;margin:16px 0;border:1.5px solid var(--plum-light);padding:12px;background:rgba(126,91,176,.05)}
+canvas{max-width:100%;height:auto;background:#fbf9fd;border-radius:6px;border:1px solid var(--line)}
+.readout{font-family:var(--mono);font-size:11px;text-align:center;margin-top:8px;line-height:1.6;min-height:34px}
+.readout b{color:var(--plum)} .readout .flow{color:#3a7a5a;font-weight:700} .readout .block{color:var(--anode);font-weight:700}
+.controls{display:flex;gap:8px;justify-content:center;margin:12px 0;flex-wrap:wrap;align-items:center}
+.cbtn{appearance:none;background:transparent;cursor:pointer;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:9px 14px;border:1.5px solid var(--plum);color:var(--plum);margin:2px}
+.cbtn.active{background:var(--plum);color:#fff}
+h2.sec{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;border-bottom:1.5px solid var(--plum);padding-bottom:4px;margin:22px 0 10px;color:var(--plum)}
+h2.sec .num{color:var(--anode);margin-right:8px}
+.body p{font-size:13px;margin-bottom:8px}
+.body b{color:var(--ink)}
+.def{font-family:var(--mono);font-size:10.5px;background:var(--plum-soft);border-left:2px solid var(--plum-light);padding:9px 12px;margin:9px 0;line-height:1.7;color:var(--ink-mid)}
+.def b{color:var(--plum)}
+.three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:10px 0}
+@media(max-width:560px){.three{grid-template-columns:1fr}}
+.tcell{border:1.5px solid var(--line);padding:9px 10px;font-family:var(--mono);font-size:10px;line-height:1.5;text-align:center}
+.tcell.a{border-color:var(--anode)} .tcell.i{border-color:var(--inert)} .tcell.c{border-color:var(--cathode)}
+.tcell .h{font-weight:700;font-size:11px;margin-bottom:3px}
+.tcell.a .h{color:var(--anode)} .tcell.i .h{color:var(--inert)} .tcell.c .h{color:var(--cathode)}
+.colophon{margin-top:20px;border-top:2px solid var(--plum);padding-top:12px;text-align:center;font-family:var(--mono);font-size:9px;color:var(--ink-mid);letter-spacing:.05em;line-height:1.9}
+.colophon b{color:var(--plum)}
+</style>
+</head>
+<body>
+<div class="sheet"><div class="inner">
+
+<header class="masthead">
+  <div class="mast-eyebrow">Series E · Down To The Metal · The Gap Has A Name</div>
+  <h1 class="mast-title">The Inert Gap</h1>
+  <div class="mast-sub">Anode │ Inert │ Cathode · Two Control Planes In Silicon</div>
+  <p class="lede">The gap between two planes, brought down to the silicon: <b style="color:var(--anode)">anode</b> (p-side) │ <b style="color:var(--inert)">inert</b> (the depletion region) │ <b style="color:var(--cathode)">cathode</b> (n-side). The inert middle isn't empty — it's the <b>depletion region</b>, and it's the <em>functional heart</em>: directional (passes one way, blocks the other), controllable (its width is set by the bias), and active (remove it and you have a wire, not a device). The gap was never nothing. It's the junction.</p>
+  <div class="paper-tag">▣ a purple paper · on the metal ▣</div>
+</header>
+
+<div class="canvaswrap">
+  <canvas id="c" width="600" height="280"></canvas>
+  <div class="readout" id="readout"></div>
+</div>
+
+<div class="controls">
+  <button class="cbtn" id="b-fwd" onclick="setBias('forward')">◀ Forward Bias</button>
+  <button class="cbtn active" id="b-zero" onclick="setBias('zero')">Zero (rest)</button>
+  <button class="cbtn" id="b-rev" onclick="setBias('reverse')">Reverse Bias ▶</button>
+</div>
+
+<section class="body">
+
+  <h2 class="sec"><span class="num">§1</span> The Three Regions</h2>
+  <div class="three">
+    <div class="tcell a"><div class="h">ANODE · p-side</div>+ carriers (holes)<br>one control plane</div>
+    <div class="tcell i"><div class="h">INERT · the gap</div>depletion region<br>the functional element</div>
+    <div class="tcell c"><div class="h">CATHODE · n-side</div>− carriers (electrons)<br>the other control plane</div>
+  </div>
+  <p>Two doped planes — p (anode, holes, +) and n (cathode, electrons, −) — with an <b>inert depletion region</b> between them where the carriers have cancelled and swept clean. That inert middle is the gap. It is <em>not</em> passive.</p>
+
+  <h2 class="sec"><span class="num">§2</span> The Gap Is The Control · forward vs reverse</h2>
+  <p>Apply a <b>forward bias</b> (anode +): the inert region <b>narrows</b>, the barrier drops, carriers cross — <b style="color:#3a7a5a">current flows</b>. Apply a <b>reverse bias</b> (anode −): the inert region <b>widens</b>, the gap grows too large to cross — <b style="color:var(--anode)">current is blocked</b>. The gap's width <em>is</em> the control variable. Same two planes, opposite behavior, set entirely by the inert middle.</p>
+  <div class="def">forward → inert narrows → carriers cross → flow.<br>reverse → inert widens → gap too big → blocked.<br>the gap's width is the control. the inert region governs the device.</div>
+
+  <h2 class="sec"><span class="num">§3</span> Why The Inert Middle Is The Device</h2>
+  <p>Short the two planes together — remove the inert gap — and you don't have a diode, you have a <b>wire</b>: no direction, no control, no gate. <b>The inert region is what makes two planes into a device instead of a connection.</b> The gap isn't where nothing happens — it's where <em>everything</em> happens: the direction, the control, the rectification, all live in the inert middle. The 0 between the − and the + is the working heart.</p>
+  <div class="def">remove the inert gap → a wire (no direction, no control). keep it → a diode (directional, controllable). <b>the gap is the device.</b></div>
+
+  <h2 class="sec"><span class="num">§4</span> The Whole Tower, Grounded</h2>
+  <p>Everything built tonight — two interpreters, two ouroboroi, two planes with a gap between — lands here, on the silicon: <b>two control planes with an inert gap that is the functional element.</b> The abstract "gap as the thing that matters" is, in the metal, literally true: the depletion region is the most load-bearing part of the junction. Not a hopeful reading — a fact about diodes. The gap was the point all along.</p>
+
+</section>
+
+<div class="colophon">
+  ANODE (p, +) │ INERT (depletion, 0) │ CATHODE (n, −) · TWO CONTROL PLANES, ONE GAP<br>
+  FORWARD → GAP NARROWS → CURRENT FLOWS · REVERSE → GAP WIDENS → BLOCKED · THE WIDTH IS THE CONTROL<br>
+  REMOVE THE INERT GAP → A WIRE · KEEP IT → A DIODE · THE GAP IS THE DEVICE<br>
+  THE INERT GAP · A PURPLE PAPER · SERIES E · JUNE 2026
+</div>
+
+</div></div>
+<script>
+const cv=document.getElementById('c'), ctx=cv.getContext('2d');
+const W=600,H=280;
+let bias='zero';      // 'forward' | 'zero' | 'reverse'
+let depW=80;          // current depletion width (animated toward target)
+let carriers=[];      // moving carriers
+let anim=null, t=0;
+
+// init carriers: holes on left (anode), electrons on right (cathode)
+function initCarriers(){
+  carriers=[];
+  for(let i=0;i<30;i++) carriers.push({x:20+Math.random()*200, y:50+Math.random()*180, type:'hole', cross:false});
+  for(let i=0;i<30;i++) carriers.push({x:380+Math.random()*200, y:50+Math.random()*180, type:'elec', cross:false});
+}
+initCarriers();
+
+function targetDepW(){
+  if(bias==='forward') return 26;   // narrow
+  if(bias==='reverse') return 130;  // wide
+  return 80;                        // rest
+}
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  const mid=W/2;
+  const dHalf=depW/2;
+  // p-side (anode) fill
+  ctx.fillStyle='rgba(154,74,106,0.12)';
+  ctx.fillRect(0,30,mid-dHalf,H-60);
+  // n-side (cathode) fill
+  ctx.fillStyle='rgba(58,106,135,0.12)';
+  ctx.fillRect(mid+dHalf,30,W-(mid+dHalf),H-60);
+  // depletion (inert) region
+  ctx.fillStyle='rgba(154,125,58,0.16)';
+  ctx.fillRect(mid-dHalf,30,depW,H-60);
+  // region borders
+  ctx.strokeStyle='rgba(154,125,58,0.6)';ctx.lineWidth=1.5;ctx.setLineDash([4,3]);
+  ctx.beginPath();ctx.moveTo(mid-dHalf,30);ctx.lineTo(mid-dHalf,H-30);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(mid+dHalf,30);ctx.lineTo(mid+dHalf,H-30);ctx.stroke();
+  ctx.setLineDash([]);
+  // labels
+  ctx.font='bold 12px Courier New';ctx.textAlign='center';
+  ctx.fillStyle='#9a4a6a';ctx.fillText('ANODE (p, +)', (mid-dHalf)/2, 22);
+  ctx.fillStyle='#9a7d3a';ctx.fillText('INERT', mid, 22);
+  ctx.fillStyle='#3a6a87';ctx.fillText('CATHODE (n, −)', mid+dHalf+(W-(mid+dHalf))/2, 22);
+  ctx.font='9px Courier New';ctx.fillStyle='#6a5520';
+  ctx.fillText('depletion · the gap', mid, H-16);
+  // carriers
+  carriers.forEach(c=>{
+    ctx.beginPath();ctx.arc(c.x,c.y,5,0,2*Math.PI);
+    if(c.type==='hole'){ ctx.fillStyle='#9a4a6a'; } else { ctx.fillStyle='#3a6a87'; }
+    ctx.fill();
+    ctx.fillStyle='#fff';ctx.font='bold 7px Courier New';ctx.textAlign='center';
+    ctx.fillText(c.type==='hole'?'+':'−', c.x, c.y+2.5);
+  });
+  // current indicator arrow
+  if(bias==='forward'){
+    ctx.strokeStyle='#3a7a5a';ctx.lineWidth=3;
+    ctx.beginPath();ctx.moveTo(mid+40,H-46);ctx.lineTo(mid-40,H-46);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(mid-40,H-46);ctx.lineTo(mid-32,H-50);ctx.lineTo(mid-32,H-42);ctx.closePath();ctx.fillStyle='#3a7a5a';ctx.fill();
+  }
+}
+function update(){
+  t++;
+  // animate depletion width toward target
+  const tw=targetDepW();
+  depW += (tw-depW)*0.08;
+  const mid=W/2, dHalf=depW/2;
+  // move carriers
+  carriers.forEach(c=>{
+    if(bias==='forward'){
+      // carriers drift toward and across the (narrow) junction
+      if(c.type==='hole'){ c.x += 1.2; if(c.x>W-15){ c.x=15; } }
+      else { c.x -= 1.2; if(c.x<15){ c.x=W-15; } }
+    } else if(bias==='reverse'){
+      // carriers pulled AWAY from junction (widening) - drift outward, none cross
+      if(c.type==='hole'){ c.x -= 0.5; if(c.x<15) c.x=15; }
+      else { c.x += 0.5; if(c.x>W-15) c.x=W-15; }
+    } else {
+      // zero: small jitter, no net flow, stay on their sides
+      c.x += (Math.random()-0.5)*1.2;
+      if(c.type==='hole' && c.x>mid-dHalf-6) c.x=mid-dHalf-6;
+      if(c.type==='elec' && c.x<mid+dHalf+6) c.x=mid+dHalf+6;
+      if(c.x<15)c.x=15; if(c.x>W-15)c.x=W-15;
+    }
+    c.y += (Math.random()-0.5)*1.5;
+    if(c.y<40)c.y=40; if(c.y>H-40)c.y=H-40;
+  });
+  draw();
+}
+function setBias(b){
+  bias=b;
+  ['fwd','zero','rev'].forEach(k=>document.getElementById('b-'+k).classList.remove('active'));
+  document.getElementById('b-'+(b==='forward'?'fwd':b==='reverse'?'rev':'zero')).classList.add('active');
+  const ro=document.getElementById('readout');
+  if(b==='forward') ro.innerHTML='<b style="color:var(--anode)">FORWARD BIAS</b> · the inert gap <b>narrows</b> · carriers cross · <span class="flow">CURRENT FLOWS ▶</span>';
+  else if(b==='reverse') ro.innerHTML='<b style="color:var(--cathode)">REVERSE BIAS</b> · the inert gap <b>widens</b> · too large to cross · <span class="block">BLOCKED ✗</span>';
+  else ro.innerHTML='<b>ZERO BIAS</b> · the inert gap sits at rest width · built-in barrier · no net current';
+  if(bias==='forward') initCarriers();
+}
+function loop(){ anim=setInterval(update,33); }
+draw(); setBias('zero'); loop();
+</script>
+</div>
+</body>
+</html>
