@@ -1,0 +1,9 @@
+ROOT0-DLW-CHAIN-v1
+index : 517
+slug  : mimzy
+seal  : 5df21bf0039b95561d14c60602856077bf11d81ffd8cdf0347176666f7b21ec6
+prev  : 75ac9ebd7c57be8a2e74a093896ff11034725af686646e3075d5e2f27ad90d05
+link  : efe42017adc8172ef8bccce3f57662f66f08bf8fede769c6be38e498213868d7
+head  : 3447d3a0533aaf1e29a8bdc67a9774884fb3ae9dbc8a17064b7a008ca3c4ec90
+
+— the tether: link = sha256(index|slug|seal|prev). the chain head commits to the whole corpus.
